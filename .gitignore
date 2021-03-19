@@ -1,3 +1,6 @@
+.idea
+package-lock.json
+yarn.lock
 
 *.xml
 *.iml
