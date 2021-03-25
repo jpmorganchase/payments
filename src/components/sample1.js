@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const SampleComponent = () => {
   return (
@@ -8,4 +8,4 @@ const SampleComponent = () => {
   );
 };
 
-export default SampleComponent
+export default SampleComponent;
