@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import logo from './logo.svg';
 import './App.css';
 import SampleComponent from "./components/sample1";
 
@@ -143,7 +141,7 @@ function App() {
             		                Mar 4, 21 - 17:30PM
             		              </td>
             		              <td class="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
-            		                <a href="#" class="text-indigo-600 hover:text-indigo-900">Set reminder</a>
+            		                <div class="text-indigo-600 hover:text-indigo-900">Set reminder</div>
             		              </td>
             		            </tr>
             		          </tbody>
