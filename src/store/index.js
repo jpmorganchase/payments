@@ -1,9 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import rootReducer from './reducer';
 
-import reducer from './rootReducer';
+const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 
-const store = configureStore({
-  reducer,
-});
-
+// The store now has the ability to accept thunk functions in `dispatch`
+const store = createStore(rootReducer, composedEnhancer);
 export default store;
