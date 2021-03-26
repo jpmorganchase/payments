@@ -1,9 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import StatusSlice from './slices/statusSlice';
+import apiStatusSlice from './slices/apiStatusSlice';
 
 const RootReducer = combineReducers({
-  status: StatusSlice,
+  apiStatus: apiStatusSlice,
 });
 
 export default RootReducer;
