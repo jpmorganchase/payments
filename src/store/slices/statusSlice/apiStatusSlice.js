@@ -1,4 +1,4 @@
-import {client} from '../../client'
+import {client} from '../../../client'
 
 const initialState = []
 
@@ -13,7 +13,7 @@ export default function apiStatusReducer(state = initialState, action) {
 }
 
 // Thunk function
-export async function fetchTodos(dispatch) {
+export async function fetchApiStatus(dispatch) {
   const response = await client.get('/fakeApi/todos')
   // eslint-disable-next-line no-console
   console.log(response);
