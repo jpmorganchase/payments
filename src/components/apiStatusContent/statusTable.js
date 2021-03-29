@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import StatusChecker from '../../api/statusChecker';
-import mockedResponse from './mockedResponse.json';
+import mockedData from './mockedData.json';
 import TableItem from './tableItem';
 const tableHeaders = [
   'Description',
@@ -15,7 +14,7 @@ const tableHeaders = [
 const StatusTable = () => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [apiStatus, setApiStatus] = useState(mockedResponse);
+  const [apiStatus, setApiStatus] = useState(mockedData);
   useEffect(() => {
     StatusChecker.fetchApiStatus()
       .then((res) => res.json())
@@ -31,7 +30,6 @@ const StatusTable = () => {
       );
   }, []);
 
-  console.log(apiStatus);
   if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
@@ -67,9 +65,7 @@ const StatusTable = () => {
                       return product['productName'];
                     }).join(', ')}
                   />
-                  <span className='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800'>
-                    <TableItem text={eventDetail.status} />
-                  </span>
+                  <TableItem text={eventDetail.status} status={true}/>
                   <TableItem text={eventDetail.startDatetime} />
                   <TableItem text={eventDetail.endDatetime} />
 
