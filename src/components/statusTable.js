@@ -1,44 +1,30 @@
 import React from 'react';
 
+const tableHeaders = [
+  'Description',
+  'API',
+  'Status',
+  'start date',
+  'end date',
+  'notifications',
+];
 const StatusTable = () => {
   return (
     <div className='py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8'>
       <table className='min-w-full overflow-hidden border-b border-gray-200 '>
         <thead className='bg-gray-100'>
           <tr>
-            <th
-              scope='col'
-              className='px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-            >
-              Description
-            </th>
-            <th
-              scope='col'
-              className='px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-            >
-              API
-            </th>
-            <th
-              scope='col'
-              className='px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-            >
-              Status
-            </th>
-            <th
-              scope='col'
-              className='px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-            >
-              Start Date
-            </th>
-            <th
-              scope='col'
-              className='px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-            >
-              End Date
-            </th>
-            <th scope='col' className='relative px-4 py-2'>
-              <span className='material-icons'>notifications_active</span>
-            </th>
+            {tableHeaders &&
+              tableHeaders.map((header, index) => (
+                <th
+                  scope='col'
+                  className='px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
+                  key={index}
+                >
+                  {header}
+                </th>
+              ))
+              }
           </tr>
         </thead>
         <tbody className='bg-white divide-y divide-gray-200'>

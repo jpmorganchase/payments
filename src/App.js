@@ -25,30 +25,30 @@ const App = () => {
       );
   }, []);
 
-  console.log(error);
-  console.log(isLoaded);
   console.log(apiStatus);
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
+  if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
     return (
-    <div className='flex min-h-screen'>
-      <Sidebar />
-      <div className='flex flex-col w-full'>
-        <Header />
-        <div className='flex flex-shrink-0 flex-col'>
-          <div className='flex relative items-center px-8 h-12'>
-            <span className='text-2xl tracking-wide'>API Status</span>
+      <div className='flex min-h-screen'>
+        <Sidebar />
+        <div className='flex flex-col w-full'>
+          <Header />
+          <div className='flex flex-shrink-0 flex-col'>
+            <div className='flex relative items-start px-8 h-12 flex-col'>
+              <span className='text-2xl tracking-wide'>API Status</span>
+              {error && (
+                <div className='text-red-600 font-bold'>Error: {error}</div>
+              )}
+            </div>
+          </div>
+          <div className='flex w-full p-8 flex-col'>
+            <StatusTable />
           </div>
         </div>
-        <div className='flex w-full p-8 flex-col'>
-          <StatusTable />
-        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default App;
