@@ -5,8 +5,7 @@ import App from './App';
 import { Provider } from 'react-redux'
 
 import store from './store'
-import './server'
-import { fetchApiStatus } from './store/slices/statusSlice/apiStatusSlice'
+import { fetchApiStatus } from './store/apiStatusSlice'
 
 store.dispatch(fetchApiStatus)
 
