@@ -2,6 +2,7 @@
 // https://kentcdodds.com/blog/replace-axios-with-a-simple-custom-fetch-wrapper
 // Originally taken from https://redux.js.org/tutorials/fundamentals/part-6-async-logic#fetching-todos-from-a-server
 
+const developerBaseUrl = 'https://apigatewayqaf.jpmorgan.com/oauth/v2/';
 export async function client(endpoint, { body, ...customConfig } = {}) {
     const headers = { 'Content-Type': 'application/json' }
   
@@ -20,7 +21,7 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
   
     let data
     try {
-      const response = await window.fetch(endpoint, config)
+      const response = await window.fetch(`${developerBaseUrl}${endpoint}`, config)
       data = await response.json()
       if (response.ok) {
         return data
