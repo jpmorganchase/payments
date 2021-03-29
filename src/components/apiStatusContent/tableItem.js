@@ -35,8 +35,8 @@ const TableItem = ({ text, status }) => {
 };
 
 TableItem.propTypes = {
-  text: PropTypes.string.isRequired,
-  status: PropTypes.boolean,
+  text: PropTypes.string,
+  status: PropTypes.bool,
 };
 
 export default TableItem;
