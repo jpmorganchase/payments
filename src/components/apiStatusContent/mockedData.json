@@ -1,0 +1,178 @@
+{
+  "outageEventDetailsList": [
+    {
+      "outageId": "ad22aae678ef4ae1a2aae678ef9ae1a6",
+      "startDatetime": "2021-03-15T16:00:00",
+      "endDatetime": "2021-03-18T16:00:00",
+      "status": "INTERMITTENT",
+      "type": "PLANNED",
+      "impactedProducts": [
+        {
+          "productName": "eWallet API",
+          "endpoints": [
+            {
+              "uri": "/tsapi/v1/jpmwallet/aggregates/{aggregateId}",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/wallets/{WALLET_ID}/balance",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/payments",
+              "httpMethod": "POST"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/payments/{paymentId}",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/payments/batch",
+              "httpMethod": "POST"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/wallets/batch",
+              "httpMethod": "POST"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/payments/advanced-batch",
+              "httpMethod": "POST"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/payments",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/aggregates",
+              "httpMethod": "POST"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "outageId": "e8f7d9bf29fc4d19b7d9bf29fc2d19d1",
+      "startDatetime": "2021-03-12T17:00:00",
+      "endDatetime": "2021-03-19T16:00:00",
+      "status": "COMPLETE",
+      "type": "PLANNED",
+      "impactedProducts": [
+        {
+          "productName": "Account Validation Service API",
+          "endpoints": [
+            {
+              "uri": "/tsapi/v1/validations/accounts/inquiry",
+              "httpMethod": "POST"
+            }
+          ]
+        },
+        {
+          "productName": "Boleto Issuance API",
+          "endpoints": [
+            {
+              "uri": "/tsapi/v1/boleto",
+              "httpMethod": "POST"
+            }
+          ]
+        },
+        {
+          "productName": "Checks API",
+          "endpoints": [
+            {
+              "uri": "/tsapi/v1/accounts/{accountId}/checks",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/accounts/{accountId}/checks/{checkId}/check-image",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/accounts/{accountId}/checks/{checkId}/cancellations",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/accounts/{accountId}/checks/{checkId}/cancellations/create",
+              "httpMethod": "POST"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "outageId": "f531ddaa1d2c458cb1ddaa1d2c358cf0",
+      "startDatetime": "2021-04-24T16:00:00",
+      "endDatetime": "2021-04-25T16:00:00",
+      "status": "COMPLETE",
+      "type": "PLANNED",
+      "impactedProducts": [
+        {
+          "productName": "Transaction Detail API",
+          "endpoints": [
+            {
+              "uri": "/tsapi/v1/multibank/transactions",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v3/transactions",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v2/transactions",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/transactions",
+              "httpMethod": "GET"
+            }
+          ]
+        },
+        {
+          "productName": "eWallet API",
+          "endpoints": [
+            {
+              "uri": "/tsapi/v1/jpmwallet/payments",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/wallets/batch",
+              "httpMethod": "POST"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/aggregates",
+              "httpMethod": "POST"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/aggregates/{aggregateId}",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/payments",
+              "httpMethod": "POST"
+            },
+            {
+              "uri": "/tsapi/v1/jpmwallet/payments/{paymentId}",
+              "httpMethod": "GET"
+            }
+          ]
+        },
+        {
+          "productName": "Account Balance API",
+          "endpoints": [
+            {
+              "uri": "/accessapi/balance",
+              "httpMethod": "POST"
+            },
+            {
+              "uri": "/tsapi/v1/accounts/{ACCOUNT_ID}/checkbalance",
+              "httpMethod": "GET"
+            },
+            {
+              "uri": "/tsapi/v1/multibank/balance",
+              "httpMethod": "POST"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
