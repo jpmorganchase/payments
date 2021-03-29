@@ -6,6 +6,7 @@ const tableHeaders = [
   'Description',
   'API',
   'Status',
+  'type',
   'start date',
   'end date',
   'notifications',
@@ -61,11 +62,14 @@ const StatusTable = () => {
                 <tr key={key}>
                   <TableItem text={eventDetail.description} />
                   <TableItem
-                    text={eventDetail.impactedProducts.map(function (product) {
-                      return product['productName'];
-                    }).join(', ')}
+                    text={eventDetail.impactedProducts
+                      .map(function (product) {
+                        return product['productName'];
+                      })
+                      .join(', ')}
                   />
-                  <TableItem text={eventDetail.status} status={true}/>
+                  <TableItem text={eventDetail.status} status={true} />
+                  <TableItem text={eventDetail.type} />
                   <TableItem text={eventDetail.startDatetime} />
                   <TableItem text={eventDetail.endDatetime} />
 
