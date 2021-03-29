@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import StatusChecker from '../api/statusChecker';
+import StatusChecker from '../../api/statusChecker';
 const tableHeaders = [
   'Description',
   'API',
@@ -31,10 +31,12 @@ const StatusTable = () => {
     return <div>Loading...</div>;
   } else {
     return (
-      <div className='py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8'>
-        {apiStatus && <p>{apiStatus}</p>}
+      <>
+        {/* Added until we get correct credentials for developer */}
         {error && <div className='text-red-600 font-bold'>Error: {error}</div>}
+        {apiStatus && <p>{apiStatus}</p>}
         <table className='min-w-full overflow-hidden border-b border-gray-200 '>
+          
           <thead className='bg-gray-100'>
             <tr>
               {tableHeaders &&
@@ -72,7 +74,7 @@ const StatusTable = () => {
             </tr>
           </tbody>
         </table>
-      </div>
+        </>
     );
   }
 };
