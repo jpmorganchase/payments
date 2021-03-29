@@ -11,7 +11,7 @@ store.dispatch(fetchApiStatus)
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store>
+    <Provider store={store}>
     <App />
     </Provider>
   </React.StrictMode>,
