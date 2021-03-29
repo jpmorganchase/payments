@@ -1,0 +1,41 @@
+{
+    "outageEventDetailsList": [
+      {
+        "outageId": "86fc474de1aa4480bc474de1aa7480a4",
+        "startDatetime": "2021-01-12T03:00:00",
+        "endDatetime": "2021-01-12T22:32:55.162",
+        "actualEndDatetime": null,
+        "description": "Processing system outage due to a system upgrade",
+        "status": "COMPLETE",
+        "type": "PLANNED",
+        "impactedProducts": [
+          {
+            "productName": "Real-Time Payments API",
+            "endpoints": [
+              {
+                "uri": "/payment/request",
+                "httpMethod": "POST"
+              },
+              {
+                "uri": "/payment/status",
+                "httpMethod": "POST"
+              }
+            ]
+          },
+          {
+            "productName": "Unicorn Finance API",
+            "endpoints": [
+              {
+                "uri": "/payment/request",
+                "httpMethod": "POST"
+              },
+              {
+                "uri": "/payment/status",
+                "httpMethod": "POST"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
