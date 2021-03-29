@@ -17,4 +17,3 @@ The codebase is built with React, Redux and Tailwind css.
 These are coming from react scripts package, with open issue:
 
 https://github.com/facebook/create-react-app/issues/9431
-
