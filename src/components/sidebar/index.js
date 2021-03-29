@@ -2,13 +2,13 @@ import React from 'react';
 
 const Sidebar = () => {
   return (
-    <nav className='w-64 flex-shrink-0'>
+    <nav className='sidebar w-64 flex-shrink-0'>
       <div className='flex-auto bg-gray-200 h-full'>
         <div className='flex flex-col overflow-y-auto h-full'>
+          <div className='title text-2xl p-4 w-full flex relative justify-start'>
+            Unicorn Finance
+          </div>
           <ul className='relative m-0 p-0 list-none h-full'>
-            <li className='text-2xl p-4 w-full flex relative justify-start'>
-              Unicorn Finance
-            </li>
             <li className='px-4 w-full flex relative'>
               <div className='flex-auto my-1'>
                 <span className='text-gray-400 text-xs uppercase font-medium'>

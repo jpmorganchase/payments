@@ -23,8 +23,7 @@ const StatusTable = () => {
                 >
                   {header}
                 </th>
-              ))
-              }
+              ))}
           </tr>
         </thead>
         <tbody className='bg-white divide-y divide-gray-200'>
