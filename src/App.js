@@ -1,7 +1,33 @@
-import React from 'react';
+/* eslint-disable no-console */
+import React, {useEffect, useState} from 'react';
 import SampleComponent from './components/sample1';
+import StatusChecker from './api/statusChecker';
 
-function App() {
+const  App = ()  => {
+
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [apiStatus, setApiStatus] = useState([]);
+
+  useEffect(() => {
+    StatusChecker.fetchApiStatus()
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setApiStatus(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
+  }, [])
+
+  console.log(error);
+  console.log(isLoaded);
+  console.log(apiStatus);
+
   return (
     <div className='flex min-h-screen'>
       <nav className='w-64 flex-shrink-0'>
