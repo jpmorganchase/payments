@@ -5,12 +5,37 @@ as reference.
 
 ## Project structure
 
-The codebase is built with React and Tailwind css.
+The codebase is built with React and Tailwind css on the frontend and express on the backend. 
 
 ## Running Locally
 
+### Using Mocked Data
+
+#### Backend
+
+Navigate to server/dataController.js and uncomment/comment the code described in the getData method. Then:
+    
     yarn install
     yarn start
+
+#### Frontend
+
+    cd client
+    yarn install
+    yarn start
+
+### Hitting APIs
+
+#### Backend
+    yarn install
+    yarn start
+
+#### Frontend
+
+    cd client
+    yarn install
+    yarn start
+
 
 ### Deprecation warnings
 
