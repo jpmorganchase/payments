@@ -23,6 +23,7 @@ Navigate to server/dataController.js and uncomment/comment the code described in
     cd client
     yarn install
     yarn start
+    Navigate to localhost:3000
 
 ### Hitting APIs
 
@@ -35,7 +36,7 @@ Navigate to server/dataController.js and uncomment/comment the code described in
     cd client
     yarn install
     yarn start
-
+    Navigate to localhost:3000
 
 ### Deprecation warnings
 
