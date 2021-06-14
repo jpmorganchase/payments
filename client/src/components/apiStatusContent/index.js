@@ -1,7 +1,6 @@
 import React from 'react';
 import StatusTable from './statusTable';
 
-// eslint-disable-next-line react/prop-types
 const ApiStatusContent = ({ ...props }) => {
   return (
     <>
@@ -12,7 +11,7 @@ const ApiStatusContent = ({ ...props }) => {
       </div>
       <div className='flex w-full p-8 flex-col'>
         <div className='py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8'>
-          <StatusTable  {...props} />
+          <StatusTable {...props} />
         </div>
       </div>
     </>
