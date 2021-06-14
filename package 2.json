@@ -1,5 +1,5 @@
 {
-  "name": "unicornfinance-client",
+  "name": "unicornfinance",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,7 +10,9 @@
     "react-scripts": "4.0.3"
   },
   "scripts": {
-    "start": "set HTTPS=true && craco start",
+    "start": "craco start",
+    "server": "node server/index.js",
+
     "build": "craco build",
     "test": "craco test",
     "prettier": "prettier --write ."
@@ -40,5 +42,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:3001"
 }

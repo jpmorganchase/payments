@@ -1,15 +1,21 @@
 const express = require('express');
 const path = require('path');
-const app = express();
-const  dataController = require('./dataController');
+const fs = require('fs');
+const dataController = require('./dataController');
 
+const options = {
+  cert: fs.readFileSync(path.join(__dirname, '../unicorns/unicorn.crt')),
+  key: fs.readFileSync(path.join(__dirname, '../unicorns/private.key')),
+};
 const PORT = process.env.PORT || 5000;
 
-app
-  .use(express.static(path.join(__dirname, '../client/build')))
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+const app = express();
+//app.use(express.static(path.join(__dirname, '../client/build/')));
 
 app.get('/', (req, res) => {
+  console.log('he');
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
-app.get('/api', dataController.getData);
+app.get('/api',dataController.getData);
+
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
