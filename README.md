@@ -5,12 +5,12 @@ as reference.
 
 ## Project structure
 
-The codebase is built with React, Redux and Tailwind css.
+The codebase is built with React and Tailwind css.
 
 ## Running Locally
 
-    npm install
-    npm start
+    yarn install
+    yarn start
 
 ### Deprecation warnings
 

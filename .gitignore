@@ -9,6 +9,7 @@ node_modules
 # Misc
 .DS_Store
 .eslintcache
+/unicorns
 
 # Editors
 .idea
@@ -23,3 +24,4 @@ yarn-error.log*
 /dist
 
 .env.*
+
