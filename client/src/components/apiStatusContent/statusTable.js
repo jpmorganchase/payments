@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import StatusChecker from '../../api/statusChecker';
-import mockedData from './mockedData.json';
+/* eslint-disable no-console */
+/* eslint-disable react/prop-types */
+import React from 'react';
 import TableItem from './tableItem';
 const tableHeaders = [
   'Description',
@@ -12,34 +12,10 @@ const tableHeaders = [
   'notifications',
 ];
 
-const StatusTable = () => {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [apiStatus, setApiStatus] = useState(mockedData);
-  useEffect(() => {
-    StatusChecker.fetchApiStatus()
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setApiStatus(result);
-          setIsLoaded(true);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        },
-      );
-  }, []);
-
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
-    return (
+const StatusTable = ({ pacmanData }) => {
+  
+  return (
       <>
-        {/* Added until we get correct credentials for developer */}
-        {error && (
-          <div className='text-red-600 font-bold pb-4'>Error: {error}</div>
-        )}
         <table className='min-w-full overflow-hidden border-b border-gray-200 '>
           <thead className='bg-gray-100'>
             <tr>
@@ -56,9 +32,9 @@ const StatusTable = () => {
             </tr>
           </thead>
           <tbody className='bg-white divide-y divide-gray-200'>
-            {apiStatus &&
-              apiStatus.outageEventDetailsList &&
-              apiStatus.outageEventDetailsList.map((eventDetail, key) => (
+            {pacmanData &&
+              pacmanData.outageEventDetailsList &&
+              pacmanData.outageEventDetailsList.map((eventDetail, key) => (
                 <tr key={key}>
                   <TableItem text={eventDetail.description} />
                   <TableItem
@@ -84,7 +60,6 @@ const StatusTable = () => {
         </table>
       </>
     );
-  }
-};
+                    };
 
 export default StatusTable;
