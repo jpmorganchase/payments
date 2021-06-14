@@ -43,12 +43,12 @@ function httpsrequest() {
 }
 
 exports.getData = function (request, response) {
-  // Uncomment this for local dev
-  // var data = getJsonData(basePathToData, 'mockedData.json');
-  // return response.send(data);
-
-  // Comment this for local dev
-  return httpsrequest().then((data) => {
-    return response.send(JSON.stringify(data));
-  });
+  if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
+    return httpsrequest().then((data) => {
+      return response.send(JSON.stringify(data));
+    });
+  } else {
+    var data = getJsonData(basePathToData, 'mockedData.json');
+    return response.send(data);
+  }
 };
