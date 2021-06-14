@@ -24,4 +24,5 @@ yarn-error.log*
 /dist
 
 .env.*
+/client/build
 
