@@ -16,6 +16,6 @@ app.get('/', (req, res) => {
   console.log('he');
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
-app.get('/api',dataController.getData);
+app.get('/api', dataController.getData);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

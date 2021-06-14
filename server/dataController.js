@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const https = require('https');
 
-
 const basePathToData = path.join(__dirname, 'mockJson');
 
 const getJsonData = function (basePathToData, filename) {
@@ -17,32 +16,31 @@ function httpsrequest() {
       path: '/tsapi/v1/outages',
       method: 'GET',
       cert: fs.readFileSync(path.join(__dirname, '../unicorns/unicorn.crt')),
-      key: fs.readFileSync(path.join(__dirname, '../unicorns/private.key'))
+      key: fs.readFileSync(path.join(__dirname, '../unicorns/private.key')),
     };
-     const req = https.request(options, (res) => {
-       if (res.statusCode < 200 || res.statusCode >= 300) {
-             return reject(new Error('statusCode=' + res.statusCode));
-         }
-         var body = [];
-         res.on('data', function(chunk) {
-             body.push(chunk);
-         });
-         res.on('end', function() {
-             try {
-                 body = JSON.parse(Buffer.concat(body).toString());
-             } catch(e) {
-                 reject(e);
-             }
-             resolve(body);
-         });
-     });
-     req.on('error', (e) => {
-       reject(e.message);
-     });
+    const req = https.request(options, (res) => {
+      if (res.statusCode < 200 || res.statusCode >= 300) {
+        return reject(new Error('statusCode=' + res.statusCode));
+      }
+      var body = [];
+      res.on('data', function (chunk) {
+        body.push(chunk);
+      });
+      res.on('end', function () {
+        try {
+          body = JSON.parse(Buffer.concat(body).toString());
+        } catch (e) {
+          reject(e);
+        }
+        resolve(body);
+      });
+    });
+    req.on('error', (e) => {
+      reject(e.message);
+    });
     req.end();
- });
+  });
 }
-
 
 exports.getData = function (request, response) {
   // var data = getJsonData(basePathToData, 'mockedData.json');
@@ -50,5 +48,4 @@ exports.getData = function (request, response) {
   return httpsrequest().then((data) => {
     return response.send(JSON.stringify(data));
   });
-
 };
