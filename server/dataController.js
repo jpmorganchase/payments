@@ -3,32 +3,12 @@ const fs = require('fs');
 const https = require('https');
 
 
-
-
 const basePathToData = path.join(__dirname, 'mockJson');
 
 const getJsonData = function (basePathToData, filename) {
   var filename = path.join(basePathToData, filename);
   return JSON.parse(fs.readFileSync(filename, 'utf-8'));
 };
-
-const gets = (url) => new Promise((resolve, reject) => {
-  https.get(url, (response) => {
-  let body = ''
-  response.on('data', (chunk) => body += chunk)
-  response.on('end', () => resolve(body))
-  }).on('error', reject)
-})
-
-const gatherPacmanData = () => {
-  return httpsrequest().then((data) => {
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify(data),
-    };
-    return response;
-});
-}
 
 function httpsrequest() {
   return new Promise((resolve, reject) => {
@@ -59,13 +39,16 @@ function httpsrequest() {
      req.on('error', (e) => {
        reject(e.message);
      });
-     // send the request
     req.end();
  });
 }
 
+
 exports.getData = function (request, response) {
-//  var data = getJsonData(basePathToData, 'mockedData.json');
-var data = gatherPacmanData();
-return response.send(data);
+  // var data = getJsonData(basePathToData, 'mockedData.json');
+  // return response.send(data);
+  return httpsrequest().then((data) => {
+    return response.send(JSON.stringify(data));
+  });
+
 };

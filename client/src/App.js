@@ -11,7 +11,7 @@ const App = () => {
   React.useEffect(() => {
     fetch('/api')
       .then((res) => res.json())
-      .then((data) => console.log(data) && setPacmanData(data));
+      .then((data) => setPacmanData(data) && console.log(pacmanData));
   }, []);
 
   return (
