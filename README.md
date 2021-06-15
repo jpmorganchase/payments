@@ -9,35 +9,20 @@ The codebase is built with React and Tailwind css on the frontend and express on
 
 ## Running Locally
 
-### Using Mocked Data
+You need to start the frontend and backend. It will use mock data for running locally. 
 
-#### Backend
-
-Navigate to server/dataController.js and uncomment/comment the code described in the getData method. Then:
+### Backend
     
     yarn install
     yarn start
 
-#### Frontend
+### Frontend
 
     cd client
     yarn install
     yarn start
-    Navigate to localhost:3000
 
-### Hitting APIs
-
-
-#### Backend
-    yarn install
-    yarn start
-
-#### Frontend
-
-    cd client
-    yarn install
-    yarn start
-    Navigate to localhost:3000
+Navigate to localhost:3000
 
 ### Deprecation warnings
 
