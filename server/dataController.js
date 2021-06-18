@@ -1,7 +1,11 @@
+require('dotenv').config();
+
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
 
+const key = process.env.KEY.replace(/\\n/g, '\n');
+const cert = process.env.CERT.replace(/\\n/g, '\n');
 const basePathToData = path.join(__dirname, 'mockJson');
 
 const getJsonData = function (basePathToData, filename) {
@@ -15,8 +19,8 @@ function httpsrequest() {
       hostname: 'apigatewayqaf.jpmorgan.com',
       path: '/tsapi/v1/outages',
       method: 'GET',
-      cert: fs.readFileSync(path.join(__dirname, '../unicorns/unicorn.crt')),
-      key: fs.readFileSync(path.join(__dirname, '../unicorns/private.key')),
+      cert: cert,
+      key: key,
     };
     const req = https.request(options, (res) => {
       if (res.statusCode < 200 || res.statusCode >= 300) {

@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 import React from 'react';
+import { isEmptyObject } from '../utils';
 import TableItem from './tableItem';
 const tableHeaders = [
   'Description',
@@ -13,9 +13,11 @@ const tableHeaders = [
 ];
 
 const StatusTable = ({ pacmanData }) => {
-  
   return (
-      <>
+    <>
+      {isEmptyObject(pacmanData) ? (
+        <p>There are no outages currently reported</p>
+      ) : (
         <table className='min-w-full overflow-hidden border-b border-gray-200 '>
           <thead className='bg-gray-100'>
             <tr>
@@ -32,22 +34,21 @@ const StatusTable = ({ pacmanData }) => {
             </tr>
           </thead>
           <tbody className='bg-white divide-y divide-gray-200'>
-            {pacmanData &&
-              pacmanData.outageEventDetailsList &&
-              pacmanData.outageEventDetailsList.map((eventDetail, key) => (
+            {pacmanData.outageEventDetailsList &&
+              pacmanData.outageEventDetailsList.map((outage, key) => (
                 <tr key={key}>
-                  <TableItem text={eventDetail.description} />
+                  <TableItem text={outage.description} />
                   <TableItem
-                    text={eventDetail.impactedProducts
+                    text={outage.impactedProducts
                       .map(function (product) {
                         return product['productName'];
                       })
                       .join(', ')}
                   />
-                  <TableItem text={eventDetail.status} status={true} />
-                  <TableItem text={eventDetail.type} />
-                  <TableItem text={eventDetail.startDatetime} />
-                  <TableItem text={eventDetail.endDatetime} />
+                  <TableItem text={outage.status} status={true} />
+                  <TableItem text={outage.type} />
+                  <TableItem text={outage.startDatetime} />
+                  <TableItem text={outage.endDatetime} />
 
                   <td className='px-4 py-2 whitespace-nowrap text-right text-sm font-medium'>
                     <div className='text-indigo-600 hover:text-indigo-900'>
@@ -58,8 +59,27 @@ const StatusTable = ({ pacmanData }) => {
               ))}
           </tbody>
         </table>
-      </>
-    );
-                    };
+      )}
+    </>
+  );
+};
+
+StatusTable.propTypes = {
+  pacmanData: PropTypes.shape({
+    outageEventDetailsList: PropTypes.arrayOf(
+      PropTypes.shape({
+        status: PropTypes.string,
+        type: PropTypes.string,
+        startDatetime: PropTypes.string,
+        endDatetime: PropTypes.string,
+        impactedProducts: PropTypes.arrayOf(
+          PropTypes.shape({
+            productName: PropTypes.string,
+          }),
+        ),
+      }),
+    ),
+  }),
+};
 
 export default StatusTable;
