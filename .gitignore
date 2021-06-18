@@ -9,11 +9,13 @@ node_modules
 # Misc
 .DS_Store
 .eslintcache
+/unicorns
 
 # Editors
 .idea
 *.iml
 .vscode
+*.icloud
 
 # Logs
 npm-debug.log*
@@ -23,3 +25,6 @@ yarn-error.log*
 /dist
 
 .env.*
+.env
+/client/build
+

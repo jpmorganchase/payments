@@ -2,42 +2,21 @@
   "name": "unicornfinance",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@craco/craco": "^6.1.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-redux": "^7.2.3",
-    "react-scripts": "4.0.3"
-  },
+  "description": "Our goal is to create re-usable sample apps that external developer can leverage as reference.",
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "prettier": "prettier --write ."
+    "start:prod": "NODE_ENV=production node server/index.js",
+    "start": "NODE_ENV=development node server/index.js",
+    "build": "cd client && yarn install && yarn run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpmorganchase/demo-wholesale-payments-app.git"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
   },
   "engines": {
     "node": ">=12"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.13.0",
-    "@tailwindcss/postcss7-compat": "^2.0.3",
-    "autoprefixer": "^9.8.6",
-    "eslint": "^7.22.0",
-    "eslint-plugin-react": "^7.23.1",
-    "postcss": "^7.0.35",
-    "prettier": "^2.2.1",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }

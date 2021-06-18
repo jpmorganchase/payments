@@ -5,12 +5,24 @@ as reference.
 
 ## Project structure
 
-The codebase is built with React, Redux and Tailwind css.
+The codebase is built with React and Tailwind css on the frontend and express on the backend. 
 
 ## Running Locally
 
-    npm install
-    npm start
+You need to start the frontend and backend. It will use mock data for running locally. 
+
+### Backend
+    
+    yarn install
+    yarn start
+
+### Frontend
+
+    cd client
+    yarn install
+    yarn start
+
+Navigate to localhost:3000
 
 ### Deprecation warnings
 
