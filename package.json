@@ -4,8 +4,8 @@
   "private": true,
   "description": "Our goal is to create re-usable sample apps that external developer can leverage as reference.",
   "scripts": {
-    "start": "NODE_ENV=production node server/index.js",
-    "start:dev": "NODE_ENV=development node server/index.js",
+    "start:prod": "NODE_ENV=production node server/index.js",
+    "start": "NODE_ENV=development node server/index.js",
     "build": "cd client && yarn install && yarn run build"
   },
   "repository": {
