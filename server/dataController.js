@@ -8,6 +8,7 @@ const key = process.env.KEY.replace(/\\n/g, '\n');
 const cert = process.env.CERT.replace(/\\n/g, '\n');
 const basePathToData = path.join(__dirname, 'mockJson');
 
+const errorString = 'Error hitting API';
 const getJsonData = function (basePathToData, filename) {
   var filename = path.join(basePathToData, filename);
   return JSON.parse(fs.readFileSync(filename, 'utf-8'));
@@ -24,7 +25,9 @@ function httpsrequest() {
     };
     const req = https.request(options, (res) => {
       if (res.statusCode < 200 || res.statusCode >= 300) {
-        return reject(new Error('statusCode=' + res.statusCode));
+        var error = new Error(`${errorString}, statusCode= ${res.statusCode}`);
+        error.statusCode = res.statusCode;
+        return reject(error);
       }
       var body = [];
       res.on('data', function (chunk) {
@@ -48,9 +51,17 @@ function httpsrequest() {
 
 exports.getData = function (request, response) {
   if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-    return httpsrequest().then((data) => {
-      return response.send(JSON.stringify(data));
-    });
+    return httpsrequest()
+      .then((data) => {
+        return response.send(JSON.stringify(data), 503);
+      })
+      .catch((err) => {
+        console.log(err.message);
+        if (err.message.includes(errorString)) {
+          response.statusCode = err.statusCode;
+          return response.send(JSON.stringify({ errorString }));
+        }
+      });
   } else {
     var data = getJsonData(basePathToData, 'mockedData.json');
     return response.send(data);

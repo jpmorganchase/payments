@@ -19,7 +19,7 @@ const App = () => {
         <Header />
         <div className='flex flex-shrink-0 flex-col'>
           <div className='flex relative items-start px-8 h-12 flex-col'>
-            <span className='text-2xl tracking-wide'>API Status</span>
+            <span className='text-2xl tracking-wide'>API Statusss</span>
           </div>
         </div>
         <div className='flex w-full p-8 flex-col'>
