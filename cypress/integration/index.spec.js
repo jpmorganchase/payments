@@ -1,7 +1,6 @@
-describe('My First Test', () => {
-  it('finds the content "type"', () => {
+describe('Homepage Rendered test', () => {
+  it('finds the API Status page title', () => {
     cy.visit('/');
-
-    cy.contains('type');
+    cy.contains('API Status');
   });
 });
