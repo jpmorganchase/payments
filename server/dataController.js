@@ -14,7 +14,7 @@ const getJsonData = function (basePathToData, filename) {
   return JSON.parse(fs.readFileSync(filename, 'utf-8'));
 };
 
-function httpsrequest() {
+exports.httpsrequest = () => {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'apigatewayqaf.jpmorgan.com',
@@ -47,16 +47,15 @@ function httpsrequest() {
     });
     req.end();
   });
-}
+};
 
 exports.getData = function (request, response) {
   if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
     return httpsrequest()
       .then((data) => {
-        return response.send(JSON.stringify(data), 503);
+        return response.send(JSON.stringify(data));
       })
       .catch((err) => {
-        console.log(err.message);
         if (err.message.includes(errorString)) {
           response.statusCode = err.statusCode;
           return response.send(JSON.stringify({ errorString }));
