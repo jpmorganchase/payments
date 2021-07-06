@@ -9,12 +9,12 @@
     "cy:run": "cypress run",
     "test:e2e": "concurrently \"yarn run dev\" \"wait-on http-get://localhost:3000 && yarn run cy:open\" --kill-others --success first",
     "test:e2e:ci": "concurrently \"yarn run dev\" \"wait-on http-get://localhost:3000 && yarn run cy:run\" --kill-others --success first",
-    "test:jest": "jest",
     "client": "cd client && yarn start",
-    "server:dev": "NODE_ENV=development nodemon server/index.js",
-    "server:prod": "NODE_ENV=production nodemon server/index.js",
+    "server:dev": "NODE_ENV=development nodemon server/server.js",
+    "server:prod": "NODE_ENV=production nodemon server/server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client\" --success",
-    "prod": "concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success"
+    "prod": "concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success",
+    "test:jest": "jest"
   },
   "repository": {
     "type": "git",
@@ -28,11 +28,11 @@
     "node": ">=12"
   },
   "devDependencies": {
-    "nodemon": "^2.0.9",
-    "wait-on": "^6.0.0",
     "concurrently": "6.2.0",
     "cypress": "7.6.0",
-    "jest": "27.0.5"
-
+    "jest": "^26.6.0",
+    "nodemon": "^2.0.9",
+    "supertest": "^6.1.3",
+    "wait-on": "^6.0.0"
   }
 }
