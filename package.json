@@ -14,6 +14,7 @@
     "server:prod": "NODE_ENV=production nodemon server/server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client\" --success",
     "prod": "concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success",
+    "test": "yarn run jest && yarn run test:e2e:ci",
     "test:jest": "jest"
   },
   "repository": {
@@ -30,8 +31,8 @@
   "devDependencies": {
     "concurrently": "6.2.0",
     "cypress": "7.6.0",
-    "jest": "^26.6.0",
     "nodemon": "^2.0.9",
+    "jest": "26.6.0",
     "supertest": "^6.1.3",
     "wait-on": "^6.0.0"
   }
