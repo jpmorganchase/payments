@@ -9,30 +9,30 @@
     "cy:run": "cypress run",
     "test:e2e": "concurrently \"yarn run dev\" \"wait-on http-get://localhost:3000 && yarn run cy:open\" --kill-others --success first",
     "test:e2e:ci": "concurrently \"yarn run dev\" \"wait-on http-get://localhost:3000 && yarn run cy:run\" --kill-others --success first",
-
+    "test:jest": "jest",
     "client": "cd client && yarn start",
     "server:dev": "NODE_ENV=development nodemon server/index.js",
     "server:prod": "NODE_ENV=production nodemon server/index.js",
-
     "dev": "concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client\" --success",
     "prod": "concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success"
-
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jpmorganchase/demo-wholesale-payments-app.git"
   },
   "dependencies": {
-    "concurrently": "6.2.0",
-    "cypress": "7.6.0",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "wait-on": "6.0.0"
+    "express": "^4.17.1"
   },
   "engines": {
     "node": ">=12"
   },
   "devDependencies": {
-    "nodemon": "^2.0.9"
+    "nodemon": "^2.0.9",
+    "wait-on": "^6.0.0",
+    "concurrently": "6.2.0",
+    "cypress": "7.6.0",
+    "jest": "27.0.5"
+
   }
 }
