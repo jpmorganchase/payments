@@ -12,11 +12,18 @@ const tableHeaders = [
   'notifications',
 ];
 
+const renderErrorMessage = (message) => (
+  <p className='text-red-500'>{message}</p>
+);
 const StatusTable = ({ pacmanData }) => {
   return (
     <>
       {isEmptyObject(pacmanData) ? (
-        <p>There are no outages currently reported</p>
+        renderErrorMessage('There are no outages currently reported')
+      ) : pacmanData.errorString ? (
+        renderErrorMessage(
+          'Error trying to connect to Platform Availability Communication Management API',
+        )
       ) : (
         <table className='min-w-full overflow-hidden border-b border-gray-200 '>
           <thead className='bg-gray-100'>
@@ -79,6 +86,7 @@ StatusTable.propTypes = {
         ),
       }),
     ),
+    errorString: PropTypes.string,
   }),
 };
 
