@@ -5,7 +5,7 @@ const nock = require('nock');
 const mockRequest = {
   on: jest.fn(),
 };
-const res = {
+const mockedResponse = {
   status: 200,
   send: jest.fn(function (data) {
     return data;
@@ -23,8 +23,8 @@ const createNock = (statusCode, response) => {
 describe('Test the mock data path', () => {
   test('It should respond with mocked data', () => {
     process.env.NODE_ENV = 'development';
-    const result = dataController.getData(mockRequest, res);
-    expect(res.send).toHaveBeenCalled();
+    const result = dataController.getData(mockRequest, mockedResponse);
+    expect(mockedResponse.send).toHaveBeenCalled();
     expect(result).toEqual(mockedData);
   });
 });
@@ -33,8 +33,8 @@ describe('Test we handle results', () => {
   test('It should respond with results for parsing on frontend', () => {
     process.env.NODE_ENV = 'production';
     createNock(200, validResponse);
-    return dataController.httpsrequest().then((res) => {
-      expect(res).toEqual(validResponse);
+    return dataController.getData(mockRequest, mockedResponse).then((res) => {
+      expect(res).toEqual(JSON.stringify(validResponse));
     });
   });
 });
@@ -43,8 +43,10 @@ describe('Test we handle errors from the API', () => {
   test('It should respond with error message', () => {
     process.env.NODE_ENV = 'production';
     createNock(503, 'Error');
-    return dataController.httpsrequest().catch((error) => {
-      expect(error).toEqual(new Error(errorResponse));
-    });
+    return dataController
+      .getData(mockRequest, mockedResponse)
+      .catch((error) => {
+        expect(error).toEqual(new Error(errorResponse));
+      });
   });
 });
