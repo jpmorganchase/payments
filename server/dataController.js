@@ -3,9 +3,10 @@ require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
+const { Console } = require('console');
 
-const key = process.env.KEY.replace(/\\n/g, '\n');
-const cert = process.env.CERT.replace(/\\n/g, '\n');
+const key = process.env.KEY && process.env.KEY.replace(/\\n/g, '\n');
+const cert = process.env.CERT && process.env.CERT.replace(/\\n/g, '\n');
 const basePathToData = path.join(__dirname, 'mockJson');
 
 const errorString = 'Error hitting API';
@@ -53,10 +54,9 @@ exports.getData = function (request, response) {
   if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
     return httpsrequest()
       .then((data) => {
-        return response.send(JSON.stringify(data), 503);
+        return response.send(JSON.stringify(data));
       })
       .catch((err) => {
-        console.log(err.message);
         if (err.message.includes(errorString)) {
           response.statusCode = err.statusCode;
           return response.send(JSON.stringify({ errorString }));

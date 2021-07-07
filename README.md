@@ -9,20 +9,20 @@ The codebase is built with React and Tailwind css on the frontend and express on
 
 ## Running Locally
 
-You need to start the frontend and backend. It will use mock data for running locally. 
+### Mocked data
 
-### Backend
-    
-    yarn install
-    yarn start
+    yarn run dev
 
-### Frontend
+### Hitting API
 
-    cd client
-    yarn install
-    yarn start
+    yarn run prod
 
 Navigate to localhost:3000
+
+## Running tests
+
+    yarn run test
+
 
 ### Deprecation warnings
 
