@@ -5,8 +5,8 @@ const fs = require('fs');
 const https = require('https');
 const { Console } = require('console');
 
-const key = process.env.KEY.replace(/\\n/g, '\n');
-const cert = process.env.CERT.replace(/\\n/g, '\n');
+const key = process.env.KEY && process.env.KEY.replace(/\\n/g, '\n');
+const cert = process.env.CERT && process.env.CERT.replace(/\\n/g, '\n');
 const basePathToData = path.join(__dirname, 'mockJson');
 
 const errorString = 'Error hitting API';
