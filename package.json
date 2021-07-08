@@ -5,7 +5,7 @@
   "description": "Our goal is to create re-usable sample apps that external developer can leverage as reference.",
   
   "scripts": {
-    "build": "yarn run client-dependencies && yarn run build",
+    "build": "cd client && yarn install  && yarn run build",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test:e2e": "concurrently \"yarn run dev\" \"wait-on http-get://localhost:3000 && yarn run cy:open\" --kill-others --success first",
