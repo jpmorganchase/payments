@@ -2,18 +2,18 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <header className='left-auto top-0 right-0'>
-      <div className='h-12 px-6 flex relative items-center justify-end'>
-        <button className='flex mx-4 hover:text-gray-200 focus:outline-none'>
-          <span className='material-icons'>notifications</span>
+    <header className="flex px-4 md:px-8 pt-4 md:pt-8 w-full justify-between flex-row">
+      <div className="">
+        <span className="text-gray-700 text-xs uppercase font-medium">Health</span>
+        <h1 className="text-2xl">API Status</h1>
+      </div>
+      <div className="">
+        <button className="mx-2 hover:text-indigo-600 focus:outline-none">
+          <span className="material-icons">notifications</span>
         </button>
 
-        <button className='relative block h-8 w-8 rounded-full overflow-hidden shadow focus:outline-none'>
-          <img
-            className='h-full w-full object-cover'
-            src='https://www.w3schools.com/howto/img_avatar.png'
-            alt='Avatar'
-          />
+        <button className="mx-2 hover:text-indigo-600 focus:outline-none">
+          <span className="material-icons">account_circle</span>
         </button>
       </div>
     </header>

@@ -25,14 +25,14 @@ const StatusTable = ({ pacmanData }) => {
           'Error trying to connect to Platform Availability Communication Management API',
         )
       ) : (
-        <table className='min-w-full overflow-hidden border-b border-gray-200 '>
+        <table className='w-full border-b border-gray-200 '>
           <thead className='bg-gray-100'>
             <tr>
               {tableHeaders &&
                 tableHeaders.map((header, index) => (
                   <th
                     scope='col'
-                    className='px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
+                    className='px-4 py-2 text-left text-xs font-medium text-gray-700 uppercase tracking-wider'
                     key={index}
                   >
                     {header}
@@ -57,7 +57,7 @@ const StatusTable = ({ pacmanData }) => {
                   <TableItem text={outage.startDatetime} />
                   <TableItem text={outage.endDatetime} />
 
-                  <td className='px-4 py-2 whitespace-nowrap text-right text-sm font-medium'>
+                  <td className='px-4 py-2 whitespace-nowrap text-center text-sm font-medium'>
                     <div className='text-indigo-600 hover:text-indigo-900'>
                       Set reminder
                     </div>
