@@ -10,10 +10,10 @@ const Sidebar = () => {
           <ul className="relative m-0 p-0 list-none h-full">
             <li className="text-2xl p-4 w-full flex relative justify-start">
                         <span className=" hidden md:block">
-                        <img src={ufLogoLarge} />
+                        <img src={ufLogoLarge} alt="Unicorn Finance Admin Portal Logo"/>
                         </span>
               <span className="block md:hidden">
-                <img src={ufLogoMini} />
+                <img src={ufLogoMini} alt="Unicorn Finance Admin Portal Logo for mobile" />
                         </span>
             </li>
             <li className="px-4 w-full flex relative">
