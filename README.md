@@ -13,13 +13,34 @@ We have also implemented testing with Jest and Cypress.
 You have the option of running locally with mocked data or hitting the actual APIs. 
 
 ### Mocked data
-
-
+    yarn install
+    yarn run client-dependencies
     yarn run dev
 
-### Hitting API
+### Hitting JP Morgan APIs
 
-    yarn run prod
+This will require you to provide some SSL certificates. 
+You will need to onboard to JP Morgan to access this information. Further details are available [here](http://developer.jpmorgan.com/).
+
+Once you have the correct files ready you can upload them to your server (DO NOT COMMIT THESE FILES TO YOUR CODEBASE). 
+As we are using codesandbox the information for these files are stored in secret keys. 
+
+#### Using your SSL files
+
+To change the code to use ssl files:
+    1. Navigate to [dataController.js](./server/dataController.js)
+    2. Uncomment these lines and change file path to your ssl file location:
+        // const key = fs.readFileSync(path.join(__dirname, '../unicorns/private.key'));
+        // const cert = fs.readFileSync(path.join(__dirname, '../unicorns/unicorn.crt'));
+    3. Delete these lines:
+        const key = process.env.KEY && process.env.KEY.replace(/\\n/g, '\n');
+        const cert = process.env.CERT && process.env.CERT.replace(/\\n/g, '\n');
+
+#### Running
+
+    yarn install
+    yarn run client-dependencies
+    yarn run dev
 
 Navigate to localhost:3000
 

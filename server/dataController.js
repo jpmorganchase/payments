@@ -3,11 +3,14 @@ require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
-const { Console } = require('console');
+
+const basePathToData = path.join(__dirname, 'mockJson');
 
 const key = process.env.KEY && process.env.KEY.replace(/\\n/g, '\n');
 const cert = process.env.CERT && process.env.CERT.replace(/\\n/g, '\n');
-const basePathToData = path.join(__dirname, 'mockJson');
+
+// const key = fs.readFileSync(path.join(__dirname, '../unicorns/private.key'));
+//const cert = fs.readFileSync(path.join(__dirname, '../unicorns/unicorn.crt'));
 
 const errorString = 'Error hitting API';
 const getJsonData = function (basePathToData, filename) {
