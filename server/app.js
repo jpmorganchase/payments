@@ -4,14 +4,9 @@ const fs = require('fs');
 const dataController = require('./dataController');
 
 const app = express();
-app.use(
-  express.static(path.join(__dirname, '../client/build/'), {
-    maxAge: 3110400000,
-  }),
-);
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  res.sendFile(path.join(__dirname, '../client/public/index.html'));
 });
 app.get('/api', dataController.getData);
 

@@ -11,13 +11,9 @@
     "test:e2e": "concurrently \"yarn run dev\" \"wait-on http-get://localhost:3000 && yarn run cy:open\" --kill-others --success first",
     "test:e2e:ci": "concurrently \"yarn run dev\" \"wait-on http-get://localhost:3000 && yarn run cy:run\" --kill-others --success first",
     "client": "cd client && yarn start",
-    "server:dev": "NODE_ENV=development nodemon server/server.js",
-    "server:prod": "NODE_ENV=production nodemon server/server.js",
     "test": "yarn run jest && yarn run test:e2e:ci",
-    "client-dependencies": "cd client && yarn install && yarn build",
-    "dev": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client\" --success",
-    "prod": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success"
-
+    "dev": "concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client\" --success",
+    "prod": "concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success"
   },
   "repository": {
     "type": "git",
