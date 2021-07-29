@@ -35,10 +35,10 @@ To change the code to use ssl files:
     3. Delete these lines:
         const key = process.env.KEY && process.env.KEY.replace(/\\n/g, '\n');
         const cert = process.env.CERT && process.env.CERT.replace(/\\n/g, '\n');
-        
-        ```python
-        print("Hello World!")
-        ```
+
+ ```python
+print("Hello World!")
+```
 
 #### Running
 
