@@ -28,13 +28,20 @@ As we are using codesandbox the information for these files are stored in secret
 #### Using your SSL files
 
 To change the code to use ssl files:
+
     1. Navigate to [dataController.js](./server/dataController.js)
+
     2. Uncomment these lines and change file path to your ssl file location:
-        // const key = fs.readFileSync(path.join(__dirname, '../unicorns/private.key'));
-        // const cert = fs.readFileSync(path.join(__dirname, '../unicorns/unicorn.crt'));
+    
+```javascript
+// const key = fs.readFileSync(path.join(__dirname, '../unicorns/private.key'));
+// const cert = fs.readFileSync(path.join(__dirname, '../unicorns/unicorn.crt'));
+```
     3. Delete these lines:
-        const key = process.env.KEY && process.env.KEY.replace(/\\n/g, '\n');
-        const cert = process.env.CERT && process.env.CERT.replace(/\\n/g, '\n');
+```javascript
+const key = process.env.KEY && process.env.KEY.replace(/\\n/g, '\n');
+const cert = process.env.CERT && process.env.CERT.replace(/\\n/g, '\n');
+```
 
 #### Running
 
