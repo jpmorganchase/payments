@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { isEmptyObject } from '../utils';
+import { isEmptyObject, formatDate } from '../utils';
 import TableItem from './tableItem';
 const tableHeaders = [
   'Description',
@@ -54,8 +54,10 @@ const StatusTable = ({ pacmanData }) => {
                   />
                   <TableItem text={outage.status} status={true} />
                   <TableItem text={outage.type} />
-                  <TableItem text={outage.startDatetime} />
-                  <TableItem text={outage.endDatetime} />
+                  <TableItem
+                    text={formatDate(new Date(outage.startDatetime))}
+                  />
+                  <TableItem text={formatDate(new Date(outage.endDatetime))} />
 
                   <td className='px-4 py-2 whitespace-nowrap text-center text-sm font-medium'>
                     <div className='text-indigo-600 hover:text-indigo-900'>
