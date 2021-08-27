@@ -3,6 +3,8 @@
 Our goal is to create re-usable sample apps that external developers can leverage
 as reference.
 
+See our project running on codesandbox [here](https://codesandbox.io/s/unicornfinance-msbct)
+
 ## Project structure
 
 The codebase is built with React and Tailwind css on the frontend and express on the backend. 
