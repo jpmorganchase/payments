@@ -13,7 +13,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className='flex min-h-screen'>
+    <div className='flex min-h-screen justify-center'>
       <Sidebar />
       <div className='flex flex-col w-full'>
         <Header />
@@ -27,6 +27,7 @@ const App = () => {
           </div>
         </div>
       </div>
+      <div className="rounded-3xl shadow-xl bg-yellow-300 bottom-5 border border-yellow-400 px-8 py-2 md:w-1/2 sm:4/6  absolute text-center">Mock data for demo purposes. There is no upcoming outages!</div>
     </div>
   );
 };
