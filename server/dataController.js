@@ -73,16 +73,8 @@ function isEmptyObject(value) {
   );
 }
 
-exports.getPacmanData = function (request, response) {
-  const mockedDataPath = 'uf-pacman.json';
+function processData(options, response, mockedDataPath) {
   if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-    const options = {
-      hostname: 'apigatewayqaf.jpmorgan.com',
-      path: '/tsapi/v1/outages',
-      method: 'GET',
-      cert: cert,
-      key: key,
-    };
     return handleHttpsRequest(response, options, mockedDataPath);
   } else {
     const result = {
@@ -91,4 +83,15 @@ exports.getPacmanData = function (request, response) {
     };
     return response.send(JSON.stringify(result));
   }
+}
+exports.getPacmanData = function (request, response) {
+  const mockedDataPath = 'uf-pacman.json';
+  const options = {
+    hostname: 'apigatewayqaf.jpmorgan.com',
+    path: '/tsapi/v1/outages',
+    method: 'GET',
+    cert: cert,
+    key: key,
+  };
+  return processData(options, response, mockedDataPath);
 };
