@@ -21,5 +21,7 @@ yarn-debug.log*
 yarn-error.log*
 
 /dist
-
+client/build/*
+/unicorns/*
 .env.*
+.env
