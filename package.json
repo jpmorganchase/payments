@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "description": "Our goal is to create re-usable sample apps that external developer can leverage as reference.",
-  
   "scripts": {
     "build": "cd client && yarn install  && yarn run build",
     "cy:open": "cypress open",
@@ -17,7 +16,6 @@
     "client-dependencies": "cd client && yarn install",
     "dev": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client\" --success",
     "prod": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success"
-
   },
   "repository": {
     "type": "git",
@@ -25,7 +23,8 @@
   },
   "dependencies": {
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jest": "^27.1.1"
   },
   "engines": {
     "node": ">=12"
@@ -33,7 +32,6 @@
   "devDependencies": {
     "concurrently": "6.2.0",
     "cypress": "7.6.0",
-    "jest": "26.6.0",
     "nock": "^13.1.1",
     "nodemon": "^2.0.9",
     "supertest": "^6.1.3",

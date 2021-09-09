@@ -9,6 +9,6 @@ describe('Test the root path', () => {
 
 describe('Test the pacman API path', () => {
   test('It should response the GET method', () => {
-    return request(app).get('/api').expect(200);
+    return request(app).get('/api/gatherPacman').expect(200);
   });
 });
