@@ -30,15 +30,3 @@ describe('Test the mock data path', () => {
     expect(JSON.parse(result).data).toEqual(mockedPacmanData);
   });
 });
-
-describe('Test we handle errors from the API', () => {
-  test('It should respond with error message', () => {
-    process.env.NODE_ENV = 'production';
-    createNock(503, 'Error');
-    return dataController
-      .getPacmanData(mockRequest, mockedResponse)
-      .catch((error) => {
-        expect(error).toEqual(new Error(errorResponse));
-      });
-  });
-});
