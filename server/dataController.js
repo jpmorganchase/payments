@@ -18,15 +18,8 @@ const getJsonData = function (basePathToData, filename) {
   return JSON.parse(fs.readFileSync(filename, 'utf-8'));
 };
 
-function httpsrequest() {
+function sendHttpsrequest(options) {
   return new Promise((resolve, reject) => {
-    const options = {
-      hostname: 'apigatewayqaf.jpmorgan.com',
-      path: '/tsapi/v1/outages',
-      method: 'GET',
-      cert: cert,
-      key: key,
-    };
     const req = https.request(options, (res) => {
       if (res.statusCode < 200 || res.statusCode >= 300) {
         var error = new Error(`${errorString}, statusCode= ${res.statusCode}`);
@@ -53,20 +46,52 @@ function httpsrequest() {
   });
 }
 
-exports.getData = function (request, response) {
+function handleHttpsRequest(response, options, mockedDataPath) {
+  return sendHttpsrequest(options)
+    .then((data) => {
+      const result = {
+        data: data,
+      };
+      if (isEmptyObject(data)) {
+        result.mocked = true;
+        result.data = getJsonData(basePathToData, mockedDataPath);
+      }
+      return response.status(200).send(JSON.stringify(result));
+    })
+    .catch((err) => {
+      if (err.message.includes(errorString)) {
+        return response
+          .status(err.statusCode)
+          .send(JSON.stringify({ errorString }));
+      }
+    });
+}
+
+function isEmptyObject(value) {
+  return (
+    value && Object.keys(value).length === 0 && value.constructor === Object
+  );
+}
+
+function processData(options, response, mockedDataPath) {
   if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-    return httpsrequest()
-      .then((data) => {
-        return response.send(JSON.stringify(data));
-      })
-      .catch((err) => {
-        if (err.message.includes(errorString)) {
-          response.statusCode = err.statusCode;
-          return response.send(JSON.stringify({ errorString }));
-        }
-      });
+    return handleHttpsRequest(response, options, mockedDataPath);
   } else {
-    var data = getJsonData(basePathToData, 'mockedData.json');
-    return response.send(data);
+    const result = {
+      data: getJsonData(basePathToData, mockedDataPath),
+      mocked: true,
+    };
+    return response.send(JSON.stringify(result));
   }
+}
+exports.getPacmanData = function (request, response) {
+  const mockedDataPath = 'uf-pacman.json';
+  const options = {
+    hostname: 'apigatewayqaf.jpmorgan.com',
+    path: '/tsapi/v1/outages',
+    method: 'GET',
+    cert: cert,
+    key: key,
+  };
+  return processData(options, response, mockedDataPath);
 };

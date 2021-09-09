@@ -15,7 +15,7 @@ const tableHeaders = [
 const renderErrorMessage = (message) => (
   <p className='text-red-500'>{message}</p>
 );
-const StatusTable = ({ pacmanData }) => {
+const PacmanTable = ({ pacmanData }) => {
   return (
     <>
       {isEmptyObject(pacmanData) ? (
@@ -73,7 +73,7 @@ const StatusTable = ({ pacmanData }) => {
   );
 };
 
-StatusTable.propTypes = {
+PacmanTable.propTypes = {
   pacmanData: PropTypes.shape({
     outageEventDetailsList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -92,4 +92,4 @@ StatusTable.propTypes = {
   }),
 };
 
-export default StatusTable;
+export default PacmanTable;

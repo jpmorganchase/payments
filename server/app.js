@@ -8,6 +8,6 @@ const app = express();
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/public/index.html'));
 });
-app.get('/api', dataController.getData);
+app.get('/api/gatherPacman', dataController.getPacmanData);
 
 module.exports = app;
