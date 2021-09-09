@@ -18,12 +18,12 @@ const getJsonData = function (basePathToData, filename) {
   return JSON.parse(fs.readFileSync(filename, 'utf-8'));
 };
 
-function httpsrequest() {
+function httpsrequest(hostname, path, method) {
   return new Promise((resolve, reject) => {
     const options = {
-      hostname: 'apigatewayqaf.jpmorgan.com',
-      path: '/tsapi/v1/outages',
-      method: 'GET',
+      hostname: hostname,
+      path: path,
+      method: method,
       cert: cert,
       key: key,
     };
@@ -53,20 +53,30 @@ function httpsrequest() {
   });
 }
 
-exports.getData = function (request, response) {
-  if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-    return httpsrequest()
-      .then((data) => {
-        return response.send(JSON.stringify(data));
-      })
-      .catch((err) => {
-        if (err.message.includes(errorString)) {
-          response.statusCode = err.statusCode;
-          return response.send(JSON.stringify({ errorString }));
-        }
-      });
+function sendHttpsRequest(response, hostname, path, method) {
+  return httpsrequest(hostname, path, method)
+    .then((data) => {
+      return response.send(JSON.stringify(data));
+    })
+    .catch((err) => {
+      if (err.message.includes(errorString)) {
+        response.statusCode = err.statusCode;
+        return response.send(JSON.stringify({ errorString }));
+      }
+    });
+}
+
+exports.getPacmanData = function (request, response) {
+  if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
+    console.log('here');
+    return sendHttpsRequest(
+      response,
+      'apigatewayqaf.jpmorgan.com',
+      '/tsapi/v1/outages',
+      'GET',
+    );
   } else {
-    var data = getJsonData(basePathToData, 'mockedData.json');
+    var data = getJsonData(basePathToData, 'uf-pacman.json');
     return response.send(data);
   }
 };
