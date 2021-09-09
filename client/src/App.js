@@ -1,7 +1,7 @@
 import React from 'react';
 import Sidebar from './components/sidebar';
 import Header from './components/header';
-import StatusTable from './components/statusTable';
+import PacmanTable from './components/pacmanTable';
 
 const App = () => {
   const [pacmanData, setPacmanData] = React.useState(null);
@@ -20,7 +20,7 @@ const App = () => {
         <div className='flex w-full p-4 md:p-8 flex-col'>
           <div className='table-overflow overflow-x-auto'>
             {pacmanData && pacmanData.data ? (
-              <StatusTable pacmanData={pacmanData.data} />
+              <PacmanTable pacmanData={pacmanData.data} />
             ) : (
               <p> Loading</p>
             )}
