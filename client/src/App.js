@@ -7,7 +7,7 @@ const App = () => {
   const [pacmanData, setPacmanData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch('/api')
+    fetch('/api/gatherPacman')
       .then((res) => res.json())
       .then((data) => setPacmanData(data));
   }, []);
@@ -19,15 +19,19 @@ const App = () => {
         <Header />
         <div className='flex w-full p-4 md:p-8 flex-col'>
           <div className='table-overflow overflow-x-auto'>
-            {pacmanData ? (
-              <StatusTable pacmanData={pacmanData} />
+            {pacmanData && pacmanData.data ? (
+              <StatusTable pacmanData={pacmanData.data} />
             ) : (
               <p> Loading</p>
             )}
           </div>
         </div>
       </div>
-      <div className="rounded-3xl shadow-xl bg-yellow-300 bottom-5 border border-yellow-400 px-8 py-2 md:w-1/2 sm:4/6  absolute text-center">Mock data for demo purposes. There is no upcoming outages!</div>
+      {pacmanData && pacmanData.mocked && (
+        <div className='rounded-3xl shadow-xl bg-yellow-300 bottom-5 border border-yellow-400 px-8 py-2 md:w-1/2 sm:4/6  absolute text-center'>
+          Mock data for demo purposes. There are no upcoming outages!
+        </div>
+      )}
     </div>
   );
 };

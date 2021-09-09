@@ -16,6 +16,7 @@ const renderErrorMessage = (message) => (
   <p className='text-red-500'>{message}</p>
 );
 const StatusTable = ({ pacmanData }) => {
+  console.log(pacmanData);
   return (
     <>
       {isEmptyObject(pacmanData) ? (
