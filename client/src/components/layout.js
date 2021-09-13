@@ -1,6 +1,7 @@
 import React from 'react';
-import Sidebar from './components/sidebar';
-import Header from './components/header';
+import Sidebar from './sidebar';
+import Header from './header';
+import PropTypes from 'prop-types';
 
 const Layout = ({ children }) => {
   return (
@@ -14,4 +15,7 @@ const Layout = ({ children }) => {
   );
 };
 
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export default Layout;

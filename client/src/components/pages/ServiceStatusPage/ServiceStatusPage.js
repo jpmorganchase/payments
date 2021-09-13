@@ -1,5 +1,6 @@
 import React from 'react';
 import StatusTable from './statusTable';
+import Layout from '../../layout';
 
 const ServiceStatusPage = () => {
   const [serviceStatusData, setStatusData] = React.useState(null);
@@ -19,6 +20,11 @@ const ServiceStatusPage = () => {
           <p> Loading</p>
         )}
       </div>
+      {serviceStatusData && serviceStatusData.mocked && (
+        <div className='rounded-3xl shadow-xl bg-yellow-300 bottom-5 border border-yellow-400 px-8 py-2 md:w-1/2 sm:4/6  absolute text-center'>
+          Mock data for demo purposes. There are no upcoming outages!
+        </div>
+      )}
     </Layout>
   );
 };
