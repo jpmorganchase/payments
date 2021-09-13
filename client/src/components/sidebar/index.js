@@ -9,19 +9,24 @@ const Sidebar = () => {
       <div className='flex-auto bg-gray-100 h-full'>
         <div className='flex flex-col overflow-y-auto h-full'>
           <ul className='relative m-0 p-0 list-none h-full'>
-            <li className='text-2xl p-4 w-full flex relative justify-start'>
-              <span className=' hidden md:block'>
-                <img
-                  src={ufLogoLarge}
-                  alt='Unicorn Finance Admin Portal Logo'
-                />
-              </span>
-              <span className='block md:hidden'>
-                <img
-                  src={ufLogoMini}
-                  alt='Unicorn Finance Admin Portal Logo for mobile'
-                />
-              </span>
+            <li>
+              <Link
+                to='/'
+                className='text-2xl p-4 w-full flex relative justify-start'
+              >
+                <span className=' hidden md:block'>
+                  <img
+                    src={ufLogoLarge}
+                    alt='Unicorn Finance Admin Portal Logo'
+                  />
+                </span>
+                <span className='block md:hidden'>
+                  <img
+                    src={ufLogoMini}
+                    alt='Unicorn Finance Admin Portal Logo for mobile'
+                  />
+                </span>
+              </Link>
             </li>
             <li className='px-4 w-full flex relative'>
               <div className='flex-auto my-1'>
