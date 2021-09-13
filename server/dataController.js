@@ -22,6 +22,7 @@ function sendHttpsrequest(options) {
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
       if (res.statusCode < 200 || res.statusCode >= 300) {
+        console.log(res);
         var error = new Error(`${errorString}, statusCode= ${res.statusCode}`);
         error.statusCode = res.statusCode;
         return reject(error);
@@ -75,6 +76,7 @@ function isEmptyObject(value) {
 
 function processData(options, response, mockedDataPath) {
   if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
+    console.log(`Sending request to ${options.hostname}${options.path}`);
     return handleHttpsRequest(response, options, mockedDataPath);
   } else {
     const result = {
@@ -84,14 +86,50 @@ function processData(options, response, mockedDataPath) {
     return response.send(JSON.stringify(result));
   }
 }
-exports.getPacmanData = function (request, response) {
-  const mockedDataPath = 'uf-pacman.json';
+exports.getServiceStatusData = function (request, response) {
+  const mockedDataPath = 'uf-service-status.json';
   const options = {
     hostname: 'apigatewayqaf.jpmorgan.com',
     path: '/tsapi/v1/outages',
     method: 'GET',
     cert: cert,
     key: key,
+  };
+  return processData(options, response, mockedDataPath);
+};
+
+exports.getTransactionData = function (request, response) {
+  const mockedDataPath = 'uf-transaction.json';
+  const options = {
+    hostname: 'apigatewayqaf.jpmorgan.com',
+    path: '/tsapi/v2/transactions?accountIds=000000011116605&relativeDateType=PRIOR_DAY',
+    method: 'GET',
+    cert: cert,
+    key: key,
+  };
+  return processData(options, response, mockedDataPath);
+};
+
+exports.getBalanceData = function (request, response) {
+  const mockedDataPath = 'uf-balances.json';
+  const postData = JSON.stringify({
+    relativeDateType: 'CURRENT_DAY',
+    accountList: [
+      {
+        accountId: '000000011116605',
+      },
+    ],
+  });
+  const options = {
+    hostname: 'apigatewayqaf.jpmorgan.com',
+    path: '/accessapi/balance',
+    method: 'POST',
+    cert: cert,
+    key: key,
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': postData.length,
+    },
   };
   return processData(options, response, mockedDataPath);
 };

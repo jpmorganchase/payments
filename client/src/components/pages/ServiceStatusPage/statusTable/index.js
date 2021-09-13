@@ -15,12 +15,12 @@ const tableHeaders = [
 const renderErrorMessage = (message) => (
   <p className='text-red-500'>{message}</p>
 );
-const PacmanTable = ({ pacmanData }) => {
+const StatusTable = ({ serviceStatusData }) => {
   return (
     <>
-      {isEmptyObject(pacmanData) ? (
+      {isEmptyObject(serviceStatusData) ? (
         renderErrorMessage('There are no outages currently reported')
-      ) : pacmanData.errorString ? (
+      ) : serviceStatusData.errorString ? (
         renderErrorMessage(
           'Error trying to connect to Platform Availability Communication Management API',
         )
@@ -41,8 +41,8 @@ const PacmanTable = ({ pacmanData }) => {
             </tr>
           </thead>
           <tbody className='bg-white divide-y divide-gray-200'>
-            {pacmanData.outageEventDetailsList &&
-              pacmanData.outageEventDetailsList.map((outage, key) => (
+            {serviceStatusData.outageEventDetailsList &&
+              serviceStatusData.outageEventDetailsList.map((outage, key) => (
                 <tr key={key}>
                   <TableItem text={outage.description} />
                   <TableItem
@@ -73,8 +73,8 @@ const PacmanTable = ({ pacmanData }) => {
   );
 };
 
-PacmanTable.propTypes = {
-  pacmanData: PropTypes.shape({
+StatusTable.propTypes = {
+  serviceStatusData: PropTypes.shape({
     outageEventDetailsList: PropTypes.arrayOf(
       PropTypes.shape({
         status: PropTypes.string,
@@ -92,4 +92,4 @@ PacmanTable.propTypes = {
   }),
 };
 
-export default PacmanTable;
+export default StatusTable;

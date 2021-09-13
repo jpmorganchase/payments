@@ -14,8 +14,8 @@
     "server:prod": "NODE_ENV=production nodemon server/server.js",
     "test": "yarn run jest && yarn run test:e2e:ci",
     "client-dependencies": "cd client && yarn install",
-    "dev": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client\" --success",
-    "prod": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success"
+    "local": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client\" --success",
+    "start": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success"
   },
   "repository": {
     "type": "git",
