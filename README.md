@@ -17,7 +17,7 @@ You have the option of running locally with mocked data or hitting the actual AP
 ### Mocked data
     yarn install
     yarn run client-dependencies
-    yarn run dev
+    yarn run local
 
 ### Hitting JP Morgan APIs
 

@@ -1,5 +1,5 @@
 const dataController = require('../dataController');
-const mockedPacmanData = require('../mockJson/uf-pacman.json');
+const mockedPacmanData = require('../mockJson/uf-service-status.json');
 const nock = require('nock');
 const mockRequest = {
   on: jest.fn(),
@@ -25,7 +25,10 @@ const createNock = (statusCode, response) => {
 describe('Test the mock data path', () => {
   test('It should respond with mocked data', () => {
     process.env.NODE_ENV = 'development';
-    const result = dataController.getPacmanData(mockRequest, mockedResponse);
+    const result = dataController.getServiceStatusData(
+      mockRequest,
+      mockedResponse,
+    );
     expect(mockedResponse.send).toHaveBeenCalled();
     expect(JSON.parse(result).data).toEqual(mockedPacmanData);
   });
