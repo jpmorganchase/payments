@@ -98,7 +98,7 @@ exports.getServiceStatusData = function (request, response) {
 };
 
 exports.getTransactionData = function (request, response) {
-  const mockedDataPath = 'uf-transaction.json';
+  const mockedDataPath = 'uf-transactions.json';
   const options = {
     hostname: 'apigatewayqaf.jpmorgan.com',
     path: '/tsapi/v2/transactions?accountIds=000000011116605&relativeDateType=PRIOR_DAY',
