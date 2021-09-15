@@ -22,7 +22,6 @@ function sendHttpsrequest(options) {
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
       if (res.statusCode < 200 || res.statusCode >= 300) {
-        console.log(res);
         var error = new Error(`${errorString}, statusCode= ${res.statusCode}`);
         error.statusCode = res.statusCode;
         return reject(error);
