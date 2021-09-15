@@ -60,7 +60,7 @@ function handleHttpsRequest(response, options, mockedDataPath) {
       return response.status(200).send(JSON.stringify(result));
     })
     .catch((err) => {
-      if (err.message.includes(errorString)) {
+      if (err && err.message && err.message.includes(errorString)) {
         return response
           .status(err.statusCode)
           .send(JSON.stringify({ errorString }));
