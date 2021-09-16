@@ -5,12 +5,16 @@ import PropTypes from 'prop-types';
 
 const Layout = ({ children }) => {
   return (
-    <div className='flex min-h-screen justify-center'>
+    <div className='flex h-screen text-gray-900'>
       <Sidebar />
-      <div className='flex flex-col w-full'>
-        <Header />
-        <div className='flex w-full p-4 md:p-8 flex-col'>{children}</div>
-      </div>
+      <section className='relative flex flex-col flex-grow'>
+        <main className='p-8 h-screen flex-grow'>
+          <Header />
+          <content className="p-8 overflow-auto">
+          {children}
+          </content>
+        </main>
+      </section>
     </div>
   );
 };

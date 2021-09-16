@@ -1,118 +1,53 @@
 import React from 'react';
-import ufLogoLarge from '../../images/uf-logo.svg';
-import ufLogoMini from '../../images/uf-logo-mini.svg';
+// import ufLogoLarge from '../../images/uf-logo.svg';
+// import ufLogoMini from '../../images/uf-logo-mini.svg';
 import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
-    <nav className=' w-30 md:w-64 flex-shrink-0'>
-      <div className='flex-auto bg-gray-100 h-full'>
-        <div className='flex flex-col overflow-y-auto h-full'>
-          <ul className='relative m-0 p-0 list-none h-full'>
-            <li>
-              <Link
-                to='/'
-                className='text-2xl p-4 w-full flex relative justify-start'
-              >
-                <span className=' hidden md:block'>
-                  <img
-                    src={ufLogoLarge}
-                    alt='Unicorn Finance Admin Portal Logo'
-                  />
-                </span>
-                <span className='block md:hidden'>
-                  <img
-                    src={ufLogoMini}
-                    alt='Unicorn Finance Admin Portal Logo for mobile'
-                  />
-                </span>
-              </Link>
-            </li>
-            <li className='px-4 w-full flex relative'>
-              <div className='flex-auto my-1'>
-                <span className='text-gray-700 text-xs uppercase font-medium hidden md:block'>
-                  General
-                </span>
-              </div>
+
+    <nav className='border-r border-gray-200 p-8 flex flex-col justify-between'>
+         <div>
+          <div className="mb-12">Unicorn Finance</div>
+          <ul className='-ml-8 text-gray-500 text-sm'>
+            <li className='border-l-2 border-transparent'>
+              <a href="#" className='block px-8 py-2 hover:text-gray-700'>
+                Dashboard
+              </a>
             </li>
 
-            <li className='text-gray-900 flex relative p-2 md:py-1 md:px-2 mx-2 rounded-lg hover:bg-gray-300 cursor-pointer'>
-              <div className='md:mr-4 my-auto w-full md:w-auto text-center'>
-                <span className='material-icons align-middle block w-full text-center'>
-                  home
-                </span>
-              </div>
-              <div className='flex-auto my-1 hidden md:block'>
-                <span className=''>Home</span>
-              </div>
-            </li>
-
-            <li>
+            <li className="border-l-2 border-transparent">
               <Link
                 to='account'
-                className='text-gray-900 flex relative p-2 md:py-1 md:px-2 mx-2 rounded-lg hover:bg-gray-300 cursor-pointer'
+                className='block px-8 py-2 hover:text-gray-700'
               >
-                <div className='md:mr-4 my-auto w-full md:w-auto text-center'>
-                  <span className='material-icons align-middle block w-full text-center'>
-                    credit_card
-                  </span>
-                </div>
-                <div className='flex-auto my-1  hidden md:block'>
-                  <span className=''>Payments</span>
-                </div>
-              </Link>
-            </li>
-            <li className='px-4 w-full flex relative'>
-              <div className='flex-auto my-1'>
-                <span className='text-gray-700 text-xs uppercase font-medium hidden md:block'>
-                  Health
-                </span>
-              </div>
-            </li>
-
-            <li>
-              <Link
-                to='service_status'
-                className='text-indigo-600 flex relative p-2 md:py-1 md:px-2 mx-2 bg-gray-200 rounded-lg hover:bg-gray-300 cursor-pointer'
-              >
-                <div className='md:mr-4 my-auto w-full md:w-auto text-center'>
-                  <span className='material-icons align-middle block w-full text-center'>
-                    support
-                  </span>
-                </div>
-                <div className='flex-auto my-1 hidden md:block'>
-                  <span className=''>API Status</span>
-                </div>
+                Account
               </Link>
             </li>
           </ul>
-          <div className='flex end mb-2'>
-            <ul className='w-full'>
-              <li className='text-gray-900 flex relative p-2 md:py-1 md:px-2 mx-2 rounded-lg hover:bg-gray-300 cursor-pointer'>
-                <div className='md:mr-4 my-auto w-full md:w-auto text-center'>
-                  <span className='material-icons align-middle block w-full text-center'>
-                    help_outline
-                  </span>
-                </div>
-                <div className='flex-auto my-1 hidden md:block'>
-                  <span className=''>Help</span>
-                </div>
-              </li>
-
-              <li className='text-gray-900 flex relative p-2 md:py-1 md:px-2 mx-2 rounded-lg hover:bg-gray-300 cursor-pointer'>
-                <div className='md:mr-4 my-auto w-full md:w-auto text-center'>
-                  <span className='material-icons align-middle block '>
-                    logout
-                  </span>
-                </div>
-                <div className='flex-auto my-1 hidden md:block'>
-                  <span className=''>Logout</span>
-                </div>
-              </li>
-            </ul>
           </div>
+        <div>
+                <ul className="-ml-8 text-gray-500 text-xs mb-4">
+                  <li className="border-l-2 border-pink-500">
+                   <Link
+                    to='service_status'
+                    className='block px-8 py-2 text-gray-900 hover:text-gray-700'
+                   >Service status
+                   </Link>
+                  </li>
+                  <li className="border-l-2 border-transparent">
+                    <a className="block px-8 py-2 hover:text-gray-700"  href="#">Settings</a>
+                  </li>
+                </ul>
+                <div className="flex text-sm relative">
+                  <span className="block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl"></span>
+                  <img className="rounded-xl w-10 h-10 " src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=73a9df4b7bd1b330db1e903e08575ec1"/>
+                  <div className=" flex flex-col pl-4">
+                    <p className="font-medium">Alan Torrance</p>
+                    <a className=" text-xs text-gray-500 underline hover:no-underline" href="#">Logout</a>
+                  </div>
+                </div>
         </div>
-      </div>
     </nav>
   );
 };

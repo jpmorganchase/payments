@@ -9,7 +9,7 @@ const tableHeaders = [
   'type',
   'start date',
   'end date',
-  'notifications',
+  '',
 ];
 
 const renderErrorMessage = (message) => (
@@ -25,14 +25,14 @@ const StatusTable = ({ serviceStatusData }) => {
           'Error trying to connect to Platform Availability Communication Management API',
         )
       ) : (
-        <table className='w-full border-b border-gray-200 '>
-          <thead className='bg-gray-100'>
+        <table className='min-w-full text-xs border-b border-gray-200 mb-6'>
+          <thead className='border-b-2'>
             <tr>
               {tableHeaders &&
                 tableHeaders.map((header, index) => (
                   <th
                     scope='col'
-                    className='px-4 py-2 text-left text-xs font-medium text-gray-700 uppercase tracking-wider'
+                    className='py-2 text-left font-medium text-gray-500 uppercase'
                     key={index}
                   >
                     {header}
@@ -59,10 +59,10 @@ const StatusTable = ({ serviceStatusData }) => {
                   />
                   <TableItem text={formatDate(new Date(outage.endDatetime))} />
 
-                  <td className='px-4 py-2 whitespace-nowrap text-center text-sm font-medium'>
-                    <div className='text-indigo-600 hover:text-indigo-900'>
-                      Set reminder
-                    </div>
+                  <td className='whitespace-nowrap'>
+                    <span className='material-icons align-middle block w-full text-center cursor-pointer'>
+                     more_horiz
+                    </span>
                   </td>
                 </tr>
               ))}
