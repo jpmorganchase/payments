@@ -4,7 +4,7 @@
 
 
 
- h1, h2, h3 {font-family: 'Poppins', sans-serif;}
+ h1, h2, h3 {font-family: 'Inter', sans-serif;}
 .table-overflow {width: calc(100vw - 330px);}
 @media (max-width: 768px) {
   .table-overflow {
