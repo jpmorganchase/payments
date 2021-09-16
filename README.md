@@ -5,6 +5,8 @@ as reference.
 
 See our project running on codesandbox [here](https://codesandbox.io/s/unicornfinance-msbct)
 
+![Screenshot of Unicorn Finance](unicorn-finance.png "Screenshot of Unicorn Finance")
+
 ## Project structure
 
 The codebase is built with React and Tailwind css on the frontend and express on the backend. 
