@@ -1,5 +1,6 @@
 import React from 'react';
 import Sidebar from './sidebar';
+import WhatAPI from './whatAPI/whatAPI';
 // import Header from './header';
 import PropTypes from 'prop-types';
 
@@ -13,6 +14,7 @@ const Layout = ({ children }) => {
           {children}
           </content>
         </main>
+        <WhatAPI />
       </section>
     </div>
   );
