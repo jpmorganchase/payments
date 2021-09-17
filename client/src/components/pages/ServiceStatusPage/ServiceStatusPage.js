@@ -13,6 +13,7 @@ const ServiceStatusPage = () => {
 
   return (
     <Layout>
+      <h2 className="text-2xl font-medium">Service status</h2>
       <div className='overflow-hidden '>
         {serviceStatusData && serviceStatusData.data ? (
           <StatusTable serviceStatusData={serviceStatusData.data} />
