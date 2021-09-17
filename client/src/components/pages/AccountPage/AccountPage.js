@@ -25,8 +25,10 @@ const AccountPage = () => {
   }, [balanceData, setBalanceData]);
 
   return <Layout>
-            <AccountInfo />
-            <TransactionInfo />
+            <div className="flex -m-8">
+              <AccountInfo />
+              <TransactionInfo />
+            </div>
   </Layout>
 };
 

@@ -4,8 +4,8 @@ import TransactionGrid from './transactionGrid/TransactionGrid';
 
 const TransactionInfo = () => {
   return (
-    <div>
-    <h2 className="text-2xl font-medium">All transactions</h2>
+    <div className="flex-grow p-8 h-screen">
+    <h2 className="text-2xl font-medium mb-4">All transactions</h2>
     <TransactionViz />
     <TransactionGrid />
     </div>
