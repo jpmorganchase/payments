@@ -16,6 +16,7 @@ const renderErrorMessage = (message) => (
   <p className='text-red-500'>{message}</p>
 );
 const StatusTable = ({ serviceStatusData }) => {
+  console.log(serviceStatusData);
   return (
     <>
       {isEmptyObject(serviceStatusData) ? (
@@ -61,7 +62,7 @@ const StatusTable = ({ serviceStatusData }) => {
 
                   <td className='whitespace-nowrap'>
                     <span className='material-icons align-middle block w-full text-center cursor-pointer'>
-                     more_horiz
+                      more_horiz
                     </span>
                   </td>
                 </tr>

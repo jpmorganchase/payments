@@ -16,4 +16,7 @@ module.exports = {
     cert: process.env.CERT && process.env.CERT.replace(/\\n/g, '\n'),
     errorString: 'Error hitting API',
   },
+  cache: {
+    serviceStatus: 'serviceStatus',
+  },
 };

@@ -1,20 +1,18 @@
 const config = require('../config');
 const https = require('https');
 
-exports.handleHttpsRequest = function (response, options, data = undefined) {
+exports.handleHttpsRequest = function (options, data = undefined) {
   console.log(`Sending request to ${options.hostname}${options.path}`);
   return sendHttpsrequest(options, data)
     .then((data) => {
-      const result = {
-        data: data,
-      };
-      return response.status(200).send(JSON.stringify(result));
+      return { statusCode: 200, data: data };
     })
     .catch((err) => {
       if (err && err.message && err.message.includes(config.api.errorString)) {
-        return response
-          .status(err.statusCode)
-          .send(JSON.stringify(config.api.errorString));
+        return {
+          statusCode: err.statusCode,
+          message: config.api.errorString,
+        };
       }
     });
 };

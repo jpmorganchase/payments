@@ -1,6 +1,7 @@
 const express = require('express');
 const routes = require('../routes');
 const config = require('../config');
+const cache = require('./cache');
 
 exports.load = function (app) {
   // Transforms the raw string of req.body into json
@@ -36,5 +37,5 @@ exports.load = function (app) {
 };
 
 exports.loadData = function () {
-  console.log('here');
+  cache.loadDataToCache();
 };
