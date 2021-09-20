@@ -1,5 +1,6 @@
 const config = require('../config');
 const https = require('https');
+const cache = require('../loaders/cache');
 
 exports.handleHttpsRequest = function (options, data = undefined) {
   console.log(`Sending request to ${options.hostname}${options.path}`);
@@ -15,6 +16,21 @@ exports.handleHttpsRequest = function (options, data = undefined) {
         };
       }
     });
+};
+
+exports.checkInCache = function (cacheKey, timePeriod) {
+  const cachedValue = cache.getDataFromCache(cacheKey);
+  if (
+    cachedValue &&
+    !checkTimestampDifference(cachedValue.timestamp, timePeriod)
+  ) {
+    return cachedValue;
+  }
+  return undefined;
+};
+
+const checkTimestampDifference = (cachedTimestamp, timePeriod) => {
+  return new Date() - cachedTimestamp > timePeriod;
 };
 
 function sendHttpsrequest(options, data = undefined) {

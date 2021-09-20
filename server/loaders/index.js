@@ -37,5 +37,5 @@ exports.load = function (app) {
 };
 
 exports.loadData = function () {
-  cache.loadDataToCache();
+  cache.loadAllDataToCache();
 };

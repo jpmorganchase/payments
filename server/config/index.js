@@ -18,5 +18,7 @@ module.exports = {
   },
   cache: {
     serviceStatus: 'serviceStatus',
+    balance: 'balances',
+    transaction: 'transactions',
   },
 };

@@ -4,7 +4,6 @@ const serviceStatusService = require('../services/serviceStatusService');
 
 router.get('/', async (request, response) => {
   const result = await serviceStatusService.getData();
-  console.log(result);
   if (!result || result.message) {
     console.log(`Error when hitting API: ${result.message}`);
     return response

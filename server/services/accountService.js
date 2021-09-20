@@ -1,7 +1,14 @@
 const config = require('../config');
 const common = require('./common');
+const cache = require('../loaders/cache');
 
-exports.getTransactionData = function (request, response) {
+const oneDay = 60 * 60 * 24 * 1000;
+
+exports.getTransactionData = function () {
+  const cachedValue = common.checkInCache(config.cache.transaction, oneDay);
+  if (cachedValue) {
+    return cachedValue;
+  }
   const options = {
     hostname: 'apigatewayqaf.jpmorgan.com',
     path: '/tsapi/v2/transactions?accountIds=000000011116605&startDate=2021-02-22&endDate=2021-02-27',
@@ -9,10 +16,16 @@ exports.getTransactionData = function (request, response) {
     cert: config.api.cert,
     key: config.api.key,
   };
-  return common.handleHttpsRequest(response, options);
+  const response = common.handleHttpsRequest(options);
+  cache.loadDataToCache(config.cache.transaction, response);
+  return response;
 };
 
-exports.getBalanceData = function (request, response) {
+exports.getBalanceData = function () {
+  const cachedValue = common.checkInCache(config.cache.balance, oneDay);
+  if (cachedValue) {
+    return cachedValue;
+  }
   const postData = JSON.stringify({
     startDate: '2021-02-22',
     endDate: '2021-02-27',
@@ -32,7 +45,8 @@ exports.getBalanceData = function (request, response) {
       'Content-Type': 'application/json',
       'Content-Length': postData.length,
     },
-    timeout: 1000, // in ms
   };
-  return common.handleHttpsRequest(response, options, postData);
+  const response = common.handleHttpsRequest(options, postData);
+  cache.loadDataToCache(config.cache.balance, response);
+  return response;
 };
