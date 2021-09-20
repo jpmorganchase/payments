@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const dataController = require('../dataController');
+const serviceStatusService = require('../services/serviceStatusService');
 
-router.get('/', dataController.getServiceStatusData);
+router.get('/', serviceStatusService.getData);
 
 module.exports = router;
