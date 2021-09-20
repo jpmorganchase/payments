@@ -86,6 +86,7 @@ function processData(options, response, mockedDataPath) {
   }
 }
 exports.getServiceStatusData = function (request, response) {
+  console.log('here');
   const mockedDataPath = 'uf-service-status.json';
   const options = {
     hostname: 'apigatewayqaf.jpmorgan.com',
