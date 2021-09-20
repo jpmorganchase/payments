@@ -1,9 +1,9 @@
 const config = require('../config');
 const https = require('https');
 
-exports.handleHttpsRequest = function (response, options) {
+exports.handleHttpsRequest = function (response, options, data = undefined) {
   console.log(`Sending request to ${options.hostname}${options.path}`);
-  return sendHttpsrequest(options)
+  return sendHttpsrequest(options, data)
     .then((data) => {
       const result = {
         data: data,
@@ -19,7 +19,7 @@ exports.handleHttpsRequest = function (response, options) {
     });
 };
 
-function sendHttpsrequest(options) {
+function sendHttpsrequest(options, data = undefined) {
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
       if (res.statusCode < 200 || res.statusCode >= 300) {
@@ -42,6 +42,9 @@ function sendHttpsrequest(options) {
         resolve(body);
       });
     });
+    if (data) {
+      req.write(data);
+    }
     req.on('error', (e) => {
       reject(e.message);
     });
