@@ -7,4 +7,3 @@ app.listen(config.port, () => console.log(`Listening on ${config.port}`));
 app.use(config.api.prefix, routes);
 
 module.exports = app;
-ss;
