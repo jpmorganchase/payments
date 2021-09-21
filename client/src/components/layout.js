@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from './sidebar';
-import Header from './header';
+import WhatAPI from './whatAPI/whatAPI';
+// import Header from './header';
 import PropTypes from 'prop-types';
 
 const Layout = ({ children }) => {
@@ -8,12 +9,12 @@ const Layout = ({ children }) => {
     <div className='flex h-screen text-gray-900'>
       <Sidebar />
       <section className='relative flex flex-col flex-grow'>
-        <main className='p-8 h-screen flex-grow'>
-          <Header />
-          <content className="p-8 overflow-auto">
+        <main className="p-8 h-screen">
+          <content className="overflow-auto">
           {children}
           </content>
         </main>
+        <WhatAPI />
       </section>
     </div>
   );

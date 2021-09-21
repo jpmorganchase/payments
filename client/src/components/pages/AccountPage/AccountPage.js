@@ -1,5 +1,7 @@
 import React from 'react';
 import Layout from '../../layout';
+import AccountInfo from './accountInfo/index';
+import TransactionInfo from './transactionInfo/index';
 
 const AccountPage = () => {
   const [transactionData, setTransactionData] = React.useState(null);
@@ -22,7 +24,12 @@ const AccountPage = () => {
     console.log(balanceData);
   }, [balanceData, setBalanceData]);
 
-  return <Layout>TODO </Layout>;
+  return <Layout>
+            <div className="flex -m-8">
+              <AccountInfo />
+              <TransactionInfo />
+            </div>
+  </Layout>
 };
 
 export default AccountPage;
