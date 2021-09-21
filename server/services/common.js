@@ -24,6 +24,7 @@ exports.checkInCache = function (cacheKey, timePeriod) {
     cachedValue &&
     !checkTimestampDifference(cachedValue.timestamp, timePeriod)
   ) {
+    console.log(`Returning cached value for ${cacheKey}`);
     return cachedValue;
   }
   return undefined;
