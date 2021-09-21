@@ -1,16 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { gatherCurrencySymbol } from '../../utils';
 
-const currencySymbol = (currencyCode) => {
-  switch (currencyCode.toUpperCase()) {
-    case 'USD':
-      return '$';
-    case 'GBP':
-      return '£';
-    default:
-      return '*';
-  }
-};
 const AccountCard = ({ account }) => {
   console.log(account);
   console.log(account.balanceList[0].openingAvailableAmount);
@@ -30,7 +21,7 @@ const AccountCard = ({ account }) => {
       </div>
       <div className='flex items-baseline justify-between'>
         <div className='text-xl font-medium'>
-          {currencySymbol(account.currency.code)}
+          {gatherCurrencySymbol(account.currency.code)}
           {account.balanceList[0].openingAvailableAmount}
         </div>
         <div className='text-green-600'>3.05%</div>
