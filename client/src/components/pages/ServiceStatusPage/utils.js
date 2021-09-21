@@ -1,5 +1,4 @@
 export function isEmptyObject(value) {
-  console.log(typeof value);
   return (
     value && Object.keys(value).length === 0 && value.constructor === Object
   );
