@@ -6,14 +6,14 @@ const ServiceStatusPage = () => {
   const [serviceStatusData, setStatusData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch('/api/gatherServiceStatus')
+    fetch('/api/serviceStatus')
       .then((res) => res.json())
       .then((data) => setStatusData(data));
   }, []);
 
   return (
     <Layout>
-      <h2 className="text-2xl font-medium">Service status</h2>
+      <h2 className='text-2xl font-medium'>Service status</h2>
       <div className='overflow-hidden '>
         {serviceStatusData && serviceStatusData.data ? (
           <StatusTable serviceStatusData={serviceStatusData.data} />
