@@ -30,6 +30,12 @@ exports.checkInCache = function (cacheKey, timePeriod) {
 };
 
 const checkTimestampDifference = (cachedTimestamp, timePeriod) => {
+  if (
+    new Date(timePeriod).setHours(0, 0, 0, 0) !==
+    new Date().setHours(0, 0, 0, 0)
+  ) {
+    return false;
+  }
   return new Date() - cachedTimestamp > timePeriod;
 };
 
