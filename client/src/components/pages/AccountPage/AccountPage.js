@@ -38,10 +38,12 @@ const AccountPage = () => {
 
   const displayPanels = () => {
     if (displayingMockedData) {
-      <>
-        <AccountInfo data={balanceMockData} />
-        <TransactionInfo data={transactionMockData} />
-      </>;
+      return (
+        <>
+          <AccountInfo data={balanceMockData} />
+          <TransactionInfo data={transactionMockData} />
+        </>
+      );
     } else if (
       transactionData &&
       transactionData.data &&
