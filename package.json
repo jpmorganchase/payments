@@ -5,14 +5,10 @@
   "description": "Our goal is to create re-usable sample apps that external developer can leverage as reference.",
   "scripts": {
     "build": "cd client && yarn install  && yarn run build",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run",
-    "test:e2e": "concurrently \"yarn run local\" \"wait-on http-get://localhost:3000 && yarn run cy:open\" --kill-others --success first",
-    "test:e2e:ci": "concurrently \"yarn run local\" \"wait-on http-get://localhost:3000 && yarn run cy:run\" --kill-others --success first",
     "client": "cd client && yarn start",
     "server:dev": "NODE_ENV=development nodemon server/app.js",
     "server:prod": "NODE_ENV=production nodemon server/app.js",
-    "test": "yarn run jest && yarn run test:e2e:ci",
+    "test": "echo 'Tests to be implemented'",
     "client-dependencies": "cd client && yarn install",
     "local": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client\" --success",
     "start": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success"
