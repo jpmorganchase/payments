@@ -4,7 +4,6 @@ import AccountList from './accountList/AccountList';
 import PropTypes from 'prop-types';
 
 const AccountInfo = ({ data }) => {
-  console.log(data);
   return (
     <div className='bg-gray-50 p-8 border-r border-gray-200 w-2/5 h-screen'>
       <h2 className='text-2xl font-medium mb-4'>Accounts</h2>
@@ -16,13 +15,15 @@ const AccountInfo = ({ data }) => {
         </div>
         <div>Icons</div>
       </div>
-      <AccountList />
+      {data && data.accountList && <AccountList data={data.accountList} />}
     </div>
   );
 };
 
 AccountInfo.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.shape({
+    accountList: PropTypes.arrayOf(PropTypes.object),
+  }),
 };
 
 export default AccountInfo;
