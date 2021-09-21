@@ -5,12 +5,16 @@ import WhatAPI from '../../whatAPI';
 
 const data = require('./uf-service-status.json');
 
-const ApiDetails = {
-  api: 'Platform Availability Communication Manangement',
+const config = {
+  apiDetails: [
+    {
+      name: 'Platform Availability Communication Manangement',
+    },
+  ],
 };
 const ServiceStatusPage = () => {
   const [serviceStatusData, setStatusData] = React.useState(null);
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
+  const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
 
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
@@ -34,7 +38,7 @@ const ServiceStatusPage = () => {
     <Layout>
       <h2 className='text-2xl font-medium'>Service status</h2>
       <div className='overflow-hidden '>{displayTable()}</div>
-      <WhatAPI toggleMockedData={toggleMockedData} apiDetails={ApiDetails} />
+      <WhatAPI toggleMockedData={toggleMockedData} config={config} />
     </Layout>
   );
 };
