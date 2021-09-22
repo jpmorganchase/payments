@@ -11,9 +11,15 @@ const config = {
   apiDetails: [
     {
       name: 'Balances',
+      unicornUrl: '/api/accounts/balances',
     },
     {
       name: 'Transactions',
+      unicornUrl: '/api/accounts/transactions',
+    },
+    {
+      name: 'Balances Prior',
+      unicornUrl: '/api/accounts/balances/prior',
     },
   ],
 };
@@ -45,6 +51,13 @@ const AccountPage = () => {
         </>
       );
     } else if (
+      (transactionData && transactionData.errorString) ||
+      (balanceData && balanceData.errorString)
+    ) {
+      return (
+        <div className='text-red-500 m-8'>Error trying to connect to APIs</div>
+      );
+    } else if (
       transactionData &&
       transactionData.data &&
       balanceData &&
@@ -57,7 +70,7 @@ const AccountPage = () => {
         </>
       );
     }
-    return <p> Loading</p>;
+    return <p className='m-8'> Loading</p>;
   };
 
   return (

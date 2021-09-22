@@ -3,7 +3,7 @@ import StatusTable from './statusTable';
 import Layout from '../../layout';
 import WhatAPI from '../../whatAPI';
 
-const data = require('./uf-service-status.json');
+const mockedData = require('./uf-service-status.json');
 
 const config = {
   apiDetails: [
@@ -28,9 +28,9 @@ const ServiceStatusPage = () => {
 
   const displayTable = () => {
     if (displayingMockedData) {
-      return <StatusTable serviceStatusData={data} />;
-    } else if (serviceStatusData && serviceStatusData.data) {
-      return <StatusTable serviceStatusData={serviceStatusData.data} />;
+      return <StatusTable serviceStatusData={mockedData} />;
+    } else if (serviceStatusData) {
+      return <StatusTable serviceStatusData={serviceStatusData} />;
     }
     return <p> Loading</p>;
   };

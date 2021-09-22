@@ -11,30 +11,38 @@ exports.loadAllDataToCache = async function () {
 };
 
 exports.loadDataToCache = function (key, data) {
-  myCache.set(key, data);
+  if (validResponse(data, key)) {
+    data.timestamp = new Date();
+    myCache.set(key, data);
+  }
 };
 
 exports.getDataFromCache = function (key) {
   return myCache.get(key);
 };
 
+const validResponse = (response, cacheKey) => {
+  if (!response || !response.statusCode || response.statusCode !== 200) {
+    console.log(`Cache load failed for ${cacheKey}`);
+    return false;
+  }
+  return true;
+};
+
 const loadServiceStatusData = async () => {
   console.log('Populating service status cache....');
   const serviceStatusData = await serviceStatusService.getData();
-  serviceStatusData.timestamp = new Date();
-  myCache.set(config.cache.serviceStatus, serviceStatusData);
+  this.loadDataToCache(config.cache.serviceStatus, serviceStatusData);
 };
 
 const loadBalanceData = async () => {
   console.log('Populating balance cache.....');
   const balanceData = await accountService.getBalanceData();
-  balanceData.timestamp = new Date();
-  myCache.set(config.cache.balance, balanceData);
+  this.loadDataToCache(config.cache.balance, balanceData);
 };
 
 const loadTransactionsData = async () => {
   console.log('Populating transactions cache....');
   const transactionData = await accountService.getTransactionData();
-  transactionData.timestamp = new Date();
-  myCache.set(config.cache.transaction, transactionData);
+  this.loadDataToCache(config.cache.transaction, transactionData);
 };
