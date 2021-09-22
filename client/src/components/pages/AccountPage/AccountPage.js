@@ -6,10 +6,10 @@ const AccountPage = () => {
   const [balanceData, setBalanceData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch('/api/gatherTransactions')
+    fetch('/api/accounts/transactions')
       .then((res) => res.json())
       .then((data) => setTransactionData(data));
-    fetch('/api/gatherBalance')
+    fetch('/api/accounts/balances')
       .then((res) => res.json())
       .then((data) => setBalanceData(data));
   }, []);

@@ -55,10 +55,6 @@ const cert = process.env.CERT && process.env.CERT.replace(/\\n/g, '\n');
 
 Navigate to localhost:3000
 
-## Running tests
-
-    yarn run test
-
 
 ### Deprecation warnings
 

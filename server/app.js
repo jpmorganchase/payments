@@ -1,14 +1,24 @@
 const express = require('express');
-const path = require('path');
-const dataController = require('./dataController');
+const config = require('./config');
+const loader = require('./loaders');
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/public/index.html'));
-});
-app.get('/api/gatherServiceStatus', dataController.getServiceStatusData);
-app.get('/api/gatherTransactions', dataController.getTransactionData);
-app.get('/api/gatherBalance', dataController.getBalanceData);
-
-module.exports = app;
+function startServer() {
+  app
+    .listen(config.port, () => {
+      console.log(`
+    ################################################
+    🛡️  Server listening on port: ${config.port} 🛡️
+    ################################################
+  `);
+      loader.load(app);
+      loader.loadData();
+    })
+    .on('error', (err) => {
+      console.error(err);
+      process.exit(1);
+    });
+  loader.load(app);
+}
+startServer();
