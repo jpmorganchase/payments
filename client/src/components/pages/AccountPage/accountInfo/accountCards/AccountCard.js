@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { gatherCurrencySymbol } from '../../utils';
 
 const AccountCard = ({ account }) => {
-  console.log(account);
-  console.log(account.balanceList[0].openingAvailableAmount);
   return (
     <div className='border bg-white border-gray-200 shadow-sm hover:shadow-lg p-4 rounded-lg'>
       <div className='flex justify-between'>
