@@ -4,17 +4,15 @@ const accountService = require('../services/accountService');
 
 router.get('/transactions', async (request, response) => {
   const result = await accountService.getTransactionData();
-  if (!result || result.message) {
-    console.log(`Error when hitting API: ${result.message}`);
-    return response
-      .status(result.statusCode)
-      .send(JSON.stringify({ errorString: result.message }));
-  }
-  return response.status(result.statusCode).send(JSON.stringify(result));
+  return handleResponse(result, response);
 });
 
 router.get('/balances', async (request, response) => {
   const result = await accountService.getBalanceData();
+  return handleResponse(result, response);
+});
+
+const handleResponse = (result, response) => {
   if (!result || result.message) {
     console.log(`Error when hitting API: ${result.message}`);
     return response
@@ -22,6 +20,6 @@ router.get('/balances', async (request, response) => {
       .send(JSON.stringify({ errorString: result.message }));
   }
   return response.status(result.statusCode).send(JSON.stringify(result));
-});
+};
 
 module.exports = router;

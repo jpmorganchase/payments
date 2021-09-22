@@ -19,6 +19,5 @@ function startServer() {
       console.error(err);
       process.exit(1);
     });
-  loader.load(app);
 }
 startServer();

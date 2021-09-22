@@ -28,7 +28,7 @@ const ServiceStatusPage = () => {
 
   const displayTable = () => {
     if (displayingMockedData) {
-      return <StatusTable serviceStatusData={mockedData} />;
+      return <StatusTable serviceStatusData={{ data: mockedData }} />;
     } else if (serviceStatusData) {
       return <StatusTable serviceStatusData={serviceStatusData} />;
     }
