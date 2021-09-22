@@ -8,7 +8,7 @@ router.get('/transactions', async (request, response) => {
     console.log(`Error when hitting API: ${result.message}`);
     return response
       .status(result.statusCode)
-      .send(JSON.stringify(result.message));
+      .send(JSON.stringify({ errorString: result.message }));
   }
   return response.status(result.statusCode).send(JSON.stringify(result));
 });
@@ -19,7 +19,7 @@ router.get('/balances', async (request, response) => {
     console.log(`Error when hitting API: ${result.message}`);
     return response
       .status(result.statusCode)
-      .send(JSON.stringify(result.message));
+      .send(JSON.stringify({ errorString: result.message }));
   }
   return response.status(result.statusCode).send(JSON.stringify(result));
 });

@@ -15,6 +15,10 @@ exports.handleHttpsRequest = function (options, data = undefined) {
           message: config.api.errorString,
         };
       }
+      return {
+        statusCode: err.statusCode,
+        message: err.message,
+      };
     });
 };
 

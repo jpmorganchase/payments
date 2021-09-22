@@ -16,7 +16,6 @@ const renderErrorMessage = (message) => (
   <p className='text-red-500'>{message}</p>
 );
 const StatusTable = ({ serviceStatusData }) => {
-  console.log(serviceStatusData);
   return (
     <>
       {isEmptyObject(serviceStatusData) ? (
