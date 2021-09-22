@@ -2,6 +2,13 @@ const config = require('../config');
 const https = require('https');
 const cache = require('../loaders/cache');
 
+exports.noAuthenticationResponse = function () {
+  return {
+    message: 'No API Certs or Keys defined, not hitting APIs',
+    statusCode: 401,
+  };
+};
+
 exports.handleHttpsRequest = function (options, data = undefined) {
   console.log(`Sending request to ${options.hostname}${options.path}`);
   return sendHttpsrequest(options, data)
