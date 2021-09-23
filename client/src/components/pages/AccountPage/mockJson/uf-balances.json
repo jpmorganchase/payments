@@ -1,7 +1,7 @@
 {
     "accountList": [
         {
-            "accountId": "000000011116605",
+            "accountId": "000000011253770",
             "accountName": "",
             "branchId": "",
             "bankId": "02100002",
@@ -15,12 +15,12 @@
             "balanceList": [
                 {
                     "asOfDate": "2021-07-01",
-                    "recordTimestamp": "2021-09-20T14:06:18Z",
+                    "recordTimestamp": "2021-09-20T14:03:48Z",
                     "currentDay": true,
-                    "openingAvailableAmount": 0.36,
-                    "openingLedgerAmount": 0.36,
-                    "endingAvailableAmount": 0.36,
-                    "endingLedgerAmount": 0.36
+                    "openingAvailableAmount": 69630482.63,
+                    "openingLedgerAmount": 69734737.63,
+                    "endingAvailableAmount": 69630482.63,
+                    "endingLedgerAmount": 69734737.63
                 }
             ]
         }
