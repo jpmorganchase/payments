@@ -12,6 +12,11 @@ router.get('/balances', async (request, response) => {
   return handleResponse(result, response);
 });
 
+router.get('/balances/prior', async (request, response) => {
+  const result = await accountService.getBalanceData(true);
+  return handleResponse(result, response);
+});
+
 const handleResponse = (result, response) => {
   if (!result || result.message) {
     console.log(`Error when hitting API: ${result.message}`);

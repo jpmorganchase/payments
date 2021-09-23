@@ -27,6 +27,8 @@ const config = {
 const AccountPage = () => {
   const [transactionData, setTransactionData] = React.useState(null);
   const [balanceData, setBalanceData] = React.useState(null);
+  const [previousDayBalanceData, setPreviousDayBalanceData] =
+    React.useState(null);
   const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
 
   const toggleMockedData = () => {
@@ -40,9 +42,13 @@ const AccountPage = () => {
     fetch('/api/accounts/balances')
       .then((res) => res.json())
       .then((data) => setBalanceData(data));
+    fetch('/api/accounts/balances/prior')
+      .then((res) => res.json())
+      .then((data) => setPreviousDayBalanceData(data));
   }, []);
 
   const displayPanels = () => {
+    console.log(previousDayBalanceData);
     if (displayingMockedData) {
       return (
         <>

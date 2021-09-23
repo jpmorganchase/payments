@@ -7,6 +7,7 @@ const myCache = new NodeCache();
 exports.loadAllDataToCache = async function () {
   await loadServiceStatusData();
   await loadBalanceData();
+  await loadPreviousBalanceData();
   await loadTransactionsData();
 };
 
@@ -40,7 +41,11 @@ const loadBalanceData = async () => {
   const balanceData = await accountService.getBalanceData();
   this.loadDataToCache(config.cache.balance, balanceData);
 };
-
+const loadPreviousBalanceData = async () => {
+  console.log('Populating previous day balance cache.....');
+  const balanceData = await accountService.getBalanceData(true);
+  this.loadDataToCache(config.cache.previousBalance, balanceData);
+};
 const loadTransactionsData = async () => {
   console.log('Populating transactions cache....');
   const transactionData = await accountService.getTransactionData();
