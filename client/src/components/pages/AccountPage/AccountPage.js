@@ -76,7 +76,11 @@ const AccountPage = () => {
   return (
     <Layout>
       <div className='flex -m-8'>{displayPanels()}</div>
-      <WhatAPI toggleMockedData={toggleMockedData} config={config} />
+      <WhatAPI
+        toggleMockedData={toggleMockedData}
+        config={config}
+        mockedDataEnabled={displayingMockedData}
+      />
     </Layout>
   );
 };
