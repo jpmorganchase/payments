@@ -10,6 +10,7 @@ exports.getTransactionData = async function () {
     return cachedValue;
   }
   if (config.api.cert && config.api.key) {
+    // TODO do we want this in config?
     const options = {
       hostname: 'apigatewayqaf.jpmorgan.com',
       path: '/tsapi/v2/transactions?accountIds=000000011116605&startDate=2021-02-22&endDate=2021-02-27',
