@@ -32,8 +32,7 @@ exports.getBalanceData = async function () {
   }
   if (config.api.cert && config.api.key) {
     const postData = JSON.stringify({
-      startDate: '2021-02-22',
-      endDate: '2021-02-27',
+      relativeDateType: 'CURRENT_DAY',
       accountList: [
         {
           accountId: '000000011116605',

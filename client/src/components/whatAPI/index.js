@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// eslint-disable-next-line
 const WhatAPI = ({ toggleMockedData, config }) => {
-  // eslint-disable-next-line
-  console.log(config.apiDetails);
   return (
     <div className='absolute bottom-8 text-center left-1/2 w-72 -ml-36'>
       <button className='text-xs mb-2' onClick={() => toggleMockedData()}>

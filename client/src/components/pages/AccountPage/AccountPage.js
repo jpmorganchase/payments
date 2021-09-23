@@ -47,7 +47,7 @@ const AccountPage = () => {
       return (
         <>
           <AccountInfo data={balanceMockData} />
-          <TransactionInfo data={transactionMockData} />
+          <TransactionInfo transactions={transactionMockData} />
         </>
       );
     } else if (
@@ -66,7 +66,7 @@ const AccountPage = () => {
       return (
         <>
           <AccountInfo data={balanceData.data} />
-          <TransactionInfo data={transactionData.data} />
+          <TransactionInfo transactions={transactionData.data} />
         </>
       );
     }
