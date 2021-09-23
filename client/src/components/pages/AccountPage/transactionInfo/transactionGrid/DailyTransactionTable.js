@@ -59,7 +59,7 @@ const DailyTransactionTable = ({ date, transactions }) => {
                   {transaction.account.accountId}
                 </td>
                 <td className='py-2 whitespace-nowrap '>
-                  {transaction.customerReferenceSearchable.standardValue}
+                  {transaction.transactionId}
                 </td>
                 <td className='py-2 whitespace-nowrap '>
                   {transaction.asOfDateTime}
@@ -79,6 +79,7 @@ DailyTransactionTable.propTypes = {
     PropTypes.shape({
       debitCreditCode: PropTypes.string,
       amount: PropTypes.number,
+      transactionId: PropTypes.string,
       currency: PropTypes.shape({
         code: PropTypes.string,
       }),

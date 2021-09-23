@@ -18,7 +18,7 @@ const groupTransactionsByDay = (data) => {
       transactions: groups[date],
     };
   });
-  return groupArrays;
+  return groupArrays.slice().sort((a, b) => (a < b ? 1 : -1));
 };
 const TransactionGrid = ({ transactions }) => {
   const groupedTransactions = groupTransactionsByDay(transactions);
