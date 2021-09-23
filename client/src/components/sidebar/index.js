@@ -1,7 +1,7 @@
 import React from 'react';
 import ufLogoLarge from '../../images/uf-logo.svg';
 // import ufLogoMini from '../../images/uf-logo-mini.svg';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
@@ -17,23 +17,24 @@ const Sidebar = () => {
             </a>
           </li>
 
-          <li className='border-l-2 border-transparent'>
-            <Link to='account' className='block px-8 py-2 hover:text-gray-700'>
-              Account
-            </Link>
-          </li>
+          <NavLink
+            activeClassName='border-pink-500'
+            to='account'
+            className='border-l-2 block px-8 py-2 hover:text-gray-700'
+          >
+            <li className=' border-transparent '>Account</li>
+          </NavLink>
         </ul>
       </div>
       <div>
         <ul className='-ml-8 text-gray-500 text-xs mb-4'>
-          <li className='border-l-2 border-pink-500'>
-            <Link
-              to='service_status'
-              className='block px-8 py-2 text-gray-900 hover:text-gray-700'
-            >
-              Service status
-            </Link>
-          </li>
+          <NavLink
+            activeClassName='border-pink-500'
+            to='service_status'
+            className='block px-8 py-2 text-gray-900 hover:text-gray-700 border-l-2'
+          >
+            <li>Service status</li>
+          </NavLink>
           <li className='border-l-2 border-transparent'>
             <a className='block px-8 py-2 hover:text-gray-700' href='#'>
               Settings
