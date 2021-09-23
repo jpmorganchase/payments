@@ -7,7 +7,7 @@ const AccountCard = ({ account }) => {
     <div className='border bg-white border-gray-200 shadow-sm hover:shadow-lg p-4 rounded-lg'>
       <div className='flex justify-between'>
         <div className='mb-2 font-medium'>
-          {account.accountName || 'Account Name Empty'}
+          {account.accountName || 'Account Name'}
           <br />
           <span className='text-xs text-gray-500 font-normal'>
             {account.accountId}
