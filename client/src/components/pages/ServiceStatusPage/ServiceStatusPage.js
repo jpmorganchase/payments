@@ -28,7 +28,7 @@ const ServiceStatusPage = () => {
 
   const displayTable = () => {
     if (displayingMockedData) {
-      return <StatusTable serviceStatusData={mockedData} />;
+      return <StatusTable serviceStatusData={{ data: mockedData }} />;
     } else if (serviceStatusData) {
       return <StatusTable serviceStatusData={serviceStatusData} />;
     }
@@ -38,7 +38,11 @@ const ServiceStatusPage = () => {
     <Layout>
       <h2 className='text-2xl font-medium'>Service status</h2>
       <div className='overflow-hidden '>{displayTable()}</div>
-      <WhatAPI toggleMockedData={toggleMockedData} config={config} />
+      <WhatAPI
+        toggleMockedData={toggleMockedData}
+        config={config}
+        mockedDataEnabled={displayingMockedData}
+      />
     </Layout>
   );
 };

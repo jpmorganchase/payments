@@ -4,49 +4,55 @@ const cache = require('../loaders/cache');
 
 const oneDay = 60 * 60 * 24 * 1000;
 
-exports.getTransactionData = function () {
+exports.getTransactionData = async function () {
   const cachedValue = common.checkInCache(config.cache.transaction, oneDay);
   if (cachedValue) {
     return cachedValue;
   }
-  const options = {
-    hostname: 'apigatewayqaf.jpmorgan.com',
-    path: '/tsapi/v2/transactions?accountIds=000000011116605&startDate=2021-02-22&endDate=2021-02-27',
-    method: 'GET',
-    cert: config.api.cert,
-    key: config.api.key,
-  };
-  const response = common.handleHttpsRequest(options);
-  cache.loadDataToCache(config.cache.transaction, response);
-  return response;
+  if (config.api.cert && config.api.key) {
+    // TODO do we want this in config?
+    const options = {
+      hostname: 'apigatewayqaf.jpmorgan.com',
+      path: '/tsapi/v2/transactions?accountIds=000000011116605&endDate=2021-03-01',
+      method: 'GET',
+      cert: config.api.cert,
+      key: config.api.key,
+    };
+    const response = await common.handleHttpsRequest(options);
+    cache.loadDataToCache(config.cache.transaction, response);
+    return response;
+  }
+  return noAuthenticationResponse();
 };
 
-exports.getBalanceData = function () {
+exports.getBalanceData = async function () {
   const cachedValue = common.checkInCache(config.cache.balance, oneDay);
   if (cachedValue) {
     return cachedValue;
   }
-  const postData = JSON.stringify({
-    startDate: '2021-02-22',
-    endDate: '2021-02-27',
-    accountList: [
-      {
-        accountId: '000000011116605',
+  if (config.api.cert && config.api.key) {
+    const postData = JSON.stringify({
+      relativeDateType: 'CURRENT_DAY',
+      accountList: [
+        {
+          accountId: '000000011116605',
+        },
+      ],
+    });
+    const options = {
+      hostname: 'apigatewayqaf.jpmorgan.com',
+      path: '/accessapi/balance',
+      method: 'POST',
+      cert: config.api.cert,
+      key: config.api.key,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': postData.length,
       },
-    ],
-  });
-  const options = {
-    hostname: 'apigatewayqaf.jpmorgan.com',
-    path: '/accessapi/balance',
-    method: 'POST',
-    cert: config.api.cert,
-    key: config.api.key,
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': postData.length,
-    },
-  };
-  const response = common.handleHttpsRequest(options, postData);
-  cache.loadDataToCache(config.cache.balance, response);
-  return response;
+    };
+    const response = await common.handleHttpsRequest(options, postData);
+    cache.loadDataToCache(config.cache.balance, response);
+    return response;
+  }
+  return noAuthenticationResponse();
 };

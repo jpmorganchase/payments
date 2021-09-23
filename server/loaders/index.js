@@ -27,7 +27,5 @@ exports.load = function (app) {
 };
 
 exports.loadData = function () {
-  if (config.env === 'production') {
-    cache.loadAllDataToCache();
-  }
+  cache.loadAllDataToCache();
 };

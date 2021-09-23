@@ -47,7 +47,7 @@ const AccountPage = () => {
       return (
         <>
           <AccountInfo data={balanceMockData} />
-          <TransactionInfo data={transactionMockData} />
+          <TransactionInfo transactions={transactionMockData} />
         </>
       );
     } else if (
@@ -66,7 +66,7 @@ const AccountPage = () => {
       return (
         <>
           <AccountInfo data={balanceData.data} />
-          <TransactionInfo data={transactionData.data} />
+          <TransactionInfo transactions={transactionData.data} />
         </>
       );
     }
@@ -76,7 +76,11 @@ const AccountPage = () => {
   return (
     <Layout>
       <div className='flex -m-8'>{displayPanels()}</div>
-      <WhatAPI toggleMockedData={toggleMockedData} config={config} />
+      <WhatAPI
+        toggleMockedData={toggleMockedData}
+        config={config}
+        mockedDataEnabled={displayingMockedData}
+      />
     </Layout>
   );
 };

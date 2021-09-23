@@ -6,18 +6,16 @@
   "scripts": {
     "build": "cd client && yarn install  && yarn run build",
     "client": "cd client && yarn start",
-    "server:dev": "NODE_ENV=development nodemon server/app.js",
-    "server:prod": "NODE_ENV=production nodemon server/app.js",
     "test": "echo 'Tests to be implemented'",
     "client-dependencies": "cd client && yarn install",
-    "local": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client\" --success",
-    "start": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"yarn server:prod\" \"yarn client\" --success"
+    "start": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"nodemon server/app.js\" \"yarn client\" --success"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jpmorganchase/demo-wholesale-payments-app.git"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "node-cache": "^5.1.2"

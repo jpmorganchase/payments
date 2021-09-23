@@ -18,7 +18,7 @@ const renderErrorMessage = (message) => (
 const StatusTable = ({ serviceStatusData }) => {
   return (
     <>
-      {isEmptyObject(serviceStatusData) ? (
+      {isEmptyObject(serviceStatusData.data) ? (
         renderErrorMessage('There are no outages currently reported')
       ) : serviceStatusData.errorString ? (
         renderErrorMessage(
@@ -41,31 +41,35 @@ const StatusTable = ({ serviceStatusData }) => {
             </tr>
           </thead>
           <tbody className='bg-white divide-y divide-gray-200'>
-            {serviceStatusData.outageEventDetailsList &&
-              serviceStatusData.outageEventDetailsList.map((outage, key) => (
-                <tr key={key}>
-                  <TableItem text={outage.description} />
-                  <TableItem
-                    text={outage.impactedProducts
-                      .map(function (product) {
-                        return product['productName'];
-                      })
-                      .join(', ')}
-                  />
-                  <TableItem text={outage.status} status={true} />
-                  <TableItem text={outage.type} />
-                  <TableItem
-                    text={formatDate(new Date(outage.startDatetime))}
-                  />
-                  <TableItem text={formatDate(new Date(outage.endDatetime))} />
+            {serviceStatusData.data.outageEventDetailsList &&
+              serviceStatusData.data.outageEventDetailsList.map(
+                (outage, key) => (
+                  <tr key={key}>
+                    <TableItem text={outage.description} />
+                    <TableItem
+                      text={outage.impactedProducts
+                        .map(function (product) {
+                          return product['productName'];
+                        })
+                        .join(', ')}
+                    />
+                    <TableItem text={outage.status} status={true} />
+                    <TableItem text={outage.type} />
+                    <TableItem
+                      text={formatDate(new Date(outage.startDatetime))}
+                    />
+                    <TableItem
+                      text={formatDate(new Date(outage.endDatetime))}
+                    />
 
-                  <td className='whitespace-nowrap'>
-                    <span className='material-icons align-middle block w-full text-center cursor-pointer'>
-                      more_horiz
-                    </span>
-                  </td>
-                </tr>
-              ))}
+                    <td className='whitespace-nowrap'>
+                      <span className='material-icons align-middle block w-full text-center cursor-pointer'>
+                        more_horiz
+                      </span>
+                    </td>
+                  </tr>
+                ),
+              )}
           </tbody>
         </table>
       )}
@@ -75,19 +79,21 @@ const StatusTable = ({ serviceStatusData }) => {
 
 StatusTable.propTypes = {
   serviceStatusData: PropTypes.shape({
-    outageEventDetailsList: PropTypes.arrayOf(
-      PropTypes.shape({
-        status: PropTypes.string,
-        type: PropTypes.string,
-        startDatetime: PropTypes.string,
-        endDatetime: PropTypes.string,
-        impactedProducts: PropTypes.arrayOf(
-          PropTypes.shape({
-            productName: PropTypes.string,
-          }),
-        ),
-      }),
-    ),
+    data: PropTypes.shape({
+      outageEventDetailsList: PropTypes.arrayOf(
+        PropTypes.shape({
+          status: PropTypes.string,
+          type: PropTypes.string,
+          startDatetime: PropTypes.string,
+          endDatetime: PropTypes.string,
+          impactedProducts: PropTypes.arrayOf(
+            PropTypes.shape({
+              productName: PropTypes.string,
+            }),
+          ),
+        }),
+      ),
+    }),
     errorString: PropTypes.string,
   }),
 };
