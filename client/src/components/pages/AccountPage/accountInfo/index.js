@@ -15,7 +15,11 @@ const AccountInfo = ({ data, previous }) => {
   return (
     <div className='bg-gray-50 p-8 border-r border-gray-200 w-2/5 h-screen'>
       <h2 className='text-2xl font-medium mb-4'>Accounts</h2>
-      <AccountTotal total={totalAccount} currency={'USD'} />
+      <AccountTotal
+        total={totalAccount}
+        currency={'USD'}
+        totalPrevious={totalAccountPrevious}
+      />
       <div className='flex justify-between items-center mt-4 mb-3'>
         <h3 className='text-sm font-medium'>All accounts</h3>
         <div className='bg-gray-100 hover:bg-gray-200 cursor-pointer text-xs rounded-lg px-3 py-1 flex items-center'>

@@ -2,11 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { gatherCurrencySymbol } from '../../utils';
 
-const AccountTotal = ({ total, currency }) => {
+function percIncrease(a, b) {
+  let percent;
+  if (b !== 0) {
+    if (a !== 0) {
+      percent = ((b - a) / a) * 100;
+    } else {
+      percent = b * 100;
+    }
+  } else {
+    percent = -a * 100;
+  }
+  return percent.toFixed(2);
+}
+
+const AccountTotal = ({ total, currency, totalPrevious }) => {
+  const percentChange = percIncrease(totalPrevious, total);
   return (
     <div className='border bg-white border-pink-500 shadow-md hover:shadow-lg p-4 rounded-lg'>
       <div className='mb-2'>
-        All accounts balance in{' '}
+        All accounts balance in
         <span className=' bg-red-50 rounded-lg px-2 py-1 text-xs font-medium text-gray-500'>
           {currency}
         </span>
@@ -16,7 +31,9 @@ const AccountTotal = ({ total, currency }) => {
           {gatherCurrencySymbol(currency)}
           {total}
         </div>
-        <div className='text-green-600'>3.05%</div>
+        <div className={percentChange > 0 ? 'text-green-600 ' : 'text-red-600'}>
+          {percentChange}%
+        </div>
       </div>
       <div className='flex text-xs mt-7 justify-between'>
         <div className='flex gap-2'>
@@ -37,6 +54,7 @@ const AccountTotal = ({ total, currency }) => {
 
 AccountTotal.propTypes = {
   total: PropTypes.number,
+  totalPrevious: PropTypes.number,
   currency: PropTypes.string,
 };
 
