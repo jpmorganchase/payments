@@ -10,8 +10,6 @@ const AccountInfo = ({ data, previous }) => {
   const totalAccountPrevious = previous.accountList
     .map((account) => account.balanceList[0].openingAvailableAmount)
     .reduce((prev, next) => prev + next);
-  console.log(previous);
-  console.log(totalAccountPrevious);
   return (
     <div className='bg-gray-50 p-8 border-r border-gray-200 w-2/5 h-screen'>
       <h2 className='text-2xl font-medium mb-4'>Accounts</h2>
@@ -27,7 +25,9 @@ const AccountInfo = ({ data, previous }) => {
         </div>
         <div>Icons</div>
       </div>
-      {data && data.accountList && <AccountList data={data.accountList} />}
+      {data && data.accountList && (
+        <AccountList data={data.accountList} previous={previous.accountList} />
+      )}
     </div>
   );
 };

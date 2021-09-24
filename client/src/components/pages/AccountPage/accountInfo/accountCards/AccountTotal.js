@@ -1,20 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { gatherCurrencySymbol } from '../../utils';
-
-function percIncrease(a, b) {
-  let percent;
-  if (b !== 0) {
-    if (a !== 0) {
-      percent = ((b - a) / a) * 100;
-    } else {
-      percent = b * 100;
-    }
-  } else {
-    percent = -a * 100;
-  }
-  return percent.toFixed(2);
-}
+import { gatherCurrencySymbol, percIncrease } from '../../utils';
 
 const AccountTotal = ({ total, currency, totalPrevious }) => {
   const percentChange = percIncrease(totalPrevious, total);
