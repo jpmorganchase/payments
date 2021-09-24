@@ -5,6 +5,8 @@ import AccountInfo from './accountInfo/index';
 import TransactionInfo from './transactionInfo/index';
 
 const balanceMockData = require('./mockJson/uf-balances.json');
+const balancePriorMockData = require('./mockJson/uf-balances-prior.json');
+
 const transactionMockData = require('./mockJson/uf-transactions.json');
 
 const config = {
@@ -51,7 +53,7 @@ const AccountPage = () => {
     if (displayingMockedData) {
       return (
         <>
-          <AccountInfo data={balanceMockData} />
+          <AccountInfo data={balanceMockData} previous={balancePriorMockData} />
           <TransactionInfo transactions={transactionMockData} />
         </>
       );

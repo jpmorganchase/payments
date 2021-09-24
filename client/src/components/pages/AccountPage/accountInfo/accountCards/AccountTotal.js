@@ -31,7 +31,9 @@ const AccountTotal = ({ total, currency, totalPrevious }) => {
           {gatherCurrencySymbol(currency)}
           {total}
         </div>
-        <div className={percentChange > 0 ? 'text-green-600 ' : 'text-red-600'}>
+        <div
+          className={percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'}
+        >
           {percentChange}%
         </div>
       </div>
