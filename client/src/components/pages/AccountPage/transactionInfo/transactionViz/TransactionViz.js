@@ -4,26 +4,6 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 const generateOptionsForCurrencyVisual = (data) => {
-  const groupedData = groupTransactionsByCurrency(data);
-  return {
-    chart: {
-      type: 'column',
-    },
-    xAxis: {
-      type: 'category',
-    },
-    title: {
-      text: '#Transactions by currency',
-    },
-    series: [
-      {
-        data: groupedData,
-      },
-    ],
-  };
-};
-
-const groupTransactionsByCurrency = (data) => {
   const categories = ['EUR', 'GBP', 'USD', 'OTHER'];
   const groups = data.reduce((groups, transaction) => {
     const code = transaction.currency.code;
@@ -33,15 +13,84 @@ const groupTransactionsByCurrency = (data) => {
     groups[code].push(transaction);
     return groups;
   }, {});
+  const groupedData = groupTransactions(groups, categories);
+  return genOptions(groupedData, '#Transactions by currency');
+};
+
+const genOptions = (data, title) => {
+  // todo https://www.highcharts.com/docs/chart-design-and-style/colors
+  return {
+    chart: {
+      type: 'column',
+    },
+    colors: ['red', 'orange', 'blue', 'purple'],
+    yAxis: {
+      title: {
+        enabled: false,
+      },
+    },
+    xAxis: {
+      type: 'category',
+    },
+    title: {
+      text: title,
+    },
+    series: [
+      {
+        data: data,
+        colorByPoint: true,
+      },
+    ],
+    legend: {
+      enabled: false,
+    },
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500,
+          },
+          chartOptions: {
+            legend: {
+              align: 'center',
+              verticalAlign: 'bottom',
+              layout: 'horizontal',
+            },
+          },
+        },
+      ],
+    },
+  };
+};
+
+const generateOptionsForTypeVisual = (data) => {
+  const categories = ['DEBIT', 'CREDIT'];
+  const groups = data.reduce((groups, transaction) => {
+    const code = transaction.debitCreditCode;
+    if (!groups[code]) {
+      groups[code] = 0;
+    }
+    groups[code] += transaction.amount;
+    return groups;
+  }, {});
+  const groupedData = groupTransactions(groups, categories, true);
+  return genOptions(groupedData, 'Total debits & credits');
+};
+
+const groupTransactions = (groups, categories, numeric = false) => {
   categories.forEach((cat) => {
     if (!groups[cat]) {
-      groups[cat] = [];
+      if (numeric) {
+        groups[cat] = 0;
+      } else {
+        groups[cat] = [];
+      }
     }
   });
   const groupArrays = Object.keys(groups).map((code) => {
     return {
       name: code,
-      y: groups[code].length,
+      y: numeric ? groups[code] : groups[code].length,
     };
   });
 
@@ -58,7 +107,10 @@ const TransactionViz = ({ transactions }) => {
         />
       </div>
       <div className='flex-grow'>
-        <h4 className='text-sm font-medium'>#Transactions by region</h4>
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={generateOptionsForTypeVisual(transactions)}
+        />
       </div>
     </div>
   );
