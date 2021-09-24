@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { gatherCurrencySymbol } from '../../utils';
 
-const AccountCard = ({ account }) => {
+const AccountCard = ({ account, percentChange }) => {
   return (
     <div className='border bg-white border-gray-200 shadow-sm hover:shadow-lg p-4 rounded-lg'>
       <div className='flex justify-between'>
         <div className='mb-2 font-medium'>
-          {account.accountName || 'Account Name Empty'}
+          {account.accountName || 'Account Name'}
           <br />
           <span className='text-xs text-gray-500 font-normal'>
             {account.accountId}
@@ -22,7 +22,11 @@ const AccountCard = ({ account }) => {
           {gatherCurrencySymbol(account.currency.code)}
           {account.balanceList[0].openingAvailableAmount}
         </div>
-        <div className='text-green-600'>3.05%</div>
+        <div
+          className={percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'}
+        >
+          {percentChange}%
+        </div>
       </div>
     </div>
   );
@@ -42,6 +46,7 @@ AccountCard.propTypes = {
       }),
     ),
   }),
+  percentChange: PropTypes.string,
 };
 
 export default AccountCard;

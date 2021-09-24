@@ -1,0 +1,28 @@
+{
+    "accountList": [
+        {
+            "accountId": "000000011253770",
+            "accountName": "",
+            "branchId": "",
+            "bankId": "02100002",
+            "bankName": "JPMORGAN CHASE",
+            "currency": {
+                "code": "USD",
+                "currencySequence": 0,
+                "decimalLocation": 2,
+                "description": "US DOLLAR"
+            },
+            "balanceList": [
+                {
+                    "asOfDate": "2021-06-30",
+                    "recordTimestamp": "2021-09-20T14:03:48Z",
+                    "currentDay": false,
+                    "openingAvailableAmount": 69630482.63,
+                    "openingLedgerAmount": 69734737.63,
+                    "endingAvailableAmount": 69630482.63,
+                    "endingLedgerAmount": 69734737.63
+                }
+            ]
+        }
+    ]
+}

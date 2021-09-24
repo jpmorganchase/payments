@@ -25,14 +25,14 @@ exports.getTransactionData = async function () {
   return noAuthenticationResponse();
 };
 
-exports.getBalanceData = async function () {
-  const cachedValue = common.checkInCache(config.cache.balance, oneDay);
+exports.getBalanceData = async function (cacheKey, prior = false) {
+  const cachedValue = common.checkInCache(cacheKey, oneDay);
   if (cachedValue) {
     return cachedValue;
   }
   if (config.api.cert && config.api.key) {
     const postData = JSON.stringify({
-      relativeDateType: 'CURRENT_DAY',
+      relativeDateType: prior ? 'PRIOR_DAY' : 'CURRENT_DAY',
       accountList: [
         {
           accountId: '000000011116605',
@@ -51,7 +51,7 @@ exports.getBalanceData = async function () {
       },
     };
     const response = await common.handleHttpsRequest(options, postData);
-    cache.loadDataToCache(config.cache.balance, response);
+    cache.loadDataToCache(cacheKey, response);
     return response;
   }
   return noAuthenticationResponse();
