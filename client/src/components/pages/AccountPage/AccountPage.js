@@ -48,7 +48,6 @@ const AccountPage = () => {
   }, []);
 
   const displayPanels = () => {
-    console.log(previousDayBalanceData);
     if (displayingMockedData) {
       return (
         <>
@@ -67,11 +66,16 @@ const AccountPage = () => {
       transactionData &&
       transactionData.data &&
       balanceData &&
-      balanceData.data
+      balanceData.data &&
+      previousDayBalanceData &&
+      previousDayBalanceData.data
     ) {
       return (
         <>
-          <AccountInfo data={balanceData.data} />
+          <AccountInfo
+            data={balanceData.data}
+            previous={previousDayBalanceData.data}
+          />
           <TransactionInfo transactions={transactionData.data} />
         </>
       );

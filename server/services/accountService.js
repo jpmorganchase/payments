@@ -25,8 +25,8 @@ exports.getTransactionData = async function () {
   return noAuthenticationResponse();
 };
 
-exports.getBalanceData = async function (prior = false) {
-  const cachedValue = common.checkInCache(config.cache.balance, oneDay);
+exports.getBalanceData = async function (cacheKey, prior = false) {
+  const cachedValue = common.checkInCache(cacheKey, oneDay);
   if (cachedValue) {
     return cachedValue;
   }
@@ -51,7 +51,7 @@ exports.getBalanceData = async function (prior = false) {
       },
     };
     const response = await common.handleHttpsRequest(options, postData);
-    cache.loadDataToCache(config.cache.balance, response);
+    cache.loadDataToCache(cacheKey, response);
     return response;
   }
   return noAuthenticationResponse();

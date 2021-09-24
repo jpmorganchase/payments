@@ -38,12 +38,15 @@ const loadServiceStatusData = async () => {
 
 const loadBalanceData = async () => {
   console.log('Populating balance cache.....');
-  const balanceData = await accountService.getBalanceData();
+  const balanceData = await accountService.getBalanceData(config.cache.balance);
   this.loadDataToCache(config.cache.balance, balanceData);
 };
 const loadPreviousBalanceData = async () => {
   console.log('Populating previous day balance cache.....');
-  const balanceData = await accountService.getBalanceData(true);
+  const balanceData = await accountService.getBalanceData(
+    config.cache.previousBalance,
+    true,
+  );
   this.loadDataToCache(config.cache.previousBalance, balanceData);
 };
 const loadTransactionsData = async () => {
