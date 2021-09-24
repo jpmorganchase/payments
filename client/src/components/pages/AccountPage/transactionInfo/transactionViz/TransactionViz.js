@@ -23,7 +23,7 @@ const genOptions = (data, title) => {
     chart: {
       type: 'column',
     },
-    colors: ['red', 'orange', 'blue', 'purple'],
+    colors: ['#BE185D', '#DB2777', '#DC2626', '#BE185D'],
     yAxis: {
       title: {
         enabled: false,
