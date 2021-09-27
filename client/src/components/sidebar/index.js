@@ -1,15 +1,15 @@
 import React from 'react';
 import ufLogoLarge from '../../images/uf-logo.svg';
 // import ufLogoMini from '../../images/uf-logo-mini.svg';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
     <nav className='border-r border-gray-200 p-8 flex flex-col justify-between'>
       <div>
-        <Link to='account' className='mb-12'>
+        <NavLink to='account' className='mb-12'>
           <img src={ufLogoLarge} alt='Unicorn Finance Logo' />
-        </Link>
+        </NavLink>
         <ul className='-ml-8 text-gray-500 text-sm'>
           <li className='border-l-2 border-transparent'>
             <a href='#' className='block px-8 py-2 hover:text-gray-700'>

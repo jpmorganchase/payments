@@ -3,7 +3,7 @@ import Layout from '../../layout';
 import WhatAPI from '../../whatAPI';
 import AccountInfo from './accountInfo/index';
 import TransactionInfo from './transactionInfo/index';
-
+import TransactionJsonDialog from './transactionInfo/TransactionJsonDialog';
 const balanceMockData = require('./mockJson/uf-balances.json');
 const balancePriorMockData = require('./mockJson/uf-balances-prior.json');
 
@@ -88,6 +88,7 @@ const AccountPage = () => {
   return (
     <Layout>
       <div className='flex -m-8'>{displayPanels()}</div>
+      <TransactionJsonDialog />
       <WhatAPI
         toggleMockedData={toggleMockedData}
         config={config}

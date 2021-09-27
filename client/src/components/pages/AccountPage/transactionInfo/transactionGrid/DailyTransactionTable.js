@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const openTransactionJsonDialog = (transaction) => {
+  console.log(transaction);
+};
 const DailyTransactionTable = ({ date, transactions }) => {
   return (
     <div className='overflow-hidden'>
@@ -44,7 +47,10 @@ const DailyTransactionTable = ({ date, transactions }) => {
         <tbody className='bg-white divide-y divide-gray-200'>
           {transactions &&
             transactions.map((transaction, key) => (
-              <tr key={key}>
+              <tr
+                key={key}
+                onClick={() => openTransactionJsonDialog(transaction)}
+              >
                 <td className='py-2 whitespace-nowrap'>
                   {transaction.debitCreditCode}
                 </td>
