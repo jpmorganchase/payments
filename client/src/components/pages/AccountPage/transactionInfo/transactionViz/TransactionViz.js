@@ -22,6 +22,7 @@ const genOptions = (data, title) => {
   return {
     chart: {
       type: 'column',
+      height: 200,
     },
     colors: ['#BE185D', '#DB2777', '#DC2626', '#BE185D'],
     yAxis: {
@@ -42,6 +43,9 @@ const genOptions = (data, title) => {
       },
     ],
     legend: {
+      enabled: false,
+    },
+    credits: {
       enabled: false,
     },
     responsive: {
@@ -99,14 +103,14 @@ const groupTransactions = (groups, categories, numeric = false) => {
 
 const TransactionViz = ({ transactions }) => {
   return (
-    <div className='p-6 rounded-lg border mb-4 shadow-sm flex gap-2'>
-      <div className='flex-grow'>
+    <div className='p-6 rounded-lg border mb-4 shadow-sm flex gap-2 h-60'>
+      <div className='flex-grow w-2/3'>
         <HighchartsReact
           highcharts={Highcharts}
           options={generateOptionsForCurrencyVisual(transactions)}
         />
       </div>
-      <div className='flex-grow'>
+      <div className='flex-grow w-1/3'>
         <HighchartsReact
           highcharts={Highcharts}
           options={generateOptionsForTypeVisual(transactions)}
