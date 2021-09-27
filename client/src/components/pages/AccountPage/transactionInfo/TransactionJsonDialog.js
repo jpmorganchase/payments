@@ -1,17 +1,15 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const TransactionJsonDialog = () => {
-  const [open, setOpen] = useState(true);
-
+const TransactionJsonDialog = ({ transaction, setTransactionDialog, open }) => {
   return (
     <Dialog
       open={open}
       as='div'
       className='fixed inset-0 overflow-hidden'
-      onClose={setOpen}
+      onClose={() => setTransactionDialog(false, {})}
     >
       <div className='absolute inset-0 overflow-hidden'>
         <Dialog.Overlay className='absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
@@ -20,19 +18,23 @@ const TransactionJsonDialog = () => {
             <div className='h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll'>
               <div className='px-4 sm:px-6 flex-row flex justify-between'>
                 <Dialog.Title className='text-lg font-medium text-gray-900'>
-                  Panel title
+                  Raw Transaction JSON
                 </Dialog.Title>
-                <button onClick={() => setOpen(false)}>Close</button>
+                <button onClick={() => setTransactionDialog(false, {})}>
+                  Close
+                </button>
               </div>
               <div className='mt-6 relative flex-1 px-4 sm:px-6'>
-                {/* Replace with your content */}
                 <div className='absolute inset-0 px-4 sm:px-6'>
                   <div
                     className='h-full border-2 border-dashed border-gray-200'
                     aria-hidden='true'
-                  />
+                  >
+                    <pre id='json'>
+                      {JSON.stringify(transaction, undefined, 2)}
+                    </pre>
+                  </div>
                 </div>
-                {/* /End replace */}
               </div>
             </div>
           </div>
@@ -40,6 +42,12 @@ const TransactionJsonDialog = () => {
       </div>
     </Dialog>
   );
+};
+
+TransactionJsonDialog.propTypes = {
+  transaction: PropTypes.object,
+  setTransactionDialog: PropTypes.func,
+  open: PropTypes.bool,
 };
 
 export default TransactionJsonDialog;

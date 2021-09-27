@@ -32,9 +32,17 @@ const AccountPage = () => {
   const [previousDayBalanceData, setPreviousDayBalanceData] =
     React.useState(null);
   const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
-
+  const [transactionDialogOpen, setTransactionDialogState] =
+    React.useState(false);
+  const [selectedTransaction, setSelectedTransaction] = React.useState({});
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
+  };
+
+  const openTransactionDialog = (state, transaction) => {
+    setTransactionDialogState(state);
+    setSelectedTransaction(transaction);
+    console.log(transaction);
   };
 
   React.useEffect(() => {
@@ -54,7 +62,10 @@ const AccountPage = () => {
       return (
         <>
           <AccountInfo data={balanceMockData} previous={balancePriorMockData} />
-          <TransactionInfo transactions={transactionMockData} />
+          <TransactionInfo
+            transactions={transactionMockData}
+            openTransactionDialog={openTransactionDialog}
+          />
         </>
       );
     } else if (
@@ -78,7 +89,10 @@ const AccountPage = () => {
             data={balanceData.data}
             previous={previousDayBalanceData.data}
           />
-          <TransactionInfo transactions={transactionData.data} />
+          <TransactionInfo
+            transactions={transactionData.data}
+            openTransactionDialog={openTransactionDialog}
+          />
         </>
       );
     }
@@ -88,7 +102,11 @@ const AccountPage = () => {
   return (
     <Layout>
       <div className='flex -m-8'>{displayPanels()}</div>
-      <TransactionJsonDialog />
+      <TransactionJsonDialog
+        open={transactionDialogOpen}
+        setTransactionDialog={openTransactionDialog}
+        transaction={selectedTransaction}
+      />
       <WhatAPI
         toggleMockedData={toggleMockedData}
         config={config}

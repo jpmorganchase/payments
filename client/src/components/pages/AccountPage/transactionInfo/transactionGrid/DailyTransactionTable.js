@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const openTransactionJsonDialog = (transaction) => {
-  console.log(transaction);
-};
-const DailyTransactionTable = ({ date, transactions }) => {
+const DailyTransactionTable = ({
+  date,
+  transactions,
+  openTransactionDialog,
+}) => {
   return (
     <div className='overflow-hidden'>
       <h3 className='text-gray-500 text-sm mb-1'>{date}</h3>
@@ -49,7 +50,7 @@ const DailyTransactionTable = ({ date, transactions }) => {
             transactions.map((transaction, key) => (
               <tr
                 key={key}
-                onClick={() => openTransactionJsonDialog(transaction)}
+                onClick={() => openTransactionDialog(true, transaction)}
               >
                 <td className='py-2 whitespace-nowrap'>
                   {transaction.debitCreditCode}
@@ -94,6 +95,7 @@ DailyTransactionTable.propTypes = {
       }),
     }),
   ),
+  openTransactionDialog: PropTypes.func,
 };
 
 export default DailyTransactionTable;

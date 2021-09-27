@@ -20,7 +20,7 @@ const groupTransactionsByDay = (data) => {
   });
   return groupArrays.slice().sort((a, b) => (a < b ? 1 : -1));
 };
-const TransactionGrid = ({ transactions }) => {
+const TransactionGrid = ({ transactions, ...props }) => {
   const groupedTransactions = groupTransactionsByDay(transactions);
 
   return (
@@ -31,6 +31,7 @@ const TransactionGrid = ({ transactions }) => {
             key={key}
             date={item.date}
             transactions={item.transactions}
+            {...props}
           />
         ))}
     </div>
