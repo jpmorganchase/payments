@@ -2,10 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { gatherCurrencySymbol, percIncrease } from '../../utils';
 
-const AccountTotal = ({ total, currency, totalPrevious }) => {
+const AccountTotal = ({
+  total,
+  currency,
+  totalPrevious,
+  setSelectedAccount,
+}) => {
   const percentChange = percIncrease(totalPrevious, total);
   return (
-    <div className='border bg-white border-pink-500 shadow-md hover:shadow-lg p-4 rounded-lg'>
+    <div
+      className='border bg-white border-pink-500 shadow-md hover:shadow-lg p-4 rounded-lg'
+      onClick={() => setSelectedAccount({})}
+    >
       <div className='mb-2'>
         All accounts balance in
         <span className=' bg-red-50 rounded-lg px-2 py-1 text-xs font-medium text-gray-500'>
@@ -44,6 +52,7 @@ AccountTotal.propTypes = {
   total: PropTypes.number,
   totalPrevious: PropTypes.number,
   currency: PropTypes.string,
+  setSelectedAccount: PropTypes.func,
 };
 
 export default AccountTotal;

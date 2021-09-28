@@ -12,7 +12,7 @@ const calculatePreviousDayBalance = (account, previousAccounts) => {
     account.balanceList[0].openingAvailableAmount,
   );
 };
-const AccountList = ({ data, previous }) => {
+const AccountList = ({ data, previous, ...props }) => {
   // TODO what if we have lots of accounts? paginate?
   return (
     <div>
@@ -22,6 +22,7 @@ const AccountList = ({ data, previous }) => {
             key={key}
             account={account}
             percentChange={calculatePreviousDayBalance(account, previous)}
+            {...props}
           />
         ))}
     </div>

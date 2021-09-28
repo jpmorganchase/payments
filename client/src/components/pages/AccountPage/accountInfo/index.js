@@ -3,13 +3,14 @@ import AccountTotal from './accountCards/AccountTotal';
 import AccountList from './accountList/AccountList';
 import PropTypes from 'prop-types';
 
-const AccountInfo = ({ data, previous }) => {
+const AccountInfo = ({ data, previous, ...props }) => {
   const totalAccount = data.accountList
     .map((account) => account.balanceList[0].openingAvailableAmount)
     .reduce((prev, next) => prev + next);
   const totalAccountPrevious = previous.accountList
     .map((account) => account.balanceList[0].openingAvailableAmount)
     .reduce((prev, next) => prev + next);
+
   return (
     <div className='bg-gray-50 p-8 border-r border-gray-200 w-2/5 h-screen'>
       <h2 className='text-2xl font-medium mb-4'>Accounts</h2>
@@ -17,6 +18,7 @@ const AccountInfo = ({ data, previous }) => {
         total={totalAccount}
         currency={'USD'}
         totalPrevious={totalAccountPrevious}
+        {...props}
       />
       <div className='flex justify-between items-center mt-4 mb-3'>
         <h3 className='text-sm font-medium'>All accounts</h3>
@@ -26,7 +28,11 @@ const AccountInfo = ({ data, previous }) => {
         <div>Icons</div>
       </div>
       {data && data.accountList && (
-        <AccountList data={data.accountList} previous={previous.accountList} />
+        <AccountList
+          data={data.accountList}
+          previous={previous.accountList}
+          {...props}
+        />
       )}
     </div>
   );

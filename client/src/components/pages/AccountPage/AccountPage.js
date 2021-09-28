@@ -35,6 +35,7 @@ const AccountPage = () => {
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});
+  const [selectedAccount, setSelectedAccount] = React.useState({});
 
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
@@ -58,11 +59,19 @@ const AccountPage = () => {
       .then((data) => setPreviousDayBalanceData(data));
   }, []);
 
+  React.useEffect(() => {
+    console.log(selectedAccount);
+  }, [selectedAccount]);
+
   const displayPanels = () => {
     if (displayingMockedData) {
       return (
         <>
-          <AccountInfo data={balanceMockData} previous={balancePriorMockData} />
+          <AccountInfo
+            data={balanceMockData}
+            previous={balancePriorMockData}
+            setSelectedAccount={setSelectedAccount}
+          />
           <TransactionInfo
             transactions={transactionMockData}
             openTransactionDialog={openTransactionDialog}
@@ -89,6 +98,7 @@ const AccountPage = () => {
           <AccountInfo
             data={balanceData.data}
             previous={previousDayBalanceData.data}
+            setSelectedAccount={setSelectedAccount}
           />
           <TransactionInfo
             transactions={transactionData.data}
