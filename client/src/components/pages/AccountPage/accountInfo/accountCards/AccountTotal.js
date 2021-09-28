@@ -24,10 +24,11 @@ const AccountTotal = ({
       className={`border bg-white  shadow-md hover:shadow-lg p-4 rounded-lg ${selectedClassName}`}
       onClick={() => setSelectedAccount({})}
     >
-      <div className='mb-2'>
+      <div className='mb-2 flex'>
         All accounts balance in
-        <span className=' bg-red-50 rounded-lg px-2 py-1 text-xs font-medium text-gray-500'>
+        <span className=' bg-red-50 rounded-lg pl-2 ml-2 text-xs font-medium text-gray-500 flex items-center cursor-pointer'>
           {currency}
+          <span className='material-icons'>expand_more</span>
         </span>
       </div>
       <div className='flex items-baseline justify-between'>
@@ -35,10 +36,20 @@ const AccountTotal = ({
           {gatherCurrencySymbol(currency)}
           {total}
         </div>
-        <div
-          className={percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'}
-        >
-          {percentChange}%
+
+        <div className='flex'>
+          {percentChange >= 0 ? (
+            <span className='material-icons text-green-600'>arrow_drop_up</span>
+          ) : (
+            <span className='material-icons text-red-600 text-lg'>
+              arrow_drop_down
+            </span>
+          )}
+          <div
+            className={percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'}
+          >
+            {percentChange}%
+          </div>
         </div>
       </div>
       {isEmptyObject(selectedAccount) && <AccountCardButtons />}

@@ -35,10 +35,13 @@ const AccountCard = ({
           {gatherCurrencySymbol(account.currency.code)}
           {account.balanceList[0].openingAvailableAmount}
         </div>
+        <div className="flex">
+        {percentChange >= 0 ? <span className="material-icons text-green-600">arrow_drop_up</span> : <span className="material-icons text-red-600 text-lg">arrow_drop_down</span>}
         <div
           className={percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'}
         >
           {percentChange}%
+        </div>
         </div>
       </div>
       {isSelected && <AccountCardButtons />}

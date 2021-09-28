@@ -7,8 +7,8 @@ const Layout = ({ children }) => {
     <div className='flex h-screen text-gray-900'>
       <Sidebar />
       <section className='relative flex flex-col flex-grow'>
-        <main className='p-8 h-screen'>
-          <div className='content overflow-auto'>{children}</div>
+        <main className='h-screen'>
+          <div className='content'>{children}</div>
         </main>
       </section>
     </div>

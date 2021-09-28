@@ -84,7 +84,7 @@ const AccountPage = () => {
       (balanceData && balanceData.errorString)
     ) {
       return (
-        <div className='text-red-500 m-8'>Error trying to connect to APIs</div>
+        <div className='w-full text-center pt-24'>Error trying to connect to APIs</div>
       );
     } else if (
       transactionData &&
@@ -115,7 +115,7 @@ const AccountPage = () => {
 
   return (
     <Layout>
-      <div className='flex -m-8'>{displayPanels()}</div>
+      <div className='flex'>{displayPanels()}</div>
       <TransactionJsonDialog
         open={transactionDialogOpen}
         setTransactionDialog={openTransactionDialog}
