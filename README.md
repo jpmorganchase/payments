@@ -1,25 +1,51 @@
-# Demo Wholesale Payments App
+# Demo Wholesale Payments App - Unicorn Finance
 
-Our goal is to create re-usable sample apps that external developers can leverage
-as reference.
+We have created Unicorn Finance as a sample application showcasing the capabilities of our the JP Morgan core external APIs. 
+We hit a number of JP Morgan APIs in the UAT environment via ssl authentication.
 
 See our project running on codesandbox [here](https://codesandbox.io/s/unicornfinance-msbct)
 
 ![Screenshot of Unicorn Finance](unicorn-finance.png "Screenshot of Unicorn Finance")
 
-## Project structure
+## What APIs are you hitting?
 
-The codebase is built with React and Tailwind css on the frontend and express on the backend. 
+1. Service Status Page: We hit the Platform Availability Communication Management API on this page. This returns a list of current outages within JP Morgan external APIs. If no outages are returned a message is displayed for the user.
+2. Accounts Page: We hit two APIs on this page:
+    - Balances: This API returns intraday balances for specific accounts. We use it to get the current day balance for a UAT account
+    - Transactions: This API returns all the transactions for a specific account for a specific time period. 
 
-We have also implemented testing with Jest and Cypress. 
+## What's included in this repo?
 
-## Running Locally
-You have the option of running locally with mocked data or hitting the actual APIs. 
+We have split the codebase into two sections, client and server. 
 
-### Mocked data
-    yarn install
-    yarn run client-dependencies
-    yarn run start
+### Server
+
+This code is written using NodeJS and built upon this [Bulletproof NodeJS structure](https://softwareontheroad.com/ideal-nodejs-project-structure?utm_source=github&utm_medium=readme).
+The server is in charge of hitting the JP Morgan APIs, handling authentication (SSL) and caching of data.
+
+#### Server Structure
+
+* config: Any configuration such as server port, cache keys etc
+* loaders: The knowledge for starting the server up and populating the data
+* routes: All the routing logic of the application
+* services: Business logic when handling the data from APIs
+
+### Client
+
+The client code is written with React and Tailwind CSS. This code takes the data from the server and displays it in a user friendly manner. 
+We have a specific readme for Client code [here](./client/README.md)
+
+
+## Getting started
+
+Make sure to check out our running code on CodeSandbox [here](https://codesandbox.io/s/unicornfinance-msbct).
+
+You can then try out running the code locally. Initially you will run the code hitting mocked data. This is because you need extra authentication information for hitting our actual APIs which is explained below.
+    
+  1. ```yarn start ```
+  2. Navigate to localhost:3000
+  3. Toggle the mocked data on to see information
+
 
 ### Hitting JP Morgan APIs
 
@@ -33,31 +59,31 @@ As we are using codesandbox the information for these files are stored in secret
 
 To change the code to use ssl files:
 
-    1. Navigate to [dataController.js](./server/dataController.js)
-
-    2. Uncomment these lines and change file path to your ssl file location:
+   1. Navigate to [index.js](./server/config/index.js)
+   2. Change lines 15 and 16 to resemble:
     
 ```javascript
 // const key = fs.readFileSync(path.join(__dirname, '../unicorns/private.key'));
 // const cert = fs.readFileSync(path.join(__dirname, '../unicorns/unicorn.crt'));
 ```
-    3. Delete these lines:
-```javascript
-const key = process.env.KEY && process.env.KEY.replace(/\\n/g, '\n');
-const cert = process.env.CERT && process.env.CERT.replace(/\\n/g, '\n');
+   3. yarn start
+   4. Navigate to localhost: 3000
+
+#### Using env variables
+
+To change the code to use ssl files:
+
+   1. Create a .env file in your root directory
+   2. Add two variables 'KEY' and 'CERT' with your ssl details. E.g.
+
+```txt
+KEY="MYPRIVATEKEYDETAILS"
+CERT="MYCERTDETAILS"
 ```
-
-#### Running
-
-    yarn install
-    yarn run client-dependencies
-    yarn run dev
-
-Navigate to localhost:3000
+   3. yarn start
+   4. Navigate to localhost: 3000
 
 
-### Deprecation warnings
+## Contribution to our project
 
-These are coming from react scripts package, with open issue:
-
-https://github.com/facebook/create-react-app/issues/9431
+We welcome any contributions you have. Please create a PR and we will review it.
