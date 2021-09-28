@@ -22,8 +22,14 @@ We have split the codebase into two sections, client and server.
 
 This code is written using NodeJS and built upon this [Bulletproof NodeJS structure](https://softwareontheroad.com/ideal-nodejs-project-structure?utm_source=github&utm_medium=readme).
 The server is in charge of hitting the JP Morgan APIs, handling authentication (SSL) and caching of data.
-We have a specific readme for Server code [here](TODO)
 
+#### Structure
+
+    - config: Any configuration such as server port, cache keys etc
+    - loaders: The knowledge for starting the server up and populating the data
+    - routes: All the routing logic of the application
+    - services: Business logic when handling the data from APIs
+    
 ### Client
 
 The client code is written with React and Tailwind CSS. This code takes the data from the server and displays it in a user friendly manner. 
