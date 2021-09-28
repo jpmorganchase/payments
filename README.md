@@ -1,7 +1,7 @@
-# Demo Wholesale Payments App
+# Demo Wholesale Payments App - Unicorn Finance
 
 Our goal is to create re-usable sample apps that external developers can leverage
-as reference.
+as reference for JP Morgan APIs. We have created Unicorn Finance as a sample application showcasing the capabilities of our core APIs. 
 
 See our project running on codesandbox [here](https://codesandbox.io/s/unicornfinance-msbct)
 
@@ -9,19 +9,20 @@ See our project running on codesandbox [here](https://codesandbox.io/s/unicornfi
 
 ## Project structure
 
-The codebase is built with React and Tailwind css on the frontend and express on the backend. 
+We have split the codebase into client and server. 
+The client is built with React and Tailwind CSS. The backend is Nodejs with Express js. 
 
-We have also implemented testing with Jest and Cypress. 
 
 ## Running Locally
+
 You have the option of running locally with mocked data or hitting the actual APIs. 
 
-### Mocked data
-    yarn install
-    yarn run client-dependencies
-    yarn run local
+### Using our mocked data:
+    
+    yarn start
+    Navigate to localhost:3000
 
-### Hitting JP Morgan APIs
+### Hitting JP Morgan APIs:
 
 This will require you to provide some SSL certificates. 
 You will need to onboard to JP Morgan to access this information. Further details are available [here](http://developer.jpmorgan.com/).
@@ -33,31 +34,32 @@ As we are using codesandbox the information for these files are stored in secret
 
 To change the code to use ssl files:
 
-    1. Navigate to [dataController.js](./server/dataController.js)
+    1. Navigate to [index.js](./server/config/index.js)
 
-    2. Uncomment these lines and change file path to your ssl file location:
+    2. Change lines 15 and 16 to resemble:
     
 ```javascript
 // const key = fs.readFileSync(path.join(__dirname, '../unicorns/private.key'));
 // const cert = fs.readFileSync(path.join(__dirname, '../unicorns/unicorn.crt'));
 ```
-    3. Delete these lines:
-```javascript
-const key = process.env.KEY && process.env.KEY.replace(/\\n/g, '\n');
-const cert = process.env.CERT && process.env.CERT.replace(/\\n/g, '\n');
+    3. yarn start
+    4. Navigate to localhost: 3000
+
+#### Using your env variables
+
+To change the code to use ssl files:
+
+    1. Create a .env file in your root directory
+    2. Add two variables 'KEY' and 'CERT' with your ssl details. E.g.
+
+```txt
+KEY="MYPRIVATEKEYDETAILS"
+CERT="MYCERTDETAILS"
 ```
-
-#### Running
-
-    yarn install
-    yarn run client-dependencies
-    yarn run dev
-
-Navigate to localhost:3000
+    3. yarn start
+    4. Navigate to localhost: 3000
 
 
-### Deprecation warnings
+## Contribution to our project
 
-These are coming from react scripts package, with open issue:
-
-https://github.com/facebook/create-react-app/issues/9431
+We welcome any contributions you have. Please create a PR and we will review it.
