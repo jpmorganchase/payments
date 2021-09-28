@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { isEmptyObject, formatDate } from '../utils';
+import { isEmptyObject, formatDate } from '../../../utils';
 import TableItem from './tableItem';
 const tableHeaders = [
   'Description',

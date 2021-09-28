@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { gatherCurrencySymbol } from '../../utils';
+import { gatherCurrencySymbol } from '../../../../utils';
 
 const AccountCard = ({ account, percentChange, setSelectedAccount }) => {
   return (

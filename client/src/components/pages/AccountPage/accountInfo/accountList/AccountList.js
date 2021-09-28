@@ -1,7 +1,7 @@
 import React from 'react';
 import AccountCard from '../accountCards/AccountCard';
 import PropTypes from 'prop-types';
-import { percIncrease } from '../../utils';
+import { percIncrease } from '../../../../utils';
 
 const calculatePreviousDayBalance = (account, previousAccounts) => {
   let wantedProperty = previousAccounts.find(

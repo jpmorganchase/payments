@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { gatherCurrencySymbol, percIncrease } from '../../utils';
+import { gatherCurrencySymbol, percIncrease } from '../../../../utils';
 
 const AccountTotal = ({
   total,

@@ -25,6 +25,8 @@ const TransactionGrid = ({ transactions, ...props }) => {
 
   return (
     <div className='overflow-hidden'>
+      {!groupedTransactions ||
+        (groupedTransactions.length < 1 && <div> No Transactions found </div>)}
       {groupedTransactions &&
         groupedTransactions.map((item, key) => (
           <DailyTransactionTable

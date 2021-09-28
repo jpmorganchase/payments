@@ -44,7 +44,6 @@ const AccountPage = () => {
   const openTransactionDialog = (state, transaction) => {
     setTransactionDialogState(state);
     setSelectedTransaction(transaction);
-    console.log(transaction);
   };
 
   React.useEffect(() => {
@@ -75,6 +74,7 @@ const AccountPage = () => {
           <TransactionInfo
             transactions={transactionMockData}
             openTransactionDialog={openTransactionDialog}
+            selectedAccount={selectedAccount}
           />
         </>
       );
@@ -103,6 +103,7 @@ const AccountPage = () => {
           <TransactionInfo
             transactions={transactionData.data}
             openTransactionDialog={openTransactionDialog}
+            selectedAccount={selectedAccount}
           />
         </>
       );
