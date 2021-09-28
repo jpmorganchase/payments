@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { formatDate } from '../../../../utils';
 const DailyTransactionTable = ({
   date,
   transactions,
@@ -86,7 +86,7 @@ const DailyTransactionTable = ({
                   {transaction.baiType.productGroupCode}
                 </td>
                 <td className='py-2 whitespace-nowrap '>
-                  {transaction.asOfDateTime}
+                  {formatDate(new Date(transaction.asOfDateTime))}
                 </td>
                 <td className='py-2 whitespace-nowrap text-right text-sm font-medium'></td>
               </tr>
