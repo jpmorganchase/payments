@@ -29,11 +29,11 @@ The server is in charge of hitting the JP Morgan APIs, handling authentication (
     - loaders: The knowledge for starting the server up and populating the data
     - routes: All the routing logic of the application
     - services: Business logic when handling the data from APIs
-    
+
 ### Client
 
 The client code is written with React and Tailwind CSS. This code takes the data from the server and displays it in a user friendly manner. 
-We have a specific readme for Client code [here](TODO)
+We have a specific readme for Client code [here](./client/README.md)
 
 
 ## Getting started
