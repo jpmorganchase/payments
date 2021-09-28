@@ -34,7 +34,19 @@ const DailyTransactionTable = ({
               scope='col'
               className='py-2 text-left font-medium text-gray-500 uppercase'
             >
+              Beneficiary
+            </th>
+            <th
+              scope='col'
+              className='py-2 text-left font-medium text-gray-500 uppercase'
+            >
               Reference
+            </th>
+            <th
+              scope='col'
+              className='py-2 text-left font-medium text-gray-500 uppercase'
+            >
+              Category
             </th>
             <th
               scope='col'
@@ -57,7 +69,6 @@ const DailyTransactionTable = ({
                 </td>
                 <td className='py-2 px-3 whitespace-nowrap text-right'>
                   <span className='font-semibold pr-2'>
-                    {transaction.debitCreditCode === 'CREDIT' ? '+' : '-'}
                     {transaction.amount}
                   </span>
                   {transaction.currency.code}
@@ -65,8 +76,14 @@ const DailyTransactionTable = ({
                 <td className='py-2 whitespace-nowrap'>
                   {transaction.account.accountId}
                 </td>
+                <td className='py-2 whitespace-nowrap'>
+                  {transaction.account.accountId}
+                </td>
                 <td className='py-2 whitespace-nowrap '>
                   {transaction.transactionId}
+                </td>
+                <td className='py-2 whitespace-nowrap '>
+                  {transaction.baiType.productGroupCode}
                 </td>
                 <td className='py-2 whitespace-nowrap '>
                   {transaction.asOfDateTime}

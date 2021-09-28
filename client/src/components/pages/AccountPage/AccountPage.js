@@ -35,6 +35,7 @@ const AccountPage = () => {
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});
+
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
   };

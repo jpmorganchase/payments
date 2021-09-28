@@ -23,6 +23,9 @@ const genOptions = (data, title) => {
     chart: {
       type: 'column',
       height: 200,
+      style: {
+        fontFamily: "'Inter', sans-serif",
+      },
     },
     colors: ['#BE185D', '#DB2777', '#DC2626', '#BE185D'],
     yAxis: {
@@ -45,6 +48,7 @@ const genOptions = (data, title) => {
     legend: {
       enabled: false,
     },
+
     credits: {
       enabled: false,
     },
