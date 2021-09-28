@@ -70,6 +70,7 @@ const AccountPage = () => {
             data={balanceMockData}
             previous={balancePriorMockData}
             setSelectedAccount={setSelectedAccount}
+            selectedAccount={selectedAccount}
           />
           <TransactionInfo
             transactions={transactionMockData}
@@ -99,6 +100,7 @@ const AccountPage = () => {
             data={balanceData.data}
             previous={previousDayBalanceData.data}
             setSelectedAccount={setSelectedAccount}
+            selectedAccount={selectedAccount}
           />
           <TransactionInfo
             transactions={transactionData.data}

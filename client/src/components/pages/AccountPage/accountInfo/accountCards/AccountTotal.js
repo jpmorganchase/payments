@@ -1,17 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { gatherCurrencySymbol, percIncrease } from '../../../../utils';
+import {
+  gatherCurrencySymbol,
+  isEmptyObject,
+  percIncrease,
+} from '../../../../utils';
+import AccountCardButtons from './AccountCardButtons';
 
 const AccountTotal = ({
   total,
   currency,
   totalPrevious,
   setSelectedAccount,
+  selectedAccount,
 }) => {
   const percentChange = percIncrease(totalPrevious, total);
+  const selectedClassName = isEmptyObject(selectedAccount)
+    ? 'border-pink-500'
+    : 'border-gray-200';
+
   return (
     <div
-      className='border bg-white border-pink-500 shadow-md hover:shadow-lg p-4 rounded-lg'
+      className={`border bg-white  shadow-md hover:shadow-lg p-4 rounded-lg ${selectedClassName}`}
       onClick={() => setSelectedAccount({})}
     >
       <div className='mb-2'>
@@ -31,19 +41,7 @@ const AccountTotal = ({
           {percentChange}%
         </div>
       </div>
-      <div className='flex text-xs mt-7 justify-between'>
-        <div className='flex gap-2'>
-          <button className='py-2 px-3 bg-red-50 font-medium rounded-lg'>
-            Exchange
-          </button>
-          <button className='py-2 px-3 bg-red-50 font-medium rounded-lg'>
-            Add money
-          </button>
-        </div>
-        <button className='py-2 px-3 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white'>
-          Send Money
-        </button>
-      </div>
+      {isEmptyObject(selectedAccount) && <AccountCardButtons />}
     </div>
   );
 };
@@ -52,6 +50,7 @@ AccountTotal.propTypes = {
   total: PropTypes.number,
   totalPrevious: PropTypes.number,
   currency: PropTypes.string,
+  selectedAccount: PropTypes.object,
   setSelectedAccount: PropTypes.func,
 };
 
