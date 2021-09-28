@@ -22,7 +22,7 @@ exports.getTransactionData = async function () {
     cache.loadDataToCache(config.cache.transaction, response);
     return response;
   }
-  return noAuthenticationResponse();
+  return common.noAuthenticationResponse();
 };
 
 exports.getBalanceData = async function (cacheKey, prior = false) {
@@ -54,5 +54,5 @@ exports.getBalanceData = async function (cacheKey, prior = false) {
     cache.loadDataToCache(cacheKey, response);
     return response;
   }
-  return noAuthenticationResponse();
+  return common.noAuthenticationResponse();
 };

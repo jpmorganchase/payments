@@ -20,5 +20,5 @@ exports.getData = async function () {
     cache.loadDataToCache(config.cache.serviceStatus, response);
     return response;
   }
-  return noAuthenticationResponse();
+  return common.noAuthenticationResponse();
 };
