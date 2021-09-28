@@ -13,17 +13,17 @@ const tableHeaders = [
 ];
 
 const renderErrorMessage = (message) => (
-  <p className='text-red-500'>{message}</p>
+  <div className='text-center pt-24'>{message}</div>
 );
+
 const StatusTable = ({ serviceStatusData }) => {
   return (
     <>
       {isEmptyObject(serviceStatusData.data) ? (
-        renderErrorMessage('There are no outages currently reported')
+        renderErrorMessage('There are no upcoming outages. Want to know what this data looks like. Toggle on mocked data below.')
       ) : serviceStatusData.errorString ? (
         renderErrorMessage(
-          'Error trying to connect to Platform Availability Communication Management API',
-        )
+          'Error trying to connect to Platform Availability Communication Management API.')
       ) : (
         <table className='min-w-full text-xs border-b border-gray-200 mb-6'>
           <thead className='border-b-2'>

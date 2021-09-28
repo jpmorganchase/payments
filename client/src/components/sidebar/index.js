@@ -7,7 +7,7 @@ const Sidebar = () => {
   return (
     <nav className='border-r border-gray-200 p-8 flex flex-col justify-between'>
       <div>
-        <NavLink to='account' className='mb-12'>
+        <NavLink to='account' className='mb-12 block'>
           <img src={ufLogoLarge} alt='Unicorn Finance Logo' />
         </NavLink>
         <ul className='-ml-8 text-gray-500 text-sm'>
@@ -18,20 +18,20 @@ const Sidebar = () => {
           </li>
 
           <NavLink
-            activeClassName='border-pink-500'
-            to='account'
+            activeClassName='border-pink-500 text-gray-900'
+            to='accounts'
             className='border-l-2 block px-8 py-2 hover:text-gray-700'
           >
-            <li className=' border-transparent '>Account</li>
+            <li className=' border-transparent '>Accounts</li>
           </NavLink>
         </ul>
       </div>
       <div>
         <ul className='-ml-8 text-gray-500 text-xs mb-4'>
           <NavLink
-            activeClassName='border-pink-500'
+            activeClassName='border-pink-500 text-gray-900'
             to='service_status'
-            className='block px-8 py-2 text-gray-900 hover:text-gray-700 border-l-2'
+            className='block px-8 py-2 hover:text-gray-700 border-l-2'
           >
             <li>Service status</li>
           </NavLink>

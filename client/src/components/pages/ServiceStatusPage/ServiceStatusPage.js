@@ -36,13 +36,15 @@ const ServiceStatusPage = () => {
   };
   return (
     <Layout>
-      <h2 className='text-2xl font-medium'>Service status</h2>
+      <div className='p-8'>
+      <h2 className='text-2xl font-medium mb-4'>Service status</h2>
       <div className='overflow-hidden '>{displayTable()}</div>
       <WhatAPI
         toggleMockedData={toggleMockedData}
         config={config}
         mockedDataEnabled={displayingMockedData}
       />
+      </div>
     </Layout>
   );
 };

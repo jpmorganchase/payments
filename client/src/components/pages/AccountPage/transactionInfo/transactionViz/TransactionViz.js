@@ -23,6 +23,10 @@ const genOptions = (data, title) => {
     chart: {
       type: 'column',
       height: 200,
+      style: {
+        fontFamily: 'Inter'
+      }
+
     },
     colors: ['#BE185D', '#DB2777', '#DC2626', '#BE185D'],
     yAxis: {
@@ -35,6 +39,11 @@ const genOptions = (data, title) => {
     },
     title: {
       text: title,
+      style: {
+      textAlign: 'left',
+      fontSize: 12,
+      fontWeight: 500
+      }
     },
     series: [
       {
@@ -104,13 +113,19 @@ const groupTransactions = (groups, categories, numeric = false) => {
 const TransactionViz = ({ transactions }) => {
   return (
     <div className='p-6 rounded-lg border mb-4 shadow-sm flex gap-2 h-60'>
-      <div className='flex-grow w-2/3'>
+      <div className='w-1/3'>
         <HighchartsReact
           highcharts={Highcharts}
           options={generateOptionsForCurrencyVisual(transactions)}
         />
       </div>
-      <div className='flex-grow w-1/3'>
+      <div className='w-1/3'>
+              <HighchartsReact
+                highcharts={Highcharts}
+                options={generateOptionsForTypeVisual(transactions)}
+              />
+            </div>
+      <div className='w-1/3'>
         <HighchartsReact
           highcharts={Highcharts}
           options={generateOptionsForTypeVisual(transactions)}

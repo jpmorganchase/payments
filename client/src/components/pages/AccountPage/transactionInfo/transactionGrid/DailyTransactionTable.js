@@ -57,7 +57,6 @@ const DailyTransactionTable = ({
                 </td>
                 <td className='py-2 px-3 whitespace-nowrap text-right'>
                   <span className='font-semibold pr-2'>
-                    {transaction.debitCreditCode === 'CREDIT' ? '+' : '-'}
                     {transaction.amount}
                   </span>
                   {transaction.currency.code}
