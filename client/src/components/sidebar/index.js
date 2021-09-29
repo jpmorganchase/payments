@@ -7,7 +7,7 @@ const Sidebar = () => {
   return (
     <nav className='border-r border-gray-200 p-8 flex flex-col justify-between'>
       <div>
-        <NavLink to='account' className='mb-12 block'>
+        <NavLink to='accounts' className='mb-12 block'>
           <img src={ufLogoLarge} alt='Unicorn Finance Logo' />
         </NavLink>
         <ul className='-ml-8 text-gray-500 text-sm'>
@@ -43,7 +43,13 @@ const Sidebar = () => {
         </ul>
         <div className='flex text-sm relative'>
           <span className='block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl'></span>
-          <img className='rounded-xl' src={avatar} alt='Avatar' width='40' height='40' />
+          <img
+            className='rounded-xl'
+            src={avatar}
+            alt='Avatar'
+            width='40'
+            height='40'
+          />
           <div className=' flex flex-col pl-4'>
             <p className='font-medium'>Alan Torrance</p>
             <a
