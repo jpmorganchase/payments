@@ -1,6 +1,6 @@
 # Demo Wholesale Payments App - Unicorn Finance
 
-We have created Unicorn Finance as a sample application showcasing the capabilities of our the JP Morgan core external APIs. 
+We have created Unicorn Finance as a sample application showcasing the capabilities of our JP Morgan core external APIs. 
 We hit a number of JP Morgan APIs in the UAT environment via ssl authentication.
 
 See our project running on codesandbox [here](https://codesandbox.io/s/unicornfinance-msbct)
@@ -21,11 +21,11 @@ We have split the codebase into two sections, client and server.
 ### Server
 
 This code is written using NodeJS and built upon this [Bulletproof NodeJS structure](https://softwareontheroad.com/ideal-nodejs-project-structure?utm_source=github&utm_medium=readme).
-The server is in charge of hitting the JP Morgan APIs, handling authentication (SSL) and caching of data.
+The server is in charge of hitting the JP Morgan APIs and handling authentication (SSL).
 
 #### Structure
 
-    - config: Any configuration such as server port, cache keys etc
+    - config: Any configuration such as server port
     - loaders: The knowledge for starting the server up and populating the data
     - routes: All the routing logic of the application
     - services: Business logic when handling the data from APIs
