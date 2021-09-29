@@ -24,7 +24,7 @@ const TransactionGrid = ({ transactions, ...props }) => {
   const groupedTransactions = groupTransactionsByDay(transactions);
 
   return (
-    <div className='overflow-hidden'>
+    <div className='overflow-y-auto flex-grow'>
       {!groupedTransactions ||
         (groupedTransactions.length < 1 && <div> No Transactions found </div>)}
       {groupedTransactions &&
