@@ -15,7 +15,7 @@ const calculatePreviousDayBalance = (account, previousAccounts) => {
 const AccountList = ({ data, previous, ...props }) => {
   // TODO what if we have lots of accounts? paginate?
   return (
-    <div>
+    <div className='flex-grow overflow-y-auto'>
       {data &&
         data.map((account, key) => (
           <AccountCard

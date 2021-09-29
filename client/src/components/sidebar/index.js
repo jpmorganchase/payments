@@ -1,6 +1,6 @@
 import React from 'react';
 import ufLogoLarge from '../../images/uf-logo.svg';
-// import ufLogoMini from '../../images/uf-logo-mini.svg';
+import avatar from '../../images/avatar.png';
 import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
@@ -43,10 +43,7 @@ const Sidebar = () => {
         </ul>
         <div className='flex text-sm relative'>
           <span className='block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl'></span>
-          <img
-            className='rounded-xl w-10 h-10 '
-            src='https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=73a9df4b7bd1b330db1e903e08575ec1'
-          />
+          <img className='rounded-xl' src={avatar} alt='Avatar' width='40' height='40' />
           <div className=' flex flex-col pl-4'>
             <p className='font-medium'>Alan Torrance</p>
             <a

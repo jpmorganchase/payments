@@ -7,7 +7,7 @@ const DailyTransactionTable = ({
   openTransactionDialog,
 }) => {
   return (
-    <div className='overflow-hidden'>
+    <div className=''>
       <h3 className='text-gray-500 text-sm mb-1'>{date}</h3>
       <table className='min-w-full text-xs border-b border-gray-200 mb-6'>
         <thead className='border-b-2'>

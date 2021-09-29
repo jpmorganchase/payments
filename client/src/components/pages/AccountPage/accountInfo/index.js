@@ -12,7 +12,7 @@ const AccountInfo = ({ data, previous, ...props }) => {
     .reduce((prev, next) => prev + next);
 
   return (
-    <div className='bg-gray-50 p-8 border-r border-gray-200 w-2/5 h-screen'>
+    <div className='bg-gray-50 p-8 border-r border-gray-200 w-2/5 h-screen flex flex-col'>
       <h2 className='text-2xl font-medium mb-4'>Accounts</h2>
       <AccountTotal
         total={totalAccount}
