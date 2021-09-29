@@ -1,6 +1,5 @@
 const config = require('../config');
 const https = require('https');
-const cache = require('../loaders/cache');
 
 exports.noAuthenticationResponse = function () {
   return {
@@ -27,28 +26,6 @@ exports.handleHttpsRequest = function (options, data = undefined) {
         message: err.message,
       };
     });
-};
-
-exports.checkInCache = function (cacheKey, timePeriod) {
-  const cachedValue = cache.getDataFromCache(cacheKey);
-  if (
-    cachedValue &&
-    !checkTimestampDifference(cachedValue.timestamp, timePeriod)
-  ) {
-    console.log(`Returning cached value for ${cacheKey}`);
-    return cachedValue;
-  }
-  return undefined;
-};
-
-const checkTimestampDifference = (cachedTimestamp, timePeriod) => {
-  if (
-    new Date(timePeriod).setHours(0, 0, 0, 0) !==
-    new Date().setHours(0, 0, 0, 0)
-  ) {
-    return false;
-  }
-  return new Date() - cachedTimestamp > timePeriod;
 };
 
 function sendHttpsrequest(options, data = undefined) {

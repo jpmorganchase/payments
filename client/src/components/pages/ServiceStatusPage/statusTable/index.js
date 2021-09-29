@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { isEmptyObject, formatDate } from '../utils';
+import { isEmptyObject, formatDate } from '../../../utils';
 import TableItem from './tableItem';
 const tableHeaders = [
   'Description',
@@ -13,16 +13,15 @@ const tableHeaders = [
 ];
 
 const renderErrorMessage = (message) => (
-  <p className='text-red-500'>{message}</p>
+  <div className='text-center pt-24'>{message}</div>
 );
+
 const StatusTable = ({ serviceStatusData }) => {
   return (
     <>
       {isEmptyObject(serviceStatusData.data) ? (
-        renderErrorMessage('There are no outages currently reported')
-      ) : serviceStatusData.errorString ? (
         renderErrorMessage(
-          'Error trying to connect to Platform Availability Communication Management API',
+          'There are no upcoming outages. Want to know what this data looks like? Toggle on mocked data below.',
         )
       ) : (
         <table className='min-w-full text-xs border-b border-gray-200 mb-6'>
@@ -94,7 +93,6 @@ StatusTable.propTypes = {
         }),
       ),
     }),
-    errorString: PropTypes.string,
   }),
 };
 

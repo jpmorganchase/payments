@@ -1,10 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { gatherCurrencySymbol } from '../../utils';
+import { gatherCurrencySymbol, isEmptyObject } from '../../../../utils';
+import AccountCardButtons from './AccountCardButtons';
 
-const AccountCard = ({ account, percentChange }) => {
+const AccountCard = ({
+  account,
+  percentChange,
+  setSelectedAccount,
+  selectedAccount,
+}) => {
+  const isSelected =
+    !isEmptyObject(selectedAccount) &&
+    selectedAccount.accountId == account.accountId;
+  const selectedClassName = isSelected ? 'border-pink-500' : 'border-gray-200';
   return (
-    <div className='border bg-white border-gray-200 shadow-sm hover:shadow-lg p-4 rounded-lg'>
+    <div
+      className={`border bg-white  shadow-sm hover:shadow-lg p-4 rounded-lg mb-4 ${selectedClassName}`}
+      onClick={() => setSelectedAccount(account)}
+    >
       <div className='flex justify-between'>
         <div className='mb-2 font-medium'>
           {account.accountName || 'Account Name'}
@@ -22,12 +35,16 @@ const AccountCard = ({ account, percentChange }) => {
           {gatherCurrencySymbol(account.currency.code)}
           {account.balanceList[0].openingAvailableAmount}
         </div>
+        <div className="flex">
+        {percentChange >= 0 ? <span className="material-icons text-green-600">arrow_drop_up</span> : <span className="material-icons text-red-600 text-lg">arrow_drop_down</span>}
         <div
           className={percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'}
         >
           {percentChange}%
         </div>
+        </div>
       </div>
+      {isSelected && <AccountCardButtons />}
     </div>
   );
 };
@@ -47,6 +64,8 @@ AccountCard.propTypes = {
     ),
   }),
   percentChange: PropTypes.string,
+  setSelectedAccount: PropTypes.func,
+  selectedAccount: PropTypes.object,
 };
 
 export default AccountCard;

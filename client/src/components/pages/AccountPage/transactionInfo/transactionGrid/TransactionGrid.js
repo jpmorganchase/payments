@@ -20,17 +20,20 @@ const groupTransactionsByDay = (data) => {
   });
   return groupArrays.slice().sort((a, b) => (a < b ? 1 : -1));
 };
-const TransactionGrid = ({ transactions }) => {
+const TransactionGrid = ({ transactions, ...props }) => {
   const groupedTransactions = groupTransactionsByDay(transactions);
 
   return (
-    <div className='overflow-hidden'>
+    <div className='overflow-y-auto flex-grow'>
+      {!groupedTransactions ||
+        (groupedTransactions.length < 1 && <div> No Transactions found </div>)}
       {groupedTransactions &&
         groupedTransactions.map((item, key) => (
           <DailyTransactionTable
             key={key}
             date={item.date}
             transactions={item.transactions}
+            {...props}
           />
         ))}
     </div>

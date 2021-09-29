@@ -8,17 +8,15 @@
     "client": "cd client && yarn start",
     "test": "echo 'Tests to be implemented'",
     "client-dependencies": "cd client && yarn install",
-    "start": "yarn run client-dependencies &&  concurrently --kill-others-on-fail \"nodemon server/app.js\" \"yarn client\" --success"
+    "start": "yarn install && yarn run client-dependencies &&  concurrently --kill-others-on-fail \"nodemon server/app.js\" \"yarn client\" --success"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jpmorganchase/demo-wholesale-payments-app.git"
   },
   "dependencies": {
-    "@headlessui/react": "^1.4.1",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "node-cache": "^5.1.2"
+    "express": "^4.17.1"
   },
   "engines": {
     "node": ">=12"
@@ -26,5 +24,6 @@
   "devDependencies": {
     "concurrently": "6.2.0",
     "nodemon": "^2.0.9"
-  }
+  },
+  "license": "LICENSE"
 }

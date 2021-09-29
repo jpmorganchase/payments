@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const DailyTransactionTable = ({ date, transactions }) => {
+import { formatDate } from '../../../../utils';
+const DailyTransactionTable = ({
+  date,
+  transactions,
+  openTransactionDialog,
+}) => {
   return (
-    <div className='overflow-hidden'>
+    <div className=''>
       <h3 className='text-gray-500 text-sm mb-1'>{date}</h3>
       <table className='min-w-full text-xs border-b border-gray-200 mb-6'>
         <thead className='border-b-2'>
@@ -30,7 +34,19 @@ const DailyTransactionTable = ({ date, transactions }) => {
               scope='col'
               className='py-2 text-left font-medium text-gray-500 uppercase'
             >
+              Beneficiary
+            </th>
+            <th
+              scope='col'
+              className='py-2 text-left font-medium text-gray-500 uppercase'
+            >
               Reference
+            </th>
+            <th
+              scope='col'
+              className='py-2 text-left font-medium text-gray-500 uppercase'
+            >
+              Category
             </th>
             <th
               scope='col'
@@ -44,16 +60,21 @@ const DailyTransactionTable = ({ date, transactions }) => {
         <tbody className='bg-white divide-y divide-gray-200'>
           {transactions &&
             transactions.map((transaction, key) => (
-              <tr key={key}>
+              <tr
+                key={key}
+                onClick={() => openTransactionDialog(true, transaction)}
+              >
                 <td className='py-2 whitespace-nowrap'>
                   {transaction.debitCreditCode}
                 </td>
                 <td className='py-2 px-3 whitespace-nowrap text-right'>
                   <span className='font-semibold pr-2'>
-                    {transaction.debitCreditCode === 'CREDIT' ? '+' : '-'}
                     {transaction.amount}
                   </span>
                   {transaction.currency.code}
+                </td>
+                <td className='py-2 whitespace-nowrap'>
+                  {transaction.account.accountId}
                 </td>
                 <td className='py-2 whitespace-nowrap'>
                   {transaction.account.accountId}
@@ -62,7 +83,10 @@ const DailyTransactionTable = ({ date, transactions }) => {
                   {transaction.transactionId}
                 </td>
                 <td className='py-2 whitespace-nowrap '>
-                  {transaction.asOfDateTime}
+                  {transaction.baiType.productGroupCode}
+                </td>
+                <td className='py-2 whitespace-nowrap '>
+                  {formatDate(new Date(transaction.asOfDateTime))}
                 </td>
                 <td className='py-2 whitespace-nowrap text-right text-sm font-medium'></td>
               </tr>
@@ -88,6 +112,7 @@ DailyTransactionTable.propTypes = {
       }),
     }),
   ),
+  openTransactionDialog: PropTypes.func,
 };
 
 export default DailyTransactionTable;

@@ -1,14 +1,7 @@
 const config = require('../config');
 const common = require('./common');
-const cache = require('../loaders/cache');
-
-const oneDay = 60 * 60 * 24 * 1000;
 
 exports.getTransactionData = async function () {
-  const cachedValue = common.checkInCache(config.cache.transaction, oneDay);
-  if (cachedValue) {
-    return cachedValue;
-  }
   if (config.api.cert && config.api.key) {
     // TODO do we want this in config?
     const options = {
@@ -19,17 +12,12 @@ exports.getTransactionData = async function () {
       key: config.api.key,
     };
     const response = await common.handleHttpsRequest(options);
-    cache.loadDataToCache(config.cache.transaction, response);
     return response;
   }
-  return noAuthenticationResponse();
+  return common.noAuthenticationResponse();
 };
 
-exports.getBalanceData = async function (cacheKey, prior = false) {
-  const cachedValue = common.checkInCache(cacheKey, oneDay);
-  if (cachedValue) {
-    return cachedValue;
-  }
+exports.getBalanceData = async function (prior = false) {
   if (config.api.cert && config.api.key) {
     const postData = JSON.stringify({
       relativeDateType: prior ? 'PRIOR_DAY' : 'CURRENT_DAY',
@@ -51,8 +39,7 @@ exports.getBalanceData = async function (cacheKey, prior = false) {
       },
     };
     const response = await common.handleHttpsRequest(options, postData);
-    cache.loadDataToCache(cacheKey, response);
     return response;
   }
-  return noAuthenticationResponse();
+  return common.noAuthenticationResponse();
 };

@@ -13,7 +13,6 @@ function startServer() {
     ################################################
   `);
       loader.load(app);
-      loader.loadData();
     })
     .on('error', (err) => {
       console.error(err);
