@@ -1,7 +1,5 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
-
 const ServiceStatusPage = lazy(() =>
   import('./components/pages/ServiceStatusPage/ServiceStatusPage'),
 );
@@ -9,10 +7,8 @@ const AccountPage = lazy(() =>
   import('./components/pages/AccountPage/AccountPage'),
 );
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const App = () => {
+  return (
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
@@ -22,7 +18,7 @@ const App = () => (
         </Switch>
       </Suspense>
     </Router>
-  </QueryClientProvider>
-);
+  );
+};
 
 export default App;

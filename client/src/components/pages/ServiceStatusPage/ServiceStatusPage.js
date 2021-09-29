@@ -3,6 +3,7 @@ import StatusTable from './statusTable';
 import Layout from '../../layout';
 import WhatAPI from '../../whatAPI';
 import usePost from '../../../hooks/usePost';
+
 const mockedData = require('./uf-service-status.json');
 
 const config = {
@@ -17,7 +18,7 @@ const config = {
 };
 const ServiceStatusPage = () => {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
-  const { status, data, error, isFetching } = usePost(
+  const response = usePost(
     config.apiDetails[0].path,
     config.apiDetails[0].cacheKey,
     config.apiDetails[0].refreshInterval,
@@ -29,12 +30,16 @@ const ServiceStatusPage = () => {
   const displayTable = () => {
     if (displayingMockedData) {
       return <StatusTable serviceStatusData={{ data: mockedData }} />;
-    } else if (status === 'loading' || isFetching) {
+    } else if (
+      !response ||
+      response.status === 'loading' ||
+      response.isFetching
+    ) {
       return <p> Loading</p>;
-    } else if (status === 'error') {
-      return <div className='text-center pt-24'>{error.message}</div>;
+    } else if (response.status === 'error') {
+      return <div className='text-center pt-24'>{response.error.message}</div>;
     } else {
-      return <StatusTable serviceStatusData={data} />;
+      return <StatusTable serviceStatusData={response.data} />;
     }
   };
 

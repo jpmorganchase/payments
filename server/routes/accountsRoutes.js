@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const accountService = require('../services/accountService');
-const config = require('../config');
 
 router.get('/transactions', async (request, response) => {
   const result = await accountService.getTransactionData();
@@ -9,15 +8,12 @@ router.get('/transactions', async (request, response) => {
 });
 
 router.get('/balances', async (request, response) => {
-  const result = await accountService.getBalanceData(config.cache.balance);
+  const result = await accountService.getBalanceData();
   return handleResponse(result, response);
 });
 
 router.get('/balances/prior', async (request, response) => {
-  const result = await accountService.getBalanceData(
-    config.cache.previousBalance,
-    true,
-  );
+  const result = await accountService.getBalanceData(true);
   return handleResponse(result, response);
 });
 

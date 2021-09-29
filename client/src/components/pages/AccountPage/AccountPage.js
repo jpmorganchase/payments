@@ -3,40 +3,49 @@ import Layout from '../../layout';
 import WhatAPI from '../../whatAPI';
 import AccountInfo from './accountInfo/index';
 import TransactionInfo from './transactionInfo/index';
+import usePost from '../../../hooks/usePost';
 import TransactionJsonDialog from './transactionInfo/TransactionJsonDialog';
+import { useQueryClient } from 'react-query';
+
 const balanceMockData = require('./mockJson/uf-balances.json');
 const balancePriorMockData = require('./mockJson/uf-balances-prior.json');
-
 const transactionMockData = require('./mockJson/uf-transactions.json');
 
 const config = {
   apiDetails: [
     {
       name: 'Balances',
-      unicornUrl: '/api/accounts/balances',
+      path: '/api/accounts/balances',
+      cacheKey: 'balances',
+      refreshInterval: 43200000,
     },
     {
       name: 'Transactions',
-      unicornUrl: '/api/accounts/transactions',
+      path: '/api/accounts/transactions',
+      cacheKey: 'transactions',
+      refreshInterval: 1800000,
     },
     {
       name: 'Balances Prior',
-      unicornUrl: '/api/accounts/balances/prior',
+      path: '/api/accounts/balances/prior',
+      cacheKey: 'balances_prior',
+      refreshInterval: 43200000,
     },
   ],
 };
 
 const AccountPage = () => {
-  const [transactionData, setTransactionData] = React.useState(null);
-  const [balanceData, setBalanceData] = React.useState(null);
-  const [previousDayBalanceData, setPreviousDayBalanceData] =
-    React.useState(null);
+  const queryClient = useQueryClient();
+
   const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});
   const [selectedAccount, setSelectedAccount] = React.useState({});
 
+  const results = config.apiDetails.map((api) =>
+    usePost(api.path, api.cacheKey, api.refreshInterval),
+  );
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
   };
@@ -45,22 +54,6 @@ const AccountPage = () => {
     setTransactionDialogState(state);
     setSelectedTransaction(transaction);
   };
-
-  React.useEffect(() => {
-    fetch('/api/accounts/transactions')
-      .then((res) => res.json())
-      .then((data) => setTransactionData(data));
-    fetch('/api/accounts/balances')
-      .then((res) => res.json())
-      .then((data) => setBalanceData(data));
-    fetch('/api/accounts/balances/prior')
-      .then((res) => res.json())
-      .then((data) => setPreviousDayBalanceData(data));
-  }, []);
-
-  React.useEffect(() => {
-    console.log(selectedAccount);
-  }, [selectedAccount]);
 
   const displayPanels = () => {
     if (displayingMockedData) {
@@ -79,21 +72,21 @@ const AccountPage = () => {
           />
         </>
       );
-    } else if (
-      (transactionData && transactionData.errorString) ||
-      (balanceData && balanceData.errorString)
-    ) {
-      return (
-        <div className='w-full text-center pt-24'>Error trying to connect to APIs</div>
+    } else if (results.some((r) => r.isLoading)) {
+      return <p className='m-8'> Loading</p>;
+    } else if (results.some((r) => r.isError)) {
+      const first = results.find((r) => r.error);
+      return <div className='text-center pt-24'>{first.error.message}</div>;
+    } else {
+      const balanceData = queryClient.getQueryData(
+        config.apiDetails[0].cacheKey,
       );
-    } else if (
-      transactionData &&
-      transactionData.data &&
-      balanceData &&
-      balanceData.data &&
-      previousDayBalanceData &&
-      previousDayBalanceData.data
-    ) {
+      const transactionData = queryClient.getQueryData(
+        config.apiDetails[1].cacheKey,
+      );
+      const previousDayBalanceData = queryClient.getQueryData(
+        config.apiDetails[2].cacheKey,
+      );
       return (
         <>
           <AccountInfo
@@ -110,7 +103,6 @@ const AccountPage = () => {
         </>
       );
     }
-    return <p className='m-8'> Loading</p>;
   };
 
   return (
