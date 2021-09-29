@@ -5,7 +5,6 @@ const config = require('../config');
 const myCache = new NodeCache();
 
 exports.loadAllDataToCache = async function () {
-  await loadServiceStatusData();
   await loadBalanceData();
   await loadPreviousBalanceData();
   await loadTransactionsData();
@@ -28,12 +27,6 @@ const validResponse = (response, cacheKey) => {
     return false;
   }
   return true;
-};
-
-const loadServiceStatusData = async () => {
-  console.log('Populating service status cache....');
-  const serviceStatusData = await serviceStatusService.getData();
-  this.loadDataToCache(config.cache.serviceStatus, serviceStatusData);
 };
 
 const loadBalanceData = async () => {

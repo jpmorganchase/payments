@@ -20,10 +20,9 @@ const StatusTable = ({ serviceStatusData }) => {
   return (
     <>
       {isEmptyObject(serviceStatusData.data) ? (
-        renderErrorMessage('There are no upcoming outages. Want to know what this data looks like. Toggle on mocked data below.')
-      ) : serviceStatusData.errorString ? (
         renderErrorMessage(
-          'Error trying to connect to Platform Availability Communication Management API.')
+          'There are no upcoming outages. Want to know what this data looks like? Toggle on mocked data below.',
+        )
       ) : (
         <table className='min-w-full text-xs border-b border-gray-200 mb-6'>
           <thead className='border-b-2'>
@@ -94,7 +93,6 @@ StatusTable.propTypes = {
         }),
       ),
     }),
-    errorString: PropTypes.string,
   }),
 };
 
