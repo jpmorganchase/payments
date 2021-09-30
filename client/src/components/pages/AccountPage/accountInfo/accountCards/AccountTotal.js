@@ -48,7 +48,7 @@ const AccountTotal = ({
           <div
             className={percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'}
           >
-            {percentChange}%
+            {Math.abs(percentChange)}%
           </div>
         </div>
       </div>
