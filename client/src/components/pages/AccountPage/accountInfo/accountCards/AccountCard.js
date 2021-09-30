@@ -32,16 +32,23 @@ const AccountCard = ({
       </div>
       <div className='flex items-baseline justify-between'>
         <div className='text-xl font-medium'>
-          {gatherCurrencySymbol(account.currency.code)}
-          {account.balanceList[0].openingAvailableAmount}
+          {!account.errorCode && gatherCurrencySymbol(account.currency.code)}
+          {!account.errorCode && account.balanceList[0].openingAvailableAmount}
+          {account.errorCode && 'Error'}
         </div>
-        <div className="flex">
-        {percentChange >= 0 ? <span className="material-icons text-green-600">arrow_drop_up</span> : <span className="material-icons text-red-600 text-lg">arrow_drop_down</span>}
-        <div
-          className={percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'}
-        >
-          {percentChange}%
-        </div>
+        <div className='flex'>
+          {percentChange >= 0 ? (
+            <span className='material-icons text-green-600'>arrow_drop_up</span>
+          ) : (
+            <span className='material-icons text-red-600 text-lg'>
+              arrow_drop_down
+            </span>
+          )}
+          <div
+            className={percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'}
+          >
+            {Math.abs(percentChange)}%
+          </div>
         </div>
       </div>
       {isSelected && <AccountCardButtons />}
@@ -53,6 +60,7 @@ AccountCard.propTypes = {
   account: PropTypes.shape({
     accountId: PropTypes.string.isRequired,
     accountName: PropTypes.string,
+    errorCode: PropTypes.number,
     currency: PropTypes.shape({
       code: PropTypes.string,
       description: PropTypes.string,

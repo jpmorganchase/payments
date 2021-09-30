@@ -6,7 +6,7 @@ exports.getTransactionData = async function () {
     // TODO do we want this in config?
     const options = {
       hostname: 'apigatewayqaf.jpmorgan.com',
-      path: '/tsapi/v2/transactions?accountIds=000000011116605&endDate=2021-03-01',
+      path: '/tsapi/v2/transactions?accountIds=000000011253770&endDate=2021-03-01',
       method: 'GET',
       cert: config.api.cert,
       key: config.api.key,
@@ -23,7 +23,7 @@ exports.getBalanceData = async function (prior = false) {
       relativeDateType: prior ? 'PRIOR_DAY' : 'CURRENT_DAY',
       accountList: [
         {
-          accountId: '000000011116605',
+          accountId: '000000011253770',
         },
       ],
     });
