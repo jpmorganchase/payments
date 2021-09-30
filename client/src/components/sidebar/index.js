@@ -51,7 +51,7 @@ const Sidebar = () => {
             height='40'
           />
           <div className=' flex flex-col pl-4'>
-            <p className='font-medium'>Alan Torrance</p>
+            <p className='font-medium'>Business Unicorn</p>
             <a
               className=' text-xs text-gray-500 underline hover:no-underline'
               href='#'
