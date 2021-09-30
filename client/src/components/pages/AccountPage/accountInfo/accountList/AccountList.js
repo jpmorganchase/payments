@@ -7,10 +7,14 @@ const calculatePreviousDayBalance = (account, previousAccounts) => {
   let wantedProperty = previousAccounts.find(
     (obj) => obj.accountId === account.accountId,
   );
-  return percIncrease(
-    wantedProperty.balanceList[0].openingAvailableAmount,
-    account.balanceList[0].openingAvailableAmount,
-  );
+  if (!wantedProperty.errorCode && !account.errorCode) {
+    return percIncrease(
+      wantedProperty.balanceList[0].openingAvailableAmount,
+      account.balanceList[0].openingAvailableAmount,
+    );
+  } else {
+    return 'Error';
+  }
 };
 const AccountList = ({ data, previous, ...props }) => {
   // TODO what if we have lots of accounts? paginate?

@@ -5,10 +5,22 @@ import PropTypes from 'prop-types';
 
 const AccountInfo = ({ data, previous, ...props }) => {
   const totalAccount = data.accountList
-    .map((account) => account.balanceList[0].openingAvailableAmount)
+    .map((account) => {
+      if (!account.errorCode) {
+        return account.balanceList[0].openingAvailableAmount;
+      } else {
+        return 'Error';
+      }
+    })
     .reduce((prev, next) => prev + next);
   const totalAccountPrevious = previous.accountList
-    .map((account) => account.balanceList[0].openingAvailableAmount)
+    .map((account) => {
+      if (!account.errorCode) {
+        return account.balanceList[0].openingAvailableAmount;
+      } else {
+        return 'Error';
+      }
+    })
     .reduce((prev, next) => prev + next);
 
   return (

@@ -32,8 +32,9 @@ const AccountCard = ({
       </div>
       <div className='flex items-baseline justify-between'>
         <div className='text-xl font-medium'>
-          {gatherCurrencySymbol(account.currency.code)}
-          {account.balanceList[0].openingAvailableAmount}
+          {!account.errorCode && gatherCurrencySymbol(account.currency.code)}
+          {!account.errorCode && account.balanceList[0].openingAvailableAmount}
+          {account.errorCode && 'Error'}
         </div>
         <div className='flex'>
           {percentChange >= 0 ? (
@@ -59,6 +60,7 @@ AccountCard.propTypes = {
   account: PropTypes.shape({
     accountId: PropTypes.string.isRequired,
     accountName: PropTypes.string,
+    errorCode: PropTypes.number,
     currency: PropTypes.shape({
       code: PropTypes.string,
       description: PropTypes.string,

@@ -14,7 +14,11 @@ const AccountTotal = ({
   setSelectedAccount,
   selectedAccount,
 }) => {
-  const percentChange = percIncrease(totalPrevious, total);
+  console.log(total);
+  let percentChange = 'Error';
+  if (total !== 'Error' && totalPrevious !== 'Error') {
+    percentChange = percIncrease(totalPrevious, total);
+  }
   const selectedClassName = isEmptyObject(selectedAccount)
     ? 'border-pink-500'
     : 'border-gray-200';
@@ -33,7 +37,9 @@ const AccountTotal = ({
       </div>
       <div className='flex items-baseline justify-between'>
         <div className='text-2xl font-medium'>
-          {gatherCurrencySymbol(currency)}
+          {total !== 'Error' &&
+            totalPrevious !== 'Error' &&
+            gatherCurrencySymbol(currency)}
           {total}
         </div>
 
