@@ -14,7 +14,6 @@ const AccountTotal = ({
   setSelectedAccount,
   selectedAccount,
 }) => {
-  console.log(total);
   let percentChange = 'Error';
   if (total !== 'Error' && totalPrevious !== 'Error') {
     percentChange = percIncrease(totalPrevious, total);
