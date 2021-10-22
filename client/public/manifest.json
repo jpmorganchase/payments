@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Unicorn Finance",
+  "name": "Unicorn Finance Demo App",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,13 +8,13 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "uf-logo-mini.svg",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
+      "src": "uf-logo.svg",
+      "type": "image/svg",
       "sizes": "512x512"
     }
   ],
