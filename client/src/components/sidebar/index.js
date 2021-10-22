@@ -34,7 +34,7 @@ const Sidebar = () => {
             </NavLink>
           </ul>
         </div>
-        <div className='bottom-0 fixed mb-2 '>
+        <div className='lg:bottom-0 lg:fixed mb-2 '>
           <ul className='hidden lg:block -ml-8 text-gray-500 text-xs mb-4'>
             <NavLink
               activeClassName='border-pink-500 text-gray-900'
@@ -51,14 +51,8 @@ const Sidebar = () => {
           </ul>
           <div className='flex text-sm relative'>
             <span className='block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl'></span>
-            <img
-              className='rounded-xl'
-              src={avatar}
-              alt='Avatar'
-              width='40'
-              height='40'
-            />
-            <div className='hidden lg:block flex flex-col pl-4'>
+            <img className='rounded-xl w-10 h-10' src={avatar} alt='Avatar' />
+            <div className=' lg:block flex flex-col pl-4'>
               <p className='font-medium w-8/12'>Business Unicorn</p>
               <a
                 className=' text-xs text-gray-500 underline hover:no-underline'
