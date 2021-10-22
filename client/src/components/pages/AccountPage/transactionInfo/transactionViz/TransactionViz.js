@@ -113,13 +113,13 @@ const groupTransactions = (groups, categories, numeric = false) => {
 const TransactionViz = ({ transactions }) => {
   return (
     <div className='p-6 rounded-lg border mb-4 shadow-sm flex gap-2 h-60'>
-      <div className='w-1/3'>
+      <div className='w-1/2'>
         <HighchartsReact
           highcharts={Highcharts}
           options={generateOptionsForCurrencyVisual(transactions)}
         />
       </div>
-      <div className='w-1/3'>
+      <div className='w-1/2'>
         <HighchartsReact
           highcharts={Highcharts}
           options={generateOptionsForTypeVisual(transactions)}
