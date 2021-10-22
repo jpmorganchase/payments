@@ -125,12 +125,6 @@ const TransactionViz = ({ transactions }) => {
           options={generateOptionsForTypeVisual(transactions)}
         />
       </div>
-      <div className='w-1/3'>
-        <HighchartsReact
-          highcharts={Highcharts}
-          options={generateOptionsForTypeVisual(transactions)}
-        />
-      </div>
     </div>
   );
 };
