@@ -34,7 +34,7 @@ const Sidebar = () => {
             </NavLink>
           </ul>
         </div>
-        <div>
+        <div className='bottom-0 fixed mb-2 '>
           <ul className='hidden lg:block -ml-8 text-gray-500 text-xs mb-4'>
             <NavLink
               activeClassName='border-pink-500 text-gray-900'
@@ -59,7 +59,7 @@ const Sidebar = () => {
               height='40'
             />
             <div className='hidden lg:block flex flex-col pl-4'>
-              <p className='font-medium'>Business Unicorn</p>
+              <p className='font-medium w-8/12'>Business Unicorn</p>
               <a
                 className=' text-xs text-gray-500 underline hover:no-underline'
                 href='#'
