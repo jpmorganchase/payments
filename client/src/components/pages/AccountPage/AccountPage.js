@@ -107,7 +107,7 @@ const AccountPage = () => {
 
   return (
     <Layout>
-      <div className='flex'>{displayPanels()}</div>
+      <div className='flex flex-wrap'>{displayPanels()}</div>
       <TransactionJsonDialog
         open={transactionDialogOpen}
         setTransactionDialog={openTransactionDialog}

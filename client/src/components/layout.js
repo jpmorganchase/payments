@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 
 const Layout = ({ children }) => {
   return (
-    <div className='flex h-screen text-gray-900'>
+    <div className='flex flex-col lg:flex-row h-full text-gray-900 min-h-screen'>
       <Sidebar />
       <section className='relative flex flex-col flex-grow'>
-        <main className='h-screen'>
-          <div className='content'>{children}</div>
+        <main className='h-auto lg:h-full lg:min-h-screen'>
+          <div className='content flex-wrap'>{children}</div>
         </main>
       </section>
     </div>

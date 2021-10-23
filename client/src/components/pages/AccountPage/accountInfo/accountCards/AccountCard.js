@@ -36,7 +36,7 @@ const AccountCard = ({
           {!account.errorCode && account.balanceList[0].openingAvailableAmount}
           {account.errorCode && 'Error'}
         </div>
-        <div className='flex'>
+        <div className='lg:flex flex-wrap hidden'>
           {percentChange >= 0 ? (
             <span className='material-icons text-green-600'>arrow_drop_up</span>
           ) : (
