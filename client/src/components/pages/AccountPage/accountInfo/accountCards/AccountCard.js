@@ -22,16 +22,16 @@ const AccountCard = ({
         <div className='mb-2 font-medium'>
           {account.accountName || 'Account Name'}
           <br />
-          <span className='text-xs text-gray-500 font-normal'>
+          <span className='text-xs text-gray-500 font-normal 2xl:Text-base'>
             {account.accountId}
           </span>
         </div>
-        <span className='text-xs font-medium text-gray-500'>
+        <span className='text-xs font-medium text-gray-500 2xl:text-base'>
           {account.currency.code}
         </span>
       </div>
       <div className='flex items-baseline justify-between'>
-        <div className='text-xl font-medium'>
+        <div className='text-xl font-medium 2xl:text-2xl'>
           {!account.errorCode && gatherCurrencySymbol(account.currency.code)}
           {!account.errorCode && account.balanceList[0].openingAvailableAmount}
           {account.errorCode && 'Error'}

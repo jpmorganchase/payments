@@ -5,17 +5,17 @@ import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
-    <div className='flex lg:flex-none w-full lg:w-44 border-b lg:border-r border-gray-200 '>
+    <div className='flex lg:flex-none w-full lg:w-44 border-b lg:border-r border-gray-200 2xl:w-auto 2xl:pr-10'>
       <nav className='px-8 py-4 lg:p-8 lg:pr-0 flex flex-row lg:flex-col justify-between w-full items-center '>
         <div className='flex flex-row lg:flex-col'>
           <NavLink to='accounts' className='mb-0 lg:mb-12 block'>
             <img
               src={ufLogoLarge}
               alt='Unicorn Finance Logo'
-              className=' mt-2 lg:mt-0 w-4/5 lg:w-4/6'
+              className=' mt-2 lg:mt-0 w-4/5 lg:w-4/6 2xl:w-full'
             />
           </NavLink>
-          <ul className=' ml-0 -my-4 lg:-ml-8 lg:my-0 text-gray-500 text-sm flex flex-row lg:flex-col'>
+          <ul className=' ml-0 -my-4 lg:-ml-8 lg:my-0 text-gray-500 text-sm 2xl:text-xl flex flex-row lg:flex-col'>
             <li className='border-t-2 lg:border-l-2 lg:border-t-0 border-transparent'>
               <a
                 href='#'
@@ -35,7 +35,7 @@ const Sidebar = () => {
           </ul>
         </div>
         <div className='lg:bottom-0 lg:fixed mb-2 '>
-          <ul className='hidden lg:block -ml-8 text-gray-500 text-xs mb-4'>
+          <ul className='hidden lg:block -ml-8 text-gray-500 text-xs mb-4 2xl:text-xl 2xl:pl-4'>
             <NavLink
               activeClassName='border-pink-500 text-gray-900'
               to='service_status'
@@ -49,13 +49,17 @@ const Sidebar = () => {
               </a>
             </li>
           </ul>
-          <div className='flex text-sm relative'>
+          <div className='flex text-sm relative 2xl:text-lg 2xl:pl-4'>
             <span className='block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl'></span>
-            <img className='rounded-xl w-10 h-10' src={avatar} alt='Avatar' />
+            <img
+              className='rounded-xl w-10 h-10 2xl:w-20 2xl:h-20'
+              src={avatar}
+              alt='Avatar'
+            />
             <div className=' lg:block flex flex-col pl-4'>
               <p className='font-medium w-8/12'>Business Unicorn</p>
               <a
-                className=' text-xs text-gray-500 underline hover:no-underline'
+                className=' text-xs text-gray-500 underline hover:no-underline 2xl:text-lg'
                 href='#'
               >
                 Logout

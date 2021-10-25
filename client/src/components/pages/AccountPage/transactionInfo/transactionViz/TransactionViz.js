@@ -40,7 +40,7 @@ const genOptions = (data, title) => {
       text: title,
       style: {
         textAlign: 'left',
-        fontSize: 12,
+        fontSize: 18,
         fontWeight: 500,
       },
     },
