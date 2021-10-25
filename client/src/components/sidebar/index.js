@@ -35,7 +35,7 @@ const Sidebar = () => {
           </ul>
         </div>
         <div className='lg:bottom-0 lg:fixed mb-2 '>
-          <ul className='hidden lg:block text-gray-500 text-xs mb-4 2xl:text-lg'>
+          <ul className='hidden lg:block -ml-4 text-gray-500 text-xs mb-4 2xl:text-lg'>
             <NavLink
               activeClassName='border-pink-500 text-gray-900'
               to='service_status'
