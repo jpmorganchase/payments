@@ -15,7 +15,7 @@ const Sidebar = () => {
               className=' mt-2 lg:mt-0 w-4/5 lg:w-4/6 2xl:w-full'
             />
           </NavLink>
-          <ul className=' ml-0 -my-4 lg:-ml-8 lg:my-0 text-gray-500 text-sm flex flex-row lg:flex-col 2xl:text-2xl'>
+          <ul className=' ml-0 -my-4 lg:-ml-8 lg:my-0 text-gray-500 text-sm flex flex-row lg:flex-col 2xl:text-xl'>
             <li className='border-t-2 lg:border-l-2 lg:border-t-0 border-transparent'>
               <a
                 href='#'
@@ -35,7 +35,7 @@ const Sidebar = () => {
           </ul>
         </div>
         <div className='lg:bottom-0 lg:fixed mb-2 '>
-          <ul className='hidden lg:block -ml-8 text-gray-500 text-xs mb-4 2xl:text-xl'>
+          <ul className='hidden lg:block text-gray-500 text-xs mb-4 2xl:text-lg'>
             <NavLink
               activeClassName='border-pink-500 text-gray-900'
               to='service_status'
@@ -49,17 +49,17 @@ const Sidebar = () => {
               </a>
             </li>
           </ul>
-          <div className='flex text-sm relative 2xl:text-lg'>
+          <div className='flex text-sm relative 2xl:text-base'>
             <span className='block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl'></span>
             <img
-              className='rounded-xl w-10 h-10 2xl:w-20 2xl:h-20'
+              className='rounded-xl w-10 h-10 2xl:w-16 2xl:h-16'
               src={avatar}
               alt='Avatar'
             />
             <div className=' lg:block flex flex-col pl-4'>
               <p className='font-medium w-8/12'>Business Unicorn</p>
               <a
-                className=' text-xs 2xl:text-lg text-gray-500 underline hover:no-underline'
+                className=' text-xs 2xl:text-base text-gray-500 underline hover:no-underline'
                 href='#'
               >
                 Logout

@@ -46,7 +46,9 @@ const ServiceStatusPage = () => {
   return (
     <Layout>
       <div className='p-8'>
-        <h2 className='text-2xl font-medium mb-4'>Service status</h2>
+        <h2 className='text-2xl font-medium mb-4 2xl:text-3xl'>
+          Service status
+        </h2>
         <div className='overflow-auto '>{displayTable()}</div>
         <WhatAPI
           toggleMockedData={toggleMockedData}
