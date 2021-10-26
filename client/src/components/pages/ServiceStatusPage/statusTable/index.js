@@ -19,7 +19,8 @@ const renderErrorMessage = (message) => (
 const StatusTable = ({ serviceStatusData }) => {
   return (
     <>
-      {isEmptyObject(serviceStatusData.data) ? (
+      {isEmptyObject(serviceStatusData) ||
+      isEmptyObject(serviceStatusData.data) ? (
         renderErrorMessage(
           'There are no upcoming outages. Want to know what this data looks like? Toggle on mocked data below.',
         )

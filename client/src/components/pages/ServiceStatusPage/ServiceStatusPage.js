@@ -35,7 +35,7 @@ const ServiceStatusPage = () => {
       response.status === 'loading' ||
       response.isFetching
     ) {
-      return <p> Loading</p>;
+      return <p> Retrieving data...</p>;
     } else if (response.status === 'error') {
       return <div className='text-center pt-24'>{response.error.message}</div>;
     } else {

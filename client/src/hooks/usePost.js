@@ -13,6 +13,7 @@ const sendPost = async (path) => {
 export default function usePost(path, id, intervalMs) {
   return useQuery(id, () => sendPost(path), {
     refetchInterval: intervalMs,
+    retry: 0,
     staleTime: intervalMs,
   });
 }
