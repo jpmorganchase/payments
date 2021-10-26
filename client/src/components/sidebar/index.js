@@ -2,6 +2,7 @@ import React from 'react';
 import ufLogoLarge from '../../images/uf-logo.svg';
 import avatar from '../../images/avatar.png';
 import { NavLink } from 'react-router-dom';
+import { Popover } from '@headlessui/react';
 
 const Sidebar = () => {
   return (
@@ -12,7 +13,7 @@ const Sidebar = () => {
             <img
               src={ufLogoLarge}
               alt='Unicorn Finance Logo'
-              className=' mt-2 lg:mt-0 w-4/5 lg:w-4/6 '
+              className=' mt-2 lg:mt-0 w-4/5 lg:w-4/6'
             />
           </NavLink>
           <ul className=' ml-0 -my-4 lg:-ml-8 lg:my-0 text-gray-500 text-sm flex flex-row lg:flex-col'>
@@ -34,8 +35,35 @@ const Sidebar = () => {
             </NavLink>
           </ul>
         </div>
-        <div className='lg:bottom-0 lg:fixed mb-2 '>
-          <ul className='hidden lg:block -ml-4 text-gray-500 text-xs mb-4 '>
+
+        <div className='lg:bottom-0 lg:fixed mb-2 lg:w-auto'>
+          <Popover className='relative lg:hidden'>
+            <Popover.Button className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+              <span className='block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl'></span>
+              <img className='rounded-xl w-10 h-10' src={avatar} alt='Avatar' />
+            </Popover.Button>
+
+            <Popover.Panel className='absolute z-10 w-max max-w-sm px-4 mt-3 transform -translate-x-3/4 left-1/2'>
+              <div className='overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5'>
+                <div className='relative grid bg-white p-7 grid-cols-1 gap-3'>
+                  <a href='/service_status'>Service Status</a>
+                  <a href='#'>Settings</a>
+                </div>
+                <div className='relative p-4 bg-gray-50 grid grid-cols-1 gap-2'>
+                  <p className='font-medium w-auto'>Business Unicorn</p>
+
+                  <a
+                    className=' text-xs text-gray-500 underline hover:no-underline'
+                    href='#'
+                  >
+                    Logout
+                  </a>
+                </div>
+              </div>
+            </Popover.Panel>
+          </Popover>
+
+          <ul className='hidden lg:block -ml-8 text-gray-500 text-xs mb-4'>
             <NavLink
               activeClassName='border-pink-500 text-gray-900'
               to='service_status'
@@ -49,7 +77,7 @@ const Sidebar = () => {
               </a>
             </li>
           </ul>
-          <div className='flex text-sm relative '>
+          <div className='hidden lg:flex text-sm relative'>
             <span className='block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl'></span>
             <img className='rounded-xl w-10 h-10 ' src={avatar} alt='Avatar' />
             <div className=' lg:block flex flex-col pl-4'>

@@ -19,13 +19,12 @@ const renderErrorMessage = (message) => (
 const StatusTable = ({ serviceStatusData }) => {
   return (
     <>
-      {isEmptyObject(serviceStatusData) ||
-      isEmptyObject(serviceStatusData.data) ? (
+      {isEmptyObject(serviceStatusData.data) ? (
         renderErrorMessage(
           'There are no upcoming outages. Want to know what this data looks like? Toggle on mocked data below.',
         )
       ) : (
-        <table className='min-w-full text-xs 2xl:text-lg border-b border-gray-200 mb-6'>
+        <table className='min-w-full text-xs border-b border-gray-200 mb-6'>
           <thead className='border-b-2'>
             <tr>
               {tableHeaders &&
