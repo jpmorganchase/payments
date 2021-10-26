@@ -73,7 +73,7 @@ const AccountPage = () => {
         </>
       );
     } else if (results.some((r) => r.isLoading)) {
-      return <p className='m-8'> Loading</p>;
+      return <p className='m-8'> Retrieving data...</p>;
     } else if (results.some((r) => r.isError)) {
       const first = results.find((r) => r.error);
       return <div className='text-center pt-24'>{first.error.message}</div>;
