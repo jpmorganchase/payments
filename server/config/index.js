@@ -15,11 +15,13 @@ module.exports = {
     key: process.env.KEY && process.env.KEY.replace(/\\n/g, '\n'),
     cert: process.env.CERT && process.env.CERT.replace(/\\n/g, '\n'),
     errorString: 'Error hitting API',
-  },
-  cache: {
-    serviceStatus: 'serviceStatus',
-    balance: 'balances',
-    previousBalance: 'previousBalance',
-    transaction: 'transactions',
+    accounts: [
+      {
+        accountId: '000000010975001',
+      },
+      {
+        accountId: '000000010962009',
+      },
+    ],
   },
 };

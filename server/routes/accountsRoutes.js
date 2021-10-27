@@ -23,6 +23,11 @@ const handleResponse = (result, response) => {
     return response
       .status(result.statusCode)
       .send(JSON.stringify({ errorString: result.message }));
+  } else if (result.data && result.data.errors) {
+    console.log(`Error when hitting API: ${result.data.errors[0].errorMsg}`);
+    return response
+      .status(500)
+      .send(JSON.stringify(result.data.errors[0].errorMsg));
   }
   return response.status(result.statusCode).send(JSON.stringify(result));
 };
