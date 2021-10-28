@@ -3,10 +3,12 @@ const common = require('./common');
 
 exports.getTransactionData = async function () {
   if (config.api.cert && config.api.key) {
-    // TODO do we want this in config?
+    const accountIds = config.api.accounts
+      .map((account) => account.accountId)
+      .join(',');
     const options = {
       hostname: 'apigatewayqaf.jpmorgan.com',
-      path: '/tsapi/v2/transactions?accountIds=000000011253770&endDate=2021-03-01',
+      path: `/tsapi/v2/transactions?accountIds=${accountIds}&relativeDateType=CURRENT_DAY`,
       method: 'GET',
       cert: config.api.cert,
       key: config.api.key,
@@ -21,11 +23,7 @@ exports.getBalanceData = async function (prior = false) {
   if (config.api.cert && config.api.key) {
     const postData = JSON.stringify({
       relativeDateType: prior ? 'PRIOR_DAY' : 'CURRENT_DAY',
-      accountList: [
-        {
-          accountId: '000000011253770',
-        },
-      ],
+      accountList: config.api.accounts,
     });
     const options = {
       hostname: 'apigatewayqaf.jpmorgan.com',
