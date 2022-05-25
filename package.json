@@ -8,6 +8,7 @@
     "express": "^4.17.1",
     "highcharts": "^9.2.2",
     "highcharts-react-official": "^3.0.0",
+    "node-fetch": "^2.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -43,6 +44,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:5000"
+  }
 }

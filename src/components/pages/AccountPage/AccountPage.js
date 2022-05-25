@@ -11,23 +11,26 @@ const balanceMockData = require('./mockJson/uf-balances.json');
 const balancePriorMockData = require('./mockJson/uf-balances-prior.json');
 const transactionMockData = require('./mockJson/uf-transactions.json');
 
+const BASE_PATH =
+  process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000';
 const config = {
   apiDetails: [
     {
       name: 'Balances',
-      path: '/api/accounts/balances',
+      path: `${BASE_PATH}/api/server?path=balances`,
+
       cacheKey: 'balances',
       refreshInterval: 43200000,
     },
     {
       name: 'Transactions',
-      path: '/api/accounts/transactions',
+      path: `${BASE_PATH}/api/server?path=transactions`,
       cacheKey: 'transactions',
       refreshInterval: 1800000,
     },
     {
       name: 'Balances Prior',
-      path: '/api/accounts/balances/prior',
+      path: `${BASE_PATH}/api/server?path=balances`,
       cacheKey: 'balances_prior',
       refreshInterval: 43200000,
     },
@@ -37,7 +40,7 @@ const config = {
 const AccountPage = () => {
   const queryClient = useQueryClient();
 
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
+  const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});
@@ -46,6 +49,7 @@ const AccountPage = () => {
   const results = config.apiDetails.map((api) =>
     usePost(api.path, api.cacheKey, api.refreshInterval),
   );
+  console.log(results);
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
   };
@@ -90,13 +94,13 @@ const AccountPage = () => {
       return (
         <>
           <AccountInfo
-            data={balanceData.data}
-            previous={previousDayBalanceData.data}
+            data={balanceData}
+            previous={previousDayBalanceData}
             setSelectedAccount={setSelectedAccount}
             selectedAccount={selectedAccount}
           />
           <TransactionInfo
-            transactions={transactionData.data}
+            transactions={transactionData}
             openTransactionDialog={openTransactionDialog}
             selectedAccount={selectedAccount}
           />

@@ -1,37 +1,39 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { isEmptyObject, formatDate } from '../../../utils';
+import { isEmptyObject } from '../../../utils';
 import TableItem from './tableItem';
 const tableHeaders = [
-  'Description',
-  'API',
+  'Participant ID',
+  'Partcipant Name',
   'Status',
-  'type',
-  'start date',
-  'end date',
-  '',
+  'Clearing System',
 ];
 
 const renderErrorMessage = (message) => (
-  <div className='text-center pt-24'>{message}</div>
+  <div className='pt-24 text-center'>{message}</div>
 );
 
 const StatusTable = ({ serviceStatusData }) => {
+  const bankStatus = serviceStatusData?.bankStatus;
   return (
     <>
-      {isEmptyObject(serviceStatusData.data) ? (
+      {isEmptyObject(bankStatus) ? (
         renderErrorMessage(
           'There are no upcoming outages. Want to know what this data looks like? Toggle on mocked data below.',
         )
+      ) : !serviceStatusData || serviceStatusData.error ? (
+        renderErrorMessage(
+          'Error gathering information from API. Toggle on mocked data below to see example information',
+        )
       ) : (
-        <table className='min-w-full text-xs border-b border-gray-200 mb-6'>
+        <table className='mb-6 min-w-full border-b border-gray-200 text-xs'>
           <thead className='border-b-2'>
             <tr>
               {tableHeaders &&
                 tableHeaders.map((header, index) => (
                   <th
                     scope='col'
-                    className='py-2 text-left font-medium text-gray-500 uppercase'
+                    className='py-2 text-left font-medium uppercase text-gray-500'
                     key={index}
                   >
                     {header}
@@ -39,36 +41,16 @@ const StatusTable = ({ serviceStatusData }) => {
                 ))}
             </tr>
           </thead>
-          <tbody className='bg-white divide-y divide-gray-200'>
-            {serviceStatusData.data.outageEventDetailsList &&
-              serviceStatusData.data.outageEventDetailsList.map(
-                (outage, key) => (
-                  <tr key={key}>
-                    <TableItem text={outage.description} />
-                    <TableItem
-                      text={outage.impactedProducts
-                        .map(function (product) {
-                          return product['productName'];
-                        })
-                        .join(', ')}
-                    />
-                    <TableItem text={outage.status} status={true} />
-                    <TableItem text={outage.type} />
-                    <TableItem
-                      text={formatDate(new Date(outage.startDatetime))}
-                    />
-                    <TableItem
-                      text={formatDate(new Date(outage.endDatetime))}
-                    />
-
-                    <td className='whitespace-nowrap'>
-                      <span className='material-icons align-middle block w-full text-center cursor-pointer'>
-                        more_horiz
-                      </span>
-                    </td>
-                  </tr>
-                ),
-              )}
+          <tbody className='divide-y divide-gray-200 bg-white'>
+            {bankStatus?.length > 0 &&
+              bankStatus.map((outage, key) => (
+                <tr key={key}>
+                  <TableItem text={outage.participantId} />
+                  <TableItem text={outage.participantName} />
+                  <TableItem text={outage.status} status={true} />
+                  <TableItem text={outage.clearingSystem} />
+                </tr>
+              ))}
           </tbody>
         </table>
       )}
@@ -78,21 +60,15 @@ const StatusTable = ({ serviceStatusData }) => {
 
 StatusTable.propTypes = {
   serviceStatusData: PropTypes.shape({
-    data: PropTypes.shape({
-      outageEventDetailsList: PropTypes.arrayOf(
-        PropTypes.shape({
-          status: PropTypes.string,
-          type: PropTypes.string,
-          startDatetime: PropTypes.string,
-          endDatetime: PropTypes.string,
-          impactedProducts: PropTypes.arrayOf(
-            PropTypes.shape({
-              productName: PropTypes.string,
-            }),
-          ),
-        }),
-      ),
-    }),
+    bankStatus: PropTypes.arrayOf(
+      PropTypes.shape({
+        clearingSystem: PropTypes.string,
+        participantId: PropTypes.string,
+        participantName: PropTypes.string,
+        status: PropTypes.string,
+      }),
+    ),
+    error: PropTypes.object,
   }),
 };
 

@@ -5,19 +5,21 @@ import WhatAPI from '../../whatAPI';
 import usePost from '../../../hooks/usePost';
 
 const mockedData = require('./uf-service-status.json');
-
+const BASE_PATH =
+  process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000';
+console.log(BASE_PATH);
 const config = {
   apiDetails: [
     {
       name: 'Platform Availability Communication Manangement',
-      path: '/api/serviceStatus',
+      path: `${BASE_PATH}/api/server?path=status`,
       cacheKey: 'serviceStatus',
       refreshInterval: 1800000,
     },
   ],
 };
 const ServiceStatusPage = () => {
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
+  const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
   const response = usePost(
     config.apiDetails[0].path,
     config.apiDetails[0].cacheKey,
@@ -29,7 +31,7 @@ const ServiceStatusPage = () => {
 
   const displayTable = () => {
     if (displayingMockedData) {
-      return <StatusTable serviceStatusData={{ data: mockedData }} />;
+      return <StatusTable serviceStatusData={mockedData} />;
     } else if (
       !response ||
       response.status === 'loading' ||
