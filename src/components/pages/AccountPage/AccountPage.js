@@ -1,5 +1,4 @@
 import React from 'react';
-import Layout from '../../layout';
 import WhatAPI from '../../whatAPI';
 import AccountInfo from './accountInfo/index';
 import TransactionInfo from './transactionInfo/index';
@@ -114,7 +113,7 @@ const AccountPage = () => {
   };
 
   return (
-    <Layout>
+    <div>
       {displayPanels()}
       <TransactionJsonDialog
         open={transactionDialogOpen}
@@ -126,7 +125,7 @@ const AccountPage = () => {
         config={config}
         mockedDataEnabled={displayingMockedData}
       />
-    </Layout>
+    </div>
   );
 };
 

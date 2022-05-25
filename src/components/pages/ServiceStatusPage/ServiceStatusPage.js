@@ -1,6 +1,5 @@
 import React from 'react';
 import StatusTable from './statusTable';
-import Layout from '../../layout';
 import WhatAPI from '../../whatAPI';
 import usePost from '../../../hooks/usePost';
 import Spinner from '../../spinner';
@@ -50,17 +49,15 @@ const ServiceStatusPage = () => {
   };
 
   return (
-    <Layout>
-      <div className='p-8'>
-        <h2 className='text-2xl font-medium mb-4'>Service status</h2>
-        <div className='overflow-auto '>{displayTable()}</div>
-        <WhatAPI
-          toggleMockedData={toggleMockedData}
-          config={config}
-          mockedDataEnabled={displayingMockedData}
-        />
-      </div>
-    </Layout>
+    <div className='p-8'>
+      <h2 className='text-2xl font-medium mb-4'>Service status</h2>
+      <div className='overflow-auto '>{displayTable()}</div>
+      <WhatAPI
+        toggleMockedData={toggleMockedData}
+        config={config}
+        mockedDataEnabled={displayingMockedData}
+      />
+    </div>
   );
 };
 
