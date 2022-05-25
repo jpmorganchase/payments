@@ -17,7 +17,7 @@ const config = {
   ],
 };
 const ServiceStatusPage = () => {
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
+  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const response = usePost(
     config.apiDetails[0].path,
     config.apiDetails[0].cacheKey,

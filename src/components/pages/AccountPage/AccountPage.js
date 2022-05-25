@@ -37,7 +37,7 @@ const config = {
 const AccountPage = () => {
   const queryClient = useQueryClient();
 
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
+  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});
