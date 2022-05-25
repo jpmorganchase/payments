@@ -3,11 +3,11 @@ import StatusTable from './statusTable';
 import Layout from '../../layout';
 import WhatAPI from '../../whatAPI';
 import usePost from '../../../hooks/usePost';
+import Spinner from '../../spinner';
 
 const mockedData = require('./uf-service-status.json');
 const BASE_PATH =
   process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000';
-console.log(BASE_PATH);
 const config = {
   apiDetails: [
     {
@@ -37,7 +37,11 @@ const ServiceStatusPage = () => {
       response.status === 'loading' ||
       response.isFetching
     ) {
-      return <p> Loading</p>;
+      return (
+        <div className='text-center pt-24'>
+          <Spinner />
+        </div>
+      );
     } else if (response.status === 'error') {
       return <div className='text-center pt-24'>{response.error.message}</div>;
     } else {

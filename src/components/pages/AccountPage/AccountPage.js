@@ -6,6 +6,7 @@ import TransactionInfo from './transactionInfo/index';
 import usePost from '../../../hooks/usePost';
 import TransactionJsonDialog from './transactionInfo/TransactionJsonDialog';
 import { useQueryClient } from 'react-query';
+import Spinner from '../../spinner';
 
 const balanceMockData = require('./mockJson/uf-balances.json');
 const balancePriorMockData = require('./mockJson/uf-balances-prior.json');
@@ -49,7 +50,6 @@ const AccountPage = () => {
   const results = config.apiDetails.map((api) =>
     usePost(api.path, api.cacheKey, api.refreshInterval),
   );
-  console.log(results);
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
   };
@@ -62,7 +62,7 @@ const AccountPage = () => {
   const displayPanels = () => {
     if (displayingMockedData) {
       return (
-        <>
+        <div className='flex flex-wrap'>
           <AccountInfo
             data={balanceMockData}
             previous={balancePriorMockData}
@@ -74,10 +74,14 @@ const AccountPage = () => {
             openTransactionDialog={openTransactionDialog}
             selectedAccount={selectedAccount}
           />
-        </>
+        </div>
       );
     } else if (results.some((r) => r.isLoading)) {
-      return <p className='m-8'> Retrieving data...</p>;
+      return (
+        <div className='text-center pt-24'>
+          <Spinner />
+        </div>
+      );
     } else if (results.some((r) => r.isError)) {
       const first = results.find((r) => r.error);
       return <div className='text-center pt-24'>{first.error.message}</div>;
@@ -92,7 +96,7 @@ const AccountPage = () => {
         config.apiDetails[2].cacheKey,
       );
       return (
-        <>
+        <div className='flex flex-wrap'>
           <AccountInfo
             data={balanceData}
             previous={previousDayBalanceData}
@@ -104,14 +108,14 @@ const AccountPage = () => {
             openTransactionDialog={openTransactionDialog}
             selectedAccount={selectedAccount}
           />
-        </>
+        </div>
       );
     }
   };
 
   return (
     <Layout>
-      <div className='flex flex-wrap'>{displayPanels()}</div>
+      {displayPanels()}
       <TransactionJsonDialog
         open={transactionDialogOpen}
         setTransactionDialog={openTransactionDialog}

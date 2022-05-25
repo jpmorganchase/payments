@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 const sendPost = async (path) => {
   const response = await fetch(path);
   if (!response.ok) {
-    throw new Error('Error fetching API data');
+    throw new Error('Error fetching API data. Try the mocked data');
   }
   return response.json();
 };
