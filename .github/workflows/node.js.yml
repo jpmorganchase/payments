@@ -28,5 +28,3 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Building
         run: yarn run build --if-present
-      - name: Tests
-        run: yarn run test
