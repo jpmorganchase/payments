@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "0e3ee822-5ed0-4f52-bf2e-48b71f102c4d",
+		"name": "Unicorn Finance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Balance API",
+			"protocolProfileBehavior": {
+				"strictSSL": true,
+				"disableUrlEncoding": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"startDate\": \"2021-09-01\",\n  \"endDate\": \"2021-09-20\",\n  \"accountList\": [\n    {\n      \"accountId\": \"000000010013324\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://apigatewayqaf.jpmorgan.com/accessapi/balance",
+					"protocol": "https",
+					"host": [
+						"apigatewayqaf",
+						"jpmorgan",
+						"com"
+					],
+					"path": [
+						"accessapi",
+						"balance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PACMAN ",
+			"protocolProfileBehavior": {
+				"strictSSL": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://apigatewayqaf.jpmorgan.com/tsapi/v1/outages",
+					"protocol": "https",
+					"host": [
+						"apigatewayqaf",
+						"jpmorgan",
+						"com"
+					],
+					"path": [
+						"tsapi",
+						"v1",
+						"outages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?endDate=2021-03-01&accountIds=000000011253770,000000011116605",
+					"protocol": "https",
+					"host": [
+						"apigatewayqaf",
+						"jpmorgan",
+						"com"
+					],
+					"path": [
+						"tsapi",
+						"v2",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2021-09-10",
+							"disabled": true
+						},
+						{
+							"key": "relativeDateType",
+							"value": "CURRENT_DAY",
+							"disabled": true
+						},
+						{
+							"key": "endDate",
+							"value": "2021-03-01"
+						},
+						{
+							"key": "accountIds",
+							"value": "000000011253770,000000011116605"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
