@@ -16,7 +16,6 @@ const BASE_PATH =
     ? 'https://payments-showcase.vercel.app'
     : 'http://localhost:3000';
 
-console.log(BASE_PATH);
 const config = {
   apiDetails: [
     {
