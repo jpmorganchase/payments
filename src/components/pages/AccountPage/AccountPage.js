@@ -12,7 +12,11 @@ const balancePriorMockData = require('./mockJson/uf-balances-prior.json');
 const transactionMockData = require('./mockJson/uf-transactions.json');
 
 const BASE_PATH =
-  process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000';
+  process.env.NODE_ENV === 'production'
+    ? 'https://payments-showcase.vercel.app'
+    : 'http://localhost:3000';
+
+console.log(BASE_PATH);
 const config = {
   apiDetails: [
     {
@@ -30,7 +34,7 @@ const config = {
     },
     {
       name: 'Balances Prior',
-      path: `${BASE_PATH}/api/server?path=balances`,
+      path: `${BASE_PATH}/api/server?path=balancesprior`,
       cacheKey: 'balances_prior',
       refreshInterval: 43200000,
     },

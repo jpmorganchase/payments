@@ -29,16 +29,22 @@ const getAPIEndpoint = (path) => {
       return 'https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants?status=OFFLINE';
     case 'balances':
       return 'https://apigatewayqaf.jpmorgan.com/accessapi/balance';
+    case 'balancesprior':
+      return 'https://apigatewayqaf.jpmorgan.com/accessapi/balance';
     case 'transactions':
       return 'https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?relativeDateType=PRIOR_DAY';
   }
 };
 
 const generateError = (response, responseBody) => {
-  return response.status(500).json(responseBody);
+  return response
+    .status(500)
+    .json(
+      responseBody ? responseBody : { error: 'Issue collecting data from API' },
+    );
 };
 
-const postRequest = async (apiEndpoint) => {
+const postRequest = async (apiEndpoint, prior = false) => {
   return await fetch(apiEndpoint, {
     agent: sslConfiguredAgent,
     method: 'POST',
@@ -47,8 +53,7 @@ const postRequest = async (apiEndpoint) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      startDate: '2021-09-01',
-      endDate: '2021-09-20',
+      relativeDateType: prior ? 'PRIOR_DAY' : 'CURRENT_DAY',
       accountList: [
         {
           accountId: '000000010013324',
@@ -74,6 +79,8 @@ export default async function handler(request, response) {
     let responseValue;
     if (path === 'balances') {
       responseValue = await postRequest(apiEndpoint);
+    } else if (path === 'balancesprior') {
+      responseValue = await postRequest(apiEndpoint, true);
     } else {
       responseValue = await getRequest(apiEndpoint);
     }
@@ -85,6 +92,6 @@ export default async function handler(request, response) {
     return response.status(200).json(responseBody);
   } catch (error) {
     console.log(error);
-    return generateError(response, responseBody);
+    return generateError(response);
   }
 }
