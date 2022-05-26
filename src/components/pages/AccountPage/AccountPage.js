@@ -1,33 +1,39 @@
 import React from 'react';
-import Layout from '../../layout';
 import WhatAPI from '../../whatAPI';
 import AccountInfo from './accountInfo/index';
 import TransactionInfo from './transactionInfo/index';
 import usePost from '../../../hooks/usePost';
 import TransactionJsonDialog from './transactionInfo/TransactionJsonDialog';
 import { useQueryClient } from 'react-query';
+import Spinner from '../../spinner';
 
 const balanceMockData = require('./mockJson/uf-balances.json');
 const balancePriorMockData = require('./mockJson/uf-balances-prior.json');
 const transactionMockData = require('./mockJson/uf-transactions.json');
 
+const BASE_PATH =
+  process.env.NODE_ENV === 'production'
+    ? 'https://payments-showcase.vercel.app'
+    : 'http://localhost:3000';
+
 const config = {
   apiDetails: [
     {
       name: 'Balances',
-      path: '/api/accounts/balances',
+      path: `${BASE_PATH}/api/server?path=balances`,
+
       cacheKey: 'balances',
       refreshInterval: 43200000,
     },
     {
       name: 'Transactions',
-      path: '/api/accounts/transactions',
+      path: `${BASE_PATH}/api/server?path=transactions`,
       cacheKey: 'transactions',
       refreshInterval: 1800000,
     },
     {
       name: 'Balances Prior',
-      path: '/api/accounts/balances/prior',
+      path: `${BASE_PATH}/api/server?path=balancesprior`,
       cacheKey: 'balances_prior',
       refreshInterval: 43200000,
     },
@@ -58,7 +64,7 @@ const AccountPage = () => {
   const displayPanels = () => {
     if (displayingMockedData) {
       return (
-        <>
+        <div className='flex flex-wrap'>
           <AccountInfo
             data={balanceMockData}
             previous={balancePriorMockData}
@@ -70,10 +76,14 @@ const AccountPage = () => {
             openTransactionDialog={openTransactionDialog}
             selectedAccount={selectedAccount}
           />
-        </>
+        </div>
       );
     } else if (results.some((r) => r.isLoading)) {
-      return <p className='m-8'> Retrieving data...</p>;
+      return (
+        <div className='text-center pt-24'>
+          <Spinner />
+        </div>
+      );
     } else if (results.some((r) => r.isError)) {
       const first = results.find((r) => r.error);
       return <div className='text-center pt-24'>{first.error.message}</div>;
@@ -88,26 +98,26 @@ const AccountPage = () => {
         config.apiDetails[2].cacheKey,
       );
       return (
-        <>
+        <div className='flex flex-wrap'>
           <AccountInfo
-            data={balanceData.data}
-            previous={previousDayBalanceData.data}
+            data={balanceData}
+            previous={previousDayBalanceData}
             setSelectedAccount={setSelectedAccount}
             selectedAccount={selectedAccount}
           />
           <TransactionInfo
-            transactions={transactionData.data}
+            transactions={transactionData}
             openTransactionDialog={openTransactionDialog}
             selectedAccount={selectedAccount}
           />
-        </>
+        </div>
       );
     }
   };
 
   return (
-    <Layout>
-      <div className='flex flex-wrap'>{displayPanels()}</div>
+    <div>
+      {displayPanels()}
       <TransactionJsonDialog
         open={transactionDialogOpen}
         setTransactionDialog={openTransactionDialog}
@@ -118,7 +128,7 @@ const AccountPage = () => {
         config={config}
         mockedDataEnabled={displayingMockedData}
       />
-    </Layout>
+    </div>
   );
 };
 
