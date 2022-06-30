@@ -33,15 +33,13 @@ const ServiceStatusPage = () => {
   const toggleApiData = () => {
     setDisplayingApiData(!displayingApiData);
   };
-
-  const apiData=config.apiDetails;
   
-
   const displayTable = () => {
     if (displayingMockedData) {
       if(displayingApiData){
         return <StatusTable 
           serviceStatusData={mockedData}
+          apiData={config.apiDetails}
           />;
       }else{
         return <StatusTable serviceStatusData={mockedData} />;
@@ -72,17 +70,6 @@ const ServiceStatusPage = () => {
   return (
     <div className='relative p-8'>
       <h2 className='text-2xl font-medium mb-4'>Service status</h2>
-
-      {!displayingApiData ? (
-        <></>
-        ):(<div className='absolute bg-black bg-opacity-80 p-8 rounded-lg text-white flex-col h-full w-full'>
-        <h1 className='text-sm'>{apiData[0].name} API</h1>
-        <h3 className='text-xs mb-4'>{apiData[0].path}</h3>
-        <h3 className='text-xs'>This API returns a list of current outages within JP
-          Morgan external APIs. If no outages are returned a message is displayed for
-          the user.</h3>
-      </div>
-      )}
       <div className='overflow-auto '>{displayTable()}</div>
       
       <WhatAPI

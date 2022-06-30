@@ -20,11 +20,24 @@ const groupTransactionsByDay = (data) => {
   });
   return groupArrays.slice().sort((a, b) => (a < b ? 1 : -1));
 };
-const TransactionGrid = ({ transactions, ...props }) => {
+const TransactionGrid = ({ transactions, apiData=[], ...props }) => {
   const groupedTransactions = groupTransactionsByDay(transactions);
 
   return (
-    <div className='overflow-y-auto flex-grow'>
+    <div className='relative'>
+    
+    {apiData.length==0 ? (
+        <></>
+      ):( 
+        <div className='absolute bg-black bg-opacity-80 p-8 rounded-lg text-white flex-col h-full w-full'>
+          <h1 className='text-sm'>{apiData[1].name} API</h1>
+          <h3 className='text-xs mb-4'>{apiData[1].path}</h3>
+          <h3 className='text-xs'>This API returns all the transactions for a specific account
+     for a specific time period.</h3>
+        </div>
+        
+      )}
+        <div className='overflow-y-auto flex-grow'>
       {!groupedTransactions ||
         (groupedTransactions.length < 1 && <div> No Transactions found </div>)}
       {groupedTransactions &&
@@ -37,11 +50,13 @@ const TransactionGrid = ({ transactions, ...props }) => {
           />
         ))}
     </div>
+    </div>
   );
 };
 
 TransactionGrid.propTypes = {
   transactions: PropTypes.arrayOf(PropTypes.object),
+  apiData: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default TransactionGrid;

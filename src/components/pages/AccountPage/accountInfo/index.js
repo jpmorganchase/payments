@@ -28,29 +28,16 @@ const AccountInfo = ({ data, previous,apiData=[], ...props }) => {
       <h2 className='text-2xl font-medium mb-4'>Accounts</h2>
 
     <div>
-    
-      {apiData.length==0 ? (
-        <></>
-      ):( 
-        <div className='absolute bg-black bg-opacity-80 p-8 rounded-lg text-white flex-col h-full mr-7 '>
-          <h1 className='text-sm'>{apiData[0].name} API</h1>
-          <h3 className='text-xs mb-4'>{apiData[0].path}</h3>
-          <h3 className='text-xs'>This API returns intraday balances for specific accounts. 
-            We use it to get the current day balance for a UAT account.</h3>
-        </div>
-        
-      )}
       <AccountTotal
         total={totalAccount}
         currency={'USD'}
         totalPrevious={totalAccountPrevious}
+        apiData={apiData}
         {...props}
         />
       
       </div>
       
-    
-
       <div className='flex justify-between items-center mt-4 mb-3'>
         <h3 className='text-sm font-medium'>All accounts</h3>
         <div className='bg-gray-100 hover:bg-gray-200 cursor-pointer text-xs rounded-lg px-2 py-1 flex items-center'>
@@ -65,6 +52,7 @@ const AccountInfo = ({ data, previous,apiData=[], ...props }) => {
         <AccountList
           data={data.accountList}
           previous={previous.accountList}
+          apiData={apiData}
           {...props}
         />
       )}
