@@ -11,7 +11,10 @@ const balanceMockData = require('./mockJson/uf-balances.json');
 const balancePriorMockData = require('./mockJson/uf-balances-prior.json');
 const transactionMockData = require('./mockJson/uf-transactions.json');
 
-const BASE_PATH = 'http://localhost:3000';
+const BASE_PATH =
+  process.env.NODE_ENV === 'production'
+    ? 'https://payments-showcase.vercel.app'
+    : 'http://localhost:3000';
 
 const config = {
   apiDetails: [
@@ -40,7 +43,7 @@ const config = {
 const AccountPage = () => {
   const queryClient = useQueryClient();
 
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
+  const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
@@ -63,7 +66,7 @@ const AccountPage = () => {
 
   const displayPanels = () => {
     if (displayingMockedData) {
-      if (displayingApiData) {
+      if (displayingApiData){
         return (
           <div className='flex flex-wrap'>
             <AccountInfo
@@ -81,7 +84,7 @@ const AccountPage = () => {
             />
           </div>
         );
-      } else {
+      }else{
         return (
           <div className='flex flex-wrap'>
             <AccountInfo
@@ -117,7 +120,7 @@ const AccountPage = () => {
       const previousDayBalanceData = queryClient.getQueryData(
         config.apiDetails[2].cacheKey,
       );
-      if (displayingApiData) {
+      if(displayingApiData){
         return (
           <div className='flex flex-wrap'>
             <AccountInfo
@@ -135,7 +138,7 @@ const AccountPage = () => {
             />
           </div>
         );
-      } else {
+      }else{
         return (
           <div className='flex flex-wrap'>
             <AccountInfo
@@ -151,8 +154,9 @@ const AccountPage = () => {
             />
           </div>
         );
-      }
     }
+  }
+
   };
 
   return (

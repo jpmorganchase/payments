@@ -24,13 +24,24 @@ const TransactionInfo = ({ transactions, selectedAccount, apiData=[], ...props }
         </div>
       </div>
 
+      <div>
       <TransactionViz transactions={transactionData} {...props} />
-      <TransactionGrid transactions={transactionData} apiData={apiData} {...props}  />
-     
-  
-       </div>
- 
-    
+      {apiData.length==0 ? (
+        <></>
+      ):( 
+        <div className='absolute bg-black bg-opacity-80 p-8 rounded-lg text-white flex-col w-full h-full '>
+          <h1 className='text-sm'>{apiData[1].name} API</h1>
+          <h3 className='text-xs mb-4'>{apiData[1].path}</h3>
+          <h3 className='text-xs'>This API returns all the transactions for a specific account
+     for a specific time period.</h3>
+        </div>
+        
+      )}
+      
+      <TransactionGrid transactions={transactionData} {...props} />
+      </div>
+      
+    </div>
   );
 };
 
