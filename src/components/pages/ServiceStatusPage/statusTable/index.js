@@ -53,10 +53,12 @@ const StatusTable = ({ serviceStatusData }) => {
               ))}
           </tbody>
         </table>
-      )}
+        
+      
+      )}       
     </>
-  );
-};
+    )
+    };
 
 StatusTable.propTypes = {
   serviceStatusData: PropTypes.shape({

@@ -44,6 +44,7 @@ const AccountPage = () => {
   const queryClient = useQueryClient();
 
   const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
+  const [displayingApiData, setDisplayingApiData] = React.useState(false);
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});
@@ -55,7 +56,9 @@ const AccountPage = () => {
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
   };
-
+  const toggleApiData = () => {
+    setDisplayingApiData(!displayingApiData);
+  };
   const openTransactionDialog = (state, transaction) => {
     setTransactionDialogState(state);
     setSelectedTransaction(transaction);
@@ -63,21 +66,41 @@ const AccountPage = () => {
 
   const displayPanels = () => {
     if (displayingMockedData) {
-      return (
-        <div className='flex flex-wrap'>
-          <AccountInfo
-            data={balanceMockData}
-            previous={balancePriorMockData}
-            setSelectedAccount={setSelectedAccount}
-            selectedAccount={selectedAccount}
-          />
-          <TransactionInfo
-            transactions={transactionMockData}
-            openTransactionDialog={openTransactionDialog}
-            selectedAccount={selectedAccount}
-          />
-        </div>
-      );
+      if (displayingApiData){
+        return (
+          <div className='flex flex-wrap'>
+            <AccountInfo
+              data={balanceMockData}
+              previous={balancePriorMockData}
+              apiData={config.apiDetails}
+              setSelectedAccount={setSelectedAccount}
+              selectedAccount={selectedAccount}
+            />
+            <TransactionInfo
+              transactions={transactionMockData}
+              openTransactionDialog={openTransactionDialog}
+              selectedAccount={selectedAccount}
+              apiData={config.apiDetails}
+            />
+          </div>
+        );
+      }else{
+        return (
+          <div className='flex flex-wrap'>
+            <AccountInfo
+              data={balanceMockData}
+              previous={balancePriorMockData}
+              setSelectedAccount={setSelectedAccount}
+              selectedAccount={selectedAccount}
+            />
+            <TransactionInfo
+              transactions={transactionMockData}
+              openTransactionDialog={openTransactionDialog}
+              selectedAccount={selectedAccount}
+            />
+          </div>
+        );
+      }
     } else if (results.some((r) => r.isLoading)) {
       return (
         <div className='text-center pt-24'>
@@ -97,22 +120,43 @@ const AccountPage = () => {
       const previousDayBalanceData = queryClient.getQueryData(
         config.apiDetails[2].cacheKey,
       );
-      return (
-        <div className='flex flex-wrap'>
-          <AccountInfo
-            data={balanceData}
-            previous={previousDayBalanceData}
-            setSelectedAccount={setSelectedAccount}
-            selectedAccount={selectedAccount}
-          />
-          <TransactionInfo
-            transactions={transactionData}
-            openTransactionDialog={openTransactionDialog}
-            selectedAccount={selectedAccount}
-          />
-        </div>
-      );
+      if(displayingApiData){
+        return (
+          <div className='flex flex-wrap'>
+            <AccountInfo
+              data={balanceData}
+              previous={previousDayBalanceData}
+              apiData={config.apiDetails}
+              setSelectedAccount={setSelectedAccount}
+              selectedAccount={selectedAccount}
+            />
+            <TransactionInfo
+              transactions={transactionData}
+              openTransactionDialog={openTransactionDialog}
+              selectedAccount={selectedAccount}
+              apiData={config.apiDetails}
+            />
+          </div>
+        );
+      }else{
+        return (
+          <div className='flex flex-wrap'>
+            <AccountInfo
+              data={balanceData}
+              previous={previousDayBalanceData}
+              setSelectedAccount={setSelectedAccount}
+              selectedAccount={selectedAccount}
+            />
+            <TransactionInfo
+              transactions={transactionData}
+              openTransactionDialog={openTransactionDialog}
+              selectedAccount={selectedAccount}
+            />
+          </div>
+        );
     }
+  }
+
   };
 
   return (
@@ -127,6 +171,8 @@ const AccountPage = () => {
         toggleMockedData={toggleMockedData}
         config={config}
         mockedDataEnabled={displayingMockedData}
+        toggleApiData={toggleApiData}
+        apiDataEnabled={displayingApiData}
       />
     </div>
   );
