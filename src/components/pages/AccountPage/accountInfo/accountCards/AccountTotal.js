@@ -24,9 +24,10 @@ const AccountTotal = ({
 
   return (
     <div
-      className={`border bg-white  shadow-md hover:shadow-lg p-4 rounded-lg ${selectedClassName}`}
+      className={`border bg-white shadow-md hover:shadow-lg p-4 rounded-lg ${selectedClassName}`}
       onClick={() => setSelectedAccount({})}
     >
+      
       <div className='mb-2 flex'>
         All accounts balance in
         <span className=' bg-red-50 rounded-lg pl-2 ml-2 text-xs font-medium text-gray-500 flex items-center cursor-pointer'>
