@@ -57,7 +57,7 @@ const ServiceStatusPage = () => {
     } else{
       if(displayingApiData){
         return <StatusTable 
-          serviceStatusData={mockedData}
+          serviceStatusData={response.data}
           apiData={config.apiDetails} />;
       }else{
         return <StatusTable serviceStatusData={response.data} />;
