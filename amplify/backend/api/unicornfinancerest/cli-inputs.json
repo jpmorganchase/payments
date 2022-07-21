@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/status": {
+      "name": "/status",
+      "lambdaFunction": "paymentsshowcaselambda",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
