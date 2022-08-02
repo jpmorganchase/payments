@@ -1,21 +1,21 @@
 {
   "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amplify8e389bf58bf94-staging-100332-authRole",
-      "UnauthRoleArn": "arn:aws:iam::252226645402:role/amplify-amplify8e389bf58bf94-staging-100332-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::252226645402:role/amplify-amplify8e389bf58bf94-staging-100332-authRole",
+      "AuthRoleName": "amplify-amplifyffddfff3effd4-staging-84956-authRole",
+      "UnauthRoleArn": "arn:aws:iam::252226645402:role/amplify-amplifyffddfff3effd4-staging-84956-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::252226645402:role/amplify-amplifyffddfff3effd4-staging-84956-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-amplify8e389bf58bf94-staging-100332-deployment",
-      "UnauthRoleName": "amplify-amplify8e389bf58bf94-staging-100332-unauthRole",
-      "StackName": "amplify-amplify8e389bf58bf94-staging-100332",
-      "StackId": "arn:aws:cloudformation:us-east-1:252226645402:stack/amplify-amplify8e389bf58bf94-staging-100332/395fa070-fea5-11ec-ad3f-122e7453d9fd",
-      "AmplifyAppId": "d1564xkg0duwjn"
+      "DeploymentBucketName": "amplify-amplifyffddfff3effd4-staging-84956-deployment",
+      "UnauthRoleName": "amplify-amplifyffddfff3effd4-staging-84956-unauthRole",
+      "StackName": "amplify-amplifyffddfff3effd4-staging-84956",
+      "StackId": "arn:aws:cloudformation:us-east-1:252226645402:stack/amplify-amplifyffddfff3effd4-staging-84956/15e1a630-1240-11ed-be6b-126a09e165f9",
+      "AmplifyAppId": "d3uublqv5jd8t1"
     },
     "categories": {
       "function": {
-        "paymentsshowcaselambda": {
-          "deploymentBucketName": "amplify-amplify8e389bf58bf94-staging-100332-deployment",
-          "s3Key": "amplify-builds/paymentsshowcaselambda-737046306b4f366a5230-build.zip"
+        "paymentsshowcaseee0a59bb": {
+          "deploymentBucketName": "amplify-amplifyffddfff3effd4-staging-84956-deployment",
+          "s3Key": "amplify-builds/paymentsshowcaseee0a59bb-7159735356452b526647-build.zip"
         }
       }
     }

@@ -1,20 +1,19 @@
 {
   "function": {
-    "paymentsshowcaselambda": {
+    "paymentsshowcaseee0a59bb": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": []
+      "service": "Lambda"
     }
   },
   "api": {
-    "unicornfinancerest": {
+    "api0289bf76": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "paymentsshowcaselambda",
+          "resourceName": "paymentsshowcaseee0a59bb",
           "attributes": [
             "Name",
             "Arn"

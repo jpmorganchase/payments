@@ -6,9 +6,10 @@ import Spinner from '../../spinner';
 
 const mockedData = require('./uf-service-status.json');
 const BASE_PATH =
-  process.env.NODE_ENV === 'production'
-    ? 'https://payments-showcase.vercel.app'
-    : 'http://localhost:3000';
+  'https://8f270t8xgl.execute-api.us-east-1.amazonaws.com/staging/';
+// process.env.NODE_ENV === 'production'
+//   ? 'https://payments-showcase.vercel.app'
+//   : 'http://localhost:3000';
 const config = {
   apiDetails: [
     {

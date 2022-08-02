@@ -1,9 +1,9 @@
 {
   "version": 1,
   "paths": {
-    "/status": {
-      "name": "/status",
-      "lambdaFunction": "paymentsshowcaselambda",
+    "/server": {
+      "name": "/server",
+      "lambdaFunction": "paymentsshowcaseee0a59bb",
       "permissions": {
         "setting": "open"
       }
