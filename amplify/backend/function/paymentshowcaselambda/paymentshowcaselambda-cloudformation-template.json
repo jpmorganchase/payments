@@ -47,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "paymentsshowcaseee0a59bb",
+            "paymentshowcaselambda",
             {
               "Fn::Join": [
                 "",
                 [
-                  "paymentsshowcaseee0a59bb",
+                  "paymentshowcaselambda",
                   "-",
                   {
                     "Ref": "env"
@@ -89,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "paymentsshowcaseLambdaRoled5f333a7",
+            "paymentsshowcaseLambdaRole3ea86ab1",
             {
               "Fn::Join": [
                 "",
                 [
-                  "paymentsshowcaseLambdaRoled5f333a7",
+                  "paymentsshowcaseLambdaRole3ea86ab1",
                   "-",
                   {
                     "Ref": "env"

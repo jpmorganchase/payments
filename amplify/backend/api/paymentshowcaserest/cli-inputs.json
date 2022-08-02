@@ -3,7 +3,7 @@
   "paths": {
     "/server": {
       "name": "/server",
-      "lambdaFunction": "paymentsshowcaseee0a59bb",
+      "lambdaFunction": "paymentshowcaselambda",
       "permissions": {
         "setting": "open"
       }

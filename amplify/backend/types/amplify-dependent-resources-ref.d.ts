@@ -1,6 +1,6 @@
 export type AmplifyDependentResourcesAttributes = {
     "function": {
-        "paymentsshowcaseee0a59bb": {
+        "paymentshowcaselambda": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
@@ -8,7 +8,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "api": {
-        "api0289bf76": {
+        "paymentshowcaserest": {
             "RootUrl": "string",
             "ApiName": "string",
             "ApiId": "string"

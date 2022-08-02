@@ -13,9 +13,9 @@
     },
     "categories": {
       "function": {
-        "paymentsshowcaseee0a59bb": {
+        "paymentshowcaselambda": {
           "deploymentBucketName": "amplify-amplifyffddfff3effd4-staging-84956-deployment",
-          "s3Key": "amplify-builds/paymentsshowcaseee0a59bb-7159735356452b526647-build.zip"
+          "s3Key": "amplify-builds/paymentshowcaselambda-51464675755854706975-build.zip"
         }
       }
     }

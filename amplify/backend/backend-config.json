@@ -1,19 +1,19 @@
 {
   "function": {
-    "paymentsshowcaseee0a59bb": {
+    "paymentshowcaselambda": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "api": {
-    "api0289bf76": {
+    "paymentshowcaserest": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "paymentsshowcaseee0a59bb",
+          "resourceName": "paymentshowcaselambda",
           "attributes": [
             "Name",
             "Arn"
