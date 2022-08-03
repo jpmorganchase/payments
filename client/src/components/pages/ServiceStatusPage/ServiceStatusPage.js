@@ -1,26 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import StatusTable from './statusTable';
 import WhatAPI from '../../whatAPI';
 import usePost from '../../../hooks/usePost';
 import Spinner from '../../spinner';
 
 const mockedData = require('./uf-service-status.json');
-const BASE_PATH = 'http://localhost:3000';
 const config = {
   apiDetails: [
     {
       name: 'Platform Availability Communication Manangement',
-      path: `${BASE_PATH}/api/server?path=status`,
+      backendPath: `/api/server?path=status`,
       cacheKey: 'serviceStatus',
       refreshInterval: 1800000,
     },
   ],
 };
 const ServiceStatusPage = () => {
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
+  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
+
+  const [data, setData] = React.useState([]);
+
   const response = usePost(
-    config.apiDetails[0].path,
+    config.apiDetails[0].backendPath,
     config.apiDetails[0].cacheKey,
     config.apiDetails[0].refreshInterval,
   );
@@ -31,14 +33,19 @@ const ServiceStatusPage = () => {
     setDisplayingApiData(!displayingApiData);
   };
 
+  useEffect(() => {
+    if (displayingMockedData) {
+      setData(mockedData);
+    } else {
+      setData(response?.data);
+    }
+  }, [displayingMockedData]);
+
   const displayTable = () => {
     if (displayingMockedData) {
       if (displayingApiData) {
         return (
-          <StatusTable
-            serviceStatusData={mockedData}
-            apiData={config.apiDetails}
-          />
+          <StatusTable serviceStatusData={data} apiData={config.apiDetails} />
         );
       } else {
         return <StatusTable serviceStatusData={mockedData} />;
@@ -58,13 +65,10 @@ const ServiceStatusPage = () => {
     } else {
       if (displayingApiData) {
         return (
-          <StatusTable
-            serviceStatusData={response.data}
-            apiData={config.apiDetails}
-          />
+          <StatusTable serviceStatusData={data} apiData={config.apiDetails} />
         );
       } else {
-        return <StatusTable serviceStatusData={response.data} />;
+        return <StatusTable serviceStatusData={data} />;
       }
     }
   };
