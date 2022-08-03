@@ -11,7 +11,9 @@ const config = {
       name: 'Platform Availability Communication Manangement',
       backendPath: `/api/server?path=status`,
       cacheKey: 'serviceStatus',
+      path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants/',
       refreshInterval: 1800000,
+      description: 'This API returns a list of current outages within JP Morgan external APIs. If no outages are returned a message is displayed for the user.'
     },
   ],
 };
@@ -42,34 +44,23 @@ const ServiceStatusPage = () => {
   }, [displayingMockedData]);
 
   const displayTable = () => {
-    if (displayingMockedData) {
-      if (displayingApiData) {
-        return (
-          <StatusTable serviceStatusData={data} apiData={config.apiDetails} />
-        );
-      } else {
-        return <StatusTable serviceStatusData={mockedData} />;
-      }
-    } else if (
-      !response ||
-      response.status === 'loading' ||
-      response.isFetching
+    if (
+      !displayingMockedData &&
+      (!response || response.status === 'loading' || response.isFetching)
     ) {
       return (
         <div className='text-center pt-24'>
           <Spinner />
         </div>
       );
-    } else if (response.status === 'error') {
-      return <div className='text-center pt-24'>{response.error.message}</div>;
     } else {
-      if (displayingApiData) {
-        return (
-          <StatusTable serviceStatusData={data} apiData={config.apiDetails} />
-        );
-      } else {
-        return <StatusTable serviceStatusData={data} />;
-      }
+      return (
+        <StatusTable
+          serviceStatusData={data}
+          apiData={config.apiDetails}
+          displayingApiData={displayingApiData}
+        />
+      );
     }
   };
 
