@@ -19,7 +19,6 @@ const config = {
 const ServiceStatusPage = () => {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
->>>>>>> 8089d7a (Added What Api functionality)
   const response = usePost(
     config.apiDetails[0].path,
     config.apiDetails[0].cacheKey,
@@ -31,15 +30,17 @@ const ServiceStatusPage = () => {
   const toggleApiData = () => {
     setDisplayingApiData(!displayingApiData);
   };
-  
+
   const displayTable = () => {
     if (displayingMockedData) {
-      if(displayingApiData){
-        return <StatusTable 
-          serviceStatusData={mockedData}
-          apiData={config.apiDetails}
-          />;
-      }else{
+      if (displayingApiData) {
+        return (
+          <StatusTable
+            serviceStatusData={mockedData}
+            apiData={config.apiDetails}
+          />
+        );
+      } else {
         return <StatusTable serviceStatusData={mockedData} />;
       }
     } else if (
@@ -54,12 +55,15 @@ const ServiceStatusPage = () => {
       );
     } else if (response.status === 'error') {
       return <div className='text-center pt-24'>{response.error.message}</div>;
-    } else{
-      if(displayingApiData){
-        return <StatusTable 
-          serviceStatusData={response.data}
-          apiData={config.apiDetails} />;
-      }else{
+    } else {
+      if (displayingApiData) {
+        return (
+          <StatusTable
+            serviceStatusData={response.data}
+            apiData={config.apiDetails}
+          />
+        );
+      } else {
         return <StatusTable serviceStatusData={response.data} />;
       }
     }
@@ -69,7 +73,7 @@ const ServiceStatusPage = () => {
     <div className='relative p-8'>
       <h2 className='text-2xl font-medium mb-4'>Service status</h2>
       <div className='overflow-auto '>{displayTable()}</div>
-      
+
       <WhatAPI
         toggleMockedData={toggleMockedData}
         config={config}
