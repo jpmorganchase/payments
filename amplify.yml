@@ -7,11 +7,10 @@ frontend:
         - yarn install
     build:
       commands:
-        - cd client
         - yarn run build
   artifacts:
     # IMPORTANT - Please verify your build output directory
-    baseDirectory: /client/build
+    baseDirectory: /build
     files:
       - '**/*'
   cache:
