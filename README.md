@@ -37,9 +37,10 @@ You can then try out running the code locally. Initially you will run the code
 hitting mocked data. This is because you need extra authentication information
 for hitting our actual APIs which is explained below.
 
-    1. yarn start
-    2. Navigate to localhost:3000
-    3. Toggle the mocked data on to see information
+    1. cd client
+    2. yarn start
+    3. Navigate to localhost:3000
+    4. Toggle the mocked data on to see information
 
 ### Hitting JP Morgan APIs
 
