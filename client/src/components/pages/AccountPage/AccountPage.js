@@ -39,6 +39,7 @@ const config = {
 
 const AccountPage = () => {
   const queryClient = useQueryClient();
+
   const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
   const [transactionDialogOpen, setTransactionDialogState] =
