@@ -21,7 +21,7 @@ const config = {
 const ServiceStatusPage = () => {
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
   const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState(mockedData);
 
   const response = usePost(
     config.apiDetails[0].backendPath,
@@ -41,7 +41,7 @@ const ServiceStatusPage = () => {
     } else {
       setData(response?.data);
     }
-  }, [displayingMockedData, response]);
+  }, [displayingMockedData]);
 
   const displayTable = () => {
     if (
