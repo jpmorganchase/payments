@@ -15,20 +15,27 @@ const config = {
   apiDetails: [
     {
       name: 'Balances',
-      path: `/api/server?path=balances`,
-
+      backendPath: `/api/server?path=balances`,
+      path: 'https://apigatewayqaf.jpmorgan.com/accessapi/balance',
+      description:
+        'This API returns intraday balances for specific accounts. We use it to get the current day balance for a UAT account.',
       cacheKey: 'balances',
       refreshInterval: 43200000,
     },
     {
       name: 'Transactions',
-      path: `/api/server?path=transactions`,
+      path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?relativeDateType=PRIOR_DAY',
+      description:
+        'This API returns all the transactions for a specific account for a specific time period.',
+      backendPath: `/api/server?path=transactions`,
       cacheKey: 'transactions',
       refreshInterval: 1800000,
     },
     {
       name: 'Balances Prior',
-      path: `/api/server?path=balancesprior`,
+      path: '',
+      description: '',
+      backendPath: `/api/server?path=balancesprior`,
       cacheKey: 'balances_prior',
       refreshInterval: 43200000,
     },
@@ -50,7 +57,7 @@ const AccountPage = () => {
     previousDayBalance: balancePriorMockData,
   });
   const results = config.apiDetails.map((api) =>
-    usePost(api.path, api.cacheKey, api.refreshInterval),
+    usePost(api.backendPath, api.cacheKey, api.refreshInterval),
   );
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
@@ -107,12 +114,14 @@ const AccountPage = () => {
           setSelectedAccount={setSelectedAccount}
           selectedAccount={selectedAccount}
           apiData={config.apiDetails}
+          displayingApiData={displayingApiData}
         />
         <TransactionInfo
           transactions={data.transaction}
           openTransactionDialog={openTransactionDialog}
           selectedAccount={selectedAccount}
           apiData={config.apiDetails}
+          displayingApiData={displayingApiData}
         />
       </div>
     );

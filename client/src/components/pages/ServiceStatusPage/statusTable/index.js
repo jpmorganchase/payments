@@ -13,10 +13,24 @@ const renderErrorMessage = (message) => (
   <div className='pt-24 text-center'>{message}</div>
 );
 
-const StatusTable = ({ serviceStatusData }) => {
+const StatusTable = ({
+  serviceStatusData,
+  apiData = [],
+  displayingApiData,
+}) => {
   const bankStatus = serviceStatusData?.bankStatus;
   return (
-    <>
+    <div className='relative'>
+      {!displayingApiData ? (
+        <></>
+      ) : (
+        <div className='absolute bg-black bg-opacity-80 p-8 rounded-lg text-white flex-col h-full w-full'>
+          <h1 className='text-sm'>{apiData[0].name} API</h1>
+          <h3 className='text-xs mb-4'>{apiData[0].path}</h3>
+          <h3 className='text-xs'>{apiData[0].description}</h3>
+        </div>
+      )}
+
       {isEmptyObject(bankStatus) ? (
         renderErrorMessage(
           'There are no upcoming outages. Want to know what this data looks like? Toggle on mocked data below.',
@@ -53,12 +67,10 @@ const StatusTable = ({ serviceStatusData }) => {
               ))}
           </tbody>
         </table>
-        
-      
-      )}       
-    </>
-    )
-    };
+      )}
+    </div>
+  );
+};
 
 StatusTable.propTypes = {
   serviceStatusData: PropTypes.shape({
@@ -72,6 +84,8 @@ StatusTable.propTypes = {
     ),
     error: PropTypes.object,
   }),
+  apiData: PropTypes.arrayOf(PropTypes.object),
+  displayingApiData: PropTypes.bool,
 };
 
 export default StatusTable;
