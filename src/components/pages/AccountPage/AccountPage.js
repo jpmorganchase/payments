@@ -11,10 +11,7 @@ const balanceMockData = require('./mockJson/uf-balances.json');
 const balancePriorMockData = require('./mockJson/uf-balances-prior.json');
 const transactionMockData = require('./mockJson/uf-transactions.json');
 
-const BASE_PATH =
-  process.env.NODE_ENV === 'production'
-    ? 'https://payments-showcase.vercel.app'
-    : 'http://localhost:3000';
+const BASE_PATH = 'http://localhost:3000';
 
 const config = {
   apiDetails: [
@@ -43,7 +40,7 @@ const config = {
 const AccountPage = () => {
   const queryClient = useQueryClient();
 
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
+  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});

@@ -5,11 +5,7 @@ import usePost from '../../../hooks/usePost';
 import Spinner from '../../spinner';
 
 const mockedData = require('./uf-service-status.json');
-const BASE_PATH =
-  'https://8f270t8xgl.execute-api.us-east-1.amazonaws.com/staging/';
-// process.env.NODE_ENV === 'production'
-//   ? 'https://payments-showcase.vercel.app'
-//   : 'http://localhost:3000';
+const BASE_PATH = 'http://localhost:3000';
 const config = {
   apiDetails: [
     {
@@ -21,7 +17,7 @@ const config = {
   ],
 };
 const ServiceStatusPage = () => {
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
+  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const response = usePost(
     config.apiDetails[0].path,
     config.apiDetails[0].cacheKey,
