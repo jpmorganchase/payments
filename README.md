@@ -4,7 +4,8 @@ We have created Unicorn Finance as a sample application showcasing the
 capabilities of our JP Morgan core external APIs. We hit a number of JP Morgan
 APIs in the UAT environment via ssl authentication.
 
-See our project running on vercel [here](https://payments-showcase.vercel.app)
+See our project running on AWS Amplify
+[here](https://www.unicorn-finance-dev.com/)
 
 ![Screenshot of Unicorn Finance](unicorn-finance-account.png 'Screenshot of Unicorn Finance')
 
@@ -49,10 +50,7 @@ to JP Morgan to access this information. Further details are available
 Once you have the correct files ready you can upload them to your server (DO NOT
 COMMIT THESE FILES TO YOUR CODEBASE).
 
-#### Using env variables
 
-Follow this information to encrypt your data:
-https://vercel.com/support/articles/how-do-i-workaround-vercel-s-4-kb-environment-variables-limit
 
 ## Contribution to our project
 

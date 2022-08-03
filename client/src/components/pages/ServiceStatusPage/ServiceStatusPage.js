@@ -5,10 +5,7 @@ import usePost from '../../../hooks/usePost';
 import Spinner from '../../spinner';
 
 const mockedData = require('./uf-service-status.json');
-const BASE_PATH =
-  process.env.NODE_ENV === 'production'
-    ? 'https://payments-showcase.vercel.app'
-    : 'http://localhost:3000';
+const BASE_PATH = 'http://localhost:3000';
 const config = {
   apiDetails: [
     {
@@ -20,7 +17,7 @@ const config = {
   ],
 };
 const ServiceStatusPage = () => {
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(false);
+  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
   const response = usePost(
     config.apiDetails[0].path,
@@ -33,15 +30,17 @@ const ServiceStatusPage = () => {
   const toggleApiData = () => {
     setDisplayingApiData(!displayingApiData);
   };
-  
+
   const displayTable = () => {
     if (displayingMockedData) {
-      if(displayingApiData){
-        return <StatusTable 
-          serviceStatusData={mockedData}
-          apiData={config.apiDetails}
-          />;
-      }else{
+      if (displayingApiData) {
+        return (
+          <StatusTable
+            serviceStatusData={mockedData}
+            apiData={config.apiDetails}
+          />
+        );
+      } else {
         return <StatusTable serviceStatusData={mockedData} />;
       }
     } else if (
@@ -56,12 +55,15 @@ const ServiceStatusPage = () => {
       );
     } else if (response.status === 'error') {
       return <div className='text-center pt-24'>{response.error.message}</div>;
-    } else{
-      if(displayingApiData){
-        return <StatusTable 
-          serviceStatusData={response.data}
-          apiData={config.apiDetails} />;
-      }else{
+    } else {
+      if (displayingApiData) {
+        return (
+          <StatusTable
+            serviceStatusData={response.data}
+            apiData={config.apiDetails}
+          />
+        );
+      } else {
         return <StatusTable serviceStatusData={response.data} />;
       }
     }
@@ -71,7 +73,7 @@ const ServiceStatusPage = () => {
     <div className='relative p-8'>
       <h2 className='text-2xl font-medium mb-4'>Service status</h2>
       <div className='overflow-auto '>{displayTable()}</div>
-      
+
       <WhatAPI
         toggleMockedData={toggleMockedData}
         config={config}
