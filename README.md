@@ -50,10 +50,7 @@ to JP Morgan to access this information. Further details are available
 Once you have the correct files ready you can upload them to your server (DO NOT
 COMMIT THESE FILES TO YOUR CODEBASE).
 
-#### Using env variables
 
-Follow this information to encrypt your data:
-https://vercel.com/support/articles/how-do-i-workaround-vercel-s-4-kb-environment-variables-limit
 
 ## Contribution to our project
 
