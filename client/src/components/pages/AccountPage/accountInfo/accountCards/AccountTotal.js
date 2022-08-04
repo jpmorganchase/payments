@@ -1,25 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  gatherCurrencySymbol,
-  isEmptyObject,
-  percIncrease,
-} from '../../../../utils';
+import { gatherCurrencySymbol, isEmptyObject } from '../../../../utils';
 import AccountCardButtons from './AccountCardButtons';
 
 const AccountTotal = ({
   total,
   currency,
-  totalPrevious,
   setSelectedAccount,
   selectedAccount,
   apiData,
   displayingApiData,
 }) => {
-  let percentChange = 'Error';
-  if (total !== 'Error' && totalPrevious !== 'Error') {
-    percentChange = percIncrease(totalPrevious, total);
-  }
   const selectedClassName = isEmptyObject(selectedAccount)
     ? 'border-pink-500'
     : 'border-gray-200';
@@ -48,29 +39,8 @@ const AccountTotal = ({
         </div>
         <div className='flex items-baseline justify-between'>
           <div className='text-2xl font-medium'>
-            {total !== 'Error' &&
-              totalPrevious !== 'Error' &&
-              gatherCurrencySymbol(currency)}
+            {total !== 'Error' && gatherCurrencySymbol(currency)}
             {total}
-          </div>
-
-          <div className='lg:flex hidden'>
-            {percentChange >= 0 ? (
-              <span className='material-icons text-green-600'>
-                arrow_drop_up
-              </span>
-            ) : (
-              <span className='material-icons text-red-600 text-lg'>
-                arrow_drop_down
-              </span>
-            )}
-            <div
-              className={
-                percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'
-              }
-            >
-              {Math.abs(percentChange)}%
-            </div>
           </div>
         </div>
         {isEmptyObject(selectedAccount) && <AccountCardButtons />}
@@ -81,7 +51,6 @@ const AccountTotal = ({
 
 AccountTotal.propTypes = {
   total: PropTypes.number,
-  totalPrevious: PropTypes.number,
   currency: PropTypes.string,
   selectedAccount: PropTypes.object,
   setSelectedAccount: PropTypes.func,

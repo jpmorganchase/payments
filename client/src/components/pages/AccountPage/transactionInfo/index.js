@@ -11,6 +11,8 @@ const TransactionInfo = ({
   apiData = [],
   ...props
 }) => {
+  //eslint-disable-next-line
+  console.log(transactions);
   let transactionData = transactions.data;
   if (!isEmptyObject(selectedAccount) && selectedAccount.accountId) {
     transactionData = transactions.data.filter(function (transaction) {

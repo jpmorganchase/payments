@@ -56,8 +56,6 @@ const getAPIEndpoint = (path) => {
       return 'https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants?status=OFFLINE';
     case 'balances':
       return 'https://apigatewayqaf.jpmorgan.com/accessapi/balance';
-    case 'balancesprior':
-      return 'https://apigatewayqaf.jpmorgan.com/accessapi/balance';
     case 'transactions':
       return 'https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?relativeDateType=PRIOR_DAY';
   }
@@ -71,7 +69,7 @@ const generateError = (response, responseBody) => {
     );
 };
 
-const postRequest = async (apiEndpoint, prior = false) => {
+const postRequest = async (apiEndpoint) => {
   return await fetch(apiEndpoint, {
     agent: sslConfiguredAgent,
     method: 'POST',
@@ -80,7 +78,7 @@ const postRequest = async (apiEndpoint, prior = false) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      relativeDateType: prior ? 'PRIOR_DAY' : 'CURRENT_DAY',
+      relativeDateType: 'CURRENT_DAY',
       accountList: [
         {
           accountId: '000000010013324',
@@ -110,8 +108,6 @@ const handleRequest = async (request, response) => {
     let responseValue;
     if (path === 'balances') {
       responseValue = await postRequest(apiEndpoint);
-    } else if (path === 'balancesprior') {
-      responseValue = await postRequest(apiEndpoint, true);
     } else {
       responseValue = await getRequest(apiEndpoint);
     }

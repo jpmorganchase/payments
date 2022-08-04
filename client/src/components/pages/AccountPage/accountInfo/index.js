@@ -3,23 +3,8 @@ import AccountTotal from './accountCards/AccountTotal';
 import AccountList from './accountList/AccountList';
 import PropTypes from 'prop-types';
 
-const AccountInfo = ({
-  data,
-  previous,
-  displayingApiData,
-  apiData = [],
-  ...props
-}) => {
+const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
   const totalAccount = data.accountList
-    .map((account) => {
-      if (!account.errorCode) {
-        return account.balanceList[0].openingAvailableAmount;
-      } else {
-        return 'Error';
-      }
-    })
-    .reduce((prev, next) => prev + next);
-  const totalAccountPrevious = previous.accountList
     .map((account) => {
       if (!account.errorCode) {
         return account.balanceList[0].openingAvailableAmount;
@@ -46,7 +31,6 @@ const AccountInfo = ({
         <AccountTotal
           total={totalAccount}
           currency={'USD'}
-          totalPrevious={totalAccountPrevious}
           apiData={apiData}
           displayingApiData={displayingApiData}
           {...props}
@@ -66,7 +50,6 @@ const AccountInfo = ({
       {data && data.accountList && (
         <AccountList
           data={data.accountList}
-          previous={previous.accountList}
           apiData={apiData}
           displayingApiData={displayingApiData}
           {...props}
@@ -78,9 +61,6 @@ const AccountInfo = ({
 
 AccountInfo.propTypes = {
   data: PropTypes.shape({
-    accountList: PropTypes.arrayOf(PropTypes.object),
-  }),
-  previous: PropTypes.shape({
     accountList: PropTypes.arrayOf(PropTypes.object),
   }),
   apiData: PropTypes.arrayOf(PropTypes.object),

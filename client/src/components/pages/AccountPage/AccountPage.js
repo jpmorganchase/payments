@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import WhatAPI from '../../whatAPI';
 import AccountInfo from './accountInfo/index';
 import TransactionInfo from './transactionInfo/index';
 import usePost from '../../../hooks/usePost';
 import TransactionJsonDialog from './transactionInfo/TransactionJsonDialog';
-import { useQueryClient } from 'react-query';
 import Spinner from '../../spinner';
+//import { useQueryClient } from 'react-query';
+//import Spinner from '../../spinner';
 
 const balanceMockData = require('./mockJson/uf-balances.json');
-const balancePriorMockData = require('./mockJson/uf-balances-prior.json');
 const transactionMockData = require('./mockJson/uf-transactions.json');
 
 const config = {
@@ -31,19 +31,11 @@ const config = {
       cacheKey: 'transactions',
       refreshInterval: 1800000,
     },
-    {
-      name: 'Balances Prior',
-      path: '',
-      description: '',
-      backendPath: `/api/server?path=balancesprior`,
-      cacheKey: 'balances_prior',
-      refreshInterval: 43200000,
-    },
   ],
 };
 
 const AccountPage = () => {
-  const queryClient = useQueryClient();
+  ////const queryClient = useQueryClient();
 
   const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
@@ -51,13 +43,17 @@ const AccountPage = () => {
     React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});
   const [selectedAccount, setSelectedAccount] = React.useState({});
-  const [data, setData] = React.useState({
-    balance: balanceMockData,
-    transaction: transactionMockData,
-    previousDayBalance: balancePriorMockData,
-  });
-  const results = config.apiDetails.map((api) =>
-    usePost(api.backendPath, api.cacheKey, api.refreshInterval),
+
+  const balanceResults = usePost(
+    config.apiDetails[0].backendPath,
+    config.apiDetails[0].cacheKey,
+    config.apiDetails[0].refreshInterval,
+  );
+
+  const transactionResults = usePost(
+    config.apiDetails[1].backendPath,
+    config.apiDetails[1].cacheKey,
+    config.apiDetails[1].refreshInterval,
   );
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
@@ -70,61 +66,56 @@ const AccountPage = () => {
     setSelectedTransaction(transaction);
   };
 
-  useEffect(() => {
-    if (displayingMockedData) {
-      setData({
-        balance: balanceMockData,
-        transaction: transactionMockData,
-        previousDayBalance: balancePriorMockData,
-      });
-    } else {
-      const balanceData = queryClient.getQueryData(
-        config.apiDetails[0].cacheKey,
-      );
-      const transactionData = queryClient.getQueryData(
-        config.apiDetails[1].cacheKey,
-      );
-      const previousDayBalanceData = queryClient.getQueryData(
-        config.apiDetails[2].cacheKey,
-      );
-      setData({
-        balance: balanceData,
-        transaction: transactionData,
-        previousDayBalance: previousDayBalanceData,
-      });
-    }
-  }, [displayingMockedData]);
+  const displayAccountPanel = (data) => (
+    <AccountInfo
+      data={data}
+      setSelectedAccount={setSelectedAccount}
+      selectedAccount={selectedAccount}
+      apiData={config.apiDetails}
+      displayingApiData={displayingApiData}
+    />
+  );
+
+  const displayTransactionPanel = (data) => (
+    <TransactionInfo
+      transactions={data}
+      openTransactionDialog={openTransactionDialog}
+      selectedAccount={selectedAccount}
+      apiData={config.apiDetails}
+      displayingApiData={displayingApiData}
+    />
+  );
 
   const displayPanels = () => {
-    if (!displayingMockedData && results.some((r) => r.isLoading)) {
+    if (displayingMockedData) {
+      return (
+        <div className='flex flex-wrap'>
+          {displayAccountPanel(balanceMockData)}
+          {displayTransactionPanel(transactionMockData)}
+        </div>
+      );
+    } else if (balanceResults.isLoading || transactionResults.isLoading) {
       return (
         <div className='text-center pt-24'>
           <Spinner />
         </div>
       );
-    } else if (!displayingMockedData && results.some((r) => r.isError)) {
-      const first = results.find((r) => r.error);
-      return <div className='text-center pt-24'>{first.error.message}</div>;
+    } else if (balanceResults.isError || transactionResults.isError) {
+      return (
+        <div className='text-center pt-24'>
+          {
+            'Error gathering information from API. Toggle on mocked data below to see example information'
+          }
+        </div>
+      );
+    } else {
+      return (
+        <div className='flex flex-wrap'>
+          {displayAccountPanel(balanceResults?.data)}
+          {displayTransactionPanel(transactionResults?.data)}
+        </div>
+      );
     }
-    return (
-      <div className='flex flex-wrap'>
-        <AccountInfo
-          data={data.balance}
-          previous={data.previousDayBalance}
-          setSelectedAccount={setSelectedAccount}
-          selectedAccount={selectedAccount}
-          apiData={config.apiDetails}
-          displayingApiData={displayingApiData}
-        />
-        <TransactionInfo
-          transactions={data.transaction}
-          openTransactionDialog={openTransactionDialog}
-          selectedAccount={selectedAccount}
-          apiData={config.apiDetails}
-          displayingApiData={displayingApiData}
-        />
-      </div>
-    );
   };
 
   return (

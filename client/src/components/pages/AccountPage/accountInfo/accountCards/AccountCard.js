@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import { gatherCurrencySymbol, isEmptyObject } from '../../../../utils';
 import AccountCardButtons from './AccountCardButtons';
 
-const AccountCard = ({
-  account,
-  percentChange,
-  setSelectedAccount,
-  selectedAccount,
-}) => {
+const AccountCard = ({ account, setSelectedAccount, selectedAccount }) => {
   const isSelected =
     !isEmptyObject(selectedAccount) &&
     selectedAccount.accountId == account.accountId;
@@ -36,20 +31,6 @@ const AccountCard = ({
           {!account.errorCode && account.balanceList[0].openingAvailableAmount}
           {account.errorCode && 'Error'}
         </div>
-        <div className='lg:flex flex-wrap hidden'>
-          {percentChange >= 0 ? (
-            <span className='material-icons text-green-600'>arrow_drop_up</span>
-          ) : (
-            <span className='material-icons text-red-600 text-lg'>
-              arrow_drop_down
-            </span>
-          )}
-          <div
-            className={percentChange >= 0 ? 'text-green-600 ' : 'text-red-600'}
-          >
-            {Math.abs(percentChange)}%
-          </div>
-        </div>
       </div>
       {isSelected && <AccountCardButtons />}
     </div>
@@ -71,7 +52,6 @@ AccountCard.propTypes = {
       }),
     ),
   }),
-  percentChange: PropTypes.string,
   setSelectedAccount: PropTypes.func,
   selectedAccount: PropTypes.object,
 };
