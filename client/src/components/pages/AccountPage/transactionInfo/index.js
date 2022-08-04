@@ -34,15 +34,6 @@ const TransactionInfo = ({
 
       <div>
         <TransactionViz transactions={transactionData} {...props} />
-        {!displayingApiData ? (
-          <></>
-        ) : (
-          <div className='absolute bg-black bg-opacity-80 p-8 rounded-lg text-white flex-col w-full h-full '>
-            <h1 className='text-sm'>{apiData[1].name} API</h1>
-            <h3 className='text-xs mb-4'>{apiData[1].path}</h3>
-            <h3 className='text-xs'>{apiData[1].description}</h3>
-          </div>
-        )}
         <TransactionGrid
           transactions={transactionData}
           apiData={apiData}
