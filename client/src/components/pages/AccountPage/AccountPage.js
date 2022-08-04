@@ -5,8 +5,6 @@ import TransactionInfo from './transactionInfo/index';
 import usePost from '../../../hooks/usePost';
 import TransactionJsonDialog from './transactionInfo/TransactionJsonDialog';
 import Spinner from '../../spinner';
-//import { useQueryClient } from 'react-query';
-//import Spinner from '../../spinner';
 
 const balanceMockData = require('./mockJson/uf-balances.json');
 const transactionMockData = require('./mockJson/uf-transactions.json');
@@ -35,8 +33,6 @@ const config = {
 };
 
 const AccountPage = () => {
-  ////const queryClient = useQueryClient();
-
   const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
   const [transactionDialogOpen, setTransactionDialogState] =
