@@ -22,20 +22,16 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, './client/build')));
 
 app.get('*', (req, res) => {
-  console.log('here');
   handleRequest(req, res);
 });
 
 app.use((req, res, next) => {
-  console.log('hereesee');
-
   const err = new Error('Not Found');
   err['status'] = 404;
   next(err);
 });
 
 app.use((err, req, res) => {
-  console.log('hereeee');
   res.status(err.status || 500);
   res.json({
     errors: {
@@ -70,26 +66,27 @@ const generateError = (response, responseBody) => {
 };
 
 const postRequest = async (apiEndpoint) => {
-  return await fetch(apiEndpoint, {
-    agent: sslConfiguredAgent,
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      relativeDateType: 'CURRENT_DAY',
-      accountList: [
-        {
-          accountId: '000000010013324',
-        },
-      ],
-    }),
-  });
+  if (apiEndpoint) {
+    return await fetch(apiEndpoint, {
+      agent: sslConfiguredAgent,
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        relativeDateType: 'CURRENT_DAY',
+        accountList: [
+          {
+            accountId: '000000010013324',
+          },
+        ],
+      }),
+    });
+  }
 };
 
 const getRequest = async (apiEndpoint) => {
-  console.log(apiEndpoint);
   if (apiEndpoint) {
     return await fetch(apiEndpoint, {
       agent: sslConfiguredAgent,
@@ -111,7 +108,7 @@ const handleRequest = async (request, response) => {
     } else {
       responseValue = await getRequest(apiEndpoint);
     }
-    const responseBody = await responseValue.json();
+    const responseBody = await responseValue?.json();
     if (responseBody.errors || responseBody.fault) {
       console.log(`Error response from API: ${JSON.stringify(responseBody)}`);
       return generateError(response, responseBody);
