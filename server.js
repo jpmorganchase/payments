@@ -22,20 +22,16 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, './client/build')));
 
 app.get('*', (req, res) => {
-  console.log('here');
   handleRequest(req, res);
 });
 
 app.use((req, res, next) => {
-  console.log('hereesee');
-
   const err = new Error('Not Found');
   err['status'] = 404;
   next(err);
 });
 
 app.use((err, req, res) => {
-  console.log('hereeee');
   res.status(err.status || 500);
   res.json({
     errors: {
@@ -56,8 +52,6 @@ const getAPIEndpoint = (path) => {
       return 'https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants?status=OFFLINE';
     case 'balances':
       return 'https://apigatewayqaf.jpmorgan.com/accessapi/balance';
-    case 'balancesprior':
-      return 'https://apigatewayqaf.jpmorgan.com/accessapi/balance';
     case 'transactions':
       return 'https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?relativeDateType=PRIOR_DAY';
   }
@@ -71,27 +65,28 @@ const generateError = (response, responseBody) => {
     );
 };
 
-const postRequest = async (apiEndpoint, prior = false) => {
-  return await fetch(apiEndpoint, {
-    agent: sslConfiguredAgent,
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      relativeDateType: prior ? 'PRIOR_DAY' : 'CURRENT_DAY',
-      accountList: [
-        {
-          accountId: '000000010013324',
-        },
-      ],
-    }),
-  });
+const postRequest = async (apiEndpoint) => {
+  if (apiEndpoint) {
+    return await fetch(apiEndpoint, {
+      agent: sslConfiguredAgent,
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        relativeDateType: 'CURRENT_DAY',
+        accountList: [
+          {
+            accountId: '000000010013324',
+          },
+        ],
+      }),
+    });
+  }
 };
 
 const getRequest = async (apiEndpoint) => {
-  console.log(apiEndpoint);
   if (apiEndpoint) {
     return await fetch(apiEndpoint, {
       agent: sslConfiguredAgent,
@@ -110,12 +105,10 @@ const handleRequest = async (request, response) => {
     let responseValue;
     if (path === 'balances') {
       responseValue = await postRequest(apiEndpoint);
-    } else if (path === 'balancesprior') {
-      responseValue = await postRequest(apiEndpoint, true);
     } else {
       responseValue = await getRequest(apiEndpoint);
     }
-    const responseBody = await responseValue.json();
+    const responseBody = await responseValue?.json();
     if (responseBody.errors || responseBody.fault) {
       console.log(`Error response from API: ${JSON.stringify(responseBody)}`);
       return generateError(response, responseBody);
