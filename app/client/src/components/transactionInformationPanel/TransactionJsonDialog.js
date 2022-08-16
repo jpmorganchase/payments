@@ -20,7 +20,10 @@ const TransactionJsonDialog = ({ transaction, setTransactionDialog, open }) => {
                 <Dialog.Title className='text-lg font-medium text-gray-900'>
                   Raw Transaction JSON
                 </Dialog.Title>
-                <button onClick={() => setTransactionDialog(false, {})}>
+                <button
+                  onClick={() => setTransactionDialog(false, {})}
+                  data-cy='closeButton'
+                >
                   Close
                 </button>
               </div>

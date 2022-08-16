@@ -29,7 +29,7 @@ const TransactionGrid = ({
   const groupedTransactions = groupTransactionsByDay(transactions);
 
   return (
-    <div className='relative'>
+    <div className='relative' data-cy="transactionsGrid">
       {!displayingApiData ? (
         <></>
       ) : (

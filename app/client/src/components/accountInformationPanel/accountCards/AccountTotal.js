@@ -27,6 +27,7 @@ const AccountTotal = ({
         </div>
       )}
       <div
+      data-cy="allAccountsCard"
         className={`border bg-white shadow-md hover:shadow-lg p-4 rounded-lg ${selectedClassName}`}
         onClick={() => setSelectedAccount({})}
       >
