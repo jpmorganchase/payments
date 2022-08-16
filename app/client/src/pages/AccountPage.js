@@ -1,14 +1,14 @@
 import React from 'react';
-import WhatAPI from '../../whatApi';
-import AccountInfo from './accountInfo/index';
-import TransactionInfo from './transactionInfo/index';
-import usePost from '../../../hooks/usePost';
-import TransactionJsonDialog from './transactionInfo/TransactionJsonDialog';
-import Spinner from '../../spinner';
-import useGet from '../../../hooks/useGet';
+import WhatAPI from '../components/whatApi';
+import AccountInfo from '../components/accountInfo/index';
+import TransactionInfo from '../components/transactionInfo/index';
+import usePost from '../hooks/usePost';
+import TransactionJsonDialog from '../components/transactionInfo/TransactionJsonDialog';
+import Spinner from '../components/spinner';
+import useGet from '../hooks/useGet';
 
-const balanceMockData = require('./mockJson/uf-balances.json');
-const transactionMockData = require('./mockJson/uf-transactions.json');
+const balanceMockData = require('../mockedJson/uf-balances.json');
+const transactionMockData = require('../mockedJson/uf-transactions.json');
 
 const config = {
   apiDetails: [

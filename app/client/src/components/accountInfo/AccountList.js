@@ -1,5 +1,5 @@
 import React from 'react';
-import AccountCard from '../accountCards/AccountCard';
+import AccountCard from './accountCards/AccountCard';
 import PropTypes from 'prop-types';
 
 const AccountList = ({ data, displayingApiData, apiData = [], ...props }) => {

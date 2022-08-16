@@ -1,6 +1,6 @@
 import React from 'react';
 import AccountTotal from './accountCards/AccountTotal';
-import AccountList from './accountList/AccountList';
+import AccountList from './AccountList';
 import PropTypes from 'prop-types';
 
 const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
