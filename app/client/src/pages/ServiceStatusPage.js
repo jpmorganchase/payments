@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import StatusTable from './statusTable';
-import WhatAPI from '../../whatAPI';
-import Spinner from '../../spinner';
-import useGet from '../../../hooks/useGet';
+import StatusTable from '../components/statusTable';
+import WhatAPI from '../components/whatApi';
+import Spinner from '../components/spinner';
+import useGet from '../hooks/useGet';
 
-const mockedData = require('./uf-service-status.json');
+const mockedData = require('../mockedJson/uf-service-status.json');
 const config = {
   apiDetails: [
     {

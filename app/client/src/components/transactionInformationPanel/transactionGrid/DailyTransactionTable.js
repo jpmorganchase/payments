@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDate } from '../../../../utils';
+import { formatDate } from '../../utils';
 const DailyTransactionTable = ({
   date,
   transactions,

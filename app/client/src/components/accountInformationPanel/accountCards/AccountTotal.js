@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { gatherCurrencySymbol, isEmptyObject } from '../../../../utils';
+import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
 import AccountCardButtons from './AccountCardButtons';
 
 const AccountTotal = ({

@@ -1,6 +1,6 @@
 import React from 'react';
-import ufLogoLarge from '../../images/uf-logo.svg';
-import avatar from '../../images/avatar.png';
+import ufLogoLarge from '../images/uf-logo.svg';
+import avatar from '../images/avatar.png';
 import { NavLink } from 'react-router-dom';
 import { Popover } from '@headlessui/react';
 

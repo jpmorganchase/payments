@@ -1,8 +1,8 @@
 import React from 'react';
-import TransactionViz from './transactionViz/TransactionViz';
+import TransactionViz from './TransactionViz';
 import TransactionGrid from './transactionGrid/TransactionGrid';
 import PropTypes from 'prop-types';
-import { isEmptyObject } from '../../../utils';
+import { isEmptyObject } from '../utils';
 
 const TransactionInfo = ({
   transactions,
