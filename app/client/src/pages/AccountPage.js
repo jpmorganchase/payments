@@ -1,9 +1,9 @@
 import React from 'react';
 import WhatAPI from '../components/whatApi';
-import AccountInfo from '../components/accountInfo/index';
-import TransactionInfo from '../components/transactionInfo/index';
+import AccountInfo from '../components/accountInformationPanel/index';
+import TransactionInfo from '../components/transactionInformationPanel/index';
 import usePost from '../hooks/usePost';
-import TransactionJsonDialog from '../components/transactionInfo/TransactionJsonDialog';
+import TransactionJsonDialog from '../components/transactionInformationPanel/TransactionJsonDialog';
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
 
