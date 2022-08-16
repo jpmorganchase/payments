@@ -3,8 +3,10 @@
 
 name: Cypress tests
 
-on: [push]
-
+on:
+  push: [push]
+  pull_request:
+    branches: [main]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
