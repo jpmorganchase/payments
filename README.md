@@ -44,7 +44,7 @@ Proxy error: Could not proxy request /api/tsapi/v1/participants from localhost:3
 See https://nodejs.org/api/errors.html#errors_common_system_errors for more information (ECONNREFUSED).
 ```
 
-You can ignore it as this is because our server is not running. (See [Hitting JP Morgan APIs locally section](#server-local))
+You can ignore it as this is because our server is not running. (See [Hitting JP Morgan APIs locally section](#hitting-jp-morgan-apis-locally-server-local))
 
 ### Hitting JP Morgan APIs
 
@@ -53,7 +53,7 @@ You will need to onboard to JP Morgan to access this information. Further detail
 
 Once you have the correct files ready you can upload them to your server (DO NOT COMMIT THESE FILES TO YOUR CODEBASE).
 
-#### Hitting JP Morgan APIs locally (#server-local)
+#### Hitting JP Morgan APIs locally
 
 1. Store your certs in a folder that is included in .gitignore (eg. certs)
 2. Open server.js and make sure paths on line 18/19 match your folder
