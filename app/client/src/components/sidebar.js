@@ -14,7 +14,7 @@ const Sidebar = () => {
     <div className='flex lg:flex-none w-full lg:w-44 border-b lg:border-r border-gray-200 '>
       <nav className='px-8 py-4 lg:p-8 lg:pr-0 flex flex-row lg:flex-col justify-between w-full items-center '>
         <div className='flex flex-row lg:flex-col'>
-          <NavLink to='accounts' className='mb-0 lg:mb-12 block'>
+          <NavLink to='accounts' className='mb-0 lg:mb-12 block' data-cy='logo'>
             <img
               src={ufLogoLarge}
               alt='Unicorn Finance Logo'
@@ -22,12 +22,13 @@ const Sidebar = () => {
             />
           </NavLink>
           <ul className=' ml-0 -my-4 lg:-ml-8 lg:my-0 text-gray-500 text-sm flex flex-row lg:flex-col'>
-            <NavLink to='#' className={linkClassName}>
+            <NavLink to='#' className={linkClassName} data-cy='dashboardLink'>
               <li className=''>Dashboard</li>
             </NavLink>
 
             <NavLink
               to='accounts'
+              data-cy='accountsLink'
               className={({ isActive }) =>
                 isActive ? `${activeClassName} ${linkClassName}` : linkClassName
               }
@@ -37,7 +38,7 @@ const Sidebar = () => {
           </ul>
         </div>
 
-        <div className='lg:bottom-0 lg:fixed mb-2 lg:w-auto'>
+        <div className='lg:bottom-0 lg:fixed mb-2 lg:w-auto' data-cy='popover'>
           <Popover className='relative lg:hidden'>
             <Popover.Button className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
               <span className='block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl'></span>
@@ -47,7 +48,9 @@ const Sidebar = () => {
             <Popover.Panel className='absolute z-10 w-max max-w-sm px-4 mt-3 transform -translate-x-3/4 left-1/2'>
               <div className='overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5'>
                 <div className='relative grid bg-white p-7 grid-cols-1 gap-3'>
-                  <a href='/service_status'>Service Status</a>
+                  <a href='/service_status' data-cy='serviceStatusLink'>
+                    Service Status
+                  </a>
                   <a href='#'>Settings</a>
                 </div>
                 <div className='relative p-4 bg-gray-50 grid grid-cols-1 gap-2'>
@@ -66,6 +69,7 @@ const Sidebar = () => {
 
           <ul className='hidden lg:block -ml-8 text-gray-500 text-xs mb-4'>
             <NavLink
+              data-cy='serviceStatusDesktopLink'
               className={({ isActive }) =>
                 isActive
                   ? `${activeClassName} ${submenuClassName}`
