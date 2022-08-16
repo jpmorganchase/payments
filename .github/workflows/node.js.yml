@@ -16,6 +16,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
-          project: ./app/client
-          build: cd app && cd client && yarn run build
-          start: cd app && cd client yarn start
+          working-directory: ./app/client
+          build: yarn run build
+          start: yarn start
