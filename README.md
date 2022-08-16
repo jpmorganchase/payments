@@ -48,9 +48,9 @@ Once you have the correct files ready you can upload them to your server (DO NOT
 1. Store your certs in a folder that is included in .gitignore (eg. certs)
 2. Open server.js and make sure paths on line 18/19 match your folder
 3. Run the server: 
-  a. cd app
-  b. yarn install
-  c. nodemon server.js
+    1. cd app
+    2. yarn install
+    3. nodemon server.js
 
 ## Contribution to our project
 
