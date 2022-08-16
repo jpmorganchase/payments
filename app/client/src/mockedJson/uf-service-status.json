@@ -4,13 +4,13 @@
       "clearingSystem": "TCH",
       "participantId": "071000288T1",
       "participantName": "BMO Harris Bank",
-      "status": "OFFLINE"
+      "status": "COMPLETE"
     },
     {
       "clearingSystem": "TCH",
       "participantId": "200000041T1",
       "participantName": "Bankers Bank Test3",
-      "status": "OFFLINE"
+      "status": "INTERMITTENT"
     },
     {
       "clearingSystem": "TCH",

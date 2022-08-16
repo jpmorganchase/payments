@@ -22,6 +22,7 @@ const WhatAPI = ({
               className={`${
                 apiDataEnabled ? 'bg-green-400 ' : 'bg-gray-200'
               } relative inline-flex items-center h-6 rounded-full w-11 txt-xs`}
+              data-cy='showApiData'
             >
               <span className='sr-only'>Show api data</span>
               <span
@@ -39,6 +40,7 @@ const WhatAPI = ({
               Show mocked data
             </Switch.Label>
             <Switch
+              data-cy='showMockedData'
               checked={mockedDataEnabled}
               onChange={toggleMockedData}
               className={`${
