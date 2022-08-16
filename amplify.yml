@@ -3,6 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
+        - cd app
         - cd client
         - yarn install
     build:
@@ -10,7 +11,7 @@ frontend:
         - yarn run build
   artifacts:
     # IMPORTANT - Please verify your build output directory
-    baseDirectory: /client/build
+    baseDirectory: /app/client/build
     files:
       - '**/*'
   cache:
