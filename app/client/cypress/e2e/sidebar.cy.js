@@ -19,24 +19,16 @@ describe('Sidebar', () => {
     cy.location('pathname', { timeout: 60000 }).should('include', '/accounts');
   });
 
-  it('Navigates to service status - mobile page', () => {
-    cy.viewport('iphone-6'); // Set viewport to 375px x 667px
-    cy.get('[data-cy="popover"]').click();
-    cy.get('[data-cy="serviceStatusLink"]').click();
-    cy.location('pathname', { timeout: 60000 }).should(
-      'include',
-      '/service_status',
-    );
-  });
-
-  it('Navigates to service status - medium page', () => {
-    cy.viewport('ipad-2');
-    cy.get('[data-cy="popover"]').click();
-    cy.get('[data-cy="serviceStatusLink"]').click();
-    cy.location('pathname', { timeout: 60000 }).should(
-      'include',
-      '/service_status',
-    );
+  it('Navigates to service status - dropdown', () => {
+    ['iphone-6', 'ipad-2'].forEach((port) => {
+      cy.viewport(port);
+      cy.get('[data-cy="popover"]').click();
+      cy.get('[data-cy="serviceStatusLink"]').click();
+      cy.location('pathname', { timeout: 60000 }).should(
+        'include',
+        '/service_status',
+      );
+    });
   });
 
   it('Navigates to service status - macbook', () => {
