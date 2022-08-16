@@ -5,8 +5,10 @@
     "dependencies": {
         "dotenv": "^16.0.1",
         "express": "^4.18.1",
-        "nodemon": "^2.0.19",
-        "node-fetch": "2.6.7"
+        "http-proxy-middleware": "^2.0.6",
+        "https-proxy-agent": "^5.0.1",
+        "node-fetch": "2.6.7",
+        "nodemon": "^2.0.19"
     },
     "license": "LICENSE"
 }

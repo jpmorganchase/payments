@@ -25,6 +25,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        run: cd client && yarn --frozen-lockfile
+        run: cd app && cd client && yarn --frozen-lockfile
       - name: Building
-        run: cd client && yarn run build --if-present
+        run: cd app && cd client && yarn run build --if-present
