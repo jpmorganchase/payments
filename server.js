@@ -1,121 +1,47 @@
-const https = require('https');
-
-require('dotenv').config();
-const path = require('path');
-const fetch = require('node-fetch');
 const express = require('express');
-const privateKey = process.env.KEY_private;
-const certificate = process.env.CERT;
-const port = process.env.port || 4000;
-
-const httpsOptions = {
-  key: privateKey && privateKey.replace(/\\n/g, '\n'),
-  cert: certificate && certificate.replace(/\\n/g, '\n'),
-};
+const fs = require('fs');
+const https = require('https');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
-
-// Transforms the raw string of req.body into json
-app.use(express.json());
-// Load API routes
-
-app.use(express.static(path.join(__dirname, './client/build')));
-
-app.get('*', (req, res) => {
-  handleRequest(req, res);
-});
-
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err['status'] = 404;
-  next(err);
-});
-
-app.use((err, req, res) => {
-  res.status(err.status || 500);
-  res.json({
-    errors: {
-      message: err.message,
-    },
-  });
-});
-
-const httpsServer = https.createServer(httpsOptions, app);
-
-httpsServer.listen(port, () => console.log(`Listening on port ${port}`));
-
-const sslConfiguredAgent = new https.Agent(httpsOptions);
-
-const getAPIEndpoint = (path) => {
-  switch (path) {
-    case 'status':
-      return 'https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants?status=OFFLINE';
-    case 'balances':
-      return 'https://apigatewayqaf.jpmorgan.com/accessapi/balance';
-    case 'transactions':
-      return 'https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?relativeDateType=PRIOR_DAY';
-  }
+httpsOpts = {
+  key: fs.readFileSync('certs/jpmc.key', 'utf-8'),
+  cert: fs.readFileSync('certs/jpmc.crt', 'utf-8'),
 };
 
-const generateError = (response, responseBody) => {
-  return response
-    .status(500)
-    .json(
-      responseBody ? responseBody : { error: 'Issue collecting data from API' },
+// proxy middleware options
+const options = {
+  target: 'https://apigatewayqaf.jpmorgan.com', // target host with the same base path
+  changeOrigin: true, // needed for virtual hosted sites
+  logLevel: 'debug',
+  agent: new https.Agent({
+    key: fs.readFileSync('certs/jpmc.key', 'utf-8'),
+    cert: fs.readFileSync('certs/jpmc.crt', 'utf-8'),
+  }),
+  pathRewrite: { '^/api': '' },
+
+  onProxyReq: (proxyReq, req, res) => {
+    console.log(
+      '--> ',
+      req.method,
+      req.path,
+      '->',
+      proxyReq.baseUrl + proxyReq.path,
     );
+  },
+  onProxyRes: (proxyRes, req, res) => {
+    proxyRes.headers['access-control-allow-origin'] = 'http://localhost:3000';
+    const exchange = `[${req.method}] [${proxyRes.statusCode}] ${req.path} -> ${proxyRes.req.protocol}//${proxyRes.req.host}${proxyRes.req.path}`;
+    console.log(exchange);
+  },
+  onError: (err, req, res) => {
+    console.log(err);
+  },
 };
 
-const postRequest = async (apiEndpoint) => {
-  if (apiEndpoint) {
-    return await fetch(apiEndpoint, {
-      agent: sslConfiguredAgent,
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        relativeDateType: 'CURRENT_DAY',
-        accountList: [
-          {
-            accountId: '000000010013324',
-          },
-        ],
-      }),
-    });
-  }
-};
+// mount `exampleProxy` in web server
+app.use('/api', createProxyMiddleware(options));
 
-const getRequest = async (apiEndpoint) => {
-  if (apiEndpoint) {
-    return await fetch(apiEndpoint, {
-      agent: sslConfiguredAgent,
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-  }
-};
-
-const handleRequest = async (request, response) => {
-  const { path } = request.query;
-  const apiEndpoint = getAPIEndpoint(path);
-  try {
-    let responseValue;
-    if (path === 'balances') {
-      responseValue = await postRequest(apiEndpoint);
-    } else {
-      responseValue = await getRequest(apiEndpoint);
-    }
-    const responseBody = await responseValue?.json();
-    if (responseBody.errors || responseBody.fault) {
-      console.log(`Error response from API: ${JSON.stringify(responseBody)}`);
-      return generateError(response, responseBody);
-    }
-    return response.status(200).json(responseBody);
-  } catch (error) {
-    console.log(error);
-    return generateError(response);
-  }
-};
+app.listen(8081, () => {
+  console.log('Proxy listening on port 8081');
+});

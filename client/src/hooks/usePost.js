@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 
 const sendPost = async (path) => {
-  const response = await fetch(path);
+  const response = await fetch(`http://localhost:8081${path}`);
   if (!response.ok) {
     throw new Error('Error fetching API data. Try the mocked data');
   }

@@ -9,9 +9,9 @@ const config = {
   apiDetails: [
     {
       name: 'Platform Availability Communication Manangement',
-      backendPath: `/api/server?path=status`,
+      backendPath: `/api/tsapi/v1/participants`,
       cacheKey: 'serviceStatus',
-      path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants/',
+      path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants',
       refreshInterval: 1800000,
       description:
         'This API returns a list of current outages within JP Morgan external APIs. If no outages are returned a message is displayed for the user.',

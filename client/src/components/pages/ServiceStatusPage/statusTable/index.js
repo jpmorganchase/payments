@@ -37,7 +37,7 @@ const StatusTable = ({
         renderErrorMessage(
           'There are no upcoming outages. Want to know what this data looks like? Toggle on mocked data below.',
         )
-      ) : !serviceStatusData || serviceStatusData.error ? (
+      ) : !serviceStatusData || serviceStatusData.errors ? (
         renderErrorMessage(
           'Error gathering information from API. Toggle on mocked data below to see example information',
         )
@@ -84,7 +84,7 @@ StatusTable.propTypes = {
         status: PropTypes.string,
       }),
     ),
-    error: PropTypes.object,
+    errors: PropTypes.array,
   }),
   apiData: PropTypes.arrayOf(PropTypes.object),
   displayingApiData: PropTypes.bool,
