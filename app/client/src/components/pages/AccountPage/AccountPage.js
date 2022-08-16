@@ -1,5 +1,5 @@
 import React from 'react';
-import WhatAPI from '../../whatAPI';
+import WhatAPI from '../../whatApi';
 import AccountInfo from './accountInfo/index';
 import TransactionInfo from './transactionInfo/index';
 import usePost from '../../../hooks/usePost';
