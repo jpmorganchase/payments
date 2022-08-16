@@ -4,7 +4,7 @@
 name: Cypress tests
 
 on:
-  push: [push]
+  push:
   pull_request:
     branches: [main]
 jobs:
