@@ -10,7 +10,9 @@ const tableHeaders = [
 ];
 
 const renderErrorMessage = (message) => (
-  <div className='pt-24 text-center'>{message}</div>
+  <div className='pt-24 text-center' data-cy='errorMessage'>
+    {message}
+  </div>
 );
 
 const StatusTable = ({
