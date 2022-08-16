@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import StatusTable from './statusTable';
 import WhatAPI from '../../whatAPI';
-import usePost from '../../../hooks/usePost';
 import Spinner from '../../spinner';
+import useGet from '../../../hooks/useGet';
 
 const mockedData = require('./uf-service-status.json');
 const config = {
@@ -23,7 +23,7 @@ const ServiceStatusPage = () => {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [data, setData] = React.useState(mockedData);
 
-  const response = usePost(
+  const response = useGet(
     config.apiDetails[0].backendPath,
     config.apiDetails[0].cacheKey,
     config.apiDetails[0].refreshInterval,

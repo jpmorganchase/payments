@@ -5,6 +5,7 @@ import TransactionInfo from './transactionInfo/index';
 import usePost from '../../../hooks/usePost';
 import TransactionJsonDialog from './transactionInfo/TransactionJsonDialog';
 import Spinner from '../../spinner';
+import useGet from '../../../hooks/useGet';
 
 const balanceMockData = require('./mockJson/uf-balances.json');
 const transactionMockData = require('./mockJson/uf-transactions.json');
@@ -13,19 +14,27 @@ const config = {
   apiDetails: [
     {
       name: 'Balances',
-      backendPath: `/api/server?path=balances`,
+      backendPath: `/api/accessapi/balance`,
       path: 'https://apigatewayqaf.jpmorgan.com/accessapi/balance',
       description:
         'This API returns intraday balances for specific accounts. We use it to get the current day balance for a UAT account.',
       cacheKey: 'balances',
       refreshInterval: 43200000,
+      body: {
+        relativeDateType: 'CURRENT_DAY',
+        accountList: [
+          {
+            accountId: '000000010013324',
+          },
+        ],
+      },
     },
     {
       name: 'Transactions',
       path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?relativeDateType=PRIOR_DAY',
       description:
         'This API returns all the transactions for a specific account for a specific time period.',
-      backendPath: `/api/server?path=transactions`,
+      backendPath: `/api/tsapi/v2/transactions?relativeDateType=PRIOR_DAY`,
       cacheKey: 'transactions',
       refreshInterval: 1800000,
     },
@@ -44,9 +53,10 @@ const AccountPage = () => {
     config.apiDetails[0].backendPath,
     config.apiDetails[0].cacheKey,
     config.apiDetails[0].refreshInterval,
+    config.apiDetails[0].body,
   );
 
-  const transactionResults = usePost(
+  const transactionResults = useGet(
     config.apiDetails[1].backendPath,
     config.apiDetails[1].cacheKey,
     config.apiDetails[1].refreshInterval,

@@ -34,9 +34,6 @@ const options = {
     const exchange = `[${req.method}] [${proxyRes.statusCode}] ${req.path} -> ${proxyRes.req.protocol}//${proxyRes.req.host}${proxyRes.req.path}`;
     console.log(exchange);
   },
-  onError: (err, req, res) => {
-    console.log(err);
-  },
 };
 
 // mount `exampleProxy` in web server

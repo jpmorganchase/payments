@@ -31,6 +31,7 @@
     "prettier": "^2.2.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   },
+  "proxy": "http://localhost:8081",
   "browserslist": {
     "production": [
       ">0.2%",
