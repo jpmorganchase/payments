@@ -27,6 +27,7 @@ const ServiceStatusPage = () => {
     config.apiDetails[0].backendPath,
     config.apiDetails[0].cacheKey,
     config.apiDetails[0].refreshInterval,
+    displayingMockedData,
   );
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
