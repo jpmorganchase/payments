@@ -65,6 +65,13 @@ yarn install
 nodemon server.js
 ```
 
+## Testing
+
+We are using cypress to test our screens. 
+```sh
+cd app/client
+npx cypress open
+```
 
 ## Contribution to our project
 
