@@ -11,10 +11,17 @@ const sendPost = async (path, body) => {
   return response.json();
 };
 
-export default function usePost(path, id, intervalMs, body) {
+export default function usePost(
+  path,
+  id,
+  intervalMs,
+  body,
+  displayingMockedData,
+) {
   return useQuery(id, () => sendPost(path, body), {
     refetchInterval: intervalMs,
     retry: 0,
     staleTime: intervalMs,
+    enabled: !displayingMockedData,
   });
 }

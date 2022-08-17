@@ -54,12 +54,14 @@ const AccountPage = () => {
     config.apiDetails[0].cacheKey,
     config.apiDetails[0].refreshInterval,
     config.apiDetails[0].body,
+    displayingMockedData,
   );
 
   const transactionResults = useGet(
     config.apiDetails[1].backendPath,
     config.apiDetails[1].cacheKey,
     config.apiDetails[1].refreshInterval,
+    displayingMockedData,
   );
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);

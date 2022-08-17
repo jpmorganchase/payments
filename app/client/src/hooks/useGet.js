@@ -8,10 +8,11 @@ const sendGet = async (path) => {
   return response.json();
 };
 
-export default function useGet(path, id, intervalMs) {
+export default function useGet(path, id, intervalMs, displayingMockedData) {
   return useQuery(id, () => sendGet(path), {
     refetchInterval: intervalMs,
     retry: 0,
     staleTime: intervalMs,
+    enabled: !displayingMockedData,
   });
 }
