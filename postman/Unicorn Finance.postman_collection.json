@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "0e3ee822-5ed0-4f52-bf2e-48b71f102c4d",
 		"name": "Unicorn Finance",
+		"description": "We have created Unicorn Finance as a sample application showcasing the\ncapabilities of our JP Morgan core external APIs. We hit a number of JP Morgan\nAPIs in the UAT environment via ssl authentication.\n\nSee our project running on AWS Amplify\n[here](https://www.unicorn-finance-dev.com/)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
