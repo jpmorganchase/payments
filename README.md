@@ -56,13 +56,20 @@ Once you have the correct files ready you can upload them to your server (DO NOT
 #### Hitting JP Morgan APIs locally
 
 1. Store your certs in a folder that is included in .gitignore (eg. certs)
-2. Open server.js and make sure paths on line 18/19 match your folder
+2. Open server/app.js and uncomment below lines
+```js
+  // const httpsOpts = {
+  //   KEY: fs.readFileSync('../certs/jpmc.key', 'utf-8'),
+  //   CERT: fs.readFileSync('../certs/jpmc.crt', 'utf-8'),
+  // };
+```
+3. Make sure paths on these lines match your folder
 3. Then run:
 
 ```sh
-cd app
+cd app/server
 yarn install
-nodemon server.js
+nodemon app.local.js
 ```
 
 ## Testing
