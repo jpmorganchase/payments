@@ -1,14 +1,5 @@
 {
     "name": "unicornfinance",
     "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "dotenv": "^16.0.1",
-        "express": "^4.18.1",
-        "http-proxy-middleware": "^2.0.6",
-        "https-proxy-agent": "^5.0.1",
-        "node-fetch": "2.6.7",
-        "nodemon": "^2.0.19"
-    },
     "license": "LICENSE"
 }
