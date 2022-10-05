@@ -1,8 +1,9 @@
 const express = require('express');
 const fs = require('fs');
 const { gatherHttpsOptionsAsync } = require('./grabSecret');
-
+const { generateJWTJose } = require('./digitalSignature');
 const https = require('https');
+
 const {
   createProxyMiddleware,
   responseInterceptor,
@@ -61,6 +62,8 @@ async function createProxyConfiguration(req, res) {
   };
   return createProxyMiddleware(options);
 }
+
+app.use('/jwt', generateJWTJose);
 
 // mount `exampleProxy` in web server
 app.use('/*', async (req, res, next) => {
