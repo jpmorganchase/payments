@@ -3,11 +3,11 @@
 // https://aws.amazon.com/developers/getting-started/nodejs/
 
 const SECRET_NAME = process.env.SECRET_NAME;
+const DIGITAL_SIGNATURE_NAME = process.env.DIGITAL_SIGNATURE_NAME;
 
 // Load the AWS SDK
 var AWS = require('aws-sdk'),
-  region = 'us-east-1',
-  secretName = SECRET_NAME;
+  region = 'us-east-1';
 
 // Create a Secrets Manager client
 var client = new AWS.SecretsManager({
@@ -16,9 +16,16 @@ var client = new AWS.SecretsManager({
 
 async function gatherHttpsOptionsAsync() {
   const result = await client
-    .getSecretValue({ SecretId: secretName })
+    .getSecretValue({ SecretId: SECRET_NAME })
     .promise();
   return JSON.parse(result.SecretString);
 }
 
-module.exports = { gatherHttpsOptionsAsync };
+async function gatherDigitalSignatureKeyAsync() {
+  const result = await client
+    .getSecretValue({ SecretId: DIGITAL_SIGNATURE_NAME })
+    .promise();
+  return JSON.parse(result.SecretString);
+}
+
+module.exports = { gatherHttpsOptionsAsync, gatherDigitalSignatureKeyAsync };
