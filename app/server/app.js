@@ -46,8 +46,6 @@ async function createProxyConfiguration(req, res) {
         if (proxyRes.headers['content-type'] === 'application/json') {
           let data = JSON.parse(responseBuffer.toString('utf8'));
 
-          console.log(data);
-
           // return manipulated JSON
           return JSON.stringify(data);
         }
