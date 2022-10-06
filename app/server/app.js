@@ -12,13 +12,13 @@ const app = express();
 
 async function createProxyConfiguration(req, res) {
   // Required for AWS Lambda to gather secrets
-  const httpsOpts = await gatherHttpsOptionsAsync();
+  //const httpsOpts = await gatherHttpsOptionsAsync();
 
   // Required for local execution
-  // const httpsOpts = {
-  //   KEY: fs.readFileSync('../certs/jpmc.key', 'utf-8'),
-  //   CERT: fs.readFileSync('../certs/jpmc.crt', 'utf-8'),
-  // };
+  const httpsOpts = {
+    KEY: fs.readFileSync('./certs/jpmc.key', 'utf-8'),
+    CERT: fs.readFileSync('./certs/jpmc.crt', 'utf-8'),
+  };
   const options = {
     target: 'https://apigatewayqaf.jpmorgan.com', // target host with the same base path
     changeOrigin: true, // needed for virtual hosted sites
