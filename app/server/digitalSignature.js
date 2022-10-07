@@ -1,7 +1,7 @@
 const fs = require('fs');
 const jose = require('jose');
 const { body } = require('./body');
-
+const { gatherDigitalSignatureKeyAsync } = require('./grabSecret');
 const header = {
   alg: 'RS256',
 };
@@ -12,8 +12,8 @@ const generateJWTJose = async (req, res) => {
   //   'certs/treasury-services/digital-signature/key.key',
   //   'utf-8',
   // );
-  const digitalSignatureKey = await gatherDigitalSignatureKeyAsync();
-
+  const digitalSignature = await gatherDigitalSignatureKeyAsync();
+  const digitalSignatureKey = digitalSignature.digital.replace(/\\n/g, '\n');
   const privateKey = await jose.importPKCS8(digitalSignatureKey, 'RSA-SHA256');
 
   const jwt = await new jose.SignJWT(body)
