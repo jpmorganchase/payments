@@ -2,7 +2,7 @@ import React from 'react';
 
 const makePaymentClick = () => {
   // eslint-disable-next-line
-  console.log('here');
+  console.log('Make payment button clicked');
 };
 const AccountCardButtons = () => {
   return (
