@@ -12,8 +12,11 @@ const generateJWTJose = async (req, res) => {
   //   'certs/treasury-services/digital-signature/key.key',
   //   'utf-8',
   // );
+
+  // Uncomment for lambda usage
   const digitalSignature = await gatherDigitalSignatureKeyAsync();
   const digitalSignatureKey = digitalSignature.digital.replace(/\\n/g, '\n');
+
   const privateKey = await jose.importPKCS8(digitalSignatureKey, 'RSA-SHA256');
 
   const jwt = await new jose.SignJWT(body)
