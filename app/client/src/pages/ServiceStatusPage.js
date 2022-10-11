@@ -3,6 +3,7 @@ import StatusTable from '../components/statusTable';
 import WhatAPI from '../components/whatApi';
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
+import { AppContext } from '../AppContext';
 
 const mockedData = require('../mockedJson/uf-service-status.json');
 const config = {
@@ -19,10 +20,14 @@ const config = {
   ],
 };
 const ServiceStatusPage = () => {
-  const [displayingApiData, setDisplayingApiData] = React.useState(false);
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [data, setData] = React.useState(mockedData);
 
+  const {
+    displayingMockedData,
+    setDisplayingMockedData,
+    displayingApiData,
+    setDisplayingApiData,
+  } = React.useContext(AppContext);
   const response = useGet(
     config.apiDetails[0].backendPath,
     config.apiDetails[0].cacheKey,

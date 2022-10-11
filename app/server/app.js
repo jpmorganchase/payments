@@ -1,8 +1,9 @@
 const express = require('express');
 const fs = require('fs');
 const { gatherHttpsOptionsAsync } = require('./grabSecret');
-
+const { generateJWTJose } = require('./digitalSignature');
 const https = require('https');
+
 const {
   createProxyMiddleware,
   responseInterceptor,
@@ -13,10 +14,10 @@ async function createProxyConfiguration(req, res) {
   // Required for AWS Lambda to gather secrets
   const httpsOpts = await gatherHttpsOptionsAsync();
 
-  // Required for local execution
+  //Required for local execution
   // const httpsOpts = {
-  //   KEY: fs.readFileSync('../certs/jpmc.key', 'utf-8'),
-  //   CERT: fs.readFileSync('../certs/jpmc.crt', 'utf-8'),
+  //   KEY: fs.readFileSync('./certs/jpmc.key', 'utf-8'),
+  //   CERT: fs.readFileSync('./certs/jpmc.crt', 'utf-8'),
   // };
   const options = {
     target: 'https://apigatewayqaf.jpmorgan.com', // target host with the same base path
@@ -45,8 +46,6 @@ async function createProxyConfiguration(req, res) {
         if (proxyRes.headers['content-type'] === 'application/json') {
           let data = JSON.parse(responseBuffer.toString('utf8'));
 
-          console.log(data);
-
           // return manipulated JSON
           return JSON.stringify(data);
         }
@@ -61,6 +60,8 @@ async function createProxyConfiguration(req, res) {
   };
   return createProxyMiddleware(options);
 }
+
+app.use('/jwt', generateJWTJose);
 
 // mount `exampleProxy` in web server
 app.use('/*', async (req, res, next) => {

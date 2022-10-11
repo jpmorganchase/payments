@@ -27,3 +27,4 @@ yarn-error.log*
 build
 certs
 archive.zip
+body.js

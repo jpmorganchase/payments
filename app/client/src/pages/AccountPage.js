@@ -6,6 +6,7 @@ import usePost from '../hooks/usePost';
 import TransactionJsonDialog from '../components/transactionInformationPanel/TransactionJsonDialog';
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
+import { AppContext } from '../AppContext';
 
 const balanceMockData = require('../mockedJson/uf-balances.json');
 const transactionMockData = require('../mockedJson/uf-transactions.json');
@@ -42,8 +43,13 @@ const config = {
 };
 
 const AccountPage = () => {
-  const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
-  const [displayingApiData, setDisplayingApiData] = React.useState(false);
+  const {
+    displayingMockedData,
+    setDisplayingMockedData,
+    displayingApiData,
+    setDisplayingApiData,
+  } = React.useContext(AppContext);
+
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});

@@ -17,7 +17,10 @@ const AccountCard = ({ account, setSelectedAccount, selectedAccount }) => {
         <div className='mb-2 font-medium'>
           {account.accountName || 'Account Name'}
           <br />
-          <span className='text-xs text-gray-500 font-normal' data-cy="accountId">
+          <span
+            className='text-xs text-gray-500 font-normal'
+            data-cy='accountId'
+          >
             {account.accountId}
           </span>
         </div>
