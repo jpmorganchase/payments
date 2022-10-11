@@ -61,13 +61,7 @@ const DailyTransactionTable = ({
                 <td className='py-2 whitespace-nowrap'>
                   {transaction.debitCreditCode}
                 </td>
-                <td
-                  className={`py-2 px-3 whitespace-nowrap text-right ${
-                    transaction.debitCreditCode === 'CREDIT'
-                      ? 'text-red-600'
-                      : 'text-emerald-600'
-                  }`}
-                >
+                <td className='py-2 px-3 whitespace-nowrap text-right'>
                   <span className='font-semibold pr-2'>
                     {transaction.amount}
                   </span>
