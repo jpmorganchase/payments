@@ -14,7 +14,7 @@ async function createProxyConfiguration(req, res) {
   // Required for AWS Lambda to gather secrets
   const httpsOpts = await gatherHttpsOptionsAsync();
 
-  // Required for local execution
+  //Required for local execution
   // const httpsOpts = {
   //   KEY: fs.readFileSync('./certs/jpmc.key', 'utf-8'),
   //   CERT: fs.readFileSync('./certs/jpmc.crt', 'utf-8'),

@@ -1,7 +1,6 @@
 {
   "name": "unicornfinance-client",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.5",
     "@headlessui/react": "^1.4.1",
@@ -20,7 +19,7 @@
     "test": "craco test",
     "prettier": "prettier --write ."
   },
-  "license": "LICENSE",
+  "license": "UNLICENSED",
   "devDependencies": {
     "@babel/core": "^7.13.0",
     "autoprefixer": "^10.4.12",
@@ -35,7 +34,6 @@
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
     "react-error-overlay": "6.0.9"
   },
-  "proxy": "http://localhost:8081",
   "browserslist": {
     "production": [
       ">0.2%",
