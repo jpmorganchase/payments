@@ -1,4 +1,10 @@
-const accounts = ['000000010975001', '000000011008182'];
+const accounts = [
+  '000000010975001',
+  '000000011008182',
+  '000000010975514',
+  '000000010975001',
+  '000000010900009',
+];
 const config = {
   accountsConfig: {
     accountDetails: accounts,
@@ -21,10 +27,10 @@ const config = {
       },
       {
         name: 'Transactions',
-        path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?relativeDateType=PRIOR_DAY',
+        path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?relativeDateType=CURRENT_DAY',
         description:
           'This API returns all the transactions for a specific account for a specific time period.',
-        backendPath: `/api/tsapi/v2/transactions?relativeDateType=PRIOR_DAY`,
+        backendPath: `/api/tsapi/v2/transactions?relativeDateType=CURRENT_DAY&accountIds=${accounts.toString()}`,
         cacheKey: 'transactions',
         refreshInterval: 1800000,
       },

@@ -10,7 +10,6 @@ const { config } = require('../config');
 const ServiceStatusPage = () => {
   const [data, setData] = React.useState(mockedData);
   const { statusConfig } = config;
-  console.log(statusConfig);
   const {
     displayingMockedData,
     setDisplayingMockedData,

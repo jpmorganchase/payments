@@ -13,7 +13,7 @@ const transactionMockData = require('../mockedJson/uf-transactions.json');
 const { config } = require('../config');
 
 const AccountPage = () => {
-  const {accountsConfig} = config;
+  const { accountsConfig } = config;
 
   const {
     displayingMockedData,
