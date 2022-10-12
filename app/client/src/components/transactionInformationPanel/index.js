@@ -17,6 +17,7 @@ const TransactionInfo = ({
       return transaction.account.accountId === selectedAccount.accountId;
     });
   }
+
   // Code taken from: https://stackoverflow.com/questions/46802448/how-do-i-group-items-in-an-array-by-date
   const groupTransactionsByDay = (data) => {
     const groups = data.reduce((groups, transaction) => {
@@ -44,13 +45,13 @@ const TransactionInfo = ({
         <div className='bg-gray-100 hover:bg-gray-200 cursor-pointer text-xs rounded-lg px-2 py-1 flex items-center'>
           <span className='material-icons text-base mr-1'>search</span> Search
         </div>
-        <div className=''>
+        <div>
           <span className='material-icons text-md mr-1'>filter_list</span>
           <span className='material-icons text-md mr-1'>download</span>
         </div>
       </div>
 
-      <div>
+      <>
         <TransactionViz
           groupedByDay={groupedByDayTransactions}
           transactions={transactionData}
@@ -62,7 +63,7 @@ const TransactionInfo = ({
           groupedByDay={groupedByDayTransactions}
           {...props}
         />
-      </div>
+      </>
     </div>
   );
 };
