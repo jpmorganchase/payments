@@ -12,7 +12,7 @@ const generateOptionsForDateVisual = (data) => {
     });
   });
 
-  return genOptions(chartData, '#Transactions by date');
+  return genOptions(chartData, 'Number of transactions by date');
 };
 
 const genOptions = (data, title) => {
@@ -87,19 +87,21 @@ const generateOptionsForTypeVisual = (data) => {
 
 const TransactionViz = ({ transactions, groupedByDay }) => {
   return (
-    <div className='p-6 rounded-lg border mb-4 shadow-sm flex gap-2 h-60'>
-      <div className='w-1/2'>
-        <HighchartsReact
-          highcharts={Highcharts}
-          options={generateOptionsForDateVisual(groupedByDay)}
-        />
-      </div>
-      <div className='w-1/2'>
-        <HighchartsReact
-          highcharts={Highcharts}
-          options={generateOptionsForTypeVisual(transactions)}
-        />
-      </div>
+    <div className='flex p-6 rounded-lg border mb-4 shadow-sm gap-2 h-60 flex-row'>
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={generateOptionsForDateVisual(groupedByDay)}
+        containerProps={{
+          className: 'highcharts-container',
+        }}
+      />
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={generateOptionsForTypeVisual(transactions)}
+        containerProps={{
+          className: 'highcharts-container',
+        }}
+      />
     </div>
   );
 };
