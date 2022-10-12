@@ -75,7 +75,7 @@ const AccountPage = () => {
   const displayPanels = () => {
     if (displayingMockedData) {
       return (
-        <div className='flex '>
+        <div className='flex flex-wrap'>
           {displayAccountPanel(balanceMockData)}
           {displayTransactionPanel(transactionMockData)}
         </div>
