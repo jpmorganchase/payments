@@ -36,7 +36,12 @@ const TransactionInfo = ({
         transactions: groups[date],
       };
     });
-    return groupArrays.slice().sort((a, b) => (a < b ? 1 : -1));
+    // https://stackoverflow.com/questions/10123953/how-to-sort-an-object-array-by-date-property
+    return groupArrays.sort(function (a, b) {
+      // Turn your strings into dates, and then subtract them
+      // to get a value that is either negative, positive, or zero.
+      return new Date(b.date) - new Date(a.date);
+    });
   };
 
   const groupedByDayTransactions = groupTransactionsByDay(transactionData);
