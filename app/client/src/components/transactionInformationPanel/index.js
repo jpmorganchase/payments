@@ -39,7 +39,7 @@ const TransactionInfo = ({
 
   const groupedByDayTransactions = groupTransactionsByDay(transactionData);
   return (
-    <div className='relative flex-grow p-8 flex flex-col w-3/5'>
+    <div className='relative w-3/5 p-8 flex flex-col'>
       <div className='flex justify-between items-center mb-3'>
         <h2 className='text-2xl font-medium'>All transactions</h2>
         <div className='bg-gray-100 hover:bg-gray-200 cursor-pointer text-xs rounded-lg px-2 py-1 flex items-center'>
