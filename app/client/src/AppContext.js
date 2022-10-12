@@ -5,7 +5,6 @@ const AppContext = React.createContext();
 const AppContextProvider = ({ children }) => {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
-
   return (
     <AppContext.Provider
       value={{

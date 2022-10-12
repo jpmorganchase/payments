@@ -10,39 +10,11 @@ import { AppContext } from '../AppContext';
 
 const balanceMockData = require('../mockedJson/uf-balances.json');
 const transactionMockData = require('../mockedJson/uf-transactions.json');
-
-const config = {
-  apiDetails: [
-    {
-      name: 'Balances',
-      backendPath: `/api/accessapi/balance`,
-      path: 'https://apigatewayqaf.jpmorgan.com/accessapi/balance',
-      description:
-        'This API returns intraday balances for specific accounts. We use it to get the current day balance for a UAT account.',
-      cacheKey: 'balances',
-      refreshInterval: 43200000,
-      body: {
-        relativeDateType: 'CURRENT_DAY',
-        accountList: [
-          {
-            accountId: '000000010013324',
-          },
-        ],
-      },
-    },
-    {
-      name: 'Transactions',
-      path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?relativeDateType=PRIOR_DAY',
-      description:
-        'This API returns all the transactions for a specific account for a specific time period.',
-      backendPath: `/api/tsapi/v2/transactions?relativeDateType=PRIOR_DAY`,
-      cacheKey: 'transactions',
-      refreshInterval: 1800000,
-    },
-  ],
-};
+const { config } = require('../config');
 
 const AccountPage = () => {
+  const { accountsConfig } = config;
+
   const {
     displayingMockedData,
     setDisplayingMockedData,
@@ -56,17 +28,17 @@ const AccountPage = () => {
   const [selectedAccount, setSelectedAccount] = React.useState({});
 
   const balanceResults = usePost(
-    config.apiDetails[0].backendPath,
-    config.apiDetails[0].cacheKey,
-    config.apiDetails[0].refreshInterval,
-    config.apiDetails[0].body,
+    accountsConfig.apiDetails[0].backendPath,
+    accountsConfig.apiDetails[0].cacheKey,
+    accountsConfig.apiDetails[0].refreshInterval,
+    accountsConfig.apiDetails[0].body,
     displayingMockedData,
   );
 
   const transactionResults = useGet(
-    config.apiDetails[1].backendPath,
-    config.apiDetails[1].cacheKey,
-    config.apiDetails[1].refreshInterval,
+    accountsConfig.apiDetails[1].backendPath,
+    accountsConfig.apiDetails[1].cacheKey,
+    accountsConfig.apiDetails[1].refreshInterval,
     displayingMockedData,
   );
   const toggleMockedData = () => {
@@ -85,7 +57,7 @@ const AccountPage = () => {
       data={data}
       setSelectedAccount={setSelectedAccount}
       selectedAccount={selectedAccount}
-      apiData={config.apiDetails}
+      apiData={accountsConfig.apiDetails}
       displayingApiData={displayingApiData}
     />
   );
@@ -95,7 +67,7 @@ const AccountPage = () => {
       transactions={data}
       openTransactionDialog={openTransactionDialog}
       selectedAccount={selectedAccount}
-      apiData={config.apiDetails}
+      apiData={accountsConfig.apiDetails}
       displayingApiData={displayingApiData}
     />
   );
@@ -142,7 +114,7 @@ const AccountPage = () => {
       />
       <WhatAPI
         toggleMockedData={toggleMockedData}
-        config={config}
+        config={accountsConfig}
         mockedDataEnabled={displayingMockedData}
         toggleApiData={toggleApiData}
         apiDataEnabled={displayingApiData}

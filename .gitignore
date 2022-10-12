@@ -28,3 +28,6 @@ build
 certs
 archive.zip
 body.js
+
+**/cypress/screenshots/
+**/cypress/videos

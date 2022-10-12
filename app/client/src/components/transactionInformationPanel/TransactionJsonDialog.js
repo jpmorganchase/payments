@@ -7,39 +7,30 @@ const TransactionJsonDialog = ({ transaction, setTransactionDialog, open }) => {
   return (
     <Dialog
       open={open}
-      as='div'
-      className='fixed inset-0 overflow-hidden'
       onClose={() => setTransactionDialog(false, {})}
+      className='fixed overflow-hidden'
     >
-      <div className='absolute inset-0 overflow-hidden'>
-        <Dialog.Overlay className='absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
-        <div className='fixed inset-y-0 right-0 pl-10 max-w-full flex'>
-          <div className='relative w-screen max-w-md'>
-            <div className='h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll'>
-              <div className='px-4 sm:px-6 flex-row flex justify-between'>
-                <Dialog.Title className='text-lg font-medium text-gray-900'>
-                  Raw Transaction JSON
-                </Dialog.Title>
-                <button
-                  onClick={() => setTransactionDialog(false, {})}
-                  data-cy='closeButton'
-                >
-                  Close
-                </button>
-              </div>
-              <div className='mt-6 relative flex-1 px-4 sm:px-6'>
-                <div className='absolute inset-0 px-4 sm:px-6'>
-                  <pre
-                    id='json'
-                    className='h-full border-2 border-dashed border-gray-200'
-                  >
-                    {JSON.stringify(transaction, undefined, 2)}
-                  </pre>
-                </div>
-              </div>
-            </div>
+      <div className='fixed inset-0 bg-black/30' aria-hidden='true' />
+      <div className='fixed  p-4 max-w-2xl inset-y-0 right-0 bg-white overflow-y-auto'>
+        <Dialog.Panel>
+          <div className='px-4 sm:px-6 flex-row flex justify-between'>
+            <Dialog.Title className='text-xl font-medium text-gray-900 mt-4'>
+              Raw Transaction JSON
+            </Dialog.Title>
+            <button
+              onClick={() => setTransactionDialog(false, {})}
+              data-cy='closeButton'
+            >
+              Close
+            </button>
           </div>
-        </div>
+          <pre
+            id='json'
+            className='h-full border-2 border-dashed border-gray-200 w-fit m-2 p-2'
+          >
+            {JSON.stringify(transaction, undefined, 2)}
+          </pre>
+        </Dialog.Panel>
       </div>
     </Dialog>
   );

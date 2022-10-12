@@ -6,22 +6,10 @@ import useGet from '../hooks/useGet';
 import { AppContext } from '../AppContext';
 
 const mockedData = require('../mockedJson/uf-service-status.json');
-const config = {
-  apiDetails: [
-    {
-      name: 'Platform Availability Communication Manangement',
-      backendPath: `/api/tsapi/v1/participants`,
-      cacheKey: 'serviceStatus',
-      path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants',
-      refreshInterval: 1800000,
-      description:
-        'This API returns a list of current outages within JP Morgan external APIs. If no outages are returned a message is displayed for the user.',
-    },
-  ],
-};
+const { config } = require('../config');
 const ServiceStatusPage = () => {
   const [data, setData] = React.useState(mockedData);
-
+  const { statusConfig } = config;
   const {
     displayingMockedData,
     setDisplayingMockedData,
@@ -29,9 +17,9 @@ const ServiceStatusPage = () => {
     setDisplayingApiData,
   } = React.useContext(AppContext);
   const response = useGet(
-    config.apiDetails[0].backendPath,
-    config.apiDetails[0].cacheKey,
-    config.apiDetails[0].refreshInterval,
+    statusConfig.apiDetails[0].backendPath,
+    statusConfig.apiDetails[0].cacheKey,
+    statusConfig.apiDetails[0].refreshInterval,
     displayingMockedData,
   );
   const toggleMockedData = () => {
@@ -63,7 +51,7 @@ const ServiceStatusPage = () => {
       return (
         <StatusTable
           serviceStatusData={data}
-          apiData={config.apiDetails}
+          apiData={statusConfig.apiDetails}
           displayingApiData={displayingApiData}
         />
       );
@@ -77,7 +65,7 @@ const ServiceStatusPage = () => {
 
       <WhatAPI
         toggleMockedData={toggleMockedData}
-        config={config}
+        config={statusConfig}
         mockedDataEnabled={displayingMockedData}
         toggleApiData={toggleApiData}
         apiDataEnabled={displayingApiData}

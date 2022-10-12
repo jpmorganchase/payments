@@ -34,12 +34,6 @@ const DailyTransactionTable = ({
               scope='col'
               className='py-2 text-left font-medium text-gray-500 uppercase'
             >
-              Beneficiary
-            </th>
-            <th
-              scope='col'
-              className='py-2 text-left font-medium text-gray-500 uppercase'
-            >
               Reference
             </th>
             <th
@@ -72,9 +66,6 @@ const DailyTransactionTable = ({
                     {transaction.amount}
                   </span>
                   {transaction.currency.code}
-                </td>
-                <td className='py-2 whitespace-nowrap'>
-                  {transaction.account.accountId}
                 </td>
                 <td className='py-2 whitespace-nowrap'>
                   {transaction.account.accountId}

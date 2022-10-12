@@ -12,7 +12,9 @@ const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
         return 'Error';
       }
     })
-    .reduce((prev, next) => prev + next);
+    .reduce(
+      (prev, next) => Math.round((prev + next + Number.EPSILON) * 100) / 100,
+    );
 
   return (
     <div className='relative bg-gray-50 p-8 border-r border-gray-200 sm:w-2/5 flex flex-col sm:min-h-screen flex-wrap'>
