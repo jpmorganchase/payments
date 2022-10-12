@@ -14,7 +14,7 @@ const AccountList = ({ data, displayingApiData, apiData = [], ...props }) => {
           <h3 className='text-xs'>{apiData[0].description}</h3>
         </div>
       )}
-      <div className='flex-grow overflow-y-auto'>
+      <div className='overflow-y-auto'>
         {data &&
           data.map((account, key) => (
             <AccountCard key={key} account={account} {...props} />

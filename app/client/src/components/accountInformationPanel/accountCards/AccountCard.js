@@ -10,7 +10,7 @@ const AccountCard = ({ account, setSelectedAccount, selectedAccount }) => {
   const selectedClassName = isSelected ? 'border-pink-500' : 'border-gray-200';
   return (
     <div
-      className={`border bg-white  shadow-sm hover:shadow-lg p-4 rounded-lg mb-4 ${selectedClassName}`}
+      className={`border bg-white  shadow-sm p-4 rounded-lg mb-4 ${selectedClassName}`}
       onClick={() => setSelectedAccount(account)}
     >
       <div className='flex justify-between'>
@@ -28,12 +28,10 @@ const AccountCard = ({ account, setSelectedAccount, selectedAccount }) => {
           {account.currency.code}
         </span>
       </div>
-      <div className='flex items-baseline justify-between'>
-        <div className='text-xl font-medium'>
-          {!account.errorCode && gatherCurrencySymbol(account.currency.code)}
-          {!account.errorCode && account.balanceList[0].openingAvailableAmount}
-          {account.errorCode && 'Error'}
-        </div>
+      <div className='text-xl font-medium'>
+        {!account.errorCode && gatherCurrencySymbol(account.currency.code)}
+        {!account.errorCode && account.balanceList[0].openingAvailableAmount}
+        {account.errorCode && 'Error'}
       </div>
       {isSelected && <AccountCardButtons />}
     </div>
