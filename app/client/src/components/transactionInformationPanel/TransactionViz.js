@@ -3,22 +3,19 @@ import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-const generateOptionsForCurrencyVisual = (data) => {
-  const categories = ['EUR', 'GBP', 'USD', 'OTHER'];
-  const groups = data.reduce((groups, transaction) => {
-    const code = transaction.currency.code;
-    if (!groups[code]) {
-      groups[code] = [];
-    }
-    groups[code].push(transaction);
-    return groups;
-  }, {});
-  const groupedData = groupTransactions(groups, categories);
-  return genOptions(groupedData, '#Transactions by currency');
+const generateOptionsForDateVisual = (data) => {
+  const chartData = [];
+  data.map((dateGroup) => {
+    chartData.push({
+      name: dateGroup.date,
+      y: dateGroup.transactions.length,
+    });
+  });
+
+  return genOptions(chartData, '#Transactions by date');
 };
 
 const genOptions = (data, title) => {
-  // todo https://www.highcharts.com/docs/chart-design-and-style/colors
   return {
     chart: {
       type: 'column',
@@ -40,7 +37,7 @@ const genOptions = (data, title) => {
       text: title,
       style: {
         textAlign: 'left',
-        fontSize: 12,
+        fontSize: 16,
         fontWeight: 500,
       },
     },
@@ -77,46 +74,24 @@ const genOptions = (data, title) => {
 };
 
 const generateOptionsForTypeVisual = (data) => {
-  const categories = ['DEBIT', 'CREDIT'];
-  const groups = data.reduce((groups, transaction) => {
-    const code = transaction.debitCreditCode;
-    if (!groups[code]) {
-      groups[code] = 0;
-    }
-    groups[code] += transaction.amount;
-    return groups;
-  }, {});
-  const groupedData = groupTransactions(groups, categories, true);
-  return genOptions(groupedData, 'Total debits & credits');
-};
-
-const groupTransactions = (groups, categories, numeric = false) => {
-  categories.forEach((cat) => {
-    if (!groups[cat]) {
-      if (numeric) {
-        groups[cat] = 0;
-      } else {
-        groups[cat] = [];
-      }
-    }
-  });
-  const groupArrays = Object.keys(groups).map((code) => {
-    return {
-      name: code,
-      y: numeric ? groups[code] : groups[code].length,
-    };
+  const chartData = [];
+  data.map((transaction) => {
+    chartData.push({
+      name: transaction.debitCreditCode,
+      y: transaction.amount,
+    });
   });
 
-  return groupArrays;
+  return genOptions(chartData, 'Total debits & credits');
 };
 
-const TransactionViz = ({ transactions }) => {
+const TransactionViz = ({ transactions, groupedByDay }) => {
   return (
     <div className='p-6 rounded-lg border mb-4 shadow-sm flex gap-2 h-60'>
       <div className='w-1/2'>
         <HighchartsReact
           highcharts={Highcharts}
-          options={generateOptionsForCurrencyVisual(transactions)}
+          options={generateOptionsForDateVisual(groupedByDay)}
         />
       </div>
       <div className='w-1/2'>
@@ -131,6 +106,7 @@ const TransactionViz = ({ transactions }) => {
 
 TransactionViz.propTypes = {
   transactions: PropTypes.arrayOf(PropTypes.object),
+  groupedByDay: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default TransactionViz;

@@ -2,32 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DailyTransactionTable from './DailyTransactionTable';
 
-// Code taken from: https://stackoverflow.com/questions/46802448/how-do-i-group-items-in-an-array-by-date
-const groupTransactionsByDay = (data) => {
-  const groups = data.reduce((groups, transaction) => {
-    const date = transaction.asOfDate;
-    if (!groups[date]) {
-      groups[date] = [];
-    }
-    groups[date].push(transaction);
-    return groups;
-  }, {});
-  const groupArrays = Object.keys(groups).map((date) => {
-    return {
-      date,
-      transactions: groups[date],
-    };
-  });
-  return groupArrays.slice().sort((a, b) => (a < b ? 1 : -1));
-};
 const TransactionGrid = ({
-  transactions,
   displayingApiData,
+  groupedByDay,
   apiData = [],
   ...props
 }) => {
-  const groupedTransactions = groupTransactionsByDay(transactions);
-
   return (
     <div className='relative' data-cy='transactionsGrid'>
       {!displayingApiData ? (
@@ -43,12 +23,10 @@ const TransactionGrid = ({
         </div>
       )}
       <div className='overflow-y-auto flex-grow'>
-        {!groupedTransactions ||
-          (groupedTransactions.length < 1 && (
-            <div> No Transactions found </div>
-          ))}
-        {groupedTransactions &&
-          groupedTransactions.map((item, key) => (
+        {!groupedByDay ||
+          (groupedByDay.length < 1 && <div> No Transactions found </div>)}
+        {groupedByDay &&
+          groupedByDay.map((item, key) => (
             <DailyTransactionTable
               key={key}
               date={item.date}
@@ -65,6 +43,7 @@ TransactionGrid.propTypes = {
   transactions: PropTypes.arrayOf(PropTypes.object),
   apiData: PropTypes.arrayOf(PropTypes.object),
   displayingApiData: PropTypes.bool,
+  groupedByDay: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default TransactionGrid;

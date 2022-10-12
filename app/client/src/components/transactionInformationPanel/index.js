@@ -17,6 +17,26 @@ const TransactionInfo = ({
       return transaction.account.accountId === selectedAccount.accountId;
     });
   }
+  // Code taken from: https://stackoverflow.com/questions/46802448/how-do-i-group-items-in-an-array-by-date
+  const groupTransactionsByDay = (data) => {
+    const groups = data.reduce((groups, transaction) => {
+      const date = transaction.asOfDate;
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(transaction);
+      return groups;
+    }, {});
+    const groupArrays = Object.keys(groups).map((date) => {
+      return {
+        date,
+        transactions: groups[date],
+      };
+    });
+    return groupArrays.slice().sort((a, b) => (a < b ? 1 : -1));
+  };
+
+  const groupedByDayTransactions = groupTransactionsByDay(transactionData);
   return (
     <div className='relative flex-grow p-8 flex flex-col w-3/5'>
       <div className='flex justify-between items-center mb-3'>
@@ -31,11 +51,15 @@ const TransactionInfo = ({
       </div>
 
       <div>
-        <TransactionViz transactions={transactionData} {...props} />
-        <TransactionGrid
+        <TransactionViz
+          groupedByDay={groupedByDayTransactions}
           transactions={transactionData}
+          {...props}
+        />
+        <TransactionGrid
           apiData={apiData}
           displayingApiData={displayingApiData}
+          groupedByDay={groupedByDayTransactions}
           {...props}
         />
       </div>
