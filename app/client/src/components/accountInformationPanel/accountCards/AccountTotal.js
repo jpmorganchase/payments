@@ -27,22 +27,19 @@ const AccountTotal = ({
         </div>
       )}
       <div
-      data-cy="allAccountsCard"
+        data-cy='allAccountsCard'
         className={`border bg-white shadow-md hover:shadow-lg p-4 rounded-lg ${selectedClassName}`}
         onClick={() => setSelectedAccount({})}
       >
-        <div className='mb-2 flex'>
-          All accounts balance in
-          <span className=' bg-red-50 rounded-lg pl-2 ml-2 text-xs font-medium text-gray-500 flex items-center cursor-pointer'>
+        <div className='mb-2'>
+          <span>All accounts balance in </span>
+          <span className=' bg-red-50 rounded-lg text-xs font-medium text-gray-500 p-2'>
             {currency}
-            <span className='material-icons'>expand_more</span>
           </span>
         </div>
-        <div className='flex items-baseline justify-between'>
-          <div className='text-2xl font-medium'>
-            {total !== 'Error' && gatherCurrencySymbol(currency)}
-            {total}
-          </div>
+        <div className='text-2xl font-medium'>
+          {total !== 'Error' && gatherCurrencySymbol(currency)}
+          {total}
         </div>
         {isEmptyObject(selectedAccount) && <AccountCardButtons />}
       </div>
