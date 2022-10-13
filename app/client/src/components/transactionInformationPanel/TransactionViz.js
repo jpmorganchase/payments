@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import accessibility from 'highcharts/modules/accessibility';
+
+if (typeof window !== `undefined`) {
+  accessibility(Highcharts);
+}
 
 const generateOptionsForDateVisual = (data) => {
   const chartData = [];
@@ -19,6 +24,14 @@ const genOptions = (data, title) => {
   return {
     chart: {
       type: 'column',
+      events: {
+        load: function () {
+          var chart = this;
+          setTimeout(function () {
+            chart.reflow();
+          }, 0);
+        },
+      },
       height: 200,
       style: {
         fontFamily: "'Inter', sans-serif",
@@ -70,6 +83,21 @@ const genOptions = (data, title) => {
         },
       ],
     },
+    accessibility: {
+      keyboardNavigation: {
+        enabled: true,
+        focusBorder: {
+          enabled: true,
+          hideBrowserFocusOutline: true,
+          margin: 2,
+          style: {
+            borderRadius: 3,
+            color: '#335cad',
+            lineWidth: 2,
+          },
+        },
+      },
+    },
   };
 };
 
@@ -93,6 +121,7 @@ const TransactionViz = ({ transactions, groupedByDay }) => {
         options={generateOptionsForDateVisual(groupedByDay)}
         containerProps={{
           className: 'highcharts-container',
+          style: { height: '100%' },
         }}
       />
       <HighchartsReact
@@ -100,6 +129,7 @@ const TransactionViz = ({ transactions, groupedByDay }) => {
         options={generateOptionsForTypeVisual(transactions)}
         containerProps={{
           className: 'highcharts-container',
+          style: { height: '100%' },
         }}
       />
     </div>
