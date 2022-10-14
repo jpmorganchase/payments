@@ -2,26 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import accessibility from 'highcharts/modules/accessibility';
 
-const generateOptionsForCurrencyVisual = (data) => {
-  const categories = ['EUR', 'GBP', 'USD', 'OTHER'];
-  const groups = data.reduce((groups, transaction) => {
-    const code = transaction.currency.code;
-    if (!groups[code]) {
-      groups[code] = [];
-    }
-    groups[code].push(transaction);
-    return groups;
-  }, {});
-  const groupedData = groupTransactions(groups, categories);
-  return genOptions(groupedData, '#Transactions by currency');
+if (typeof window !== `undefined`) {
+  accessibility(Highcharts);
+}
+
+const generateOptionsForDateVisual = (data) => {
+  const chartData = [];
+  data.map((dateGroup) => {
+    chartData.push({
+      name: dateGroup.date,
+      y: dateGroup.transactions.length,
+    });
+  });
+
+  return genOptions(chartData, 'Number of transactions by date');
 };
 
 const genOptions = (data, title) => {
-  // todo https://www.highcharts.com/docs/chart-design-and-style/colors
   return {
     chart: {
       type: 'column',
+      events: {
+        load: function () {
+          var chart = this;
+          setTimeout(function () {
+            if (chart && chart.series) {
+              chart.reflow();
+            }
+          }, 0);
+        },
+      },
       height: 200,
       style: {
         fontFamily: "'Inter', sans-serif",
@@ -40,7 +52,7 @@ const genOptions = (data, title) => {
       text: title,
       style: {
         textAlign: 'left',
-        fontSize: 12,
+        fontSize: 16,
         fontWeight: 500,
       },
     },
@@ -73,64 +85,62 @@ const genOptions = (data, title) => {
         },
       ],
     },
+    accessibility: {
+      keyboardNavigation: {
+        enabled: true,
+        focusBorder: {
+          enabled: true,
+          hideBrowserFocusOutline: true,
+          margin: 2,
+          style: {
+            borderRadius: 3,
+            color: '#335cad',
+            lineWidth: 2,
+          },
+        },
+      },
+    },
   };
 };
 
 const generateOptionsForTypeVisual = (data) => {
-  const categories = ['DEBIT', 'CREDIT'];
-  const groups = data.reduce((groups, transaction) => {
-    const code = transaction.debitCreditCode;
-    if (!groups[code]) {
-      groups[code] = 0;
-    }
-    groups[code] += transaction.amount;
-    return groups;
-  }, {});
-  const groupedData = groupTransactions(groups, categories, true);
-  return genOptions(groupedData, 'Total debits & credits');
-};
-
-const groupTransactions = (groups, categories, numeric = false) => {
-  categories.forEach((cat) => {
-    if (!groups[cat]) {
-      if (numeric) {
-        groups[cat] = 0;
-      } else {
-        groups[cat] = [];
-      }
-    }
-  });
-  const groupArrays = Object.keys(groups).map((code) => {
-    return {
-      name: code,
-      y: numeric ? groups[code] : groups[code].length,
-    };
+  const chartData = [];
+  data.map((transaction) => {
+    chartData.push({
+      name: transaction.debitCreditCode,
+      y: transaction.amount,
+    });
   });
 
-  return groupArrays;
+  return genOptions(chartData, 'Total debits & credits');
 };
 
-const TransactionViz = ({ transactions }) => {
+const TransactionViz = ({ transactions, groupedByDay }) => {
   return (
-    <div className='p-6 rounded-lg border mb-4 shadow-sm flex gap-2 h-60'>
-      <div className='w-1/2'>
-        <HighchartsReact
-          highcharts={Highcharts}
-          options={generateOptionsForCurrencyVisual(transactions)}
-        />
-      </div>
-      <div className='w-1/2'>
-        <HighchartsReact
-          highcharts={Highcharts}
-          options={generateOptionsForTypeVisual(transactions)}
-        />
-      </div>
+    <div className='flex p-6 rounded-lg border mb-4 shadow-sm gap-2 h-60 flex-row'>
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={generateOptionsForDateVisual(groupedByDay)}
+        containerProps={{
+          className: 'highcharts-container',
+          style: { height: '100%' },
+        }}
+      />
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={generateOptionsForTypeVisual(transactions)}
+        containerProps={{
+          className: 'highcharts-container',
+          style: { height: '100%' },
+        }}
+      />
     </div>
   );
 };
 
 TransactionViz.propTypes = {
   transactions: PropTypes.arrayOf(PropTypes.object),
+  groupedByDay: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default TransactionViz;

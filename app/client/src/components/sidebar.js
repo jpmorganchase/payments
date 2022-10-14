@@ -7,11 +7,11 @@ import { Popover } from '@headlessui/react';
 const linkClassName =
   'border-t-2 lg:border-l-2 lg:border-t-0 border-transparent px-4 py-8 lg:py-2 lg:px-8 hover:text-gray-700';
 const activeClassName = 'border-pink-500 text-gray-900';
-const submenuClassName = 'block px-8 py-2 hover:text-gray-700 border-l-2';
+const submenuClassName = 'block px-8 py-2 hover:text-gray-700 border-l-2 ml-2';
 
 const Sidebar = () => {
   return (
-    <div className='flex lg:flex-none w-full lg:w-44 border-b lg:border-r border-gray-200 '>
+    <div className='flex lg:flex-none w-full lg:w-1/12 border-b lg:border-r border-gray-200 '>
       <nav className='px-8 py-4 lg:p-8 lg:pr-0 flex flex-row lg:flex-col justify-between w-full items-center '>
         <div className='flex flex-row lg:flex-col'>
           <NavLink to='accounts' className='mb-0 lg:mb-12 block' data-cy='logo'>

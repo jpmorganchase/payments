@@ -6,50 +6,29 @@ const DailyTransactionTable = ({
   transactions,
   openTransactionDialog,
 }) => {
+  const headers = [
+    'Transaction Type',
+    'Amount',
+    'Account',
+    'Reference',
+    'Category',
+    'Date',
+  ];
+  const renderHeaders = headers.map((header) => (
+    <th
+      scope='col'
+      key={`header-${header}`}
+      className='py-2 text-left font-medium text-gray-500 uppercase'
+    >
+      {header}
+    </th>
+  ));
   return (
-    <div className=''>
-      <h3 className='text-gray-500 text-sm mb-1'>{date}</h3>
-      <table className='min-w-full text-xs border-b border-gray-200 mb-6'>
+    <>
+      <h3 className='text-gray-500 text-lg mb-1'>{date}</h3>
+      <table className='min-w-full text-sm border-b border-gray-200 mb-6'>
         <thead className='border-b-2'>
-          <tr>
-            <th
-              scope='col'
-              className='py-2 text-left font-medium text-gray-500 uppercase'
-            >
-              Type
-            </th>
-            <th
-              scope='col'
-              className='py-2 px-3 text-right font-medium text-gray-500 uppercase'
-            >
-              Amount
-            </th>
-            <th
-              scope='col'
-              className='py-2 text-left font-medium text-gray-500 uppercase'
-            >
-              Account
-            </th>
-            <th
-              scope='col'
-              className='py-2 text-left font-medium text-gray-500 uppercase'
-            >
-              Reference
-            </th>
-            <th
-              scope='col'
-              className='py-2 text-left font-medium text-gray-500 uppercase'
-            >
-              Category
-            </th>
-            <th
-              scope='col'
-              className='py-2 text-left font-medium text-gray-500 uppercase'
-            >
-              Date
-            </th>
-            <th scope='col' className='relative py-2'></th>
-          </tr>
+          <tr>{renderHeaders}</tr>
         </thead>
         <tbody className='bg-white divide-y divide-gray-200'>
           {transactions &&
@@ -61,11 +40,8 @@ const DailyTransactionTable = ({
                 <td className='py-2 whitespace-nowrap'>
                   {transaction.debitCreditCode}
                 </td>
-                <td className='py-2 px-3 whitespace-nowrap text-right'>
-                  <span className='font-semibold pr-2'>
-                    {transaction.amount}
-                  </span>
-                  {transaction.currency.code}
+                <td className='py-2 whitespace-nowrap'>
+                  $<b>{transaction.amount} </b>
                 </td>
                 <td className='py-2 whitespace-nowrap'>
                   {transaction.account.accountId}
@@ -79,12 +55,11 @@ const DailyTransactionTable = ({
                 <td className='py-2 whitespace-nowrap '>
                   {formatDate(new Date(transaction.asOfDateTime))}
                 </td>
-                <td className='py-2 whitespace-nowrap text-right text-sm font-medium'></td>
               </tr>
             ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 };
 

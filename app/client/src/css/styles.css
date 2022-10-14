@@ -11,3 +11,10 @@
     width: calc(100vw - 105px);
   }
 }
+
+
+.highcharts-container {
+  width:100% !important;
+  height:100% !important;
+}
+ 
