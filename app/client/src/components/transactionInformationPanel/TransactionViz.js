@@ -28,7 +28,9 @@ const genOptions = (data, title) => {
         load: function () {
           var chart = this;
           setTimeout(function () {
-            chart.reflow();
+            if (chart && chart.series) {
+              chart.reflow();
+            }
           }, 0);
         },
       },
