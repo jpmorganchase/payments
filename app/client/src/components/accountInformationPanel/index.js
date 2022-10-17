@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AccountTotal from './accountCards/AccountTotal';
 import AccountList from './AccountList';
 import PropTypes from 'prop-types';
+import Search from '../search';
 
+const headers = ['accountName', 'accountId', 'currency'];
 const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
+  const [searchInput, setSearchInput] = useState('');
+
+  let accounts = data.accountList;
   const totalAccount = data.accountList
     .map((account) => {
       if (!account.errorCode) {
@@ -15,6 +20,16 @@ const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
     .reduce(
       (prev, next) => Math.round((prev + next + Number.EPSILON) * 100) / 100,
     );
+
+  if (searchInput.length > 2) {
+    accounts = accounts.filter((account) =>
+      headers.some((header) =>
+        JSON.stringify(account[header])
+          .toLowerCase()
+          .includes(searchInput.toLowerCase()),
+      ),
+    );
+  }
 
   return (
     <div className='bg-gray-50 p-8 border-r border-gray-200 sm:w-2/5'>
@@ -30,17 +45,19 @@ const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
 
       <div className='flex justify-between items-center mt-4 mb-3'>
         <h3 className='text-sm font-medium'>All accounts</h3>
-        <div className='bg-gray-100 hover:bg-gray-200 cursor-pointer text-xs rounded-lg px-2 py-1 flex items-center'>
-          <span className='material-icons text-base mr-1'>search</span> Search
-        </div>
+        <Search
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+          searchText={'Search Accounts'}
+        />
         <div>
           <span className='material-icons text-md mr-1'>add</span>
           <span className='material-icons text-md mr-1'>more_horiz</span>
         </div>
       </div>
-      {data && data.accountList && (
+      {accounts && (
         <AccountList
-          data={data.accountList}
+          data={accounts}
           apiData={apiData}
           displayingApiData={displayingApiData}
           {...props}

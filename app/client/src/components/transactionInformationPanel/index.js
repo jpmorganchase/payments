@@ -1,5 +1,4 @@
-/* eslint-disable */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import TransactionViz from './TransactionViz';
 import TransactionGrid from './transactionGrid/TransactionGrid';
 import PropTypes from 'prop-types';
@@ -47,14 +46,6 @@ const TransactionInfo = ({
     'baiType',
     'account',
   ];
-  const filterTransactionData = () => {
-    console.log(searchInput);
-
-    //   transactionData = result;
-    //   groupedByDayTransactions = groupTransactionsByDay(transactionData);
-
-    //   console.log(result);
-  };
 
   if (!isEmptyObject(selectedAccount) && selectedAccount.accountId) {
     transactionData = transactionData.filter(function (transaction) {
@@ -78,7 +69,11 @@ const TransactionInfo = ({
     <div className='sm:w-3/5 p-8 flex flex-col w-full'>
       <div className='flex justify-between items-center mb-3'>
         <h2 className='text-2xl font-medium'>All transactions</h2>
-        <Search searchInput={searchInput} setSearchInput={setSearchInput} />
+        <Search
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+          searchText={'Search Transactions'}
+        />
         <div>
           <span className='material-icons text-md mr-1'>filter_list</span>
           <span className='material-icons text-md mr-1'>download</span>
