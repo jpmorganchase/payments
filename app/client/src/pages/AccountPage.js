@@ -7,6 +7,7 @@ import TransactionJsonDialog from '../components/transactionInformationPanel/Tra
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
 import { AppContext } from '../AppContext';
+import PaymentDialog from '../components/PaymentDialog';
 
 const balanceMockData = require('../mockedJson/uf-balances.json');
 const transactionMockData = require('../mockedJson/uf-transactions.json');
@@ -113,6 +114,7 @@ const AccountPage = () => {
   return (
     <>
       {displayPanels()}
+      <PaymentDialog />
       <TransactionJsonDialog
         open={transactionDialogOpen}
         setTransactionDialog={openTransactionDialog}
