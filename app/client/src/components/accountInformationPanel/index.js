@@ -49,6 +49,7 @@ const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
           searchInput={searchInput}
           setSearchInput={setSearchInput}
           searchText={'Search Accounts'}
+          testingId={'accountSearch'}
         />
         <div>
           <span className='material-icons text-md mr-1'>add</span>
@@ -63,6 +64,7 @@ const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
           {...props}
         />
       )}
+      {!accounts || (accounts.length < 1 && <div> No Accounts found </div>)}
     </div>
   );
 };

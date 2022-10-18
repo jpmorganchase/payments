@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Search = ({ searchInput, setSearchInput, searchText }) => (
+const Search = ({ searchInput, setSearchInput, searchText, testingId }) => (
   <div className='bg-gray-100 hover:bg-gray-200 cursor-pointer text-xs rounded-lg px-2 py-1 flex items-center'>
     <span className='material-icons text-base mr-1'>search</span>
     <input
@@ -10,6 +10,7 @@ const Search = ({ searchInput, setSearchInput, searchText }) => (
       placeholder={searchText}
       onChange={(e) => setSearchInput(e.target.value)}
       value={searchInput}
+      data-cy={testingId}
     />
   </div>
 );
@@ -17,7 +18,7 @@ const Search = ({ searchInput, setSearchInput, searchText }) => (
 Search.propTypes = {
   searchInput: PropTypes.string,
   searchText: PropTypes.string,
-
+  testingId: PropTypes.string,
   setSearchInput: PropTypes.func,
 };
 

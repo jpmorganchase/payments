@@ -26,7 +26,10 @@ const DailyTransactionTable = ({
   return (
     <>
       <h3 className='text-gray-500 text-lg mb-1'>{date}</h3>
-      <table className='min-w-full text-sm border-b border-gray-200 mb-6'>
+      <table
+        className='min-w-full text-sm border-b border-gray-200 mb-6'
+        id='transactionsTable'
+      >
         <thead className='border-b-2'>
           <tr>{renderHeaders}</tr>
         </thead>

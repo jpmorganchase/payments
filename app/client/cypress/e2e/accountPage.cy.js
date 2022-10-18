@@ -58,4 +58,53 @@ describe('Account page', () => {
       cy.contains('Raw Transaction JSON').should('not.exist');
     });
   });
+
+  it('Searches for MISC transaction and return one result', () => {
+    viewports.forEach((viewport) => {
+      cy.viewport(viewport);
+      cy.get('[data-cy="transactionSearch"]').type('MISC');
+      cy.get('#transactionsTable').find('tr').should('have.length', 2);
+      cy.get('[data-cy="transactionSearch"]').clear();
+    });
+  });
+
+  it('Searches for Hello transaction and return no results', () => {
+    viewports.forEach((viewport) => {
+      cy.viewport(viewport);
+      cy.get('[data-cy="transactionSearch"]').type('Hello');
+      cy.get('#transactionsTable').should('not.exist');
+      cy.contains('No Transactions found');
+      cy.get('[data-cy="transactionSearch"]').clear();
+    });
+  });
+  it('Searches for Account and returns one results', () => {
+    viewports.forEach((viewport) => {
+      cy.viewport(viewport);
+      cy.get('[data-cy="accountSearch"]').type('5001');
+      cy.contains('No Accounts found').should('not.exist');
+      cy.contains('22907042.39').should('not.exist');
+      cy.contains('2090008705.83').should('exist');
+      cy.get('[data-cy="accountSearch"]').clear();
+    });
+  });
+
+  it('Searches for Account Hello and returns no results', () => {
+    viewports.forEach((viewport) => {
+      cy.viewport(viewport);
+      cy.get('[data-cy="accountSearch"]').type('Hello');
+      cy.contains('No Accounts found');
+      cy.get('[data-cy="accountSearch"]').clear();
+    });
+  });
+
+  it('Searches for Account and transaction', () => {
+    viewports.forEach((viewport) => {
+      cy.viewport(viewport);
+      cy.get('[data-cy="accountSearch"]').type('000000010975001');
+      cy.get('[data-cy="transactionSearch"]').type('TXN-C-779702312-7');
+      cy.get('#transactionsTable').find('tr').should('have.length', 2);
+      cy.get('[data-cy="transactionSearch"]').clear();
+      cy.get('[data-cy="accountSearch"]').clear();
+    });
+  });
 });

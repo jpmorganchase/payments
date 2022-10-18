@@ -73,6 +73,7 @@ const TransactionInfo = ({
           searchInput={searchInput}
           setSearchInput={setSearchInput}
           searchText={'Search Transactions'}
+          testingId={'transactionSearch'}
         />
         <div>
           <span className='material-icons text-md mr-1'>filter_list</span>
