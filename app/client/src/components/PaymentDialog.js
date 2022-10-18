@@ -42,7 +42,7 @@ const PaymentDialog = ({ isPaymentFormOpen, setPaymentFormOpen }) => {
                   >
                     Make a payment
                     <button onClick={closeModal} data-cy='closeButton'>
-                      Close
+                      <span className='material-icons text-md mr-1'>close</span>
                     </button>
                   </Dialog.Title>
                   <MakePaymentForm closeModal={closeModal} />
