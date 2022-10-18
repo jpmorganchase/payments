@@ -72,7 +72,7 @@ const TransactionInfo = ({
       encodeURIComponent(JSON.stringify(transactionData));
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute('href', dataStr);
-    downloadAnchorNode.setAttribute('download', 'transactions.csv');
+    downloadAnchorNode.setAttribute('download', 'transactions.json');
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
