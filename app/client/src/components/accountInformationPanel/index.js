@@ -51,10 +51,6 @@ const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
           searchText={'Search Accounts'}
           testingId={'accountSearch'}
         />
-        <div>
-          <span className='material-icons text-md mr-1'>add</span>
-          <span className='material-icons text-md mr-1'>more_horiz</span>
-        </div>
       </div>
       {accounts && (
         <AccountList

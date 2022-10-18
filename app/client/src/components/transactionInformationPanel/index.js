@@ -88,12 +88,9 @@ const TransactionInfo = ({
           searchText={'Search Transactions'}
           testingId={'transactionSearch'}
         />
-        <div>
-          <span className='material-icons text-md mr-1'>filter_list</span>
-          <button onClick={() => downloadTransactions()}>
-            <span className='material-icons text-md mr-1'>download</span>
-          </button>
-        </div>
+        <button onClick={() => downloadTransactions()}>
+          <span className='material-icons text-md mr-1'>download</span>
+        </button>
       </div>
 
       <>
