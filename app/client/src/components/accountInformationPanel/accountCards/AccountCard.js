@@ -9,7 +9,6 @@ const AccountCard = ({
   selectedAccount,
   ...props
 }) => {
-  console.log(props);
   const isSelected =
     !isEmptyObject(selectedAccount) &&
     selectedAccount.accountId == account.accountId;

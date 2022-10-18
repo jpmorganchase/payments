@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const AccountCardButtons = ({ setPaymentFormOpen }) => {
-  console.log(setPaymentFormOpen);
   const makePaymentClick = () => {
     setPaymentFormOpen(true);
   };

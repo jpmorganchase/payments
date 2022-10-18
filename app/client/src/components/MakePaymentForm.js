@@ -2,18 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const MakePaymentForm = ({ closeModal }) => {
+  const submitPayment = () => {
+    closeModal();
+  };
+
   return (
     <form>
       hello
-      <div className='mt-4'>
-        <button
-          type='button'
-          className='inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
-          onClick={closeModal}
-        >
-          Got it, thanks!
-        </button>
-      </div>
+      <button
+        className='p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center'
+        onClick={submitPayment}
+      >
+        Submit
+      </button>
     </form>
   );
 };
