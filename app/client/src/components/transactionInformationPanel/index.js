@@ -65,6 +65,19 @@ const TransactionInfo = ({
 
   let groupedByDayTransactions = groupTransactionsByDay(transactionData);
 
+  //https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
+  const downloadTransactions = () => {
+    var dataStr =
+      'data:text/json;charset=utf-8,' +
+      encodeURIComponent(JSON.stringify(transactionData));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute('href', dataStr);
+    downloadAnchorNode.setAttribute('download', 'transactions.csv');
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  };
+
   return (
     <div className='sm:w-3/5 p-8 flex flex-col w-full'>
       <div className='flex justify-between items-center mb-3'>
@@ -77,7 +90,9 @@ const TransactionInfo = ({
         />
         <div>
           <span className='material-icons text-md mr-1'>filter_list</span>
-          <span className='material-icons text-md mr-1'>download</span>
+          <button onClick={() => downloadTransactions()}>
+            <span className='material-icons text-md mr-1'>download</span>
+          </button>
         </div>
       </div>
 
