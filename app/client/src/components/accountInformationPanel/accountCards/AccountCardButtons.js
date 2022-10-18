@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const makePaymentClick = () => {
-  // eslint-disable-next-line
-  console.log('Make payment button clicked');
-};
-const AccountCardButtons = () => {
+const AccountCardButtons = ({ setPaymentFormOpen }) => {
+  console.log(setPaymentFormOpen);
+  const makePaymentClick = () => {
+    setPaymentFormOpen(true);
+  };
   return (
     <div className='flex text-xs mt-7 justify-between flex-wrap'>
       <div className='flex flex-grow xl:flex-col 2xl:flex-row text-center'>
@@ -25,6 +26,9 @@ const AccountCardButtons = () => {
       </button>
     </div>
   );
+};
+AccountCardButtons.propTypes = {
+  setPaymentFormOpen: PropTypes.func,
 };
 
 export default AccountCardButtons;

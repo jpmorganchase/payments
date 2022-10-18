@@ -27,6 +27,7 @@ const AccountPage = () => {
     React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});
   const [selectedAccount, setSelectedAccount] = React.useState({});
+  const [isPaymentFormOpen, setPaymentFormOpen] = React.useState(false);
 
   const balanceResults = usePost(
     accountsConfig.apiDetails[0].backendPath,
@@ -66,6 +67,7 @@ const AccountPage = () => {
       selectedAccount={selectedAccount}
       apiData={accountsConfig.apiDetails}
       displayingApiData={displayingApiData}
+      setPaymentFormOpen={setPaymentFormOpen}
     />
   );
 
@@ -114,7 +116,10 @@ const AccountPage = () => {
   return (
     <>
       {displayPanels()}
-      <PaymentDialog />
+      <PaymentDialog
+        isPaymentFormOpen={isPaymentFormOpen}
+        setPaymentFormOpen={setPaymentFormOpen}
+      />
       <TransactionJsonDialog
         open={transactionDialogOpen}
         setTransactionDialog={openTransactionDialog}

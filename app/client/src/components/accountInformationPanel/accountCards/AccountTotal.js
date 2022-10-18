@@ -10,6 +10,7 @@ const AccountTotal = ({
   selectedAccount,
   apiData,
   displayingApiData,
+  ...props
 }) => {
   const selectedClassName = isEmptyObject(selectedAccount)
     ? 'border-pink-500'
@@ -41,7 +42,7 @@ const AccountTotal = ({
           {total !== 'Error' && gatherCurrencySymbol(currency)}
           {total}
         </div>
-        {isEmptyObject(selectedAccount) && <AccountCardButtons />}
+        {isEmptyObject(selectedAccount) && <AccountCardButtons {...props} />}
       </div>
     </div>
   );

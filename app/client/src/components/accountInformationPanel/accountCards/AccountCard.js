@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
 import AccountCardButtons from './AccountCardButtons';
 
-const AccountCard = ({ account, setSelectedAccount, selectedAccount }) => {
+const AccountCard = ({
+  account,
+  setSelectedAccount,
+  selectedAccount,
+  ...props
+}) => {
+  console.log(props);
   const isSelected =
     !isEmptyObject(selectedAccount) &&
     selectedAccount.accountId == account.accountId;
@@ -33,7 +39,7 @@ const AccountCard = ({ account, setSelectedAccount, selectedAccount }) => {
         {!account.errorCode && account.balanceList[0].openingAvailableAmount}
         {account.errorCode && 'Error'}
       </div>
-      {isSelected && <AccountCardButtons />}
+      {isSelected && <AccountCardButtons {...props} />}
     </div>
   );
 };
