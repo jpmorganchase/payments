@@ -14,16 +14,39 @@ const renderInputField = (label, id, type = 'text') => (
     />
   </div>
 );
-const MakePaymentForm = ({ closeModal }) => {
+
+const renderSelectField = (label, id, options, addOption = false) => (
+  <div className='col-span-6 sm:col-span-3'>
+    <label htmlFor={id} className='block text-sm font-medium text-gray-700'>
+      {label}:
+    </label>
+    <select
+      id={id}
+      name={id}
+      className='mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+    >
+      {options.map((option) => (
+        <option key={`option-${option.accountId}`}>
+          {option.accountName}
+          {option.accountName ? ' - ' : ' '}
+          {option.accountId}
+        </option>
+      ))}
+      {addOption && <option key='option-add'>Add new account details</option>}
+    </select>
+  </div>
+);
+const MakePaymentForm = ({ closeModal, data }) => {
   const submitPayment = () => {
     closeModal();
   };
 
+  console.log(data.accountList);
   return (
     <>
       <form>
-        {renderInputField('From', 'debtorAccountId')}
-        {renderInputField('To', 'creditorAccountId')}
+        {renderSelectField('From', 'debtorAccountId', data?.accountList)}
+        {renderSelectField('To', 'debtorAccountId', data?.accountList, true)}
         {renderInputField('Bank ID', 'creditorAgent')}
         {renderInputField('Amount', 'amount', 'number')}
         {renderInputField('Date', 'date', 'date')}
@@ -40,5 +63,6 @@ const MakePaymentForm = ({ closeModal }) => {
 
 MakePaymentForm.propTypes = {
   closeModal: PropTypes.func.isRequired,
+  data: PropTypes.object,
 };
 export default MakePaymentForm;

@@ -3,11 +3,10 @@ import { Dialog, Transition } from '@headlessui/react';
 import MakePaymentForm from './MakePaymentForm';
 import PropTypes from 'prop-types';
 
-const PaymentDialog = ({ isPaymentFormOpen, setPaymentFormOpen }) => {
+const PaymentDialog = ({ isPaymentFormOpen, setPaymentFormOpen, ...props }) => {
   function closeModal() {
     setPaymentFormOpen(false);
   }
-
   return (
     <>
       <Transition appear show={isPaymentFormOpen} as={Fragment}>
@@ -45,7 +44,7 @@ const PaymentDialog = ({ isPaymentFormOpen, setPaymentFormOpen }) => {
                       <span className='material-icons text-md mr-1'>close</span>
                     </button>
                   </Dialog.Title>
-                  <MakePaymentForm closeModal={closeModal} />
+                  <MakePaymentForm closeModal={closeModal} {...props} />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

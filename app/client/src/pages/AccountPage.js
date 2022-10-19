@@ -85,6 +85,11 @@ const AccountPage = () => {
     if (displayingMockedData) {
       return (
         <div className='flex flex-wrap'>
+          <PaymentDialog
+            isPaymentFormOpen={isPaymentFormOpen}
+            setPaymentFormOpen={setPaymentFormOpen}
+            data={balanceMockData}
+          />
           {displayAccountPanel(balanceMockData)}
           {displayTransactionPanel(transactionMockData)}
         </div>
@@ -106,6 +111,11 @@ const AccountPage = () => {
     } else {
       return (
         <div className='flex flex-wrap'>
+          <PaymentDialog
+            isPaymentFormOpen={isPaymentFormOpen}
+            setPaymentFormOpen={setPaymentFormOpen}
+            data={balanceResults?.data}
+          />
           {displayAccountPanel(balanceResults?.data)}
           {displayTransactionPanel(transactionResults?.data)}
         </div>
@@ -116,10 +126,7 @@ const AccountPage = () => {
   return (
     <>
       {displayPanels()}
-      <PaymentDialog
-        isPaymentFormOpen={isPaymentFormOpen}
-        setPaymentFormOpen={setPaymentFormOpen}
-      />
+
       <TransactionJsonDialog
         open={transactionDialogOpen}
         setTransactionDialog={openTransactionDialog}

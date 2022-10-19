@@ -40,6 +40,7 @@ const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
         currency={'USD'}
         apiData={apiData}
         displayingApiData={displayingApiData}
+        accounts={accounts}
         {...props}
       />
 
