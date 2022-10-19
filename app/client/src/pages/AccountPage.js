@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import WhatAPI from '../components/whatApi';
 import AccountInfo from '../components/accountInformationPanel/index';
 import TransactionInfo from '../components/transactionInformationPanel/index';
 import usePost from '../hooks/usePost';
@@ -16,12 +15,8 @@ const { config } = require('../config');
 const AccountPage = () => {
   const { accountsConfig } = config;
 
-  const {
-    displayingMockedData,
-    setDisplayingMockedData,
-    displayingApiData,
-    setDisplayingApiData,
-  } = React.useContext(AppContext);
+  const { displayingMockedData, displayingApiData } =
+    React.useContext(AppContext);
 
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
@@ -49,12 +44,6 @@ const AccountPage = () => {
     setSelectedTransaction({});
   }, [displayingMockedData]);
 
-  const toggleMockedData = () => {
-    setDisplayingMockedData(!displayingMockedData);
-  };
-  const toggleApiData = () => {
-    setDisplayingApiData(!displayingApiData);
-  };
   const openTransactionDialog = (state, transaction) => {
     setTransactionDialogState(state);
     setSelectedTransaction(transaction);
@@ -131,13 +120,6 @@ const AccountPage = () => {
         open={transactionDialogOpen}
         setTransactionDialog={openTransactionDialog}
         transaction={selectedTransaction}
-      />
-      <WhatAPI
-        toggleMockedData={toggleMockedData}
-        config={accountsConfig}
-        mockedDataEnabled={displayingMockedData}
-        toggleApiData={toggleApiData}
-        apiDataEnabled={displayingApiData}
       />
     </>
   );

@@ -2,11 +2,14 @@ import React, { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import MakePaymentForm from './MakePaymentForm';
 import PropTypes from 'prop-types';
+const { config } = require('../config');
 
 const PaymentDialog = ({ isPaymentFormOpen, setPaymentFormOpen, ...props }) => {
   function closeModal() {
     setPaymentFormOpen(false);
   }
+  const { paymentConfig } = config;
+  console.log(paymentConfig);
   return (
     <>
       <Transition appear show={isPaymentFormOpen} as={Fragment}>
