@@ -4,6 +4,7 @@ import TransactionGrid from './transactionGrid/TransactionGrid';
 import PropTypes from 'prop-types';
 import { isEmptyObject } from '../utils';
 import Search from '../search';
+import { AppContext } from '../../AppContext';
 
 // Code taken from: https://stackoverflow.com/questions/46802448/how-do-i-group-items-in-an-array-by-date
 const groupTransactionsByDay = (data) => {
@@ -31,11 +32,11 @@ const groupTransactionsByDay = (data) => {
 const TransactionInfo = ({
   transactions,
   selectedAccount,
-  displayingApiData,
   apiData = [],
   ...props
 }) => {
   const [searchInput, setSearchInput] = useState('');
+  const { displayingApiData } = React.useContext(AppContext);
 
   let transactionData = transactions.data;
 
@@ -116,7 +117,6 @@ TransactionInfo.propTypes = {
   }),
   selectedAccount: PropTypes.object,
   apiData: PropTypes.arrayOf(PropTypes.object),
-  displayingApiData: PropTypes.bool,
 };
 
 export default TransactionInfo;

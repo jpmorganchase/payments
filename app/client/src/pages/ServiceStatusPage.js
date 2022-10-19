@@ -9,7 +9,7 @@ const { config } = require('../config');
 const ServiceStatusPage = () => {
   const [data, setData] = React.useState(mockedData);
   const { statusConfig } = config;
-  const { displayingMockedData, displayingApiData } =
+  const { displayingMockedData } =
     React.useContext(AppContext);
   const response = useGet(
     statusConfig.apiDetails[0].backendPath,
@@ -41,7 +41,6 @@ const ServiceStatusPage = () => {
         <StatusTable
           serviceStatusData={data}
           apiData={statusConfig.apiDetails}
-          displayingApiData={displayingApiData}
         />
       );
     }

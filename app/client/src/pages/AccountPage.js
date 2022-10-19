@@ -15,8 +15,7 @@ const { config } = require('../config');
 const AccountPage = () => {
   const { accountsConfig } = config;
 
-  const { displayingMockedData, displayingApiData } =
-    React.useContext(AppContext);
+  const { displayingMockedData } = React.useContext(AppContext);
 
   const [transactionDialogOpen, setTransactionDialogState] =
     React.useState(false);
@@ -55,7 +54,6 @@ const AccountPage = () => {
       setSelectedAccount={setSelectedAccount}
       selectedAccount={selectedAccount}
       apiData={accountsConfig.apiDetails}
-      displayingApiData={displayingApiData}
       setPaymentFormOpen={setPaymentFormOpen}
     />
   );
@@ -66,7 +64,6 @@ const AccountPage = () => {
       openTransactionDialog={openTransactionDialog}
       selectedAccount={selectedAccount}
       apiData={accountsConfig.apiDetails}
-      displayingApiData={displayingApiData}
     />
   );
 

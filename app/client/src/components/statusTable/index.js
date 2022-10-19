@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { AppContext } from '../../AppContext';
 import { isEmptyObject } from '../utils';
 import TableItem from './tableItem';
 const tableHeaders = [
@@ -15,11 +16,8 @@ const renderErrorMessage = (message) => (
   </div>
 );
 
-const StatusTable = ({
-  serviceStatusData,
-  apiData = [],
-  displayingApiData,
-}) => {
+const StatusTable = ({ serviceStatusData, apiData = [] }) => {
+  const { displayingApiData } = React.useContext(AppContext);
   const bankStatus = serviceStatusData?.bankStatus;
   return (
     <div className='relative'>
@@ -91,7 +89,6 @@ StatusTable.propTypes = {
     errors: PropTypes.array,
   }),
   apiData: PropTypes.arrayOf(PropTypes.object),
-  displayingApiData: PropTypes.bool,
 };
 
 export default StatusTable;

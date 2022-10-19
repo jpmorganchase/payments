@@ -3,11 +3,12 @@ import AccountTotal from './accountCards/AccountTotal';
 import AccountList from './AccountList';
 import PropTypes from 'prop-types';
 import Search from '../search';
+import { AppContext } from '../../AppContext';
 
 const headers = ['accountName', 'accountId', 'currency'];
-const AccountInfo = ({ data, displayingApiData, apiData = [], ...props }) => {
+const AccountInfo = ({ data, apiData = [], ...props }) => {
   const [searchInput, setSearchInput] = useState('');
-
+  const { displayingApiData } = React.useContext(AppContext);
   let accounts = data.accountList;
   const totalAccount = data.accountList
     .map((account) => {
@@ -71,7 +72,6 @@ AccountInfo.propTypes = {
     accountList: PropTypes.arrayOf(PropTypes.object),
   }),
   apiData: PropTypes.arrayOf(PropTypes.object),
-  displayingApiData: PropTypes.bool,
 };
 
 export default AccountInfo;
