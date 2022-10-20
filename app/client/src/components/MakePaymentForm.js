@@ -1,27 +1,15 @@
 /* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useForm } from 'react-hook-form';
 
-const renderInputField = (label, id, min, type = 'text') => (
-  <div className=''>
-    <label htmlFor={id} className='block text-sm font-medium text-gray-700'>
-      {label}:
-    </label>
-    <input
-      type={type}
-      name={id}
-      min={min}
-      className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-    />
-  </div>
-);
-
-const renderSelectField = (label, id, options, addOption = false) => (
+const renderSelectField = (label, id, options, register, addOption = false) => (
   <div className='col-span-6 sm:col-span-3'>
     <label htmlFor={id} className='block text-sm font-medium text-gray-700'>
       {label}:
     </label>
     <select
+      {...register(id)}
       name={id}
       onChange={selectOnChange}
       className='mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
@@ -44,25 +32,37 @@ const renderSelectField = (label, id, options, addOption = false) => (
 const selectOnChange = (event) => {
   console.log(event.target.value);
   if (event.target.value === 'Add new account details') {
-    console.log(selectedValue);
+    console.log(event.target.value);
   }
 };
 const MakePaymentForm = ({ closeModal, data }) => {
-  const submitPayment = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.target);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    console.log(data.get('debtorAccountId'));
-    //closeModal();
+  const onSubmit = (data) => {
+    console.log(data);
+    console.log(errors);
   };
-
-  console.log(data);
 
   return (
     <>
-      <form onSubmit={submitPayment}>
-        {renderSelectField('From', 'debtorAccountId', data?.accountList)}
-        {renderSelectField('To', 'creditorAccountId', data?.accountList, true)}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {renderSelectField(
+          'From',
+          'debtorAccountId',
+          data?.accountList,
+          register,
+        )}
+        {renderSelectField(
+          'To',
+          'creditorAccountId',
+          data?.accountList,
+          register,
+          true,
+        )}
         <div className=''>
           <label
             htmlFor='amount'
@@ -71,9 +71,9 @@ const MakePaymentForm = ({ closeModal, data }) => {
             Amount:
           </label>
           <input
+            {...register('amount', { min: 0.0 })}
             type='number'
             name='amount'
-            min='0.00'
             step='0.01'
             className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
           />
@@ -86,6 +86,7 @@ const MakePaymentForm = ({ closeModal, data }) => {
             Date:
           </label>
           <input
+            {...register('date', { valueAsDate: true })}
             type='date'
             name='date'
             className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'

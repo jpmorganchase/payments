@@ -9,8 +9,7 @@ const { config } = require('../config');
 const ServiceStatusPage = () => {
   const [data, setData] = React.useState(mockedData);
   const { statusConfig } = config;
-  const { displayingMockedData } =
-    React.useContext(AppContext);
+  const { displayingMockedData } = React.useContext(AppContext);
   const response = useGet(
     statusConfig.apiDetails[0].backendPath,
     statusConfig.apiDetails[0].cacheKey,
