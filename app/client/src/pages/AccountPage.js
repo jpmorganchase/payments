@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import WhatAPI from '../components/whatApi';
 import AccountInfo from '../components/accountInformationPanel/index';
 import TransactionInfo from '../components/transactionInformationPanel/index';
@@ -41,6 +41,12 @@ const AccountPage = () => {
     accountsConfig.apiDetails[1].refreshInterval,
     displayingMockedData,
   );
+
+  useEffect(() => {
+    setSelectedAccount({});
+    setSelectedTransaction({});
+  }, [displayingMockedData]);
+
   const toggleMockedData = () => {
     setDisplayingMockedData(!displayingMockedData);
   };

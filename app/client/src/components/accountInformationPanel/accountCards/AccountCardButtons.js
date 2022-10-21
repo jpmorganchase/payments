@@ -8,7 +8,7 @@ const AccountCardButtons = () => {
   return (
     <div className='flex text-xs mt-7 justify-between flex-wrap'>
       <div className='flex flex-grow xl:flex-col 2xl:flex-row text-center'>
-        <button className='p-1 bg-red-50 font-medium rounded-lg flex items-center justify-center '>
+        <button className='p-1 bg-red-50 font-medium rounded-lg flex items-center justify-center mr-2'>
           <span className='material-icons mr-1'>swap_horiz</span>
           <span>FX transaction</span>
         </button>
