@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Search from '../search';
 import { AppContext } from '../../AppContext';
 
-const headers = ['accountName', 'accountId', 'currency'];
+const headers = ['accountName', 'accountId', 'currency', 'balanceList'];
 const AccountInfo = ({ data, apiData = [], ...props }) => {
   const [searchInput, setSearchInput] = useState('');
   const { displayingApiData } = React.useContext(AppContext);
