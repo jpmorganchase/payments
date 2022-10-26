@@ -1,11 +1,36 @@
-const accounts = [
+type AccountsType = string[];
+const accounts: AccountsType = [
   '000000010975001',
   '000000011008182',
   '000000010975514',
   '000000010975001',
   '000000010900009',
 ];
-const config = {
+interface AccountsConfigType {
+  accountsConfig: {
+    apiDetails: ApiDetails[];
+    accountDetails: AccountsType;
+  };
+}
+
+interface StatusConfigType {
+  statusConfig: {
+  apiDetails: ApiDetails[];
+  }
+}
+
+interface ApiDetails {
+  name: string;
+  backendPath: string;
+  cacheKey: string;
+  path: string;
+  refreshInterval: number;
+  description: string;
+}
+interface ConfigDataType extends AccountsConfigType, StatusConfigType {
+}
+
+const config: ConfigDataType = {
   accountsConfig: {
     accountDetails: accounts,
     apiDetails: [
@@ -17,13 +42,6 @@ const config = {
           'This API returns intraday balances for specific accounts. We use it to get the current day balance for a UAT account.',
         cacheKey: 'balances',
         refreshInterval: 43200000,
-        get body() {
-          return {
-            accountList: accounts.map((account) => {
-              return { accountId: account };
-            }),
-          };
-        },
       },
       {
         name: 'Transactions',
