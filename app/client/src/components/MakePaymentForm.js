@@ -14,9 +14,6 @@ const oneMonth = new Date(new Date(today).setDate(today.getDate() + 31))
 
 const schema = yup
   .object({
-    debtorAccountId: yup.string().required(),
-    creditorAccountId: yup.string().required(),
-
     date: yup
       .date()
       .typeError('Please enter a valid date')
@@ -42,46 +39,6 @@ const schema = yup
   })
   .required();
 
-const renderSelectField = (
-  label,
-  id,
-  options,
-  register,
-  errors,
-  addOption = false,
-) => (
-  <div className='col-span-6 sm:col-span-3'>
-    <label htmlFor={id} className='block text-sm font-medium text-gray-700'>
-      {label}:
-    </label>
-    <select
-      {...register(id)}
-      name={id}
-      onChange={selectOnChange}
-      className='mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-    >
-      {options.map((option) => (
-        <option
-          key={`option-${option.accountId}`}
-          value={JSON.stringify(option)}
-        >
-          {option.accountName}
-          {option.accountName ? ' - ' : ' '}
-          {option.accountId}
-        </option>
-      ))}
-      {addOption && <option key='option-add'>Add new account details</option>}
-    </select>
-    <p>{errors.id?.message}</p>
-  </div>
-);
-
-const selectOnChange = (event) => {
-  console.log(event.target.value);
-  if (event.target.value === 'Add new account details') {
-    console.log(event.target.value);
-  }
-};
 const MakePaymentForm = ({ closeModal, data }) => {
   const {
     register,
@@ -91,6 +48,41 @@ const MakePaymentForm = ({ closeModal, data }) => {
     resolver: yupResolver(schema),
   });
 
+  const selectOnChange = async (event, id) => {
+    console.log(event.target.value);
+    if (event.target.value === 'Add new account details') {
+      console.log(event.target.value);
+    }
+  };
+
+  const renderSelectField = (label, id, options, addOption = false) => (
+    <div className='col-span-6 sm:col-span-3'>
+      <label htmlFor={id} className='block text-sm font-medium text-gray-700'>
+        {label}:
+      </label>
+      <select
+        {...register(id)}
+        onChange={(e) => selectOnChange(e, id)}
+        className='mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+      >
+        {options.map((option) => (
+          <option
+            key={`option-${option.accountId}`}
+            value={JSON.stringify(option)}
+          >
+            {option.accountName}
+            {option.accountName ? ' - ' : ' '}
+            {option.accountId}
+          </option>
+        ))}
+        {addOption && <option key='option-add'>Add new account details</option>}
+      </select>
+      {renderErrorValue(errors[id]?.message)}
+    </div>
+  );
+
+  const renderErrorValue = (errorMessage) => <p>{errorMessage}</p>;
+
   const onSubmit = (data) => {
     console.log(data);
     console.log(errors);
@@ -99,21 +91,8 @@ const MakePaymentForm = ({ closeModal, data }) => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {renderSelectField(
-          'From',
-          'debtorAccountId',
-          data?.accountList,
-          register,
-          errors,
-        )}
-        {renderSelectField(
-          'To',
-          'creditorAccountId',
-          data?.accountList,
-          register,
-          errors,
-          true,
-        )}
+        {renderSelectField('From', 'debtorAccountId', data?.accountList)}
+        {renderSelectField('To', 'creditorAccountId', data?.accountList, true)}
         <div className=''>
           <label
             htmlFor='amount'
@@ -128,7 +107,7 @@ const MakePaymentForm = ({ closeModal, data }) => {
             step='0.01'
             className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
           />
-          <p>{errors.amount?.message}</p>
+          {renderErrorValue(errors.amount?.message)}
         </div>
         <div className=''>
           <label
@@ -144,7 +123,7 @@ const MakePaymentForm = ({ closeModal, data }) => {
             min={today.toISOString().split('T')[0]}
             className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
           />
-          <p>{errors.date?.message}</p>
+          {renderErrorValue(errors.date?.message)}
         </div>
 
         <button className='p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center'>
