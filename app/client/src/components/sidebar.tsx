@@ -7,7 +7,7 @@ import { Popover } from '@headlessui/react';
 const linkClassName =
   'border-t-2 lg:border-l-2 lg:border-t-0 border-transparent px-4 py-8 lg:py-2 lg:px-8 hover:text-gray-700';
 const activeClassName = 'border-pink-500 text-gray-900';
-const submenuClassName = 'block px-8 py-2 hover:text-gray-700 border-l-2 ml-2';
+const submenuClassName = 'block px-8 py-2 hover:text-gray-700';
 
 const Sidebar = () => {
   return (
