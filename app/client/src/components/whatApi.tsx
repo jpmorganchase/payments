@@ -9,6 +9,9 @@ type WhatApiType = {
 
 };
 function WhatAPI(params: WhatApiType) {
+  const {
+    apiDataEnabled, toggleApiData, toggleMockedData, mockedDataEnabled,
+  } = params;
   return (
     <div className="fixed bottom-0 text-center left-1/2 -ml-56 mb-2">
       <div className="bg-yellow-100 pl-4 pr-2 py-2 text-xs rounded-3xl border border-yellow-300 text-yellow-700 shadow-xl flex items-center">
@@ -18,17 +21,17 @@ function WhatAPI(params: WhatApiType) {
               What APIs are being used on this page?
             </Switch.Label>
             <Switch
-              checked={params.apiDataEnabled}
-              onChange={params.toggleApiData}
+              checked={apiDataEnabled}
+              onChange={toggleApiData}
               className={`${
-                params.apiDataEnabled ? 'bg-green-400 ' : 'bg-gray-200'
+                apiDataEnabled ? 'bg-green-400 ' : 'bg-gray-200'
               } relative inline-flex items-center h-6 rounded-full w-11 txt-xs`}
               data-cy="showApiData"
             >
               <span className="sr-only">Show api data</span>
               <span
                 className={`${
-                  params.apiDataEnabled ? 'translate-x-6' : 'translate-x-1'
+                  apiDataEnabled ? 'translate-x-6' : 'translate-x-1'
                 } inline-block w-4 h-4 transform bg-white rounded-full`}
               />
             </Switch>
@@ -42,16 +45,16 @@ function WhatAPI(params: WhatApiType) {
             </Switch.Label>
             <Switch
               data-cy="showMockedData"
-              checked={params.mockedDataEnabled}
-              onChange={params.toggleMockedData}
+              checked={mockedDataEnabled}
+              onChange={toggleMockedData}
               className={`${
-                params.mockedDataEnabled ? 'bg-green-400 ' : 'bg-gray-200'
+                mockedDataEnabled ? 'bg-green-400 ' : 'bg-gray-200'
               } relative inline-flex items-center h-6 rounded-full w-11 txt-xs`}
             >
               <span className="sr-only">Show mocked data</span>
               <span
                 className={`${
-                  params.mockedDataEnabled ? 'translate-x-6' : 'translate-x-1'
+                  mockedDataEnabled ? 'translate-x-6' : 'translate-x-1'
                 } inline-block w-4 h-4 transform bg-white rounded-full`}
               />
             </Switch>

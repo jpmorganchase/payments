@@ -1,5 +1,5 @@
 // Keeping this as any as any object can be checked
-export function isEmptyObject(value: any) {
+export function isEmptyObject<Type>(value: Type) : boolean {
   return (
     value && Object.keys(value).length === 0 && value.constructor === Object
   );
