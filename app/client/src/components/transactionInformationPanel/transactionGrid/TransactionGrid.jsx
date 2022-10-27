@@ -14,6 +14,7 @@ function TransactionGrid({
         <div className="bg-black bg-opacity-80 p-8 rounded-lg text-white h-full">
           <h1 className="text-sm">
             {apiData[1].name}
+            {' '}
             API
           </h1>
           <h3 className="text-xs mb-4">{apiData[1].path}</h3>
