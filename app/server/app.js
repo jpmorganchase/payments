@@ -13,15 +13,17 @@ const { generateJWTJose } = require('./digitalSignature');
 const app = express();
 
 const env = process.env.NODE_ENV;
-console.log(env);
 
 async function createProxyConfiguration() {
   let httpsOpts;
   if (env === 'production') {
+    console.info('Gathering secrets from AWS');
     // Required for AWS Lambda to gather secrets
     httpsOpts = await gatherHttpsOptionsAsync();
   } else {
   // Required for local execution
+    console.info('Gathering certs from file system');
+
     httpsOpts = {
       KEY: fs.readFileSync('./certs/jpmc.key', 'utf-8'),
       CERT: fs.readFileSync('./certs/jpmc.crt', 'utf-8'),
