@@ -6,16 +6,18 @@ import Layout from './components/layout';
 import AccountPage from './pages/AccountPage';
 import ServiceStatusPage from './pages/ServiceStatusPage';
 
-const App = () => (
-  <AppContextProvider>
-    <Routes>
-      <Route path='/' element={<Layout />}>
-        <Route index element={<AccountPage />} />
-        <Route path='accounts' element={<AccountPage />} />
-        <Route path='service_status' element={<ServiceStatusPage />} />
-      </Route>
-    </Routes>
-  </AppContextProvider>
-);
+function App() {
+  return (
+    <AppContextProvider>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<AccountPage />} />
+          <Route path="accounts" element={<AccountPage />} />
+          <Route path="service_status" element={<ServiceStatusPage />} />
+        </Route>
+      </Routes>
+    </AppContextProvider>
+  );
+}
 
 export default App;

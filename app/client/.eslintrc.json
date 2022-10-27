@@ -4,22 +4,24 @@
         "es2021": true
     },
     "extends": [
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "airbnb",
+        "airbnb-typescript",
+        "airbnb/hooks",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    ],
+    "overrides": [
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "project": "./tsconfig.json"
     },
     "plugins": [
-        "react",
-        "@typescript-eslint"
+        "react", "@typescript-eslint"
     ],
     "rules": {
-        "@typescript-eslint/no-unused-vars": "error",
-        "no-unused-vars": "off"
-      }
+    }
 }

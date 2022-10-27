@@ -15,7 +15,7 @@ interface AccountsConfigType {
 
 interface StatusConfigType {
   statusConfig: {
-  apiDetails: ApiDetails[];
+    apiDetails: ApiDetails[];
   }
 }
 
@@ -36,7 +36,7 @@ const config: ConfigDataType = {
     apiDetails: [
       {
         name: 'Balances',
-        backendPath: `/api/accessapi/balance`,
+        backendPath: '/api/accessapi/balance',
         path: 'https://apigatewayqaf.jpmorgan.com/accessapi/balance',
         description:
           'This API returns intraday balances for specific accounts. We use it to get the current day balance for a UAT account.',
@@ -58,7 +58,7 @@ const config: ConfigDataType = {
     apiDetails: [
       {
         name: 'Platform Availability Communication Manangement',
-        backendPath: `/api/tsapi/v1/participants`,
+        backendPath: '/api/tsapi/v1/participants',
         cacheKey: 'serviceStatus',
         path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants',
         refreshInterval: 1800000,

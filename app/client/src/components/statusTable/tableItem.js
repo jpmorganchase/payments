@@ -5,17 +5,17 @@ const colourStatus = (text) => {
   if (text === 'COMPLETE') {
     return (
       <span
-        data-cy='completeTab'
-        className='px-2 inline-flex text-xs leading-5 rounded bg-green-100 text-green-800'
+        data-cy="completeTab"
+        className="px-2 inline-flex text-xs leading-5 rounded bg-green-100 text-green-800"
       >
         {text}
       </span>
     );
-  } else if (text === 'INTERMITTENT') {
+  } if (text === 'INTERMITTENT') {
     return (
       <span
-        data-cy='intermittentTab'
-        className='px-2 inline-flex text-xs leading-5 rounded bg-red-100 text-red-800'
+        data-cy="intermittentTab"
+        className="px-2 inline-flex text-xs leading-5 rounded bg-red-100 text-red-800"
       >
         {text}
       </span>
@@ -23,21 +23,21 @@ const colourStatus = (text) => {
   }
   return (
     <span
-      data-cy='defaultTab'
-      className='px-2 inline-flex text-xs leading-5 rounded bg-blue-100 text-blue-800'
+      data-cy="defaultTab"
+      className="px-2 inline-flex text-xs leading-5 rounded bg-blue-100 text-blue-800"
     >
       {text}
     </span>
   );
 };
-const TableItem = ({ text, status }) => {
+function TableItem({ text, status }) {
   return (
-    <td className='py-2 whitespace-nowrap'>
+    <td className="py-2 whitespace-nowrap">
       {status && colourStatus(text)}
       {!status && text}
     </td>
   );
-};
+}
 
 TableItem.propTypes = {
   text: PropTypes.string,

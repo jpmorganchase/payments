@@ -4,7 +4,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import accessibility from 'highcharts/modules/accessibility';
 
-if (typeof window !== `undefined`) {
+if (typeof window !== 'undefined') {
   accessibility(Highcharts);
 }
 
@@ -20,88 +20,86 @@ const generateOptionsForDateVisual = (data) => {
   return genOptions(chartData, 'Number of transactions by date');
 };
 
-const genOptions = (data, title) => {
-  return {
-    chart: {
-      type: 'column',
-      events: {
-        load: function () {
-          var chart = this;
-          setTimeout(function () {
-            if (chart && chart.series) {
-              chart.reflow();
-            }
-          }, 0);
-        },
-      },
-      height: 200,
-      style: {
-        fontFamily: "'Inter', sans-serif",
+const genOptions = (data, title) => ({
+  chart: {
+    type: 'column',
+    events: {
+      load() {
+        const chart = this;
+        setTimeout(() => {
+          if (chart && chart.series) {
+            chart.reflow();
+          }
+        }, 0);
       },
     },
-    colors: ['#BE185D', '#DB2777', '#DC2626', '#BE185D'],
-    yAxis: {
-      title: {
-        enabled: false,
-      },
+    height: 200,
+    style: {
+      fontFamily: "'Inter', sans-serif",
     },
-    xAxis: {
-      type: 'category',
-    },
+  },
+  colors: ['#BE185D', '#DB2777', '#DC2626', '#BE185D'],
+  yAxis: {
     title: {
-      text: title,
-      style: {
-        textAlign: 'left',
-        fontSize: 16,
-        fontWeight: 500,
-      },
+      enabled: false,
     },
-    series: [
+  },
+  xAxis: {
+    type: 'category',
+  },
+  title: {
+    text: title,
+    style: {
+      textAlign: 'left',
+      fontSize: 16,
+      fontWeight: 500,
+    },
+  },
+  series: [
+    {
+      data,
+      colorByPoint: true,
+    },
+  ],
+  legend: {
+    enabled: false,
+  },
+
+  credits: {
+    enabled: false,
+  },
+  responsive: {
+    rules: [
       {
-        data: data,
-        colorByPoint: true,
+        condition: {
+          maxWidth: 500,
+        },
+        chartOptions: {
+          legend: {
+            align: 'center',
+            verticalAlign: 'bottom',
+            layout: 'horizontal',
+          },
+        },
       },
     ],
-    legend: {
-      enabled: false,
-    },
-
-    credits: {
-      enabled: false,
-    },
-    responsive: {
-      rules: [
-        {
-          condition: {
-            maxWidth: 500,
-          },
-          chartOptions: {
-            legend: {
-              align: 'center',
-              verticalAlign: 'bottom',
-              layout: 'horizontal',
-            },
-          },
-        },
-      ],
-    },
-    accessibility: {
-      keyboardNavigation: {
+  },
+  accessibility: {
+    keyboardNavigation: {
+      enabled: true,
+      focusBorder: {
         enabled: true,
-        focusBorder: {
-          enabled: true,
-          hideBrowserFocusOutline: true,
-          margin: 2,
-          style: {
-            borderRadius: 3,
-            color: '#335cad',
-            lineWidth: 2,
-          },
+        hideBrowserFocusOutline: true,
+        margin: 2,
+        style: {
+          borderRadius: 3,
+          color: '#335cad',
+          lineWidth: 2,
         },
       },
     },
-  };
-};
+  },
+});
 
 const generateOptionsForTypeVisual = (data) => {
   const chartData = [];
@@ -115,9 +113,9 @@ const generateOptionsForTypeVisual = (data) => {
   return genOptions(chartData, 'Total debits & credits');
 };
 
-const TransactionViz = ({ transactions, groupedByDay }) => {
+function TransactionViz({ transactions, groupedByDay }) {
   return (
-    <div className='flex p-6 rounded-lg border mb-4 shadow-sm gap-2 h-60 flex-row'>
+    <div className="flex p-6 rounded-lg border mb-4 shadow-sm gap-2 h-60 flex-row">
       <HighchartsReact
         highcharts={Highcharts}
         options={generateOptionsForDateVisual(groupedByDay)}
@@ -136,7 +134,7 @@ const TransactionViz = ({ transactions, groupedByDay }) => {
       />
     </div>
   );
-};
+}
 
 TransactionViz.propTypes = {
   transactions: PropTypes.arrayOf(PropTypes.object),

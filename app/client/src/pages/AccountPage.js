@@ -12,7 +12,7 @@ const balanceMockData = require('../mockedJson/uf-balances.json');
 const transactionMockData = require('../mockedJson/uf-transactions.json');
 const { config } = require('../config');
 
-const AccountPage = () => {
+function AccountPage() {
   const { accountsConfig } = config;
 
   const {
@@ -22,8 +22,7 @@ const AccountPage = () => {
     setDisplayingApiData,
   } = React.useContext(AppContext);
 
-  const [transactionDialogOpen, setTransactionDialogState] =
-    React.useState(false);
+  const [transactionDialogOpen, setTransactionDialogState] = React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState({});
   const [selectedAccount, setSelectedAccount] = React.useState({});
 
@@ -81,33 +80,30 @@ const AccountPage = () => {
   const displayPanels = () => {
     if (displayingMockedData) {
       return (
-        <div className='flex flex-wrap'>
+        <div className="flex flex-wrap">
           {displayAccountPanel(balanceMockData)}
           {displayTransactionPanel(transactionMockData)}
         </div>
       );
-    } else if (balanceResults.isLoading || transactionResults.isLoading) {
+    } if (balanceResults.isLoading || transactionResults.isLoading) {
       return (
-        <div className='text-center pt-24'>
+        <div className="text-center pt-24">
           <Spinner />
         </div>
       );
-    } else if (balanceResults.isError || transactionResults.isError) {
+    } if (balanceResults.isError || transactionResults.isError) {
       return (
-        <div className='text-center pt-24' data-cy='errorMessage'>
-          {
-            'Error gathering information from API. Toggle on mocked data below to see example information'
-          }
-        </div>
-      );
-    } else {
-      return (
-        <div className='flex flex-wrap'>
-          {displayAccountPanel(balanceResults?.data)}
-          {displayTransactionPanel(transactionResults?.data)}
+        <div className="text-center pt-24" data-cy="errorMessage">
+          Error gathering information from API. Toggle on mocked data below to see example information
         </div>
       );
     }
+    return (
+      <div className="flex flex-wrap">
+        {displayAccountPanel(balanceResults?.data)}
+        {displayTransactionPanel(transactionResults?.data)}
+      </div>
+    );
   };
 
   return (
@@ -127,6 +123,6 @@ const AccountPage = () => {
       />
     </>
   );
-};
+}
 
 export default AccountPage;

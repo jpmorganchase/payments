@@ -15,12 +15,12 @@ const appCtxDefaultValue: AppContextInterface = {
   displayingApiData: false,
   displayingMockedData: true,
   setDisplayingApiData: () => {},
-  setDisplayingMockedData: () => {}
+  setDisplayingMockedData: () => {},
 };
 
-const AppContext = React.createContext<AppContextInterface>( appCtxDefaultValue);
+const AppContext = React.createContext<AppContextInterface>(appCtxDefaultValue);
 
-const AppContextProvider = ({ children }: Props) => {
+function AppContextProvider({ children }: Props) {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(appCtxDefaultValue.displayingMockedData);
   const [displayingApiData, setDisplayingApiData] = React.useState(appCtxDefaultValue.displayingApiData);
 
@@ -36,6 +36,6 @@ const AppContextProvider = ({ children }: Props) => {
       {children}
     </AppContext.Provider>
   );
-};
+}
 
 export { AppContextProvider, AppContext };

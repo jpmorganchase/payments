@@ -7,14 +7,14 @@ type WhatApiType = {
   apiDataEnabled: boolean,
   mockedDataEnabled: boolean,
 
-}
-const WhatAPI = (params: WhatApiType) => {
+};
+function WhatAPI(params: WhatApiType) {
   return (
-    <div className='fixed bottom-0 text-center left-1/2 -ml-56 mb-2'>
-      <div className='bg-yellow-100 pl-4 pr-2 py-2 text-xs rounded-3xl border border-yellow-300 text-yellow-700 shadow-xl flex items-center'>
+    <div className="fixed bottom-0 text-center left-1/2 -ml-56 mb-2">
+      <div className="bg-yellow-100 pl-4 pr-2 py-2 text-xs rounded-3xl border border-yellow-300 text-yellow-700 shadow-xl flex items-center">
         <Switch.Group>
-          <div className='flex items-center ml-4'>
-            <Switch.Label className='text-xs mr-2'>
+          <div className="flex items-center ml-4">
+            <Switch.Label className="text-xs mr-2">
               What APIs are being used on this page?
             </Switch.Label>
             <Switch
@@ -23,9 +23,9 @@ const WhatAPI = (params: WhatApiType) => {
               className={`${
                 params.apiDataEnabled ? 'bg-green-400 ' : 'bg-gray-200'
               } relative inline-flex items-center h-6 rounded-full w-11 txt-xs`}
-              data-cy='showApiData'
+              data-cy="showApiData"
             >
-              <span className='sr-only'>Show api data</span>
+              <span className="sr-only">Show api data</span>
               <span
                 className={`${
                   params.apiDataEnabled ? 'translate-x-6' : 'translate-x-1'
@@ -36,19 +36,19 @@ const WhatAPI = (params: WhatApiType) => {
         </Switch.Group>
 
         <Switch.Group>
-          <div className='flex items-center ml-4'>
-            <Switch.Label className='text-xs mr-2'>
+          <div className="flex items-center ml-4">
+            <Switch.Label className="text-xs mr-2">
               Show mocked data
             </Switch.Label>
             <Switch
-              data-cy='showMockedData'
+              data-cy="showMockedData"
               checked={params.mockedDataEnabled}
               onChange={params.toggleMockedData}
               className={`${
                 params.mockedDataEnabled ? 'bg-green-400 ' : 'bg-gray-200'
               } relative inline-flex items-center h-6 rounded-full w-11 txt-xs`}
             >
-              <span className='sr-only'>Show mocked data</span>
+              <span className="sr-only">Show mocked data</span>
               <span
                 className={`${
                   params.mockedDataEnabled ? 'translate-x-6' : 'translate-x-1'
@@ -60,6 +60,6 @@ const WhatAPI = (params: WhatApiType) => {
       </div>
     </div>
   );
-};
+}
 
 export default WhatAPI;

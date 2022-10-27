@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import TransactionViz from './TransactionViz';
 import TransactionGrid from './transactionGrid/TransactionGrid';
-import PropTypes from 'prop-types';
 import { isEmptyObject } from '../utils';
 import Search from '../search';
 
@@ -15,26 +15,23 @@ const groupTransactionsByDay = (data) => {
     groups[date].push(transaction);
     return groups;
   }, {});
-  const groupArrays = Object.keys(groups).map((date) => {
-    return {
-      date,
-      transactions: groups[date],
-    };
-  });
+  const groupArrays = Object.keys(groups).map((date) => ({
+    date,
+    transactions: groups[date],
+  }));
   // https://stackoverflow.com/questions/10123953/how-to-sort-an-object-array-by-date-property
-  return groupArrays.sort(function (a, b) {
+  return groupArrays.sort((a, b) =>
     // to get a value that is either negative, positive, or zero.
-    return new Date(b.date) - new Date(a.date);
-  });
+    new Date(b.date) - new Date(a.date));
 };
 
-const TransactionInfo = ({
+function TransactionInfo({
   transactions,
   selectedAccount,
   displayingApiData,
   apiData = [],
   ...props
-}) => {
+}) {
   const [searchInput, setSearchInput] = useState('');
 
   let transactionData = transactions.data;
@@ -48,29 +45,22 @@ const TransactionInfo = ({
   ];
 
   if (!isEmptyObject(selectedAccount) && selectedAccount.accountId) {
-    transactionData = transactionData.filter(function (transaction) {
-      return transaction.account.accountId === selectedAccount.accountId;
-    });
+    transactionData = transactionData.filter((transaction) => transaction.account.accountId === selectedAccount.accountId);
   }
 
   if (searchInput.length > 2) {
-    transactionData = transactionData.filter((transaction) =>
-      headers.some((header) =>
-        JSON.stringify(transaction[header])
-          .toLowerCase()
-          .includes(searchInput.toLowerCase()),
-      ),
-    );
+    transactionData = transactionData.filter((transaction) => headers.some((header) => JSON.stringify(transaction[header])
+      .toLowerCase()
+      .includes(searchInput.toLowerCase())));
   }
 
-  let groupedByDayTransactions = groupTransactionsByDay(transactionData);
+  const groupedByDayTransactions = groupTransactionsByDay(transactionData);
 
-  //https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
+  // https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
   const downloadTransactions = () => {
-    var dataStr =
-      'data:text/json;charset=utf-8,' +
-      encodeURIComponent(JSON.stringify(transactionData));
-    var downloadAnchorNode = document.createElement('a');
+    const dataStr = `data:text/json;charset=utf-8,${
+      encodeURIComponent(JSON.stringify(transactionData))}`;
+    const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute('href', dataStr);
     downloadAnchorNode.setAttribute('download', 'transactions.json');
     document.body.appendChild(downloadAnchorNode); // required for firefox
@@ -79,36 +69,34 @@ const TransactionInfo = ({
   };
 
   return (
-    <div className='sm:w-3/5 p-8 flex flex-col w-full'>
-      <div className='flex justify-between items-center mb-3'>
-        <h2 className='text-2xl font-medium'>All transactions</h2>
+    <div className="sm:w-3/5 p-8 flex flex-col w-full">
+      <div className="flex justify-between items-center mb-3">
+        <h2 className="text-2xl font-medium">All transactions</h2>
         <Search
           searchInput={searchInput}
           setSearchInput={setSearchInput}
-          searchText={'Search Transactions'}
-          testingId={'transactionSearch'}
+          searchText="Search Transactions"
+          testingId="transactionSearch"
         />
         <button onClick={() => downloadTransactions()}>
-          <span className='material-icons text-md mr-1'>download</span>
+          <span className="material-icons text-md mr-1">download</span>
         </button>
       </div>
 
-      <>
-        <TransactionViz
-          groupedByDay={groupedByDayTransactions}
-          transactions={transactionData}
-          {...props}
-        />
-        <TransactionGrid
-          apiData={apiData}
-          displayingApiData={displayingApiData}
-          groupedByDay={groupedByDayTransactions}
-          {...props}
-        />
-      </>
+      <TransactionViz
+        groupedByDay={groupedByDayTransactions}
+        transactions={transactionData}
+        {...props}
+      />
+      <TransactionGrid
+        apiData={apiData}
+        displayingApiData={displayingApiData}
+        groupedByDay={groupedByDayTransactions}
+        {...props}
+      />
     </div>
   );
-};
+}
 
 TransactionInfo.propTypes = {
   transactions: PropTypes.shape({
