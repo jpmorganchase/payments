@@ -30,7 +30,7 @@ function AccountPage() {
     accountsConfig.apiDetails[0].backendPath,
     accountsConfig.apiDetails[0].cacheKey,
     accountsConfig.apiDetails[0].refreshInterval,
-    accountsConfig.apiDetails[0].body,
+    JSON.stringify(accountsConfig.apiDetails[0].body),
     displayingMockedData,
   );
 
