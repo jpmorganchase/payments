@@ -1,8 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+
 const AppContext = React.createContext();
 
-const AppContextProvider = ({ children }) => {
+function AppContextProvider({ children }) {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
   return (
@@ -17,7 +18,7 @@ const AppContextProvider = ({ children }) => {
       {children}
     </AppContext.Provider>
   );
-};
+}
 AppContextProvider.propTypes = {
   children: PropTypes.node,
 };

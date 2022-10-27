@@ -11,7 +11,7 @@ const config = {
     apiDetails: [
       {
         name: 'Balances',
-        backendPath: `/api/accessapi/balance`,
+        backendPath: '/api/accessapi/balance',
         path: 'https://apigatewayqaf.jpmorgan.com/accessapi/balance',
         description:
           'This API returns intraday balances for specific accounts. We use it to get the current day balance for a UAT account.',
@@ -19,9 +19,7 @@ const config = {
         refreshInterval: 43200000,
         get body() {
           return {
-            accountList: accounts.map((account) => {
-              return { accountId: account };
-            }),
+            accountList: accounts.map((account) => ({ accountId: account })),
           };
         },
       },
@@ -40,7 +38,7 @@ const config = {
     apiDetails: [
       {
         name: 'Platform Availability Communication Manangement',
-        backendPath: `/api/tsapi/v1/participants`,
+        backendPath: '/api/tsapi/v1/participants',
         cacheKey: 'serviceStatus',
         path: 'https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants',
         refreshInterval: 1800000,

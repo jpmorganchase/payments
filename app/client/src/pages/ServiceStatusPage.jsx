@@ -7,7 +7,8 @@ import { AppContext } from '../AppContext';
 
 const mockedData = require('../mockedJson/uf-service-status.json');
 const { config } = require('../config');
-const ServiceStatusPage = () => {
+
+function ServiceStatusPage() {
   const [data, setData] = React.useState(mockedData);
   const { statusConfig } = config;
   const {
@@ -39,29 +40,28 @@ const ServiceStatusPage = () => {
 
   const displayTable = () => {
     if (
-      !displayingMockedData &&
-      (!response || response.status === 'loading' || response.isFetching)
+      !displayingMockedData
+      && (!response || response.status === 'loading' || response.isFetching)
     ) {
       return (
-        <div className='text-center pt-24'>
+        <div className="text-center pt-24">
           <Spinner />
         </div>
       );
-    } else {
-      return (
-        <StatusTable
-          serviceStatusData={data}
-          apiData={statusConfig.apiDetails}
-          displayingApiData={displayingApiData}
-        />
-      );
     }
+    return (
+      <StatusTable
+        serviceStatusData={data}
+        apiData={statusConfig.apiDetails}
+        displayingApiData={displayingApiData}
+      />
+    );
   };
 
   return (
-    <div className='relative p-8'>
-      <h2 className='text-2xl font-medium mb-4'>Service status</h2>
-      <div className='overflow-auto '>{displayTable()}</div>
+    <div className="relative p-8">
+      <h2 className="text-2xl font-medium mb-4">Service status</h2>
+      <div className="overflow-auto ">{displayTable()}</div>
 
       <WhatAPI
         toggleMockedData={toggleMockedData}
@@ -72,6 +72,6 @@ const ServiceStatusPage = () => {
       />
     </div>
   );
-};
+}
 
 export default ServiceStatusPage;
