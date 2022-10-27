@@ -18,6 +18,7 @@ function TransactionJsonDialog({ transaction, setTransactionDialog, open }) {
               Raw Transaction JSON
             </Dialog.Title>
             <button
+              type="button"
               onClick={() => setTransactionDialog(false, {})}
               data-cy="closeButton"
             >

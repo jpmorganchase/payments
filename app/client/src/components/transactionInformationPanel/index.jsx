@@ -7,22 +7,21 @@ import Search from '../search';
 
 // Code taken from: https://stackoverflow.com/questions/46802448/how-do-i-group-items-in-an-array-by-date
 const groupTransactionsByDay = (data) => {
-  const groups = data.reduce((groups, transaction) => {
+  const groups = data.reduce((dateGroups, transaction) => {
     const date = transaction.asOfDate;
-    if (!groups[date]) {
-      groups[date] = [];
+    if (!dateGroups[date]) {
+      // eslint-disable-next-line no-param-reassign
+      dateGroups[date] = [];
     }
-    groups[date].push(transaction);
-    return groups;
+    dateGroups[date].push(transaction);
+    return dateGroups;
   }, {});
   const groupArrays = Object.keys(groups).map((date) => ({
     date,
     transactions: groups[date],
   }));
   // https://stackoverflow.com/questions/10123953/how-to-sort-an-object-array-by-date-property
-  return groupArrays.sort((a, b) =>
-    // to get a value that is either negative, positive, or zero.
-    new Date(b.date) - new Date(a.date));
+  return groupArrays.sort((a, b) => new Date(b.date) - new Date(a.date));
 };
 
 function TransactionInfo({
@@ -45,10 +44,12 @@ function TransactionInfo({
   ];
 
   if (!isEmptyObject(selectedAccount) && selectedAccount.accountId) {
-    transactionData = transactionData.filter((transaction) => transaction.account.accountId === selectedAccount.accountId);
+    // eslint-disable-next-line max-len
+    transactionData = transactionData.filter((transaction) => (transaction.account.accountId === selectedAccount.accountId));
   }
 
   if (searchInput.length > 2) {
+    // eslint-disable-next-line max-len
     transactionData = transactionData.filter((transaction) => headers.some((header) => JSON.stringify(transaction[header])
       .toLowerCase()
       .includes(searchInput.toLowerCase())));
@@ -78,7 +79,7 @@ function TransactionInfo({
           searchText="Search Transactions"
           testingId="transactionSearch"
         />
-        <button onClick={() => downloadTransactions()}>
+        <button type="button" onClick={() => downloadTransactions()}>
           <span className="material-icons text-md mr-1">download</span>
         </button>
       </div>

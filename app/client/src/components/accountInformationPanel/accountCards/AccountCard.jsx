@@ -5,12 +5,15 @@ import AccountCardButtons from './AccountCardButtons';
 
 function AccountCard({ account, setSelectedAccount, selectedAccount }) {
   const isSelected = !isEmptyObject(selectedAccount)
-    && selectedAccount.accountId == account.accountId;
+    && selectedAccount.accountId === account.accountId;
   const selectedClassName = isSelected ? 'border-pink-500' : 'border-gray-200';
   return (
     <div
       className={`border bg-white  shadow-sm p-4 rounded-lg mb-4 ${selectedClassName}`}
       onClick={() => setSelectedAccount(account)}
+      onKeyPress={() => setSelectedAccount(account)}
+      role="button"
+      tabIndex="0"
     >
       <div className="flex justify-between">
         <div className="mb-2 font-medium">

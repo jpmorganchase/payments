@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,6 +7,7 @@ const AppContext = React.createContext();
 function AppContextProvider({ children }) {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(true);
   const [displayingApiData, setDisplayingApiData] = React.useState(false);
+
   return (
     <AppContext.Provider
       value={{

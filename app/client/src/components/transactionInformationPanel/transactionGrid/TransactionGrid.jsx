@@ -10,13 +10,10 @@ function TransactionGrid({
 }) {
   return (
     <div data-cy="transactionsGrid">
-      {!displayingApiData ? (
-        <></>
-      ) : (
+      {displayingApiData && (
         <div className="bg-black bg-opacity-80 p-8 rounded-lg text-white h-full">
           <h1 className="text-sm">
             {apiData[1].name}
-            {' '}
             API
           </h1>
           <h3 className="text-xs mb-4">{apiData[1].path}</h3>
@@ -27,9 +24,9 @@ function TransactionGrid({
         {!groupedByDay
           || (groupedByDay.length < 1 && <div> No Transactions found </div>)}
         {groupedByDay
-          && groupedByDay.map((item, key) => (
+          && groupedByDay.map((item) => (
             <DailyTransactionTable
-              key={key}
+              key={`transactionGroup-${item.date}`}
               date={item.date}
               transactions={item.transactions}
               {...props}

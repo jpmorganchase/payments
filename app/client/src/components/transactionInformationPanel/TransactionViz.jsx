@@ -8,18 +8,6 @@ if (typeof window !== 'undefined') {
   accessibility(Highcharts);
 }
 
-const generateOptionsForDateVisual = (data) => {
-  const chartData = [];
-  data.map((dateGroup) => {
-    chartData.push({
-      name: dateGroup.date,
-      y: dateGroup.transactions.length,
-    });
-  });
-
-  return genOptions(chartData, 'Number of transactions by date');
-};
-
 const genOptions = (data, title) => ({
   chart: {
     type: 'column',
@@ -101,9 +89,20 @@ const genOptions = (data, title) => ({
   },
 });
 
+const generateOptionsForDateVisual = (data) => {
+  const chartData = [];
+  data.forEach((dateGroup) => {
+    chartData.push({
+      name: dateGroup.date,
+      y: dateGroup.transactions.length,
+    });
+  });
+
+  return genOptions(chartData, 'Number of transactions by date');
+};
 const generateOptionsForTypeVisual = (data) => {
   const chartData = [];
-  data.map((transaction) => {
+  data.forEach((transaction) => {
     chartData.push({
       name: transaction.debitCreditCode,
       y: transaction.amount,

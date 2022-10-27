@@ -36,9 +36,9 @@ function DailyTransactionTable({
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {transactions
-            && transactions.map((transaction, key) => (
+            && transactions.map((transaction) => (
               <tr
-                key={key}
+                key={`transaction-${transaction.transactionId}`}
                 onClick={() => openTransactionDialog(true, transaction)}
               >
                 <td className="py-2 whitespace-nowrap">

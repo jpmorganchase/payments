@@ -94,7 +94,8 @@ function AccountPage() {
     } if (balanceResults.isError || transactionResults.isError) {
       return (
         <div className="text-center pt-24" data-cy="errorMessage">
-          Error gathering information from API. Toggle on mocked data below to see example information
+          Error gathering information from API.
+          Toggle on mocked data below to see example information
         </div>
       );
     }

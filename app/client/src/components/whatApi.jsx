@@ -65,13 +65,6 @@ WhatAPI.propTypes = {
   mockedDataEnabled: PropTypes.bool.isRequired,
   apiDataEnabled: PropTypes.bool.isRequired,
   toggleApiData: PropTypes.func.isRequired,
-  config: PropTypes.shape({
-    apiDetails: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-      }),
-    ),
-  }),
 };
 
 export default WhatAPI;
