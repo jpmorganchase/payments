@@ -13,7 +13,8 @@
         "skipLibCheck": true,
         "strict": true,
         "moduleResolution": "node",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "resolveJsonModule": true
     },
     "include": [
         "./src/**/*", "custom.d.ts"

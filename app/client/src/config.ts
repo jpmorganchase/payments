@@ -30,7 +30,7 @@ export interface ApiDetailsInterface {
 interface ConfigDataType extends AccountsConfigType, StatusConfigType {
 }
 
-const config: ConfigDataType = {
+export const config: ConfigDataType = {
   accountsConfig: {
     accountDetails: accounts,
     apiDetails: [
@@ -68,4 +68,3 @@ const config: ConfigDataType = {
     ],
   },
 };
-module.exports = { config };

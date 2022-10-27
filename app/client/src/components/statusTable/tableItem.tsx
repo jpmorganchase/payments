@@ -1,5 +1,4 @@
-import React, { ReactElement } from 'react';
-import { JsxElement } from 'typescript';
+import React from 'react';
 
 const colourStatus = (text: string) => {
   if (text === 'COMPLETE') {

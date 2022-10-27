@@ -4,12 +4,13 @@ import WhatAPI from '../components/whatApi';
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
 import { AppContext } from '../AppContext';
+import mockedData from '../mockedJson/uf-service-status.json';
 
-const mockedData = require('../mockedJson/uf-service-status.json');
-const { config } = require('../config');
+import { config } from '../config';
+import { ServiceStatusDataType } from '../types/serviceStatusTypes';
 
 function ServiceStatusPage() {
-  const [data, setData] = React.useState(mockedData);
+  const [data, setData] = React.useState<ServiceStatusDataType>(mockedData);
   const { statusConfig } = config;
   const {
     displayingMockedData,
