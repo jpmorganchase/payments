@@ -19,7 +19,7 @@ interface StatusConfigType {
   }
 }
 
-interface ApiDetails {
+export interface ApiDetailsInterface {
   name: string;
   backendPath: string;
   cacheKey: string;

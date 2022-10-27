@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ReactElement } from 'react';
+import { JsxElement } from 'typescript';
 
-const colourStatus = (text) => {
+const colourStatus = (text: string) => {
   if (text === 'COMPLETE') {
     return (
       <span
@@ -30,7 +30,8 @@ const colourStatus = (text) => {
     </span>
   );
 };
-function TableItem({ text, status }) {
+
+function TableItem({ text, status }: { text:string, status?: boolean }): JSX.Element {
   return (
     <td className="py-2 whitespace-nowrap">
       {status && colourStatus(text)}
@@ -38,10 +39,8 @@ function TableItem({ text, status }) {
     </td>
   );
 }
-
-TableItem.propTypes = {
-  text: PropTypes.string,
-  status: PropTypes.bool,
+TableItem.defaultProps = {
+  status: false,
 };
 
 export default TableItem;

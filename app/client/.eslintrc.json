@@ -4,7 +4,6 @@
         "es2021": true
     },
     "extends": [
-        "plugin:react/recommended",
         "airbnb",
         "airbnb-typescript",
         "airbnb/hooks",
@@ -20,7 +19,7 @@
         "project": "./tsconfig.json"
     },
     "plugins": [
-        "react", "@typescript-eslint"
+     "@typescript-eslint"
     ],
     "rules": {
     }
