@@ -1,24 +1,33 @@
+/* eslint-disable no-console */
 const express = require('express');
 const fs = require('fs');
-const { gatherHttpsOptionsAsync } = require('./grabSecret');
-const { generateJWTJose } = require('./digitalSignature');
-const https = require('https');
 
+const https = require('https');
 const {
   createProxyMiddleware,
   responseInterceptor,
 } = require('http-proxy-middleware');
+const { gatherHttpsOptionsAsync } = require('./grabSecret');
+const { generateJWTJose } = require('./digitalSignature');
+
 const app = express();
 
-async function createProxyConfiguration(req, res) {
-  // Required for AWS Lambda to gather secrets
-  const httpsOpts = await gatherHttpsOptionsAsync();
+const env = process.env.NODE_ENV;
+console.log(env);
 
-  //Required for local execution
-  // const httpsOpts = {
-  //   KEY: fs.readFileSync('./certs/jpmc.key', 'utf-8'),
-  //   CERT: fs.readFileSync('./certs/jpmc.crt', 'utf-8'),
-  // };
+async function createProxyConfiguration() {
+  let httpsOpts;
+  if (env === 'production') {
+    // Required for AWS Lambda to gather secrets
+    httpsOpts = await gatherHttpsOptionsAsync();
+  } else {
+  // Required for local execution
+    httpsOpts = {
+      KEY: fs.readFileSync('./certs/jpmc.key', 'utf-8'),
+      CERT: fs.readFileSync('./certs/jpmc.crt', 'utf-8'),
+    };
+  }
+
   const options = {
     target: 'https://apigatewayqaf.jpmorgan.com', // target host with the same base path
     changeOrigin: true, // needed for virtual hosted sites
@@ -29,7 +38,7 @@ async function createProxyConfiguration(req, res) {
       cert: httpsOpts.CERT && httpsOpts.CERT.replace(/\\n/g, '\n'),
     }),
     pathRewrite: { '^/api': '' },
-    onProxyReq: (proxyReq, req, res) => {
+    onProxyReq: (proxyReq, req) => {
       console.log(
         '--> ',
         req.method,
@@ -39,12 +48,12 @@ async function createProxyConfiguration(req, res) {
       );
     },
     onProxyRes: responseInterceptor(
-      async (responseBuffer, proxyRes, req, res) => {
+      async (responseBuffer, proxyRes, req) => {
         const exchange = `[${req.method}] [${proxyRes.statusCode}] ${req.path} -> ${proxyRes.req.protocol}//${proxyRes.req.host}${proxyRes.req.path}`;
         console.log(exchange);
         // detect json responses
         if (proxyRes.headers['content-type'] === 'application/json') {
-          let data = JSON.parse(responseBuffer.toString('utf8'));
+          const data = JSON.parse(responseBuffer.toString('utf8'));
 
           // return manipulated JSON
           return JSON.stringify(data);
@@ -54,7 +63,7 @@ async function createProxyConfiguration(req, res) {
         return responseBuffer;
       },
     ),
-    onError: (err, req, res) => {
+    onError: (err) => {
       console.log(err);
     },
   };
