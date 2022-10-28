@@ -6,16 +6,16 @@ const accounts: AccountsType = [
   '000000010975001',
   '000000010900009',
 ];
-interface AccountsConfigType {
+interface AccountsConfigInterface {
   accountsConfig: {
-    apiDetails: ApiDetails[];
+    apiDetails: ApiDetailsInterface[];
     accountDetails: AccountsType;
   };
 }
 
-interface StatusConfigType {
+interface StatusConfigInterface {
   statusConfig: {
-    apiDetails: ApiDetails[];
+    apiDetails: ApiDetailsInterface[];
   }
 }
 
@@ -27,10 +27,10 @@ export interface ApiDetailsInterface {
   refreshInterval: number;
   description: string;
 }
-interface ConfigDataType extends AccountsConfigType, StatusConfigType {
+interface ConfigDataInterface extends AccountsConfigInterface, StatusConfigInterface {
 }
 
-export const config: ConfigDataType = {
+export const config: ConfigDataInterface = {
   accountsConfig: {
     accountDetails: accounts,
     apiDetails: [

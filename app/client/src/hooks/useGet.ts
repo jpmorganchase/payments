@@ -8,14 +8,12 @@ const sendGet = async (path:string) => {
   return response.json();
 };
 
-type ParamsType = {
-  path:string, id:string, intervalMs:number, displayingMockedData:boolean
-};
-export default function useGet(params: ParamsType) {
-  return useQuery(params.id, () => sendGet(params.path), {
-    refetchInterval: params.intervalMs,
+export default function
+useGet(path: string, id: string, intervalMs: number, displayingMockedData: boolean) {
+  return useQuery(id, () => sendGet(path), {
+    refetchInterval: intervalMs,
     retry: 0,
-    staleTime: params.intervalMs,
-    enabled: !params.displayingMockedData,
+    staleTime: intervalMs,
+    enabled: !displayingMockedData,
   });
 }

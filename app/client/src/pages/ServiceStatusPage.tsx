@@ -4,10 +4,12 @@ import WhatAPI from '../components/whatApi';
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
 import { AppContext } from '../AppContext';
-import mockedData from '../mockedJson/uf-service-status.json';
+import mockedDataUntyped from '../mockedJson/uf-service-status.json';
 
 import { config } from '../config';
 import { ServiceStatusDataType } from '../types/serviceStatusTypes';
+
+const mockedData: ServiceStatusDataType = mockedDataUntyped as ServiceStatusDataType;
 
 function ServiceStatusPage() {
   const [data, setData] = React.useState<ServiceStatusDataType>(mockedData);
@@ -35,9 +37,9 @@ function ServiceStatusPage() {
     if (displayingMockedData) {
       setData(mockedData);
     } else {
-      setData(response?.data);
+      setData(response?.data as ServiceStatusDataType);
     }
-  }, [displayingMockedData]);
+  }, [displayingMockedData, response?.data]);
 
   const displayTable = () => {
     if (
@@ -66,7 +68,6 @@ function ServiceStatusPage() {
 
       <WhatAPI
         toggleMockedData={toggleMockedData}
-        config={statusConfig}
         mockedDataEnabled={displayingMockedData}
         toggleApiData={toggleApiData}
         apiDataEnabled={displayingApiData}

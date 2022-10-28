@@ -12,12 +12,6 @@ const tableHeaders = [
   'Clearing System',
 ];
 
-interface PropsInterface {
-  apiData: [],
-  serviceStatusData: ServiceStatusDataType,
-  displayingApiData: boolean
-}
-
 const renderErrorMessage = (message: string) => (
   <div className="pt-24 text-center" data-cy="errorMessage">
     {message}
@@ -35,13 +29,7 @@ const renderApiData = (apiData: ApiDetailsInterface[]) => (
     <h3 className="text-xs">{apiData[0].description}</h3>
   </div>
 );
-function StatusTable(props: PropsInterface) {
-  const {
-    serviceStatusData,
-    apiData = [],
-    displayingApiData,
-  } = props;
-
+function StatusTable({ apiData, serviceStatusData, displayingApiData } : { apiData: ApiDetailsInterface[], serviceStatusData: ServiceStatusDataType, displayingApiData: boolean }) {
   const bankStatus = serviceStatusData?.bankStatus;
   return (
     <div className="relative">

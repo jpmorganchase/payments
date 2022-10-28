@@ -1,17 +1,15 @@
 import React from 'react';
 import { Switch } from '@headlessui/react';
 
-type WhatApiType = {
+function WhatAPI({
+  toggleApiData, toggleMockedData, apiDataEnabled, mockedDataEnabled,
+}: {
   toggleMockedData: () => void,
   toggleApiData: () => void,
   apiDataEnabled: boolean,
   mockedDataEnabled: boolean,
 
-};
-function WhatAPI(params: WhatApiType) {
-  const {
-    apiDataEnabled, toggleApiData, toggleMockedData, mockedDataEnabled,
-  } = params;
+}) {
   return (
     <div className="fixed bottom-0 text-center left-1/2 -ml-56 mb-2">
       <div className="bg-yellow-100 pl-4 pr-2 py-2 text-xs rounded-3xl border border-yellow-300 text-yellow-700 shadow-xl flex items-center">
