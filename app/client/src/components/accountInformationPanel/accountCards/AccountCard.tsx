@@ -1,16 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { AccountType } from '../../../types/accountTypes';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
 import AccountCardButtons from './AccountCardButtons';
 
-function AccountCard({ account, setSelectedAccount, selectedAccount }) {
+function AccountCard({ account, setSelectedAccount, selectedAccount } :
+{ account: AccountType, setSelectedAccount: (account: AccountType) =>void, selectedAccount: AccountType }) {
   const isSelected = !isEmptyObject(selectedAccount)
-    && selectedAccount.accountId == account.accountId;
+    && selectedAccount.accountId === account.accountId;
   const selectedClassName = isSelected ? 'border-pink-500' : 'border-gray-200';
+
   return (
     <div
       className={`border bg-white  shadow-sm p-4 rounded-lg mb-4 ${selectedClassName}`}
       onClick={() => setSelectedAccount(account)}
+      onKeyPress={() => setSelectedAccount(account)}
+      role="button"
+      tabIndex={0}
     >
       <div className="flex justify-between">
         <div className="mb-2 font-medium">
@@ -36,24 +41,5 @@ function AccountCard({ account, setSelectedAccount, selectedAccount }) {
     </div>
   );
 }
-
-AccountCard.propTypes = {
-  account: PropTypes.shape({
-    accountId: PropTypes.string.isRequired,
-    accountName: PropTypes.string,
-    errorCode: PropTypes.number,
-    currency: PropTypes.shape({
-      code: PropTypes.string,
-      description: PropTypes.string,
-    }),
-    balanceList: PropTypes.arrayOf(
-      PropTypes.shape({
-        openingAvailableAmount: PropTypes.number.isRequired,
-      }),
-    ),
-  }),
-  setSelectedAccount: PropTypes.func,
-  selectedAccount: PropTypes.object,
-};
 
 export default AccountCard;
