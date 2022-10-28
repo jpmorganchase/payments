@@ -39,7 +39,10 @@ function Sidebar() {
 
         <div className="lg:bottom-0 lg:fixed mb-2 lg:w-auto" data-cy="popover">
           <Popover className="relative lg:hidden">
-            <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+            <Popover.Button
+              // eslint-disable-next-line max-len
+              className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+            >
               <span className="block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl" />
               <img className="rounded-xl w-10 h-10" src={avatar} alt="Avatar" />
             </Popover.Button>

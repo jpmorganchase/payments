@@ -11,19 +11,17 @@ const sendPost = async (path:string, body:string) => {
   return response.json();
 };
 
-type PostParamType = {
+export default function usePost(
   path: string,
   id: string,
   intervalMs: number,
   body: string,
   displayingMockedData: boolean,
-};
-
-export default function usePost(params: PostParamType) {
-  return useQuery(params.id, () => sendPost(params.path, params.body), {
-    refetchInterval: params.intervalMs,
+) {
+  return useQuery(id, () => sendPost(path, body), {
+    refetchInterval: intervalMs,
     retry: 0,
-    staleTime: params.intervalMs,
-    enabled: !params.displayingMockedData,
+    staleTime: intervalMs,
+    enabled: !displayingMockedData,
   });
 }
