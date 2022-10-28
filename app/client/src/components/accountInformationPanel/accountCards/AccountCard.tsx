@@ -3,8 +3,13 @@ import { AccountType } from '../../../types/accountTypes';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
 import AccountCardButtons from './AccountCardButtons';
 
-function AccountCard({ account, setSelectedAccount, selectedAccount } :
-{ account: AccountType, setSelectedAccount: (account: AccountType) =>void, selectedAccount: AccountType }) {
+type AccountCardType = {
+  account: AccountType,
+  setSelectedAccount: (account: AccountType) =>void,
+  selectedAccount: AccountType
+};
+
+function AccountCard({ account, setSelectedAccount, selectedAccount } :AccountCardType) {
   const isSelected = !isEmptyObject(selectedAccount)
     && selectedAccount.accountId === account.accountId;
   const selectedClassName = isSelected ? 'border-pink-500' : 'border-gray-200';

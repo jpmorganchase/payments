@@ -8,14 +8,15 @@ export type AccountType = {
   branchId: string,
   bankId: string,
   bankName: string,
-  currency : {
-    code: string,
-    description: string
-  },
+  currency : CurrencyType
   errorCode: string | number,
   balanceList: BalanceListType[]
 };
 
+export type CurrencyType = {
+  code: string,
+  description: string
+};
 type BalanceListType = {
   asOfDate : string,
   recordTimestamp : string,

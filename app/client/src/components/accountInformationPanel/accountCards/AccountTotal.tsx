@@ -1,8 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { ApiDetailsInterface } from '../../../config';
+import { AccountType, CurrencyType } from '../../../types/accountTypes';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
 import AccountCardButtons from './AccountCardButtons';
 
+type AccountTotalType = {
+  total: number | 'Error',
+  currency: CurrencyType['code'],
+  setSelectedAccount: (account: AccountType | Record<string, never>) =>void,
+  selectedAccount: AccountType
+  apiData: ApiDetailsInterface[],
+  displayingApiData: boolean,
+};
 function AccountTotal({
   total,
   currency,
@@ -10,16 +19,14 @@ function AccountTotal({
   selectedAccount,
   apiData,
   displayingApiData,
-}) {
+}: AccountTotalType) {
   const selectedClassName = isEmptyObject(selectedAccount)
     ? 'border-pink-500'
     : 'border-gray-200';
 
   return (
     <div className="relative">
-      {!displayingApiData ? (
-        <></>
-      ) : (
+      {displayingApiData && (
         <div className="absolute bg-black bg-opacity-80 p-8 rounded-lg text-white flex-col h-full w-full ">
           <h1 className="text-sm">
             {apiData[0].name}
@@ -34,6 +41,9 @@ function AccountTotal({
         data-cy="allAccountsCard"
         className={`border bg-white shadow-md hover:shadow-lg p-4 rounded-lg ${selectedClassName}`}
         onClick={() => setSelectedAccount({})}
+        onKeyPress={() => setSelectedAccount({})}
+        role="button"
+        tabIndex={0}
       >
         <div className="mb-2">
           <span>All accounts balance in </span>
@@ -50,14 +60,5 @@ function AccountTotal({
     </div>
   );
 }
-
-AccountTotal.propTypes = {
-  total: PropTypes.number,
-  currency: PropTypes.string,
-  selectedAccount: PropTypes.object,
-  setSelectedAccount: PropTypes.func,
-  apiData: PropTypes.arrayOf(PropTypes.object),
-  displayingApiData: PropTypes.bool,
-};
 
 export default AccountTotal;
