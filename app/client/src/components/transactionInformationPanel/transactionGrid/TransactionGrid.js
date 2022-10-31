@@ -6,7 +6,7 @@ function TransactionGrid({
   displayingApiData,
   groupedByDay,
   apiData = [],
-  ...props
+  openTransactionDialog,
 }) {
   return (
     <div data-cy="transactionsGrid">
@@ -32,7 +32,7 @@ function TransactionGrid({
               key={key}
               date={item.date}
               transactions={item.transactions}
-              {...props}
+              openTransactionDialog={openTransactionDialog}
             />
           ))}
       </div>

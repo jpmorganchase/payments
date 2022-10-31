@@ -1,28 +1,41 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import TransactionViz from './TransactionViz';
 import TransactionGrid from './transactionGrid/TransactionGrid';
 import { isEmptyObject } from '../utils';
 import Search from '../search';
+import { TransactionDataType, TransactionType } from '../../types/transactionTypes';
+import { AccountType } from '../../types/accountTypes';
+import { ApiDetailsInterface } from '../../config';
 
+type TransactionInfoType = {
+  transactions: TransactionDataType,
+  selectedAccount: AccountType | Record<string, never>,
+  displayingApiData: boolean,
+  apiData: ApiDetailsInterface[],
+  openTransactionDialog:(state:boolean, transaction: TransactionType) =>void
+};
+
+type GroupedDataType = {
+  [key: string]: TransactionType[]
+};
 // Code taken from: https://stackoverflow.com/questions/46802448/how-do-i-group-items-in-an-array-by-date
-const groupTransactionsByDay = (data) => {
-  const groups = data.reduce((groups, transaction) => {
-    const date = transaction.asOfDate;
-    if (!groups[date]) {
-      groups[date] = [];
+const groupTransactionsByDay = (data: TransactionType[]) => {
+  const groups: Record<string, TransactionType[]> = data.reduce((dateGroups: GroupedDataType, transaction) => {
+    const date: string = transaction.asOfDate;
+    if (date in dateGroups) {
+      dateGroups[date].push(transaction);
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      dateGroups[date] = [transaction];
     }
-    groups[date].push(transaction);
-    return groups;
+    return dateGroups;
   }, {});
-  const groupArrays = Object.keys(groups).map((date) => ({
+  const groupArrays: { date:string, transactions: TransactionType[] }[] = Object.keys(groups).map((date) => ({
     date,
     transactions: groups[date],
   }));
   // https://stackoverflow.com/questions/10123953/how-to-sort-an-object-array-by-date-property
-  return groupArrays.sort((a, b) =>
-    // to get a value that is either negative, positive, or zero.
-    new Date(b.date) - new Date(a.date));
+  return groupArrays.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
 
 function TransactionInfo({
@@ -30,28 +43,20 @@ function TransactionInfo({
   selectedAccount,
   displayingApiData,
   apiData = [],
-  ...props
-}) {
+  openTransactionDialog,
+}: TransactionInfoType) {
   const [searchInput, setSearchInput] = useState('');
 
   let transactionData = transactions.data;
 
-  const headers = [
-    'debitCreditCode',
-    'amount',
-    'transactionId',
-    'baiType',
-    'account',
-  ];
-
   if (!isEmptyObject(selectedAccount) && selectedAccount.accountId) {
-    transactionData = transactionData.filter((transaction) => transaction.account.accountId === selectedAccount.accountId);
+    transactionData = transactionData.filter((transaction) => (transaction.account.accountId === selectedAccount.accountId));
   }
 
   if (searchInput.length > 2) {
-    transactionData = transactionData.filter((transaction) => headers.some((header) => JSON.stringify(transaction[header])
+    transactionData = transactionData.filter((transaction: TransactionType) => JSON.stringify(transaction)
       .toLowerCase()
-      .includes(searchInput.toLowerCase())));
+      .includes(searchInput.toLowerCase()));
   }
 
   const groupedByDayTransactions = groupTransactionsByDay(transactionData);
@@ -78,7 +83,7 @@ function TransactionInfo({
           searchText="Search Transactions"
           testingId="transactionSearch"
         />
-        <button onClick={() => downloadTransactions()}>
+        <button type="button" onClick={() => downloadTransactions()}>
           <span className="material-icons text-md mr-1">download</span>
         </button>
       </div>
@@ -86,25 +91,15 @@ function TransactionInfo({
       <TransactionViz
         groupedByDay={groupedByDayTransactions}
         transactions={transactionData}
-        {...props}
       />
       <TransactionGrid
         apiData={apiData}
         displayingApiData={displayingApiData}
         groupedByDay={groupedByDayTransactions}
-        {...props}
+        openTransactionDialog={openTransactionDialog}
       />
     </div>
   );
 }
-
-TransactionInfo.propTypes = {
-  transactions: PropTypes.shape({
-    data: PropTypes.arrayOf(PropTypes.object),
-  }),
-  selectedAccount: PropTypes.object,
-  apiData: PropTypes.arrayOf(PropTypes.object),
-  displayingApiData: PropTypes.bool,
-};
 
 export default TransactionInfo;
