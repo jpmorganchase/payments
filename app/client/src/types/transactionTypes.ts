@@ -57,11 +57,11 @@ export interface TransactionType {
     'VAL DATE    '?: string
   },
   narrativeTypeCode: string;
-  addenda?: any[] | null;
+  addenda?: any[];
   floatSpreadCode: string;
   sepaDetailsXml: null;
   postCode: string;
-  supplementalTextSet: any;
+  supplementalTextSet?: any ;
   supplementalTextRecordList: null;
   supplementalText: null;
   thirdPartyBank: boolean;

@@ -26,6 +26,11 @@ export interface ApiDetailsInterface {
   path: string;
   refreshInterval: number;
   description: string;
+  body?: {
+    accountList: {
+      accountId: string
+    }[]
+  }
 }
 interface ConfigDataInterface extends AccountsConfigInterface, StatusConfigInterface {
 }
@@ -42,6 +47,11 @@ export const config: ConfigDataInterface = {
           'This API returns intraday balances for specific accounts. We use it to get the current day balance for a UAT account.',
         cacheKey: 'balances',
         refreshInterval: 43200000,
+        get body() {
+          return {
+            accountList: accounts.map((account) => ({ accountId: account })),
+          };
+        },
       },
       {
         name: 'Transactions',
