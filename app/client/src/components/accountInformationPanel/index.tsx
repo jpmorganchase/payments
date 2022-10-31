@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import AccountTotal from './accountCards/AccountTotal';
 import AccountList from './AccountList';
 import Search from '../search';
-import { AccountListType } from '../../types/accountTypes';
+import { BalanceDataType } from '../../types/accountTypes';
 import { ApiDetailsInterface } from '../../config';
 
 const headers = ['accountName', 'accountId', 'currency'];
 type AccountInfoType = {
-  data: AccountListType,
+  data: BalanceDataType,
   displayingApiData: boolean,
   apiData: ApiDetailsInterface[]
 };

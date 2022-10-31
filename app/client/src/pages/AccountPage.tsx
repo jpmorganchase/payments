@@ -7,10 +7,14 @@ import TransactionJsonDialog from '../components/transactionInformationPanel/Tra
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
 import { AppContext } from '../AppContext';
+import balanceMockDataUntyped from '../mockedJson/uf-balances.json';
+import transactionMockDataUntyped from '../mockedJson/uf-transactions.json';
+import { config } from '../config';
+import { BalanceDataType } from '../types/accountTypes';
+import { TransactionDataType } from '../types/transactionTypes';
 
-const balanceMockData = require('../mockedJson/uf-balances.json');
-const transactionMockData = require('../mockedJson/uf-transactions.json');
-const { config } = require('../config');
+const balanceMockData: BalanceDataType = balanceMockDataUntyped as BalanceDataType;
+const transactionMockData: TransactionDataType = transactionMockDataUntyped as TransactionDataType;
 
 function AccountPage() {
   const { accountsConfig } = config;
