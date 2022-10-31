@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import AccountTotal from './accountCards/AccountTotal';
 import AccountList from './AccountList';
 import Search from '../search';
+import { AccountListType } from '../../types/accountTypes';
+import { ApiDetailsInterface } from '../../config';
 
 const headers = ['accountName', 'accountId', 'currency'];
+type AccountInfoType = {
+  data: AccountListType,
+  displayingApiData: boolean,
+  apiData: ApiDetailsInterface[]
+};
+
 function AccountInfo({
   data, displayingApiData, apiData = [], ...props
-}) {
+}: AccountInfoType) {
   const [searchInput, setSearchInput] = useState('');
 
   let accounts = data.accountList;
@@ -61,13 +68,5 @@ function AccountInfo({
     </div>
   );
 }
-
-AccountInfo.propTypes = {
-  data: PropTypes.shape({
-    accountList: PropTypes.arrayOf(PropTypes.object),
-  }),
-  apiData: PropTypes.arrayOf(PropTypes.object),
-  displayingApiData: PropTypes.bool,
-};
 
 export default AccountInfo;

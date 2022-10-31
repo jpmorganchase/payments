@@ -1,15 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { ApiDetailsInterface } from '../../config';
+import { AccountType } from '../../types/accountTypes';
 import AccountCard from './accountCards/AccountCard';
 
 function AccountList({
   data, displayingApiData, apiData = [], ...props
+} : {
+  apiData: ApiDetailsInterface[],
+  data: AccountType[],
+  displayingApiData: boolean
 }) {
   return (
     <div className="relative">
-      {!displayingApiData ? (
-        <></>
-      ) : (
+      {displayingApiData && (
         <div className="absolute bg-black bg-opacity-80 p-8 rounded-lg text-white flex-col h-full w-full ">
           <h1 className="text-sm">
             {apiData[0].name}
@@ -22,18 +25,12 @@ function AccountList({
       )}
       <div className="overflow-y-auto">
         {data
-          && data.map((account, key) => (
-            <AccountCard key={key} account={account} {...props} />
+          && data.map((account) => (
+            <AccountCard key={`accountCard-${account.accountId}`} account={account} {...props} />
           ))}
       </div>
     </div>
   );
 }
-
-AccountList.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
-  apiData: PropTypes.arrayOf(PropTypes.object),
-  displayingApiData: PropTypes.bool,
-};
 
 export default AccountList;

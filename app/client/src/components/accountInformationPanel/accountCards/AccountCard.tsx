@@ -9,7 +9,8 @@ type AccountCardType = {
   selectedAccount: AccountType
 };
 
-function AccountCard({ account, setSelectedAccount, selectedAccount } :AccountCardType) {
+function AccountCard(props: AccountCardType) {
+  const { account, setSelectedAccount, selectedAccount } = props;
   const isSelected = !isEmptyObject(selectedAccount)
     && selectedAccount.accountId === account.accountId;
   const selectedClassName = isSelected ? 'border-pink-500' : 'border-gray-200';

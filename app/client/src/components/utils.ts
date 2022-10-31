@@ -24,6 +24,10 @@ export function formatDate(date: Date): string {
       strTime}`
   );
 }
+export const { format } = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
 
 export function gatherCurrencySymbol(currencyCode: string): string {
   switch (currencyCode) {

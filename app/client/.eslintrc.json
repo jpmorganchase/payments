@@ -22,6 +22,7 @@
      "@typescript-eslint"
     ],
     "rules":    {
-        "max-len": ["error", { "code": 200 }]
+        "max-len": ["error", { "code": 200 }],
+        "react/jsx-props-no-spreading": "off"
       }
 }
