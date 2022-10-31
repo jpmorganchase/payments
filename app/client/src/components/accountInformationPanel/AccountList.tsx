@@ -4,11 +4,13 @@ import { AccountType } from '../../types/accountTypes';
 import AccountCard from './accountCards/AccountCard';
 
 function AccountList({
-  data, displayingApiData, apiData = [], ...props
+  data, displayingApiData, apiData = [], selectedAccount, setSelectedAccount,
 } : {
   apiData: ApiDetailsInterface[],
   data: AccountType[],
-  displayingApiData: boolean
+  displayingApiData: boolean,
+  setSelectedAccount: (account: AccountType) =>void,
+  selectedAccount: AccountType | Record<string, never>
 }) {
   return (
     <div className="relative">
@@ -26,7 +28,7 @@ function AccountList({
       <div className="overflow-y-auto">
         {data
           && data.map((account) => (
-            <AccountCard key={`accountCard-${account.accountId}`} account={account} {...props} />
+            <AccountCard key={`accountCard-${account.accountId}`} account={account} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
           ))}
       </div>
     </div>

@@ -27,8 +27,8 @@ function AccountPage() {
   } = React.useContext(AppContext);
 
   const [transactionDialogOpen, setTransactionDialogState] = React.useState<boolean>(false);
-  const [selectedTransaction, setSelectedTransaction] = React.useState<TransactionType | null>(null);
-  const [selectedAccount, setSelectedAccount] = React.useState<AccountType | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = React.useState<TransactionType | Record<string, never>>({});
+  const [selectedAccount, setSelectedAccount] = React.useState<AccountType | Record<string, never>>({});
 
   const balanceResults = usePost(
     accountsConfig.apiDetails[0].backendPath,
@@ -46,8 +46,8 @@ function AccountPage() {
   );
 
   useEffect(() => {
-    setSelectedAccount(null);
-    setSelectedTransaction(null);
+    setSelectedAccount({});
+    setSelectedTransaction({});
   }, [displayingMockedData]);
 
   const toggleMockedData = () => {
@@ -66,6 +66,8 @@ function AccountPage() {
       data={data}
       apiData={accountsConfig.apiDetails}
       displayingApiData={displayingApiData}
+      setSelectedAccount={setSelectedAccount}
+      selectedAccount={selectedAccount}
     />
   );
 

@@ -6,7 +6,7 @@ import AccountCardButtons from './AccountCardButtons';
 type AccountCardType = {
   account: AccountType,
   setSelectedAccount: (account: AccountType) =>void,
-  selectedAccount: AccountType
+  selectedAccount: AccountType | Record<string, never>
 };
 
 function AccountCard(props: AccountCardType) {
@@ -40,7 +40,7 @@ function AccountCard(props: AccountCardType) {
       </div>
       <div className="text-xl font-medium">
         {!account.errorCode && gatherCurrencySymbol(account.currency.code)}
-        {!account.errorCode && account.balanceList[0].openingAvailableAmount}
+        {!account.errorCode && account.balanceList && account.balanceList[0].openingAvailableAmount}
         {account.errorCode && 'Error'}
       </div>
       {isSelected && <AccountCardButtons />}

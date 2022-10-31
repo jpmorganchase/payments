@@ -2,37 +2,44 @@ import React, { useState } from 'react';
 import AccountTotal from './accountCards/AccountTotal';
 import AccountList from './AccountList';
 import Search from '../search';
-import { BalanceDataType } from '../../types/accountTypes';
+import { AccountType, BalanceDataType } from '../../types/accountTypes';
 import { ApiDetailsInterface } from '../../config';
+import { round } from '../utils';
 
-const headers = ['accountName', 'accountId', 'currency'];
 type AccountInfoType = {
   data: BalanceDataType,
   displayingApiData: boolean,
-  apiData: ApiDetailsInterface[]
+  apiData: ApiDetailsInterface[],
+  setSelectedAccount: (account: AccountType | Record<string, never>) =>void,
+  selectedAccount: AccountType | Record<string, never>
 };
 
 function AccountInfo({
-  data, displayingApiData, apiData = [], ...props
+  data, displayingApiData, apiData = [], setSelectedAccount, selectedAccount,
 }: AccountInfoType) {
   const [searchInput, setSearchInput] = useState('');
 
   let accounts = data.accountList;
   const totalAccount = data.accountList
     .map((account) => {
-      if (!account.errorCode) {
+      if (!account.errorCode && account.balanceList) {
         return account.balanceList[0].openingAvailableAmount;
       }
       return 'Error';
     })
     .reduce(
-      (prev, next) => Math.round((prev + next + Number.EPSILON) * 100) / 100,
+      (prev, next) => {
+        if (prev !== 'Error' && next !== 'Error') {
+          return round(prev, next);
+        }
+        return 'Error';
+      },
     );
 
   if (searchInput.length > 2) {
-    accounts = accounts.filter((account) => headers.some((header) => JSON.stringify(account[header])
+    accounts = accounts.filter((account: AccountType) => JSON.stringify(account)
       .toLowerCase()
-      .includes(searchInput.toLowerCase())));
+      .includes(searchInput.toLowerCase()));
   }
 
   return (
@@ -44,7 +51,8 @@ function AccountInfo({
         currency="USD"
         apiData={apiData}
         displayingApiData={displayingApiData}
-        {...props}
+        selectedAccount={selectedAccount}
+        setSelectedAccount={setSelectedAccount}
       />
 
       <div className="flex justify-between items-center mt-4 mb-3">
@@ -61,7 +69,8 @@ function AccountInfo({
           data={accounts}
           apiData={apiData}
           displayingApiData={displayingApiData}
-          {...props}
+          setSelectedAccount={setSelectedAccount}
+          selectedAccount={selectedAccount}
         />
       )}
       {!accounts || (accounts.length < 1 && <div> No Accounts found </div>)}

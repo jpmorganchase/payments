@@ -5,6 +5,8 @@ export function isEmptyObject<Type>(value: Type) : boolean {
   );
 }
 
+export const round = (prev: number, next: number) => Math.round((prev + next + Number.EPSILON) * 100) / 100;
+
 export function formatDate(date: Date): string {
   let hours: number = date.getHours();
   let minutes: string | number = date.getMinutes();

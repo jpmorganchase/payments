@@ -8,7 +8,7 @@ type AccountTotalType = {
   total: number | 'Error',
   currency: CurrencyType['code'],
   setSelectedAccount: (account: AccountType | Record<string, never>) =>void,
-  selectedAccount: AccountType
+  selectedAccount: AccountType | Record<string, never>
   apiData: ApiDetailsInterface[],
   displayingApiData: boolean,
 };

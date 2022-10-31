@@ -8,7 +8,7 @@ interface AppContextInterface {
 }
 
 interface Props {
-  children?: React.ReactNode
+  children: React.ReactNode
 }
 
 const appCtxDefaultValue: AppContextInterface = {
@@ -26,6 +26,7 @@ function AppContextProvider({ children }: Props) {
 
   return (
     <AppContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         displayingMockedData,
         setDisplayingMockedData,
