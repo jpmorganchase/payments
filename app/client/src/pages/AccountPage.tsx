@@ -56,7 +56,7 @@ function AccountPage() {
   const toggleApiData = () => {
     setDisplayingApiData(!displayingApiData);
   };
-  const openTransactionDialog = (state:boolean, transaction: TransactionType) => {
+  const openTransactionDialog = (state:boolean, transaction: TransactionType | Record<string, never>) => {
     setTransactionDialogState(state);
     setSelectedTransaction(transaction);
   };

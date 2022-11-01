@@ -1,9 +1,13 @@
-/* This example requires Tailwind CSS v2.0+ */
 import { Dialog } from '@headlessui/react';
 import React from 'react';
-import PropTypes from 'prop-types';
+import { TransactionType } from '../../types/transactionTypes';
 
-function TransactionJsonDialog({ transaction, setTransactionDialog, open }) {
+type TransactionJsonDialogProps = {
+  transaction: TransactionType | Record<string, never>,
+  open: boolean
+  setTransactionDialog: (state: boolean, transaction: TransactionType | Record<string, never>) => void
+};
+function TransactionJsonDialog({ transaction, setTransactionDialog, open }: TransactionJsonDialogProps) {
   return (
     <Dialog
       open={open}
@@ -18,6 +22,7 @@ function TransactionJsonDialog({ transaction, setTransactionDialog, open }) {
               Raw Transaction JSON
             </Dialog.Title>
             <button
+              type="button"
               onClick={() => setTransactionDialog(false, {})}
               data-cy="closeButton"
             >
@@ -35,11 +40,5 @@ function TransactionJsonDialog({ transaction, setTransactionDialog, open }) {
     </Dialog>
   );
 }
-
-TransactionJsonDialog.propTypes = {
-  transaction: PropTypes.object,
-  setTransactionDialog: PropTypes.func,
-  open: PropTypes.bool,
-};
 
 export default TransactionJsonDialog;
