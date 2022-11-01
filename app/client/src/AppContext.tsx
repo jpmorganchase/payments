@@ -1,10 +1,14 @@
 import * as React from 'react';
+import { AccountType } from './types/accountTypes';
 
 interface AppContextInterface {
   setDisplayingMockedData: (displayingMockedData: boolean) => void,
   setDisplayingApiData: (displayingApiData:boolean) => void,
+  setSelectedAccount: (account: AccountType | Record<string, never>) => void,
+  selectedAccount: AccountType | Record<string, never>,
   displayingApiData: boolean,
   displayingMockedData: boolean,
+
 }
 
 interface Props {
@@ -16,6 +20,8 @@ const appCtxDefaultValue: AppContextInterface = {
   displayingMockedData: true,
   setDisplayingApiData: () => {},
   setDisplayingMockedData: () => {},
+  selectedAccount: {},
+  setSelectedAccount: () => {},
 };
 
 const AppContext = React.createContext<AppContextInterface>(appCtxDefaultValue);
@@ -23,6 +29,7 @@ const AppContext = React.createContext<AppContextInterface>(appCtxDefaultValue);
 function AppContextProvider({ children }: Props) {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(appCtxDefaultValue.displayingMockedData);
   const [displayingApiData, setDisplayingApiData] = React.useState(appCtxDefaultValue.displayingApiData);
+  const [selectedAccount, setSelectedAccount] = React.useState(appCtxDefaultValue.selectedAccount);
 
   return (
     <AppContext.Provider
@@ -32,6 +39,8 @@ function AppContextProvider({ children }: Props) {
         setDisplayingMockedData,
         displayingApiData,
         setDisplayingApiData,
+        selectedAccount,
+        setSelectedAccount,
       }}
     >
       {children}

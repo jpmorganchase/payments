@@ -1,20 +1,20 @@
 import React from 'react';
-import { ApiDetailsInterface } from '../../../config';
+import { AppContext } from '../../../AppContext';
+import { config } from '../../../config';
 import { GroupByDayType, TransactionType } from '../../../types/transactionTypes';
 import DailyTransactionTable from './DailyTransactionTable';
 
 type TransactionGridProps = {
-  apiData: ApiDetailsInterface[],
-  displayingApiData: boolean,
   groupedByDay: GroupByDayType[],
   openTransactionDialog: (state:boolean, transaction: TransactionType) =>void
 };
 function TransactionGrid({
-  displayingApiData,
   groupedByDay,
-  apiData = [],
   openTransactionDialog,
 }: TransactionGridProps) {
+  const apiData = config.accountsConfig.apiDetails;
+  const { displayingApiData } = React.useContext(AppContext);
+
   return (
     <div data-cy="transactionsGrid">
       {displayingApiData && (

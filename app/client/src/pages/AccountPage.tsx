@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import WhatAPI from '../components/whatApi';
 import AccountInfo from '../components/accountInformationPanel/index';
 import TransactionInfo from '../components/transactionInformationPanel/index';
 import usePost from '../hooks/usePost';
@@ -10,7 +9,7 @@ import { AppContext } from '../AppContext';
 import balanceMockDataUntyped from '../mockedJson/uf-balances.json';
 import transactionMockDataUntyped from '../mockedJson/uf-transactions.json';
 import { config } from '../config';
-import { AccountType, BalanceDataType } from '../types/accountTypes';
+import { BalanceDataType } from '../types/accountTypes';
 import { TransactionDataType, TransactionType } from '../types/transactionTypes';
 
 const balanceMockData: BalanceDataType = balanceMockDataUntyped as BalanceDataType;
@@ -21,14 +20,11 @@ function AccountPage() {
 
   const {
     displayingMockedData,
-    setDisplayingMockedData,
-    displayingApiData,
-    setDisplayingApiData,
+    setSelectedAccount,
   } = React.useContext(AppContext);
 
   const [transactionDialogOpen, setTransactionDialogState] = React.useState<boolean>(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState<TransactionType | Record<string, never>>({});
-  const [selectedAccount, setSelectedAccount] = React.useState<AccountType | Record<string, never>>({});
 
   const balanceResults = usePost(
     accountsConfig.apiDetails[0].backendPath,
@@ -48,14 +44,8 @@ function AccountPage() {
   useEffect(() => {
     setSelectedAccount({});
     setSelectedTransaction({});
-  }, [displayingMockedData]);
+  }, [displayingMockedData, setSelectedAccount]);
 
-  const toggleMockedData = () => {
-    setDisplayingMockedData(!displayingMockedData);
-  };
-  const toggleApiData = () => {
-    setDisplayingApiData(!displayingApiData);
-  };
   const openTransactionDialog = (state:boolean, transaction: TransactionType | Record<string, never>) => {
     setTransactionDialogState(state);
     setSelectedTransaction(transaction);
@@ -64,10 +54,6 @@ function AccountPage() {
   const displayAccountPanel = (data: BalanceDataType) => (
     <AccountInfo
       data={data}
-      apiData={accountsConfig.apiDetails}
-      displayingApiData={displayingApiData}
-      setSelectedAccount={setSelectedAccount}
-      selectedAccount={selectedAccount}
     />
   );
 
@@ -75,9 +61,6 @@ function AccountPage() {
     <TransactionInfo
       transactions={data}
       openTransactionDialog={openTransactionDialog}
-      selectedAccount={selectedAccount}
-      apiData={accountsConfig.apiDetails}
-      displayingApiData={displayingApiData}
     />
   );
 
@@ -117,12 +100,6 @@ function AccountPage() {
         open={transactionDialogOpen}
         setTransactionDialog={openTransactionDialog}
         transaction={selectedTransaction}
-      />
-      <WhatAPI
-        toggleMockedData={toggleMockedData}
-        mockedDataEnabled={displayingMockedData}
-        toggleApiData={toggleApiData}
-        apiDataEnabled={displayingApiData}
       />
     </>
   );

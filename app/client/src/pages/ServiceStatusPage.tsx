@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import StatusTable from '../components/statusTable';
-import WhatAPI from '../components/whatApi';
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
 import { AppContext } from '../AppContext';
@@ -16,9 +15,6 @@ function ServiceStatusPage() {
   const { statusConfig } = config;
   const {
     displayingMockedData,
-    setDisplayingMockedData,
-    displayingApiData,
-    setDisplayingApiData,
   } = React.useContext(AppContext);
   const response = useGet(
     statusConfig.apiDetails[0].backendPath,
@@ -26,12 +22,6 @@ function ServiceStatusPage() {
     statusConfig.apiDetails[0].refreshInterval,
     displayingMockedData,
   );
-  const toggleMockedData = () => {
-    setDisplayingMockedData(!displayingMockedData);
-  };
-  const toggleApiData = () => {
-    setDisplayingApiData(!displayingApiData);
-  };
 
   useEffect(() => {
     if (displayingMockedData) {
@@ -55,8 +45,6 @@ function ServiceStatusPage() {
     return (
       <StatusTable
         serviceStatusData={data}
-        apiData={statusConfig.apiDetails}
-        displayingApiData={displayingApiData}
       />
     );
   };
@@ -65,13 +53,6 @@ function ServiceStatusPage() {
     <div className="relative p-8">
       <h2 className="text-2xl font-medium mb-4">Service status</h2>
       <div className="overflow-auto ">{displayTable()}</div>
-
-      <WhatAPI
-        toggleMockedData={toggleMockedData}
-        mockedDataEnabled={displayingMockedData}
-        toggleApiData={toggleApiData}
-        apiDataEnabled={displayingApiData}
-      />
     </div>
   );
 }

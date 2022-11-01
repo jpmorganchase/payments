@@ -1,17 +1,14 @@
 import React from 'react';
-import { ApiDetailsInterface } from '../../config';
+import { AppContext } from '../../AppContext';
+import { config } from '../../config';
 import { AccountType } from '../../types/accountTypes';
 import AccountCard from './accountCards/AccountCard';
 
-function AccountList({
-  data, displayingApiData, apiData = [], selectedAccount, setSelectedAccount,
-} : {
-  apiData: ApiDetailsInterface[],
-  data: AccountType[],
-  displayingApiData: boolean,
-  setSelectedAccount: (account: AccountType) =>void,
-  selectedAccount: AccountType | Record<string, never>
+function AccountList({ data } : {
+  data: AccountType[]
 }) {
+  const { displayingApiData } = React.useContext(AppContext);
+  const apiData = config.accountsConfig.apiDetails;
   return (
     <div className="relative">
       {displayingApiData && (
@@ -28,7 +25,7 @@ function AccountList({
       <div className="overflow-y-auto">
         {data
           && data.map((account) => (
-            <AccountCard key={`accountCard-${account.accountId}`} account={account} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
+            <AccountCard key={`accountCard-${account.accountId}`} account={account} />
           ))}
       </div>
     </div>

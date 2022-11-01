@@ -1,18 +1,16 @@
 import React from 'react';
+import { AppContext } from '../../../AppContext';
 import { AccountType } from '../../../types/accountTypes';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
 import AccountCardButtons from './AccountCardButtons';
 
-type AccountCardType = {
-  account: AccountType,
-  setSelectedAccount: (account: AccountType) =>void,
-  selectedAccount: AccountType | Record<string, never>
-};
-
-function AccountCard(props: AccountCardType) {
-  const { account, setSelectedAccount, selectedAccount } = props;
+function AccountCard({ account }: { account:AccountType }) {
+  const { selectedAccount, setSelectedAccount } = React.useContext(AppContext);
+  const {
+    accountId, accountName, currency, errorCode, balanceList,
+  } = account;
   const isSelected = !isEmptyObject(selectedAccount)
-    && selectedAccount.accountId === account.accountId;
+    && selectedAccount.accountId === accountId;
   const selectedClassName = isSelected ? 'border-pink-500' : 'border-gray-200';
 
   return (
@@ -25,23 +23,23 @@ function AccountCard(props: AccountCardType) {
     >
       <div className="flex justify-between">
         <div className="mb-2 font-medium">
-          {account.accountName || 'Account Name'}
+          {accountName || 'Account Name'}
           <br />
           <span
             className="text-xs text-gray-500 font-normal"
             data-cy="accountId"
           >
-            {account.accountId}
+            {accountId}
           </span>
         </div>
         <span className="text-xs font-medium text-gray-500">
-          {account.currency.code}
+          {currency.code}
         </span>
       </div>
       <div className="text-xl font-medium">
-        {!account.errorCode && gatherCurrencySymbol(account.currency.code)}
-        {!account.errorCode && account.balanceList && account.balanceList[0].openingAvailableAmount}
-        {account.errorCode && 'Error'}
+        {!errorCode && gatherCurrencySymbol(currency.code)}
+        {!errorCode && balanceList && balanceList[0].openingAvailableAmount}
+        {errorCode && 'Error'}
       </div>
       {isSelected && <AccountCardButtons />}
     </div>

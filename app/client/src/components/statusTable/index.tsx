@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { ApiDetailsInterface } from '../../config';
+import { AppContext } from '../../AppContext';
+import { ApiDetailsInterface, config } from '../../config';
 import { BankType, ServiceStatusDataType } from '../../types/serviceStatusTypes';
 import { isEmptyObject } from '../utils';
 import TableItem from './tableItem';
@@ -29,8 +30,10 @@ const renderApiData = (apiData: ApiDetailsInterface[]) => (
     <h3 className="text-xs">{apiData[0].description}</h3>
   </div>
 );
-function StatusTable({ apiData, serviceStatusData, displayingApiData } : { apiData: ApiDetailsInterface[], serviceStatusData: ServiceStatusDataType, displayingApiData: boolean }) {
+function StatusTable({ serviceStatusData } : { serviceStatusData: ServiceStatusDataType }) {
   const bankStatus = serviceStatusData?.bankStatus;
+  const apiData = config.statusConfig.apiDetails;
+  const { displayingApiData } = React.useContext(AppContext);
   return (
     <div className="relative">
       {displayingApiData && renderApiData(apiData)}
