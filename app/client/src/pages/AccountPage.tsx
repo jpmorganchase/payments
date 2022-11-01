@@ -20,7 +20,6 @@ function AccountPage() {
 
   const {
     displayingMockedData,
-    displayingApiData,
   } = React.useContext(AppContext);
 
   const [transactionDialogOpen, setTransactionDialogState] = React.useState<boolean>(false);
@@ -55,8 +54,6 @@ function AccountPage() {
   const displayAccountPanel = (data: BalanceDataType) => (
     <AccountInfo
       data={data}
-      apiData={accountsConfig.apiDetails}
-      displayingApiData={displayingApiData}
       setSelectedAccount={setSelectedAccount}
       selectedAccount={selectedAccount}
     />
@@ -67,8 +64,6 @@ function AccountPage() {
       transactions={data}
       openTransactionDialog={openTransactionDialog}
       selectedAccount={selectedAccount}
-      apiData={accountsConfig.apiDetails}
-      displayingApiData={displayingApiData}
     />
   );
 

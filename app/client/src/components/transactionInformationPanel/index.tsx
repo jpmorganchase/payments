@@ -5,13 +5,10 @@ import { isEmptyObject } from '../utils';
 import Search from '../search';
 import { TransactionDataType, TransactionType } from '../../types/transactionTypes';
 import { AccountType } from '../../types/accountTypes';
-import { ApiDetailsInterface } from '../../config';
 
 type TransactionInfoType = {
   transactions: TransactionDataType,
   selectedAccount: AccountType | Record<string, never>,
-  displayingApiData: boolean,
-  apiData: ApiDetailsInterface[],
   openTransactionDialog:(state:boolean, transaction: TransactionType) =>void
 };
 
@@ -41,8 +38,6 @@ const groupTransactionsByDay = (data: TransactionType[]) => {
 function TransactionInfo({
   transactions,
   selectedAccount,
-  displayingApiData,
-  apiData = [],
   openTransactionDialog,
 }: TransactionInfoType) {
   const [searchInput, setSearchInput] = useState('');
@@ -93,8 +88,6 @@ function TransactionInfo({
         transactions={transactionData}
       />
       <TransactionGrid
-        apiData={apiData}
-        displayingApiData={displayingApiData}
         groupedByDay={groupedByDayTransactions}
         openTransactionDialog={openTransactionDialog}
       />

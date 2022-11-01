@@ -1,5 +1,6 @@
 import React from 'react';
-import { ApiDetailsInterface } from '../../../config';
+import { AppContext } from '../../../AppContext';
+import { config } from '../../../config';
 import { AccountType, CurrencyType } from '../../../types/accountTypes';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
 import AccountCardButtons from './AccountCardButtons';
@@ -9,17 +10,16 @@ type AccountTotalType = {
   currency: CurrencyType['code'],
   setSelectedAccount: (account: AccountType | Record<string, never>) =>void,
   selectedAccount: AccountType | Record<string, never>
-  apiData: ApiDetailsInterface[],
-  displayingApiData: boolean,
 };
 function AccountTotal({
   total,
   currency,
   setSelectedAccount,
   selectedAccount,
-  apiData,
-  displayingApiData,
 }: AccountTotalType) {
+  const { displayingApiData } = React.useContext(AppContext);
+  const apiData = config.accountsConfig.apiDetails;
+
   const selectedClassName = isEmptyObject(selectedAccount)
     ? 'border-pink-500'
     : 'border-gray-200';

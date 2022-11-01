@@ -15,7 +15,6 @@ function ServiceStatusPage() {
   const { statusConfig } = config;
   const {
     displayingMockedData,
-    displayingApiData,
   } = React.useContext(AppContext);
   const response = useGet(
     statusConfig.apiDetails[0].backendPath,
@@ -46,8 +45,6 @@ function ServiceStatusPage() {
     return (
       <StatusTable
         serviceStatusData={data}
-        apiData={statusConfig.apiDetails}
-        displayingApiData={displayingApiData}
       />
     );
   };
