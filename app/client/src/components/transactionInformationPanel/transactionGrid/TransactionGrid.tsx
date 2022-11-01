@@ -12,7 +12,7 @@ function TransactionGrid({
   groupedByDay,
   openTransactionDialog,
 }: TransactionGridProps) {
-  const apiData = config.statusConfig.apiDetails;
+  const apiData = config.accountsConfig.apiDetails;
   const { displayingApiData } = React.useContext(AppContext);
 
   return (

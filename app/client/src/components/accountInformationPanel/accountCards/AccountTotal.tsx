@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppContext } from '../../../AppContext';
 import { config } from '../../../config';
-import { AccountType, CurrencyType } from '../../../types/accountTypes';
+import { CurrencyType } from '../../../types/accountTypes';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
 import AccountCardButtons from './AccountCardButtons';
 
