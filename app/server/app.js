@@ -10,15 +10,24 @@ const {
 } = require('http-proxy-middleware');
 const app = express();
 
+const env = process.env.NODE_ENV
 async function createProxyConfiguration(req, res) {
-  // Required for AWS Lambda to gather secrets
-  const httpsOpts = await gatherHttpsOptionsAsync();
-
+  console.log(process.env.NODE_ENV)
+  let httpsOpts;
+  if(env === 'development'){
   //Required for local execution
-  // const httpsOpts = {
-  //   KEY: fs.readFileSync('./certs/jpmc.key', 'utf-8'),
-  //   CERT: fs.readFileSync('./certs/jpmc.crt', 'utf-8'),
-  // };
+  
+  httpsOpts = {
+    KEY: fs.readFileSync('./certs/jpmc.key', 'utf-8'),
+    CERT: fs.readFileSync('./certs/jpmc.crt', 'utf-8'),
+  };
+
+  }else{
+  // Required for AWS Lambda to gather secrets
+  httpsOpts = await gatherHttpsOptionsAsync();
+  }
+
+
   const options = {
     target: 'https://apigatewayqaf.jpmorgan.com', // target host with the same base path
     changeOrigin: true, // needed for virtual hosted sites

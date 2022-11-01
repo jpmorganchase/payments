@@ -5,17 +5,20 @@ const { gatherDigitalSignatureKeyAsync } = require('./grabSecret');
 const header = {
   alg: 'RS256',
 };
+const env = process.env.NODE_ENV
+
 
 const generateJWTJose = async (req, res) => {
-  //Uncomment for local usage
-  // const digitalSignatureKey = fs.readFileSync(
-  //   'certs/treasury-services/digital-signature/key.key',
-  //   'utf-8',
-  // );
-
-  // Uncomment for lambda usage
+  let digitalSignatureKey;
+  if(env === 'development'){
+  digitalSignatureKey = fs.readFileSync(
+    'certs/treasury-services/digital-signature/key.key',
+    'utf-8',
+  );
+  }else{
   const digitalSignature = await gatherDigitalSignatureKeyAsync();
-  const digitalSignatureKey = digitalSignature.digital.replace(/\\n/g, '\n');
+  digitalSignatureKey = digitalSignature.digital.replace(/\\n/g, '\n');
+  }
 
   const privateKey = await jose.importPKCS8(digitalSignatureKey, 'RSA-SHA256');
 

@@ -14,5 +14,9 @@
         "node-fetch": "2.6.7",
         "nodemon": "^2.0.20"
     },
+    "scripts": {
+        "start": "nodemon app.js",
+        "start:local": "NODE_ENV='development' nodemon app.local.js"
+    },
     "license": "UNLICENSED"
 }
