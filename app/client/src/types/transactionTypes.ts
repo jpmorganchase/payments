@@ -4,6 +4,9 @@ export interface TransactionDataType {
   data: TransactionType[];
 }
 
+export type GroupByDayType = {
+  date:string, transactions: TransactionType[]
+};
 export interface TransactionType {
   account: AccountType;
   asOfDateTime: string;

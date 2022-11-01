@@ -2,14 +2,11 @@ import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import accessibility from 'highcharts/modules/accessibility';
-import { TransactionType } from '../../types/transactionTypes';
+import { GroupByDayType, TransactionType } from '../../types/transactionTypes';
 
 type TransactionVisProps = {
   transactions:TransactionType[],
   groupedByDay: GroupByDayType[]
-};
-type GroupByDayType = {
-  date:string, transactions: TransactionType[]
 };
 
 type ChartDataType = {

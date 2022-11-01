@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { TransactionType } from '../../../types/transactionTypes';
 import { formatDate } from '../../utils';
 
 function DailyTransactionTable({
   date,
   transactions,
   openTransactionDialog,
-}) {
+}: { date: string, transactions: TransactionType[], openTransactionDialog:(state:boolean, transaction: TransactionType) =>void }) {
   const headers = [
     'Transaction Type',
     'Amount',
@@ -36,9 +36,9 @@ function DailyTransactionTable({
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {transactions
-            && transactions.map((transaction, key) => (
+            && transactions.map((transaction) => (
               <tr
-                key={key}
+                key={`transaction-${transaction.transactionId}`}
                 onClick={() => openTransactionDialog(true, transaction)}
               >
                 <td className="py-2 whitespace-nowrap">
@@ -70,23 +70,5 @@ function DailyTransactionTable({
     </>
   );
 }
-
-DailyTransactionTable.propTypes = {
-  date: PropTypes.string,
-  transactions: PropTypes.arrayOf(
-    PropTypes.shape({
-      debitCreditCode: PropTypes.string,
-      amount: PropTypes.number,
-      transactionId: PropTypes.string,
-      currency: PropTypes.shape({
-        code: PropTypes.string,
-      }),
-      account: PropTypes.shape({
-        accountId: PropTypes.string,
-      }),
-    }),
-  ),
-  openTransactionDialog: PropTypes.func,
-};
 
 export default DailyTransactionTable;

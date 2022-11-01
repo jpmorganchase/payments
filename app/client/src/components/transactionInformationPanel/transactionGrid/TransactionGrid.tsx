@@ -1,18 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { ApiDetailsInterface } from '../../../config';
+import { GroupByDayType, TransactionType } from '../../../types/transactionTypes';
 import DailyTransactionTable from './DailyTransactionTable';
 
+type TransactionGridProps = {
+  apiData: ApiDetailsInterface[],
+  displayingApiData: boolean,
+  groupedByDay: GroupByDayType[],
+  openTransactionDialog: (state:boolean, transaction: TransactionType) =>void
+};
 function TransactionGrid({
   displayingApiData,
   groupedByDay,
   apiData = [],
   openTransactionDialog,
-}) {
+}: TransactionGridProps) {
   return (
     <div data-cy="transactionsGrid">
-      {!displayingApiData ? (
-        <></>
-      ) : (
+      {displayingApiData && (
         <div className="bg-black bg-opacity-80 p-8 rounded-lg text-white h-full">
           <h1 className="text-sm">
             {apiData[1].name}
@@ -24,12 +29,11 @@ function TransactionGrid({
         </div>
       )}
       <div className="overflow-y-auto">
-        {!groupedByDay
-          || (groupedByDay.length < 1 && <div> No Transactions found </div>)}
+        {(!groupedByDay || groupedByDay.length < 1) && <div> No Transactions found </div>}
         {groupedByDay
-          && groupedByDay.map((item, key) => (
+          && groupedByDay.map((item: GroupByDayType) => (
             <DailyTransactionTable
-              key={key}
+              key={`transactionGroup-${item.date}`}
               date={item.date}
               transactions={item.transactions}
               openTransactionDialog={openTransactionDialog}
@@ -39,12 +43,5 @@ function TransactionGrid({
     </div>
   );
 }
-
-TransactionGrid.propTypes = {
-  transactions: PropTypes.arrayOf(PropTypes.object),
-  apiData: PropTypes.arrayOf(PropTypes.object),
-  displayingApiData: PropTypes.bool,
-  groupedByDay: PropTypes.arrayOf(PropTypes.object),
-};
 
 export default TransactionGrid;
