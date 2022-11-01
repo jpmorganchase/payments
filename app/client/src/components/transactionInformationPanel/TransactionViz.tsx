@@ -20,7 +20,7 @@ const genOptions = (data: ChartDataType, title: string) => ({
     type: 'column',
     events: {
       load: () => {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        // eslint-disable-next-line @typescript-eslint/no-this-alias, @typescript-eslint/no-explicit-any
         const chart : any = this;
         setTimeout(() => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
