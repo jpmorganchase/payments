@@ -4,11 +4,10 @@ import TransactionGrid from './transactionGrid/TransactionGrid';
 import { isEmptyObject } from '../utils';
 import Search from '../search';
 import { TransactionDataType, TransactionType } from '../../types/transactionTypes';
-import { AccountType } from '../../types/accountTypes';
+import { AppContext } from '../../AppContext';
 
 type TransactionInfoType = {
   transactions: TransactionDataType,
-  selectedAccount: AccountType | Record<string, never>,
   openTransactionDialog:(state:boolean, transaction: TransactionType) =>void
 };
 
@@ -37,10 +36,10 @@ const groupTransactionsByDay = (data: TransactionType[]) => {
 
 function TransactionInfo({
   transactions,
-  selectedAccount,
   openTransactionDialog,
 }: TransactionInfoType) {
   const [searchInput, setSearchInput] = useState('');
+  const { selectedAccount } = React.useContext(AppContext);
 
   let transactionData = transactions.data;
 

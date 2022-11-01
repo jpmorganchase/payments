@@ -9,7 +9,7 @@ import { AppContext } from '../AppContext';
 import balanceMockDataUntyped from '../mockedJson/uf-balances.json';
 import transactionMockDataUntyped from '../mockedJson/uf-transactions.json';
 import { config } from '../config';
-import { AccountType, BalanceDataType } from '../types/accountTypes';
+import { BalanceDataType } from '../types/accountTypes';
 import { TransactionDataType, TransactionType } from '../types/transactionTypes';
 
 const balanceMockData: BalanceDataType = balanceMockDataUntyped as BalanceDataType;
@@ -20,11 +20,11 @@ function AccountPage() {
 
   const {
     displayingMockedData,
+    setSelectedAccount,
   } = React.useContext(AppContext);
 
   const [transactionDialogOpen, setTransactionDialogState] = React.useState<boolean>(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState<TransactionType | Record<string, never>>({});
-  const [selectedAccount, setSelectedAccount] = React.useState<AccountType | Record<string, never>>({});
 
   const balanceResults = usePost(
     accountsConfig.apiDetails[0].backendPath,
@@ -44,7 +44,7 @@ function AccountPage() {
   useEffect(() => {
     setSelectedAccount({});
     setSelectedTransaction({});
-  }, [displayingMockedData]);
+  }, [displayingMockedData, setSelectedAccount]);
 
   const openTransactionDialog = (state:boolean, transaction: TransactionType | Record<string, never>) => {
     setTransactionDialogState(state);
@@ -54,8 +54,6 @@ function AccountPage() {
   const displayAccountPanel = (data: BalanceDataType) => (
     <AccountInfo
       data={data}
-      setSelectedAccount={setSelectedAccount}
-      selectedAccount={selectedAccount}
     />
   );
 
@@ -63,7 +61,6 @@ function AccountPage() {
     <TransactionInfo
       transactions={data}
       openTransactionDialog={openTransactionDialog}
-      selectedAccount={selectedAccount}
     />
   );
 

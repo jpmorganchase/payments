@@ -7,17 +7,13 @@ import AccountCardButtons from './AccountCardButtons';
 
 type AccountTotalType = {
   total: number | 'Error',
-  currency: CurrencyType['code'],
-  setSelectedAccount: (account: AccountType | Record<string, never>) =>void,
-  selectedAccount: AccountType | Record<string, never>
+  currency: CurrencyType['code']
 };
 function AccountTotal({
   total,
   currency,
-  setSelectedAccount,
-  selectedAccount,
 }: AccountTotalType) {
-  const { displayingApiData } = React.useContext(AppContext);
+  const { displayingApiData, selectedAccount, setSelectedAccount } = React.useContext(AppContext);
   const apiData = config.accountsConfig.apiDetails;
 
   const selectedClassName = isEmptyObject(selectedAccount)

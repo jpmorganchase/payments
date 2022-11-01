@@ -4,12 +4,8 @@ import { config } from '../../config';
 import { AccountType } from '../../types/accountTypes';
 import AccountCard from './accountCards/AccountCard';
 
-function AccountList({
-  data, selectedAccount, setSelectedAccount,
-} : {
-  data: AccountType[],
-  setSelectedAccount: (account: AccountType) =>void,
-  selectedAccount: AccountType | Record<string, never>
+function AccountList({ data } : {
+  data: AccountType[]
 }) {
   const { displayingApiData } = React.useContext(AppContext);
   const apiData = config.accountsConfig.apiDetails;
@@ -29,7 +25,7 @@ function AccountList({
       <div className="overflow-y-auto">
         {data
           && data.map((account) => (
-            <AccountCard key={`accountCard-${account.accountId}`} account={account} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
+            <AccountCard key={`accountCard-${account.accountId}`} account={account} />
           ))}
       </div>
     </div>
