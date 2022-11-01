@@ -17,9 +17,9 @@
         "resolveJsonModule": true
     },
     "include": [
-        "./src/**/*", "custom.d.ts"
+        "src/**/*", "custom.d.ts"
     ],
     "exclude": [
-        "node_modules"
+        "node_modules", "**/cypress", "cypress.config.js", "**/build"
     ]
 }
