@@ -1,33 +1,34 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import accessibility from 'highcharts/modules/accessibility';
+import { TransactionType } from '../../types/transactionTypes';
 
+type TransactionVisProps = {
+  transactions:TransactionType[],
+  groupedByDay: GroupByDayType[]
+};
+type GroupByDayType = {
+  date:string, transactions: TransactionType[]
+};
+
+type ChartDataType = {
+  name: string, y: number
+}[];
 if (typeof window !== 'undefined') {
   accessibility(Highcharts);
 }
-
-const generateOptionsForDateVisual = (data) => {
-  const chartData = [];
-  data.map((dateGroup) => {
-    chartData.push({
-      name: dateGroup.date,
-      y: dateGroup.transactions.length,
-    });
-  });
-
-  return genOptions(chartData, 'Number of transactions by date');
-};
-
-const genOptions = (data, title) => ({
+const genOptions = (data: ChartDataType, title: string) => ({
   chart: {
     type: 'column',
     events: {
-      load() {
-        const chart = this;
+      load: () => {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const chart : any = this;
         setTimeout(() => {
-          if (chart && chart.series) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          if (chart && typeof chart !== 'undefined' && chart.series) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
             chart.reflow();
           }
         }, 0);
@@ -101,9 +102,20 @@ const genOptions = (data, title) => ({
   },
 });
 
-const generateOptionsForTypeVisual = (data) => {
-  const chartData = [];
-  data.map((transaction) => {
+const generateOptionsForDateVisual = (data: GroupByDayType[]) => {
+  const chartData: ChartDataType = [];
+  data.forEach((dateGroup:GroupByDayType) => {
+    chartData.push({
+      name: dateGroup.date,
+      y: dateGroup.transactions.length,
+    });
+  });
+  return genOptions(chartData, 'Number of transactions by date');
+};
+
+const generateOptionsForTypeVisual = (data: TransactionType[]) => {
+  const chartData : ChartDataType = [];
+  data.forEach((transaction) => {
     chartData.push({
       name: transaction.debitCreditCode,
       y: transaction.amount,
@@ -113,7 +125,7 @@ const generateOptionsForTypeVisual = (data) => {
   return genOptions(chartData, 'Total debits & credits');
 };
 
-function TransactionViz({ transactions, groupedByDay }) {
+function TransactionViz({ transactions, groupedByDay } : TransactionVisProps) {
   return (
     <div className="flex p-6 rounded-lg border mb-4 shadow-sm gap-2 h-60 flex-row">
       <HighchartsReact
@@ -135,10 +147,5 @@ function TransactionViz({ transactions, groupedByDay }) {
     </div>
   );
 }
-
-TransactionViz.propTypes = {
-  transactions: PropTypes.arrayOf(PropTypes.object),
-  groupedByDay: PropTypes.arrayOf(PropTypes.object),
-};
 
 export default TransactionViz;

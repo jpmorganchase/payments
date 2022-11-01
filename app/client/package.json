@@ -7,6 +7,7 @@
     "@types/node": "^18.11.6",
     "@types/react": "^18.0.23",
     "@types/react-dom": "^18.0.7",
+    "@types/react-highcharts": "^16.0.3",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-google": "^0.14.0",
     "highcharts": "^10.2.1",
