@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import WhatAPI from '../components/whatApi';
 import AccountInfo from '../components/accountInformationPanel/index';
 import TransactionInfo from '../components/transactionInformationPanel/index';
 import usePost from '../hooks/usePost';
@@ -21,9 +20,7 @@ function AccountPage() {
 
   const {
     displayingMockedData,
-    setDisplayingMockedData,
     displayingApiData,
-    setDisplayingApiData,
   } = React.useContext(AppContext);
 
   const [transactionDialogOpen, setTransactionDialogState] = React.useState<boolean>(false);
@@ -50,12 +47,6 @@ function AccountPage() {
     setSelectedTransaction({});
   }, [displayingMockedData]);
 
-  const toggleMockedData = () => {
-    setDisplayingMockedData(!displayingMockedData);
-  };
-  const toggleApiData = () => {
-    setDisplayingApiData(!displayingApiData);
-  };
   const openTransactionDialog = (state:boolean, transaction: TransactionType | Record<string, never>) => {
     setTransactionDialogState(state);
     setSelectedTransaction(transaction);
@@ -117,12 +108,6 @@ function AccountPage() {
         open={transactionDialogOpen}
         setTransactionDialog={openTransactionDialog}
         transaction={selectedTransaction}
-      />
-      <WhatAPI
-        toggleMockedData={toggleMockedData}
-        mockedDataEnabled={displayingMockedData}
-        toggleApiData={toggleApiData}
-        apiDataEnabled={displayingApiData}
       />
     </>
   );
