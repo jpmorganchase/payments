@@ -19,6 +19,11 @@ interface StatusConfigInterface {
   }
 }
 
+interface PaymentConfigInterface {
+  paymentConfig: {
+    apiDetails: ApiDetailsInterface[];
+  }
+}
 export interface ApiDetailsInterface {
   name: string;
   backendPath: string;
@@ -32,7 +37,7 @@ export interface ApiDetailsInterface {
     }[]
   }
 }
-interface ConfigDataInterface extends AccountsConfigInterface, StatusConfigInterface {
+interface ConfigDataInterface extends AccountsConfigInterface, StatusConfigInterface, PaymentConfigInterface {
 }
 
 export const config: ConfigDataInterface = {
@@ -81,12 +86,13 @@ export const config: ConfigDataInterface = {
     apiDetails: [
       {
         name: 'Global Payments',
-        backendPath: `/api/tsapi/v1/payments`,
+        backendPath: '/api/tsapi/v1/payments',
         cacheKey: 'globalPayments',
         path: 'https://apigatewaycat.jpmorgan.com/tsapi/v1/payments',
         refreshInterval: 1800000,
         description:
-          'The Global Payments API offers our clients a unified experience for which multiple payment types can be initiated through a single API. Clients are able to access the complete payments life cycle where functions include transaction initiation, status tracking, and payment status callback.',
+          'The Global Payments API offers our clients a unified experience for which multiple payment types can be initiated through a single API.'
+          + 'Clients are able to access the complete payments life cycle where functions include transaction initiation, status tracking, and payment status callback.',
       },
     ],
   },

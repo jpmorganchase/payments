@@ -1,10 +1,14 @@
 import React from 'react';
+import { AppContext } from '../../../AppContext';
 
-const makePaymentClick = () => {
-  // eslint-disable-next-line
-  console.log('Make payment button clicked');
-};
 function AccountCardButtons() {
+  const { setPaymentFormOpen } = React.useContext(AppContext);
+
+  const makePaymentClick = () => {
+    setPaymentFormOpen(true);
+    console.log('Make payment button clicked');
+  };
+
   return (
     <div className="flex text-xs mt-7 justify-between flex-wrap">
       <div className="flex flex-grow xl:flex-col 2xl:flex-row text-center">
