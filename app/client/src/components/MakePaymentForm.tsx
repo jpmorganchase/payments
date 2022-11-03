@@ -1,3 +1,5 @@
+// eslint-disable no-console
+
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
