@@ -1,5 +1,3 @@
-// eslint-disable no-console
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -55,8 +53,8 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
   const { selectedAccount } = React.useContext(AppContext);
 
   const selectOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.target.value);
     if (event.target.value === 'Add new account details') {
+      // eslint-disable-next-line
       console.log(event.target.value);
     }
   };
@@ -99,8 +97,8 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
   );
 
   const onSubmit = (data:FormValuesType) => {
+    // eslint-disable-next-line
     console.log(data);
-    console.log(errors);
   };
 
   return (
