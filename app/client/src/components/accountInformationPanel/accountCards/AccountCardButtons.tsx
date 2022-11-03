@@ -6,7 +6,6 @@ function AccountCardButtons() {
 
   const makePaymentClick = () => {
     setPaymentFormOpen(true);
-    console.log('Make payment button clicked');
   };
 
   return (
@@ -25,6 +24,7 @@ function AccountCardButtons() {
         type="button"
         className="p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
         onClick={makePaymentClick}
+        data-cy="makePaymentButton"
       >
         <span className="material-icons mr-1">payments</span>
         Make payment

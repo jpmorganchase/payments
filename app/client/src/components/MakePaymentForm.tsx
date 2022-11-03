@@ -47,6 +47,7 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
     handleSubmit,
     formState: { errors },
   } = useForm<FormValuesType>({
+    mode: 'onChange',
     resolver: yupResolver(validationSchema),
   });
   const { selectedAccount } = React.useContext(AppContext);
@@ -75,6 +76,7 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
       <select
         {...register(id)}
         onChange={(e) => selectOnChange(e)}
+        id={id}
         className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
       >
         {options.map((option) => (
@@ -96,6 +98,7 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
 
   const onSubmit = (data:FormValuesType) => {
     console.log(data);
+    console.log(errors);
   };
 
   return (
@@ -110,10 +113,11 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
         >
           Amount:
           <input
-            {...register('amount', { min: 0.0 })}
+            {...register('amount', { min: 0.01 })}
             type="number"
             name="amount"
             step="0.01"
+            data-cy="amount"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </label>
@@ -129,6 +133,7 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
             {...register('date', { valueAsDate: true })}
             type="date"
             name="date"
+            data-cy="dateInput"
             min={today.toISOString().split('T')[0]}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
