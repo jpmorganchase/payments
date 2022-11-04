@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // eslint-disable no-console
 
 const express = require('express');
@@ -36,7 +37,7 @@ async function createProxyConfiguration() {
       key: httpsOpts.KEY && httpsOpts.KEY.replace(/\\n/g, '\n'),
       cert: httpsOpts.CERT && httpsOpts.CERT.replace(/\\n/g, '\n'),
     }),
-    pathRewrite: { '^/api': '' },
+    pathRewrite: { '^/api': '', '^/digitalSignature': '' },
     onProxyReq: (proxyReq, req) => {
       console.log(
         '--> ',
@@ -45,6 +46,12 @@ async function createProxyConfiguration() {
         '->',
         proxyReq.baseUrl + proxyReq.path,
       );
+      if (req.path.includes('digitalSignature')) {
+        proxyReq.setHeader('Content-Type', 'text/xml');
+
+        proxyReq.body = JSON.stringify('hello');
+        console.log('here');
+      }
     },
     onProxyRes: responseInterceptor(
       async (responseBuffer, proxyRes, req) => {

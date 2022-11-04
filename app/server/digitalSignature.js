@@ -1,6 +1,6 @@
 const fs = require('fs');
 const jose = require('jose');
-const { body } = require('./body');
+const { body, paymentBody } = require('./body');
 const { gatherDigitalSignatureKeyAsync } = require('./grabSecret');
 
 const header = {
@@ -22,7 +22,7 @@ const generateJWTJose = async (req, res) => {
 
   const privateKey = await jose.importPKCS8(digitalSignatureKey, 'RSA-SHA256');
 
-  const jwt = await new jose.SignJWT(body)
+  const jwt = await new jose.SignJWT(paymentBody)
     .setProtectedHeader(header)
     .sign(privateKey);
   res.send(jwt);
