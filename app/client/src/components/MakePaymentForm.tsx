@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { AccountType, BalanceDataType } from '../types/accountTypes';
 import { AppContext } from '../AppContext';
+import { RTPMessage } from '../types/globalPaymentApiTypes';
 
 const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
 const today = new Date();
@@ -35,8 +36,8 @@ const validationSchema = yup.object().shape({
 });
 
   type FormValuesType = {
-    debtorAccountId: string,
-    creditorAccountId: string,
+    debtorAccount: string,
+    creditorAccount: string,
     amount: number,
     date: Date,
   };
@@ -63,7 +64,7 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
 
   const renderSelectField = (
     label: string,
-    id: 'debtorAccountId' | 'creditorAccountId' | 'amount' | 'date',
+    id: 'debtorAccount' | 'creditorAccount' | 'amount' | 'date',
     options: AccountType[],
     addOption: boolean,
     debtorAccount: AccountType | Record<string, never>,
@@ -83,7 +84,7 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
           <option
             key={`option-${option.accountId}`}
             value={JSON.stringify(option)}
-            selected={id === 'debtorAccountId' && option.accountId === debtorAccount?.accountId}
+            selected={id === 'debtorAccount' && option.accountId === debtorAccount?.accountId}
           >
             {option.accountName}
             {option.accountName ? ' - ' : ' '}
@@ -97,15 +98,60 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
   );
 
   const onSubmit = (data:FormValuesType) => {
+    const {
+      date, amount, debtorAccount, creditorAccount,
+    } = data;
+    const debtorAccountApi : AccountType = JSON.parse(debtorAccount) as AccountType;
+    const creditorAccountApi : AccountType = JSON.parse(creditorAccount) as AccountType;
+
+    const globalPaymentApiPayload : RTPMessage = {
+      payments: {
+        requestedExecutionDate: date.toDateString(),
+        paymentAmount: amount,
+        paymentType: 'RTP',
+        paymentIdentifiers: {
+          endToEndId: `uf-rtp-${Date.now()}`,
+        },
+        paymentCurrency: 'USD',
+        transferType: 'CREDIT',
+        debtor: {
+          debtorAccount: {
+            accountId: debtorAccountApi.accountId,
+            currency: debtorAccountApi.currency.code,
+          },
+        },
+        debtorAgent: {
+          financialInstitutionId: {
+            clearingSystemId: {
+              id: debtorAccountApi.bankId,
+            },
+          },
+        },
+        creditor: {
+          creditorAccount: {
+            accountId: creditorAccountApi.accountId,
+            currency: creditorAccountApi.currency.code,
+          },
+        },
+        creditorAgent: {
+          financialInstitutionId: {
+            clearingSystemId: {
+              id: creditorAccountApi.bankId,
+            },
+          },
+        },
+
+      },
+    };
     // eslint-disable-next-line
-    console.log(data);
+    console.log(JSON.stringify(globalPaymentApiPayload));
   };
 
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(onSubmit)}>
-      {renderSelectField('From', 'debtorAccountId', accountDetails?.accountList, false, selectedAccount)}
-      {renderSelectField('To', 'creditorAccountId', accountDetails?.accountList, true, {})}
+      {renderSelectField('From', 'debtorAccount', accountDetails?.accountList, false, selectedAccount)}
+      {renderSelectField('To', 'creditorAccount', accountDetails?.accountList, true, {})}
       <div className="">
         <label
           htmlFor="amount"
@@ -142,7 +188,7 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
       </div>
 
       <button
-        type="button"
+        type="submit"
         className="p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
       >
         Submit

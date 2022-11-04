@@ -1,29 +1,35 @@
 export type RTPMessage = {
-  requesedExecutionDate: string,
-  paymentIdentifiers: {
-    endToEndId: string,
-  },
-  paymentCurrency: string,
-  paymentAmount: number,
-  debtor: {
-    debtorAccount: {
-      debtorAccountId: string
+  payments: {
+    paymentType: string,
+    requestedExecutionDate: string,
+    paymentIdentifiers: {
+      endToEndId: string,
     },
+    paymentCurrency: string,
+    paymentAmount: number,
+    debtor: {
+      debtorAccount: PaymentAccount,
+    }
+    debtorAgent: AgentType,
+    creditorAgent: AgentType,
+    creditor: {
+      creditorAccount: PaymentAccount
+    },
+    transferType : string,
   }
-  debtorAgent: AgentType,
-  creditorAgent: AgentType,
-  creditor: {
-    creditorAccount: {
-      creditorAccountId: string
-    },
-  },
-  transferType : string,
 };
 
 type AgentType = {
   financialInstitutionId: {
-    clearingSystemId: string
+    clearingSystemId: {
+      id?: string
+    }
   }
+};
+
+export type PaymentAccount = {
+  accountId: string,
+  currency: string
 };
 
 export type APISuccessMessage = {

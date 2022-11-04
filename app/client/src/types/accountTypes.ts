@@ -3,11 +3,11 @@ export type BalanceDataType = {
 };
 export type AccountType = {
   accountId: string,
-  accountName: string,
-  branchId: string,
+  accountName?: string,
+  branchId?: string,
   bankId?: string,
-  bankName: string,
-  currency : CurrencyType
+  bankName?: string,
+  currency: CurrencyType
   errorCode?: string | number,
   balanceList?: BalanceListType[],
   aba ?: string | number
