@@ -5,6 +5,7 @@
     "dependencies": {
         "@vendia/serverless-express": "^4.10.1",
         "aws-sdk": "^2.1230.0",
+        "body-parser": "^1.20.1",
         "dotenv": "^16.0.1",
         "eslint": "^8.0.1",
         "eslint-config-airbnb-base": "^15.0.0",

@@ -1,8 +1,8 @@
-// eslint-disable no-console
-
+const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 const https = require('https');
+
 const {
   createProxyMiddleware,
   responseInterceptor,
@@ -11,57 +11,51 @@ const { gatherHttpsOptionsAsync } = require('./grabSecret');
 const { generateJWTJose } = require('./digitalSignature');
 
 const app = express();
+app.use(bodyParser.json());
 
 const env = process.env.NODE_ENV;
-async function createProxyConfiguration() {
+
+const gatherHttpsOptions = async () => {
   let httpsOpts;
   if (env === 'development') {
-  // Required for local execution
-
+    // Required for local execution
     httpsOpts = {
       KEY: fs.readFileSync('./certs/jpmc.key', 'utf-8'),
       CERT: fs.readFileSync('./certs/jpmc.crt', 'utf-8'),
+      DIGITAL: fs.readFileSync('certs/treasury-services/digital-signature/key.key', 'utf-8'),
     };
   } else {
-  // Required for AWS Lambda to gather secrets
+    // Required for AWS Lambda to gather secrets
     httpsOpts = await gatherHttpsOptionsAsync();
   }
+  return {
+    key: httpsOpts.KEY && httpsOpts.KEY.replace(/\\n/g, '\n'),
+    cert: httpsOpts.CERT && httpsOpts.CERT.replace(/\\n/g, '\n'),
+    digital: httpsOpts.DIGITAL && httpsOpts.DIGITAL.replace(/\\n/g, '\n'),
 
+  };
+};
+
+const handleProxyResponse = async (responseBuffer, proxyRes, req) => {
+  const exchange = `[${req.method}] [${proxyRes.statusCode}] ${req.path} -> ${proxyRes.req.protocol}//${proxyRes.req.host}${proxyRes.req.path}`;
+  console.log(exchange);
+  if (proxyRes.headers['content-type'] === 'application/json') {
+    const data = JSON.parse(responseBuffer.toString('utf8'));
+    return JSON.stringify(data);
+  }
+  return responseBuffer;
+};
+
+async function createProxyConfiguration(target, httpsOpts) {
   const options = {
-    target: 'https://apigatewayqaf.jpmorgan.com', // target host with the same base path
-    changeOrigin: true, // needed for virtual hosted sites
-    logLevel: 'debug',
+    target,
+    changeOrigin: true,
     selfHandleResponse: true,
-    agent: new https.Agent({
-      key: httpsOpts.KEY && httpsOpts.KEY.replace(/\\n/g, '\n'),
-      cert: httpsOpts.CERT && httpsOpts.CERT.replace(/\\n/g, '\n'),
-    }),
-    pathRewrite: { '^/api': '' },
-    onProxyReq: (proxyReq, req) => {
-      console.log(
-        '--> ',
-        req.method,
-        req.path,
-        '->',
-        proxyReq.baseUrl + proxyReq.path,
-      );
+    agent: new https.Agent(httpsOpts),
+    pathRewrite: {
+      '^/api': '',
     },
-    onProxyRes: responseInterceptor(
-      async (responseBuffer, proxyRes, req) => {
-        const exchange = `[${req.method}] [${proxyRes.statusCode}] ${req.path} -> ${proxyRes.req.protocol}//${proxyRes.req.host}${proxyRes.req.path}`;
-        console.log(exchange);
-        // detect json responses
-        if (proxyRes.headers['content-type'] === 'application/json') {
-          const data = JSON.parse(responseBuffer.toString('utf8'));
-
-          // return manipulated JSON
-          return JSON.stringify(data);
-        }
-
-        // return other content-types as-is
-        return responseBuffer;
-      },
-    ),
+    onProxyRes: responseInterceptor(handleProxyResponse),
     onError: (err) => {
       console.log(err);
     },
@@ -69,11 +63,40 @@ async function createProxyConfiguration() {
   return createProxyMiddleware(options);
 }
 
-app.use('/jwt', generateJWTJose);
+async function createProxyConfigurationForDigital(target, httpsOpts, digitalSignature) {
+  const options = {
+    target,
+    changeOrigin: true,
+    selfHandleResponse: true,
+    agent: new https.Agent(httpsOpts),
+    pathRewrite: {
+      '^/digitalSignature': '',
+    },
+    onProxyReq: async (proxyReq, req) => {
+      if (req.body) {
+        proxyReq.setHeader('Content-Type', 'text/xml');
+        proxyReq.setHeader('Content-Length', Buffer.byteLength(digitalSignature));
+        proxyReq.write(digitalSignature);
+      }
+    },
+    onProxyRes: responseInterceptor(handleProxyResponse),
+    onError: (err) => {
+      console.log(err);
+    },
+  };
+  return createProxyMiddleware(options);
+}
 
-// mount `exampleProxy` in web server
+app.use('/digitalSignature/*', async (req, res, next) => {
+  const httpsOpts = await gatherHttpsOptions();
+  const digitalSignature = await generateJWTJose(req.body, httpsOpts.digital);
+  const func = await createProxyConfigurationForDigital('https://apigatewaycat.jpmorgan.com', httpsOpts, digitalSignature);
+  func(req, res, next);
+});
+
 app.use('/*', async (req, res, next) => {
-  const func = await createProxyConfiguration();
+  const httpsOpts = await gatherHttpsOptions();
+  const func = await createProxyConfiguration('https://apigatewayqaf.jpmorgan.com', httpsOpts);
   func(req, res, next);
 });
 

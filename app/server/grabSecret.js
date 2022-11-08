@@ -4,7 +4,6 @@
 // https://aws.amazon.com/developers/getting-started/nodejs/
 
 const { SECRET_NAME } = process.env;
-const { DIGITAL_SIGNATURE_NAME } = process.env;
 
 // Load the AWS SDK
 const AWS = require('aws-sdk');
@@ -23,11 +22,4 @@ async function gatherHttpsOptionsAsync() {
   return JSON.parse(result.SecretString);
 }
 
-async function gatherDigitalSignatureKeyAsync() {
-  const result = await client
-    .getSecretValue({ SecretId: DIGITAL_SIGNATURE_NAME })
-    .promise();
-  return JSON.parse(result.SecretString);
-}
-
-module.exports = { gatherHttpsOptionsAsync, gatherDigitalSignatureKeyAsync };
+module.exports = { gatherHttpsOptionsAsync };

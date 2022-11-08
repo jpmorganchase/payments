@@ -22,7 +22,7 @@ describe('Make Payment Dialog', () => {
         cy.get('[data-cy="accountId"]').contains(mockedAccount).click();
         cy.get('[data-cy="makePaymentButton"]').click();
         cy.contains('Make a payment');
-        cy.get('#debtorAccountId option:checked').should('contain', mockedAccount)
+        cy.get('#debtorAccount option:checked').should('contain', mockedAccount)
         cy.get('[data-cy="closeButton"]').click()
         cy.contains('Make a payment').should('not.exist');
     });
