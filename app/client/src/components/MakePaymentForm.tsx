@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { AccountType, BalanceDataType } from '../types/accountTypes';
 import { AppContext } from '../AppContext';
 import { RTPMessage } from '../types/globalPaymentApiTypes';
+import { config } from '../config';
 
 const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
 const today = new Date();
@@ -52,6 +53,7 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
     resolver: yupResolver(validationSchema),
   });
   const { selectedAccount } = React.useContext(AppContext);
+  const { paymentConfig } = config;
 
   const selectOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (event.target.value === 'Add new account details') {
@@ -97,13 +99,12 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
     </div>
   );
 
-  const onSubmit = (data:FormValuesType) => {
+  const generateApiBody = (data: FormValuesType) : RTPMessage => {
     const {
       date, amount, debtorAccount, creditorAccount,
     } = data;
     const debtorAccountApi : AccountType = JSON.parse(debtorAccount) as AccountType;
     const creditorAccountApi : AccountType = JSON.parse(creditorAccount) as AccountType;
-
     const globalPaymentApiPayload : RTPMessage = {
       payments: {
         requestedExecutionDate: date.toDateString(),
@@ -143,8 +144,22 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
 
       },
     };
-    // eslint-disable-next-line
-    console.log(JSON.stringify(globalPaymentApiPayload));
+    return globalPaymentApiPayload;
+  };
+
+  const onSubmit = async (data:FormValuesType) => {
+    const globalPaymentApiPayload = generateApiBody(data);
+    const requestOptions: RequestInit = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify(globalPaymentApiPayload),
+    };
+    await fetch(paymentConfig.apiDetails[0].backendPath, requestOptions)
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
   };
 
   return (
