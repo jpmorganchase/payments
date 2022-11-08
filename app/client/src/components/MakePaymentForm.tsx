@@ -158,7 +158,9 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
     };
     await fetch(paymentConfig.apiDetails[0].backendPath, requestOptions)
       .then((response) => response.json())
+    // eslint-disable-next-line
       .then((result) => console.log(result))
+    // eslint-disable-next-line
       .catch((error) => console.log('error', error));
   };
 
