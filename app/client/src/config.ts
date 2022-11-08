@@ -3,7 +3,6 @@ const accounts: AccountsType = [
   '000000010975001',
   '000000011008182',
   '000000010975514',
-  '000000010975001',
   '000000010900009',
 ];
 interface AccountsConfigInterface {
