@@ -1,6 +1,3 @@
-/* eslint-disable no-param-reassign */
-// eslint-disable no-console
-
 const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
