@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import MakePaymentForm from './MakePaymentForm';
-import { AppContext } from '../AppContext';
-import { config } from '../config';
-import { BalanceDataType } from '../types/accountTypes';
+import { AppContext } from '../../AppContext';
+import { config } from '../../config';
+import { BalanceDataType } from '../../types/accountTypes';
 
 function PaymentDialog({ accountDetails } : { accountDetails: BalanceDataType }) {
   const { setPaymentFormOpen, isPaymentFormOpen, displayingApiData } = React.useContext(AppContext);

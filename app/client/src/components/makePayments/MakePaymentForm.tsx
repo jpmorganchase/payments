@@ -2,11 +2,22 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { AccountType, BalanceDataType } from '../types/accountTypes';
-import { AppContext } from '../AppContext';
-import { RTPMessage } from '../types/globalPaymentApiTypes';
-import { config } from '../config';
+import { AccountType, BalanceDataType } from '../../types/accountTypes';
+import { AppContext } from '../../AppContext';
+import { RTPMessage } from '../../types/globalPaymentApiTypes';
+import { config } from '../../config';
+import Spinner from '../spinner';
 
+type FormValuesType = {
+  debtorAccount: string,
+  creditorAccount: string,
+  amount: number,
+  date: Date,
+};
+
+enum FormStatus {
+  'ERROR', 'LOADING', 'SUCCESS', 'NEW',
+}
 const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
 const today = new Date();
 const oneMonth = new Date(new Date(today).setDate(today.getDate() + 31))
@@ -36,12 +47,53 @@ const validationSchema = yup.object().shape({
     ),
 });
 
-  type FormValuesType = {
-    debtorAccount: string,
-    creditorAccount: string,
-    amount: number,
-    date: Date,
+const generateApiBody = (data: FormValuesType) : RTPMessage => {
+  const {
+    date, amount, debtorAccount, creditorAccount,
+  } = data;
+  const debtorAccountApi : AccountType = JSON.parse(debtorAccount) as AccountType;
+  const creditorAccountApi : AccountType = JSON.parse(creditorAccount) as AccountType;
+  const globalPaymentApiPayload : RTPMessage = {
+    payments: {
+      requestedExecutionDate: date.toDateString(),
+      paymentAmount: amount,
+      paymentType: 'RTP',
+      paymentIdentifiers: {
+        endToEndId: `uf-rtp-${Date.now()}`,
+      },
+      paymentCurrency: 'USD',
+      transferType: 'CREDIT',
+      debtor: {
+        debtorAccount: {
+          accountId: debtorAccountApi.accountId,
+          currency: debtorAccountApi.currency.code,
+        },
+      },
+      debtorAgent: {
+        financialInstitutionId: {
+          clearingSystemId: {
+            id: debtorAccountApi.bankId,
+          },
+        },
+      },
+      creditor: {
+        creditorAccount: {
+          accountId: creditorAccountApi.accountId,
+          currency: creditorAccountApi.currency.code,
+        },
+      },
+      creditorAgent: {
+        financialInstitutionId: {
+          clearingSystemId: {
+            id: creditorAccountApi.bankId,
+          },
+        },
+      },
+
+    },
   };
+  return globalPaymentApiPayload;
+};
 
 function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }) {
   const {
@@ -54,6 +106,7 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
   });
   const { selectedAccount } = React.useContext(AppContext);
   const { paymentConfig } = config;
+  const [formStatus, setFormStatus] = React.useState(FormStatus.NEW);
 
   const selectOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (event.target.value === 'Add new account details') {
@@ -99,55 +152,8 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
     </div>
   );
 
-  const generateApiBody = (data: FormValuesType) : RTPMessage => {
-    const {
-      date, amount, debtorAccount, creditorAccount,
-    } = data;
-    const debtorAccountApi : AccountType = JSON.parse(debtorAccount) as AccountType;
-    const creditorAccountApi : AccountType = JSON.parse(creditorAccount) as AccountType;
-    const globalPaymentApiPayload : RTPMessage = {
-      payments: {
-        requestedExecutionDate: date.toDateString(),
-        paymentAmount: amount,
-        paymentType: 'RTP',
-        paymentIdentifiers: {
-          endToEndId: `uf-rtp-${Date.now()}`,
-        },
-        paymentCurrency: 'USD',
-        transferType: 'CREDIT',
-        debtor: {
-          debtorAccount: {
-            accountId: debtorAccountApi.accountId,
-            currency: debtorAccountApi.currency.code,
-          },
-        },
-        debtorAgent: {
-          financialInstitutionId: {
-            clearingSystemId: {
-              id: debtorAccountApi.bankId,
-            },
-          },
-        },
-        creditor: {
-          creditorAccount: {
-            accountId: creditorAccountApi.accountId,
-            currency: creditorAccountApi.currency.code,
-          },
-        },
-        creditorAgent: {
-          financialInstitutionId: {
-            clearingSystemId: {
-              id: creditorAccountApi.bankId,
-            },
-          },
-        },
-
-      },
-    };
-    return globalPaymentApiPayload;
-  };
-
   const onSubmit = async (data:FormValuesType) => {
+    setFormStatus(FormStatus.LOADING);
     const globalPaymentApiPayload = generateApiBody(data);
     const requestOptions: RequestInit = {
       headers: {
@@ -161,12 +167,19 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
     // eslint-disable-next-line
       .then((result) => console.log(result))
     // eslint-disable-next-line
-      .catch((error) => console.log('error', error));
+      .catch((error) => {
+        console.log('error', error);
+        setFormStatus(FormStatus.ERROR);
+      })
+      .finally(() => {
+        setFormStatus(FormStatus.SUCCESS);
+      });
   };
 
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(onSubmit)}>
+
       {renderSelectField('From', 'debtorAccount', accountDetails?.accountList, false, selectedAccount)}
       {renderSelectField('To', 'creditorAccount', accountDetails?.accountList, true, {})}
       <div className="">
@@ -210,6 +223,16 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
       >
         Submit
       </button>
+      {formStatus === FormStatus.LOADING && (
+      <div className="fixed inset-0 bg-white/90" aria-hidden="true">
+        <div className="mt-28">
+          <Spinner text="Sending payment details...." />
+        </div>
+      </div>
+      )}
+      {formStatus === FormStatus.ERROR && <p>I am error</p>}
+      {formStatus === FormStatus.SUCCESS && <p>I am finished</p>}
+
     </form>
   );
 }
