@@ -9,6 +9,9 @@ import {
 } from '../../types/globalPaymentApiTypes';
 import { config } from '../../config';
 import Spinner from '../spinner';
+import paymentInitiationSucessUntyped from '../../mockedJson/payment-initiation-success.json';
+
+const paymentInitiationSucessMocked: PaymentsResponse = paymentInitiationSucessUntyped as PaymentsResponse;
 
 const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
 const today = new Date();
@@ -87,17 +90,14 @@ const generateApiBody = (data: FormValuesType) : RTPMessage => {
   return globalPaymentApiPayload;
 };
 
-const sendRequest = async (setFormStatus : (status:FormStatus) => void, requestOptions: RequestInit, setProcessingError: (error: string) => void) => {
+const sendRequest = async (setFormStatus : (status:FormStatus) => void, requestOptions: RequestInit, setApiResponse: (response: PaymentsResponse) => void) => {
   const response = await fetch(config.paymentConfig.apiDetails[0].backendPath, requestOptions);
-  const { paymentInitiationResponse, errors }: PaymentsResponse = await response.json() as PaymentsResponse;
+  const responseJson: PaymentsResponse = await response.json() as PaymentsResponse;
+  setApiResponse(responseJson);
+
   if (response.ok) {
-    const firmRootId = paymentInitiationResponse?.firmRootId;
-    console.log(firmRootId);
     setFormStatus(FormStatus.LOADING);
   } else {
-    const error : Error = new Error(errors?.errorDetails?.map((e) => `${e.errorCode} = ${e.errorDescription}`).join('\n') ?? 'unknown');
-    console.error(error);
-    setProcessingError(error.message);
     setFormStatus(FormStatus.ERROR);
   }
 };
@@ -116,8 +116,8 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
   });
-  const { selectedAccount } = React.useContext(AppContext);
-  const [processingError, setProcessingError] = React.useState<string | null>(null);
+  const { selectedAccount, displayingMockedData } = React.useContext(AppContext);
+  const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
 
   const selectOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (event.target.value === 'Add new account details') {
@@ -165,27 +165,31 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
 
   const onSubmit = async (data:FormValuesType) => {
     setFormStatus(FormStatus.LOADING);
-    const globalPaymentApiPayload = generateApiBody(data);
-    const requestOptions: RequestInit = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify(globalPaymentApiPayload),
-    };
-    return sendRequest(setFormStatus, requestOptions, setProcessingError);
+    if (!displayingMockedData) {
+      const globalPaymentApiPayload = generateApiBody(data);
+      const requestOptions: RequestInit = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify(globalPaymentApiPayload),
+      };
+      await sendRequest(setFormStatus, requestOptions, setApiResponse);
+    }
+    setFormStatus(FormStatus.SUCCESS);
+    setApiResponse(paymentInitiationSucessMocked);
   };
 
   return (
     <>
-      {(formStatus === FormStatus.ERROR || processingError) && (
+      {(formStatus === FormStatus.ERROR || apiResponse?.errors) && (
         <>
-          <p>{processingError}</p>
+          <p>{apiResponse?.errors?.errorDetails?.map((e) => `${e.errorCode} = ${e.errorDescription}`).join('\n') ?? 'unknown'}</p>
           <button
             type="button"
             onClick={() => {
               setFormStatus(FormStatus.NEW);
-              setProcessingError(null);
+              setApiResponse(undefined);
             }}
             className="p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
           >
@@ -195,6 +199,9 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       )}
       {formStatus === FormStatus.LOADING && (
       <Spinner text="" />
+      )}
+      {(formStatus === FormStatus.SUCCESS || apiResponse?.paymentInitiationResponse) && (
+        <p>{JSON.stringify(apiResponse?.paymentInitiationResponse)}</p>
       )}
       {formStatus === FormStatus.NEW && (
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
