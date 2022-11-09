@@ -116,7 +116,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
   });
-  const { selectedAccount, displayingMockedData } = React.useContext(AppContext);
+  const { selectedAccount, displayingMockedData, setPaymentFormOpen } = React.useContext(AppContext);
   const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
 
   const selectOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -201,7 +201,24 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       <Spinner text="" />
       )}
       {(formStatus === FormStatus.SUCCESS || apiResponse?.paymentInitiationResponse) && (
-        <p>{JSON.stringify(apiResponse?.paymentInitiationResponse)}</p>
+        <>
+          <p>API response details: </p>
+          <pre
+            id="json"
+            className="h-full border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto"
+          >
+            {JSON.stringify(apiResponse?.paymentInitiationResponse, undefined, 2)}
+          </pre>
+          <button
+            type="button"
+            onClick={() => {
+              setPaymentFormOpen(false);
+            }}
+            className="p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
+          >
+            Ok
+          </button>
+        </>
       )}
       {formStatus === FormStatus.NEW && (
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -250,6 +267,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
         >
           Submit
         </button>
+
       </form>
       )}
     </>

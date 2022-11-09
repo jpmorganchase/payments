@@ -14,7 +14,7 @@ function PaymentDialog({ accountDetails } : { accountDetails: BalanceDataType })
   const displayDialogTitle = () => {
     switch (formStatus) {
       case FormStatus.SUCCESS:
-        return '';
+        return 'Your payment was successful!';
       case FormStatus.LOADING:
         return 'Processing your payment';
       case FormStatus.ERROR:
@@ -78,7 +78,14 @@ function PaymentDialog({ accountDetails } : { accountDetails: BalanceDataType })
                     className="text-lg font-medium leading-6 text-gray-900 flex justify-between"
                   >
                     {displayDialogTitle()}
-                    <button onClick={() => setPaymentFormOpen(false)} data-cy="closeButton" type="button">
+                    <button
+                      onClick={() => {
+                        setPaymentFormOpen(false);
+                        setFormStatus(FormStatus.NEW);
+                      }}
+                      data-cy="closeButton"
+                      type="button"
+                    >
                       <span className="material-icons text-md mr-1">
                         close
                       </span>
