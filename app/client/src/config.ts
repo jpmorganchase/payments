@@ -18,7 +18,7 @@ interface StatusConfigInterface {
   }
 }
 
-interface PaymentConfigInterface {
+export interface PaymentConfigInterface {
   paymentConfig: {
     apiDetails: ApiDetailsInterface[];
   }

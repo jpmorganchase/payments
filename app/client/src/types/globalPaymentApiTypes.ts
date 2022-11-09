@@ -18,6 +18,18 @@ export type RTPMessage = {
     transferType : string,
   }
 };
+export type PaymentsResponse = {
+  paymentInitiationResponse? : {
+    firmRootId: string,
+    endToEndId: string
+  },
+  errors? : {
+    errorDetails: {
+      errorCode: string,
+      errorDescription: string
+    }[]
+  }
+};
 
 type AgentType = {
   financialInstitutionId: {
@@ -46,3 +58,14 @@ export type APIErrorMessage = {
     }[]
   }
 };
+
+export type FormValuesType = {
+  debtorAccount: string,
+  creditorAccount: string,
+  amount: number,
+  date: Date,
+};
+
+export enum FormStatus {
+  'ERROR', 'LOADING', 'SUCCESS', 'NEW',
+}

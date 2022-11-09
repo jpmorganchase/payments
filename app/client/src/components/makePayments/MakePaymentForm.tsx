@@ -4,20 +4,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { AccountType, BalanceDataType } from '../../types/accountTypes';
 import { AppContext } from '../../AppContext';
-import { RTPMessage } from '../../types/globalPaymentApiTypes';
+import {
+  FormStatus, FormValuesType, PaymentsResponse, RTPMessage,
+} from '../../types/globalPaymentApiTypes';
 import { config } from '../../config';
 import Spinner from '../spinner';
 
-type FormValuesType = {
-  debtorAccount: string,
-  creditorAccount: string,
-  amount: number,
-  date: Date,
-};
-
-enum FormStatus {
-  'ERROR', 'LOADING', 'SUCCESS', 'NEW',
-}
 const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
 const today = new Date();
 const oneMonth = new Date(new Date(today).setDate(today.getDate() + 31))
@@ -95,7 +87,27 @@ const generateApiBody = (data: FormValuesType) : RTPMessage => {
   return globalPaymentApiPayload;
 };
 
-function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }) {
+const sendRequest = async (setFormStatus : (status:FormStatus) => void, requestOptions: RequestInit, setProcessingError: (error: string) => void) => {
+  const response = await fetch(config.paymentConfig.apiDetails[0].backendPath, requestOptions);
+  const { paymentInitiationResponse, errors }: PaymentsResponse = await response.json() as PaymentsResponse;
+  if (response.ok) {
+    const firmRootId = paymentInitiationResponse?.firmRootId;
+    console.log(firmRootId);
+    setFormStatus(FormStatus.LOADING);
+  } else {
+    const error : Error = new Error(errors?.errorDetails?.map((e) => `${e.errorCode} = ${e.errorDescription}`).join('\n') ?? 'unknown');
+    console.error(error);
+    setProcessingError(error.message);
+    setFormStatus(FormStatus.ERROR);
+  }
+};
+
+type MakePaymentFormProps = {
+  accountDetails: BalanceDataType,
+  formStatus: FormStatus,
+  setFormStatus: (status: FormStatus) => void
+};
+function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaymentFormProps) {
   const {
     register,
     handleSubmit,
@@ -105,8 +117,7 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
     resolver: yupResolver(validationSchema),
   });
   const { selectedAccount } = React.useContext(AppContext);
-  const { paymentConfig } = config;
-  const [formStatus, setFormStatus] = React.useState(FormStatus.NEW);
+  const [processingError, setProcessingError] = React.useState<string | null>(null);
 
   const selectOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (event.target.value === 'Add new account details') {
@@ -162,78 +173,79 @@ function MakePaymentForm({ accountDetails }: { accountDetails: BalanceDataType }
       method: 'POST',
       body: JSON.stringify(globalPaymentApiPayload),
     };
-    await fetch(paymentConfig.apiDetails[0].backendPath, requestOptions)
-      .then((response) => response.json())
-    // eslint-disable-next-line
-      .then((result) => console.log(result))
-    // eslint-disable-next-line
-      .catch((error) => {
-        console.log('error', error);
-        setFormStatus(FormStatus.ERROR);
-      })
-      .finally(() => {
-        setFormStatus(FormStatus.SUCCESS);
-      });
+    return sendRequest(setFormStatus, requestOptions, setProcessingError);
   };
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    <form onSubmit={handleSubmit(onSubmit)}>
-
-      {renderSelectField('From', 'debtorAccount', accountDetails?.accountList, false, selectedAccount)}
-      {renderSelectField('To', 'creditorAccount', accountDetails?.accountList, true, {})}
-      <div className="">
-        <label
-          htmlFor="amount"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Amount:
-          <input
-            {...register('amount', { min: 0.01 })}
-            type="number"
-            name="amount"
-            step="0.01"
-            data-cy="amount"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          />
-        </label>
-        {renderErrorValue(errors.amount?.message)}
-      </div>
-      <div className="">
-        <label
-          htmlFor="date"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Date:
-          <input
-            {...register('date', { valueAsDate: true })}
-            type="date"
-            name="date"
-            data-cy="dateInput"
-            min={today.toISOString().split('T')[0]}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          />
-        </label>
-        {renderErrorValue(errors.date?.message)}
-      </div>
-
-      <button
-        type="submit"
-        className="p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
-      >
-        Submit
-      </button>
-      {formStatus === FormStatus.LOADING && (
-      <div className="fixed inset-0 bg-white/90" aria-hidden="true">
-        <div className="mt-28">
-          <Spinner text="Sending payment details...." />
-        </div>
-      </div>
+    <>
+      {(formStatus === FormStatus.ERROR || processingError) && (
+        <>
+          <p>{processingError}</p>
+          <button
+            type="button"
+            onClick={() => {
+              setFormStatus(FormStatus.NEW);
+              setProcessingError(null);
+            }}
+            className="p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
+          >
+            Return
+          </button>
+        </>
       )}
-      {formStatus === FormStatus.ERROR && <p>I am error</p>}
-      {formStatus === FormStatus.SUCCESS && <p>I am finished</p>}
+      {formStatus === FormStatus.LOADING && (
+      <Spinner text="" />
+      )}
+      {formStatus === FormStatus.NEW && (
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      <form onSubmit={handleSubmit(onSubmit)}>
 
-    </form>
+        {renderSelectField('From', 'debtorAccount', accountDetails?.accountList, false, selectedAccount)}
+        {renderSelectField('To', 'creditorAccount', accountDetails?.accountList, true, {})}
+        <div className="">
+          <label
+            htmlFor="amount"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Amount:
+            <input
+              {...register('amount', { min: 0.01 })}
+              type="number"
+              name="amount"
+              step="0.01"
+              data-cy="amount"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            />
+          </label>
+          {renderErrorValue(errors.amount?.message)}
+        </div>
+        <div className="">
+          <label
+            htmlFor="date"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Date:
+            <input
+              {...register('date', { valueAsDate: true })}
+              type="date"
+              name="date"
+              data-cy="dateInput"
+              min={today.toISOString().split('T')[0]}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            />
+          </label>
+          {renderErrorValue(errors.date?.message)}
+        </div>
+
+        <button
+          type="submit"
+          className="p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
+        >
+          Submit
+        </button>
+      </form>
+      )}
+    </>
   );
 }
 export default MakePaymentForm;

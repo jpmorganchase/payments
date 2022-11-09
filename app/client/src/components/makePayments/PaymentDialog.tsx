@@ -4,11 +4,25 @@ import MakePaymentForm from './MakePaymentForm';
 import { AppContext } from '../../AppContext';
 import { config } from '../../config';
 import { BalanceDataType } from '../../types/accountTypes';
+import { FormStatus } from '../../types/globalPaymentApiTypes';
 
 function PaymentDialog({ accountDetails } : { accountDetails: BalanceDataType }) {
   const { setPaymentFormOpen, isPaymentFormOpen, displayingApiData } = React.useContext(AppContext);
   const { paymentConfig } = config;
+  const [formStatus, setFormStatus] = React.useState<FormStatus>(FormStatus.NEW);
 
+  const displayDialogTitle = () => {
+    switch (formStatus) {
+      case FormStatus.SUCCESS:
+        return '';
+      case FormStatus.LOADING:
+        return 'Processing your payment';
+      case FormStatus.ERROR:
+        return 'Error processing your request';
+      default:
+        return 'Make a Payment';
+    }
+  };
   return (
     <Transition appear show={isPaymentFormOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => {}}>
@@ -63,14 +77,15 @@ function PaymentDialog({ accountDetails } : { accountDetails: BalanceDataType })
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900 flex justify-between"
                   >
-                    Make a payment
+                    {displayDialogTitle()}
                     <button onClick={() => setPaymentFormOpen(false)} data-cy="closeButton" type="button">
                       <span className="material-icons text-md mr-1">
                         close
                       </span>
                     </button>
                   </Dialog.Title>
-                  <MakePaymentForm accountDetails={accountDetails} />
+
+                  <MakePaymentForm accountDetails={accountDetails} formStatus={formStatus} setFormStatus={setFormStatus} />
                 </Dialog.Panel>
               )}
             </Transition.Child>
