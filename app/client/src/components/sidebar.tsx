@@ -23,9 +23,6 @@ function Sidebar() {
             />
           </NavLink>
           <ul className=" ml-0 -my-4 lg:-ml-8 lg:my-0 text-gray-500 text-sm flex flex-row lg:flex-col">
-            <NavLink to="#" className={linkClassName} data-cy="dashboardLink">
-              <li className="">Dashboard</li>
-            </NavLink>
 
             <NavLink
               to="accounts"
@@ -33,6 +30,13 @@ function Sidebar() {
               className={({ isActive }) => (isActive ? `${activeClassName} ${linkClassName}` : linkClassName)}
             >
               <li className="">Accounts</li>
+            </NavLink>
+            <NavLink
+              to="payments"
+              data-cy="paymentsLink"
+              className={({ isActive }) => (isActive ? `${activeClassName} ${linkClassName}` : linkClassName)}
+            >
+              <li className="">Payments</li>
             </NavLink>
           </ul>
         </div>
