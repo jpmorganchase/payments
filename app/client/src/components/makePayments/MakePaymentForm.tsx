@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { AccountType, BalanceDataType } from '../../types/accountTypes';
+import { AccountType } from '../../types/accountTypes';
 import { AppContext } from '../../AppContext';
 import {
   FormStatus, FormValuesType, PaymentsResponse, RTPMessage,
@@ -103,7 +103,7 @@ const sendRequest = async (setFormStatus : (status:FormStatus) => void, requestO
 };
 
 type MakePaymentFormProps = {
-  accountDetails: BalanceDataType,
+  accountDetails: AccountType[],
   formStatus: FormStatus,
   setFormStatus: (status: FormStatus) => void
 };
@@ -227,8 +227,8 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       <form onSubmit={handleSubmit(onSubmit)}>
 
-        {renderSelectField('From', 'debtorAccount', accountDetails?.accountList, false, selectedAccount)}
-        {renderSelectField('To', 'creditorAccount', accountDetails?.accountList, true, {})}
+        {renderSelectField('From', 'debtorAccount', accountDetails, false, selectedAccount)}
+        {renderSelectField('To', 'creditorAccount', accountDetails, true, {})}
         <div className="">
           <label
             htmlFor="amount"

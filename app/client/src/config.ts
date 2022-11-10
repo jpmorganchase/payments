@@ -1,5 +1,5 @@
 type AccountsType = string[];
-const accounts: AccountsType = [
+export const accounts: AccountsType = [
   '000000010975001',
   '000000011008182',
   '000000010975514',

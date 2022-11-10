@@ -11,7 +11,6 @@ import transactionMockDataUntyped from '../mockedJson/uf-transactions.json';
 import { config } from '../config';
 import { BalanceDataType } from '../types/accountTypes';
 import { TransactionDataType, TransactionType } from '../types/transactionTypes';
-import PaymentDialog from '../components/makePayments/PaymentDialog';
 
 const balanceMockData: BalanceDataType = balanceMockDataUntyped as BalanceDataType;
 const transactionMockData: TransactionDataType = transactionMockDataUntyped as TransactionDataType;
@@ -69,7 +68,6 @@ function AccountPage() {
     if (displayingMockedData) {
       return (
         <div className="flex flex-wrap">
-          <PaymentDialog accountDetails={balanceMockData} />
           {displayAccountPanel(balanceMockData)}
           {displayTransactionPanel(transactionMockData)}
         </div>
@@ -89,7 +87,6 @@ function AccountPage() {
     }
     return (
       <div className="flex flex-wrap">
-        <PaymentDialog accountDetails={balanceResults?.data as BalanceDataType} />
         {displayAccountPanel(balanceResults?.data as BalanceDataType)}
         {displayTransactionPanel(transactionResults?.data as TransactionDataType)}
       </div>
