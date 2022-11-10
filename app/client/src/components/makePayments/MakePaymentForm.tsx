@@ -116,7 +116,9 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
   });
-  const { selectedAccount, displayingMockedData, setPaymentFormOpen } = React.useContext(AppContext);
+  const {
+    selectedAccount, displayingMockedData, setPaymentFormOpen,
+  } = React.useContext(AppContext);
   const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
 
   const selectOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -213,6 +215,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
             type="button"
             onClick={() => {
               setPaymentFormOpen(false);
+              setFormStatus(FormStatus.NEW);
             }}
             className="p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
           >
