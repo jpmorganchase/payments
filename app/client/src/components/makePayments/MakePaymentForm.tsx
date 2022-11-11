@@ -135,7 +135,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
     id: 'debtorAccount' | 'creditorAccount' | 'amount' | 'date',
     options: AccountType[],
     addOption: boolean,
-    debtorAccount: AccountType | Record<string, never>,
+    account: AccountType | Record<string, never>,
   ) => (
     <div className="col-span-6 sm:col-span-3">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -152,7 +152,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
           <option
             key={`option-${option.accountId}`}
             value={JSON.stringify(option)}
-            selected={id === 'debtorAccount' && option.accountId === debtorAccount?.accountId}
+            selected={id === 'debtorAccount' && option.accountId === account?.accountId}
           >
             {option.accountName}
             {option.accountName ? ' - ' : ' '}
@@ -216,6 +216,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
             onClick={() => {
               setPaymentFormOpen(false);
               setFormStatus(FormStatus.NEW);
+              setApiResponse(undefined);
             }}
             className="p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
           >

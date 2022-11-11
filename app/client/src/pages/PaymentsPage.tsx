@@ -4,6 +4,7 @@ import MakePaymentForm from '../components/makePayments/MakePaymentForm';
 import { FormStatus } from '../types/globalPaymentApiTypes';
 import { config } from '../config';
 import { AccountType } from '../types/accountTypes';
+import APIDetails from '../components/APIDetails';
 
 const paymentsAccounts: AccountType[] = [{
   accountId: '000000010900009',
@@ -72,12 +73,16 @@ const paymentsAccounts: AccountType[] = [{
 ];
 function PaymentsPage() {
   const { displayingApiData } = React.useContext(AppContext);
-  const { paymentConfig } = config;
+  const { paymentConfig: { apiDetails } } = config;
   const [formStatus, setFormStatus] = React.useState<FormStatus>(FormStatus.NEW);
   return (
     <div className="relative p-8">
       <h2 className="text-2xl font-medium mb-4">Make a Payment</h2>
-      <MakePaymentForm accountDetails={paymentsAccounts} formStatus={formStatus} setFormStatus={setFormStatus} />
+      {displayingApiData && (
+        <APIDetails details={apiDetails[0]} absolute={false} />
+      )}
+      {!displayingApiData
+      && <MakePaymentForm accountDetails={paymentsAccounts} formStatus={formStatus} setFormStatus={setFormStatus} />}
     </div>
   );
 }
