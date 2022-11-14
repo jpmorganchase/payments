@@ -115,6 +115,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm<FormValuesType>({
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
@@ -267,11 +268,20 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
               {renderErrorValue(errors.date?.message)}
             </div>
           </form>
-          <FormButton
-            buttonText="Submit"
-            buttonType="submit"
-            form="hook-form"
-          />
+          <span>
+            <FormButton
+              buttonText="Submit"
+              buttonType="submit"
+              form="hook-form"
+            />
+            <FormButton
+              buttonText="Preview JSON"
+              buttonType="button"
+              onClickFunction={() => {
+                console.log(JSON.stringify(generateApiBody(getValues())));
+              }}
+            />
+          </span>
         </div>
 
       )}
