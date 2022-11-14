@@ -121,7 +121,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
     resolver: yupResolver(validationSchema),
   });
   const {
-    selectedAccount, displayingMockedData, displayingApiData,
+    selectedAccount, displayingMockedData, displayingApiData, setJsonDialogData,
   } = React.useContext(AppContext);
   const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
   const { paymentConfig: { apiDetails } } = config;
@@ -267,9 +267,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
             <FormButton
               buttonText="Preview JSON"
               buttonType="button"
-              onClickFunction={() => {
-                console.log(JSON.stringify(generateApiBody(getValues())));
-              }}
+              onClickFunction={() => setJsonDialogData({ state: true, data: JSON.stringify(generateApiBody(getValues()), undefined, 2) })}
             />
           </span>
         </div>

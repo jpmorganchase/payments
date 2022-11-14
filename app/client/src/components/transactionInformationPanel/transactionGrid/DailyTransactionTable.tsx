@@ -18,7 +18,6 @@ function DailyTransactionTable({
 }: { date: string, transactions: TransactionType[] }) {
   const {
     setJsonDialogData,
-    jsonDialogData,
   } = React.useContext(AppContext);
 
   const renderHeaders = headers.map((header) => (
