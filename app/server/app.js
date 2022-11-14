@@ -90,6 +90,8 @@ async function createProxyConfigurationForDigital(target, httpsOpts, digitalSign
 app.use('/api/digitalSignature/*', async (req, res, next) => {
   const httpsOpts = await gatherHttpsOptions();
   const digitalSignature = await generateJWTJose(req.body, httpsOpts.digital);
+  console.log(digitalSignature);
+  console.log(req.body);
   const func = await createProxyConfigurationForDigital('https://apigatewaycat.jpmorgan.com', httpsOpts, digitalSignature);
   func(req, res, next);
 });

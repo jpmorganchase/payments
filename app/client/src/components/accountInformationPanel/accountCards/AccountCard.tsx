@@ -2,7 +2,6 @@ import React from 'react';
 import { AppContext } from '../../../AppContext';
 import { AccountType } from '../../../types/accountTypes';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
-import AccountCardButtons from './AccountCardButtons';
 
 function AccountCard({ account }: { account:AccountType }) {
   const { selectedAccount, setSelectedAccount } = React.useContext(AppContext);
@@ -41,7 +40,6 @@ function AccountCard({ account }: { account:AccountType }) {
         {!errorCode && balanceList && balanceList[0].openingAvailableAmount}
         {errorCode && 'Error'}
       </div>
-      {isSelected && <AccountCardButtons />}
     </div>
   );
 }

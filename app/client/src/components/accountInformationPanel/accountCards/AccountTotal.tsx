@@ -4,7 +4,6 @@ import { config } from '../../../config';
 import { CurrencyType } from '../../../types/accountTypes';
 import APIDetails from '../../APIDetails';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
-import AccountCardButtons from './AccountCardButtons';
 
 type AccountTotalType = {
   total: number | 'Error',
@@ -42,7 +41,6 @@ function AccountTotal({
           {total !== 'Error' && gatherCurrencySymbol(currency)}
           {total}
         </div>
-        {isEmptyObject(selectedAccount) && <AccountCardButtons />}
       </div>
     </div>
   );
