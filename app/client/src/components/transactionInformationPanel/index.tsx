@@ -4,7 +4,7 @@ import TransactionGrid from './transactionGrid/TransactionGrid';
 import { isEmptyObject } from '../utils';
 import Search from '../search';
 import { TransactionDataType, TransactionType } from '../../types/transactionTypes';
-import { AppContext } from '../../AppContext';
+import { AppContext } from '../../context/AppContext';
 
 type TransactionInfoType = {
   transactions: TransactionDataType,

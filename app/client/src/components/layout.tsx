@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { AppContext } from '../AppContext';
+import { AppContext } from '../context/AppContext';
 import JsonDialog from './JsonDialog';
 import Sidebar from './sidebar';
 import WhatAPI from './whatApi';

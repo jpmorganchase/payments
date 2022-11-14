@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AccountType } from './types/accountTypes';
+import { AccountType } from '../types/accountTypes';
 
 interface AppContextInterface {
   setDisplayingMockedData: (displayingMockedData: boolean) => void,

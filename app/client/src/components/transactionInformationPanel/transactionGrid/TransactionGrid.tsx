@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../context/AppContext';
 import { config } from '../../../config';
 import { GroupByDayType, TransactionType } from '../../../types/transactionTypes';
 import APIDetails from '../../APIDetails';

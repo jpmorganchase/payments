@@ -1,6 +1,6 @@
 import { Dialog } from '@headlessui/react';
 import React from 'react';
-import { AppContext } from '../AppContext';
+import { AppContext } from '../context/AppContext';
 
 function JsonDialog() {
   const {

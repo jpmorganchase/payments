@@ -2,108 +2,19 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { AccountType } from '../../types/accountTypes';
-import { AppContext } from '../../AppContext';
+import { AppContext } from '../../context/AppContext';
 import {
-  FormStatus, FormValuesType, PaymentsResponse, RTPMessage,
+  FormStatus, FormValuesType, PaymentsResponse,
 } from '../../types/globalPaymentApiTypes';
 import { config } from '../../config';
 import Spinner from '../spinner';
 import paymentInitiationSucessUntyped from '../../mockedJson/payment-initiation-success.json';
 import APIDetails from '../APIDetails';
 import FormButton from './FormButton';
+import generateApiBody, { sendRequest, today, validationSchema } from './SendPaymentsUtils';
 
 const paymentInitiationSucessMocked: PaymentsResponse = paymentInitiationSucessUntyped as PaymentsResponse;
-
-const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
-const today = new Date();
-const oneMonth = new Date(new Date(today).setDate(today.getDate() + 31))
-  .toISOString()
-  .split('T')[0];
-
-const validationSchema = yup.object().shape({
-  date: yup
-    .date()
-    .typeError('Please enter a valid date')
-    .min(today.toISOString().split('T')[0], 'Date cannot be in the past')
-    .max(oneMonth, 'Date cannot be more than 30days in advance')
-    .required(),
-  amount: yup
-    .number()
-    .typeError('Amount is required')
-    .positive()
-    .test(
-      'is-decimal',
-      'The amount should be a decimal with maximum two digits',
-      (val: number | undefined) => {
-        if (val !== undefined) {
-          return patternTwoDigisAfterDot.test(val.toString());
-        }
-        return true;
-      },
-    ),
-});
-
-const generateApiBody = (data: FormValuesType) : RTPMessage => {
-  const {
-    date, amount, debtorAccount, creditorAccount,
-  } = data;
-  const debtorAccountApi : AccountType = JSON.parse(debtorAccount) as AccountType;
-  const creditorAccountApi : AccountType = JSON.parse(creditorAccount) as AccountType;
-  const globalPaymentApiPayload : RTPMessage = {
-    payments: {
-      requestedExecutionDate: date.toISOString().split('T')[0],
-      paymentAmount: amount,
-      paymentType: 'RTP',
-      paymentIdentifiers: {
-        endToEndId: `uf-rtp-${Date.now()}`,
-      },
-      paymentCurrency: 'USD',
-      transferType: 'CREDIT',
-      debtor: {
-        debtorAccount: {
-          accountId: debtorAccountApi.accountId,
-          currency: debtorAccountApi.currency.code,
-        },
-      },
-      debtorAgent: {
-        financialInstitutionId: {
-          clearingSystemId: {
-            id: debtorAccountApi.bankId,
-          },
-        },
-      },
-      creditor: {
-        creditorAccount: {
-          accountId: creditorAccountApi.accountId,
-          currency: creditorAccountApi.currency.code,
-        },
-      },
-      creditorAgent: {
-        financialInstitutionId: {
-          clearingSystemId: {
-            id: creditorAccountApi.bankId,
-          },
-        },
-      },
-
-    },
-  };
-  return globalPaymentApiPayload;
-};
-
-const sendRequest = async (setFormStatus : (status:FormStatus) => void, requestOptions: RequestInit, setApiResponse: (response: PaymentsResponse) => void) => {
-  const response = await fetch(config.paymentConfig.apiDetails[0].backendPath, requestOptions);
-  const responseJson: PaymentsResponse = await response.json() as PaymentsResponse;
-  setApiResponse(responseJson);
-
-  if (response.ok) {
-    setFormStatus(FormStatus.LOADING);
-  } else {
-    setFormStatus(FormStatus.ERROR);
-  }
-};
 
 type MakePaymentFormProps = {
   accountDetails: AccountType[],
@@ -123,6 +34,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
   const {
     selectedAccount, displayingMockedData, displayingApiData, setJsonDialogData,
   } = React.useContext(AppContext);
+
   const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
   const { paymentConfig: { apiDetails } } = config;
 
@@ -171,14 +83,15 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
         method: 'POST',
         body: JSON.stringify(globalPaymentApiPayload),
       };
-      await sendRequest(setFormStatus, requestOptions, setApiResponse);
+      await sendRequest(setFormStatus, requestOptions, setApiResponse, apiDetails[0]);
     }
+
     setFormStatus(FormStatus.SUCCESS);
     setApiResponse(paymentInitiationSucessMocked);
   };
 
   return (
-    <div className="w-2/5 h-full flex flex-col space-between">
+    <div className=" h-4/5 flex flex-col justify-between">
       {displayingApiData && (
       <APIDetails details={apiDetails[0]} absolute={false} />
       )}
@@ -195,9 +108,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
           />
         </>
       )}
-      {!displayingApiData && formStatus === FormStatus.LOADING && (
-      <Spinner text="" />
-      )}
+      {!displayingApiData && formStatus === FormStatus.LOADING && <Spinner text="" />}
       {!displayingApiData && (formStatus === FormStatus.SUCCESS || apiResponse?.paymentInitiationResponse) && (
         <>
           <p>API response details: </p>
@@ -218,7 +129,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
         </>
       )}
       {!displayingApiData && formStatus === FormStatus.NEW && (
-        <div className="flex flex-col space-between">
+        <>
           <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
             {renderSelectField('From', 'debtorAccount', accountDetails, selectedAccount)}
             {renderSelectField('To', 'creditorAccount', accountDetails, {})}
@@ -258,19 +169,20 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
               {renderErrorValue(errors.date?.message)}
             </div>
           </form>
-          <span>
-            <FormButton
-              buttonText="Submit"
-              buttonType="submit"
-              form="hook-form"
-            />
+          <span className="flex flex-row justify-between">
             <FormButton
               buttonText="Preview JSON"
               buttonType="button"
               onClickFunction={() => setJsonDialogData({ state: true, data: JSON.stringify(generateApiBody(getValues()), undefined, 2) })}
             />
+            <FormButton
+              buttonText="Submit"
+              buttonType="submit"
+              form="hook-form"
+            />
+
           </span>
-        </div>
+        </>
 
       )}
 

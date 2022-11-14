@@ -19,15 +19,9 @@ export type RTPMessage = {
   }
 };
 export type PaymentsResponse = {
-  paymentInitiationResponse? : {
-    firmRootId: string,
-    endToEndId: string
-  },
+  paymentInitiationResponse? : APISuccessMessage,
   errors? : {
-    errorDetails: {
-      errorCode: string,
-      errorDescription: string
-    }[]
+    errorDetails: Error[]
   }
 };
 
@@ -48,17 +42,25 @@ export type APISuccessMessage = {
   endToEndId: string,
   firmRootId: string
 };
+
 export type APIErrorMessage = {
   errors: {
     endToEndId: string,
-    errorDetails: {
-      errorCode: string,
-      errorDescription: string,
-      ruleDefinition: string
-    }[]
+    errorDetails: Error[]
   }
 };
 
+export type Error = {
+  errorCode: string,
+  errorDescription: string,
+  ruleDefinition?: string
+};
+
+export type PaymentStatusResponseType = {
+  createDateTime?: string,
+  status?: 'PENDING' | 'REJECTED' | 'COMPLETED' | 'RETURNED',
+  exception?: Error[]
+};
 export type FormValuesType = {
   debtorAccount: string,
   creditorAccount: string,

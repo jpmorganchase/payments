@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { AppContext } from '../../AppContext';
+import { AppContext } from '../../context/AppContext';
 import { config } from '../../config';
 import { BankType, ServiceStatusDataType } from '../../types/serviceStatusTypes';
 import APIDetails from '../APIDetails';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../context/AppContext';
 import { TransactionType } from '../../../types/transactionTypes';
 import { formatDate } from '../../utils';
 

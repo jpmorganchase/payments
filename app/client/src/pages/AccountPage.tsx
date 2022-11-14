@@ -4,7 +4,7 @@ import TransactionInfo from '../components/transactionInformationPanel/index';
 import usePost from '../hooks/usePost';
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
-import { AppContext } from '../AppContext';
+import { AppContext } from '../context/AppContext';
 import balanceMockDataUntyped from '../mockedJson/uf-balances.json';
 import transactionMockDataUntyped from '../mockedJson/uf-transactions.json';
 import { config } from '../config';

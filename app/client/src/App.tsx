@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { AppContextProvider } from './AppContext';
+import { AppContextProvider } from './context/AppContext';
 
 import Layout from './components/layout';
 import AccountPage from './pages/AccountPage';
