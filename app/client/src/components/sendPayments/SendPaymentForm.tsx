@@ -126,20 +126,12 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
   const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
   const { paymentConfig: { apiDetails } } = config;
 
-  const selectOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (event.target.value === 'Add new account details') {
-      // eslint-disable-next-line
-      console.log(event.target.value);
-    }
-  };
-
   const renderErrorValue = (errorMessage?: string) => <p>{errorMessage}</p>;
 
   const renderSelectField = (
     label: string,
     id: 'debtorAccount' | 'creditorAccount' | 'amount' | 'date',
     options: AccountType[],
-    addOption: boolean,
     account: AccountType | Record<string, never>,
   ) => (
     <div className="col-span-6 sm:col-span-3">
@@ -149,7 +141,6 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       </label>
       <select
         {...register(id)}
-        onChange={(e) => selectOnChange(e)}
         id={id}
         className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
       >
@@ -164,7 +155,6 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
             {option.accountId}
           </option>
         ))}
-        {addOption && <option key="option-add">Add new account details</option>}
       </select>
       {renderErrorValue(errors[id]?.message)}
     </div>
@@ -230,8 +220,8 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       {!displayingApiData && formStatus === FormStatus.NEW && (
         <div className="flex flex-col space-between">
           <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
-            {renderSelectField('From', 'debtorAccount', accountDetails, false, selectedAccount)}
-            {renderSelectField('To', 'creditorAccount', accountDetails, true, {})}
+            {renderSelectField('From', 'debtorAccount', accountDetails, selectedAccount)}
+            {renderSelectField('To', 'creditorAccount', accountDetails, {})}
             <div className="">
               <label
                 htmlFor="amount"

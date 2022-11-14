@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import AccountInfo from '../components/accountInformationPanel/index';
 import TransactionInfo from '../components/transactionInformationPanel/index';
 import usePost from '../hooks/usePost';
-import TransactionJsonDialog from '../components/transactionInformationPanel/TransactionJsonDialog';
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
 import { AppContext } from '../AppContext';
@@ -10,7 +9,7 @@ import balanceMockDataUntyped from '../mockedJson/uf-balances.json';
 import transactionMockDataUntyped from '../mockedJson/uf-transactions.json';
 import { config } from '../config';
 import { BalanceDataType } from '../types/accountTypes';
-import { TransactionDataType, TransactionType } from '../types/transactionTypes';
+import { TransactionDataType } from '../types/transactionTypes';
 
 const balanceMockData: BalanceDataType = balanceMockDataUntyped as BalanceDataType;
 const transactionMockData: TransactionDataType = transactionMockDataUntyped as TransactionDataType;
@@ -22,9 +21,6 @@ function AccountPage() {
     displayingMockedData,
     setSelectedAccount,
   } = React.useContext(AppContext);
-
-  const [transactionDialogOpen, setTransactionDialogState] = React.useState<boolean>(false);
-  const [selectedTransaction, setSelectedTransaction] = React.useState<TransactionType | Record<string, never>>({});
 
   const balanceResults = usePost(
     accountsConfig.apiDetails[0].backendPath,
@@ -43,13 +39,7 @@ function AccountPage() {
 
   useEffect(() => {
     setSelectedAccount({});
-    setSelectedTransaction({});
   }, [displayingMockedData, setSelectedAccount]);
-
-  const openTransactionDialog = (state:boolean, transaction: TransactionType | Record<string, never>) => {
-    setTransactionDialogState(state);
-    setSelectedTransaction(transaction);
-  };
 
   const displayAccountPanel = (data: BalanceDataType) => (
     <AccountInfo
@@ -60,7 +50,6 @@ function AccountPage() {
   const displayTransactionPanel = (data : TransactionDataType) => (
     <TransactionInfo
       transactions={data}
-      openTransactionDialog={openTransactionDialog}
     />
   );
 
@@ -96,11 +85,6 @@ function AccountPage() {
   return (
     <>
       {displayPanels()}
-      <TransactionJsonDialog
-        open={transactionDialogOpen}
-        setTransactionDialog={openTransactionDialog}
-        transaction={selectedTransaction}
-      />
     </>
   );
 }

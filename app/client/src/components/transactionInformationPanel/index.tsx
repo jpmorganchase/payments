@@ -8,7 +8,6 @@ import { AppContext } from '../../AppContext';
 
 type TransactionInfoType = {
   transactions: TransactionDataType,
-  openTransactionDialog:(state:boolean, transaction: TransactionType) =>void
 };
 
 type GroupedDataType = {
@@ -36,7 +35,6 @@ const groupTransactionsByDay = (data: TransactionType[]) => {
 
 function TransactionInfo({
   transactions,
-  openTransactionDialog,
 }: TransactionInfoType) {
   const [searchInput, setSearchInput] = useState('');
   const { selectedAccount } = React.useContext(AppContext);
@@ -88,7 +86,6 @@ function TransactionInfo({
       />
       <TransactionGrid
         groupedByDay={groupedByDayTransactions}
-        openTransactionDialog={openTransactionDialog}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import MakePaymentForm from '../components/makePayments/MakePaymentForm';
+import SendPaymentForm from '../components/sendPayments/SendPaymentForm';
 import { FormStatus } from '../types/globalPaymentApiTypes';
 import { AccountType } from '../types/accountTypes';
 
@@ -72,9 +72,9 @@ function PaymentsPage() {
   const [formStatus, setFormStatus] = React.useState<FormStatus>(FormStatus.NEW);
   return (
     <div className="lg:min-h-screen flex flex-col p-8">
-      <h2 className="text-2xl font-medium mb-4">Make a Payment</h2>
+      <h2 className="text-2xl font-medium mb-4">Send a Payment</h2>
       <div className="flex flex-wrap flex-grow">
-        <MakePaymentForm accountDetails={paymentsAccounts} formStatus={formStatus} setFormStatus={setFormStatus} />
+        <SendPaymentForm accountDetails={paymentsAccounts} formStatus={formStatus} setFormStatus={setFormStatus} />
       </div>
     </div>
   );

@@ -7,11 +7,9 @@ import DailyTransactionTable from './DailyTransactionTable';
 
 type TransactionGridProps = {
   groupedByDay: GroupByDayType[],
-  openTransactionDialog: (state:boolean, transaction: TransactionType) =>void
 };
 function TransactionGrid({
   groupedByDay,
-  openTransactionDialog,
 }: TransactionGridProps) {
   const { accountsConfig: { apiDetails } } = config;
   const { displayingApiData } = React.useContext(AppContext);
@@ -27,7 +25,6 @@ function TransactionGrid({
               key={`transactionGroup-${item.date}`}
               date={item.date}
               transactions={item.transactions}
-              openTransactionDialog={openTransactionDialog}
             />
           ))}
       </div>

@@ -8,6 +8,11 @@ interface AppContextInterface {
   selectedAccount: AccountType | Record<string, never>,
   displayingApiData: boolean,
   displayingMockedData: boolean,
+  jsonDialogData: {
+    state:boolean,
+    data: string | null
+  },
+  setJsonDialogData: ({ state, data }:{ state:boolean, data:string | null }) => void
 }
 
 interface Props {
@@ -21,6 +26,11 @@ const appCtxDefaultValue: AppContextInterface = {
   setDisplayingMockedData: () => {},
   selectedAccount: {},
   setSelectedAccount: () => {},
+  jsonDialogData: {
+    state: false,
+    data: null,
+  },
+  setJsonDialogData: () => {},
 };
 
 const AppContext = React.createContext<AppContextInterface>(appCtxDefaultValue);
@@ -29,6 +39,7 @@ function AppContextProvider({ children }: Props) {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(appCtxDefaultValue.displayingMockedData);
   const [displayingApiData, setDisplayingApiData] = React.useState(appCtxDefaultValue.displayingApiData);
   const [selectedAccount, setSelectedAccount] = React.useState(appCtxDefaultValue.selectedAccount);
+  const [jsonDialogData, setJsonDialogData] = React.useState(appCtxDefaultValue.jsonDialogData);
 
   return (
     <AppContext.Provider
@@ -40,6 +51,8 @@ function AppContextProvider({ children }: Props) {
         setDisplayingApiData,
         selectedAccount,
         setSelectedAccount,
+        jsonDialogData,
+        setJsonDialogData,
       }}
     >
       {children}
