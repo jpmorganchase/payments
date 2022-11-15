@@ -3,7 +3,6 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
-import { date } from 'yup/lib/locale';
 import { AccountType } from '../../types/accountTypes';
 import { AppContext } from '../../context/AppContext';
 import {
@@ -16,7 +15,6 @@ import FormButton from './FormButton';
 import generateApiBody, {
   sendRequest, today, updateSessionStorageTransactions, validationSchema,
 } from './SendPaymentsUtils';
-import { paymentsConfig } from './config';
 
 type MakePaymentFormProps = {
   accountDetails: AccountType[],
@@ -38,7 +36,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
   } = React.useContext(AppContext);
 
   const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
-  const { paymentConfig: { apiDetails } } = config;
+  const { paymentConfig } = config;
 
   const renderErrorValue = (errorMessage?: string) => <p>{errorMessage}</p>;
 
@@ -86,7 +84,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
         status: 'PENDING',
       },
     };
-    updateSessionStorageTransactions(mockedResponse, paymentsConfig.mockedSessionStorageKey);
+    updateSessionStorageTransactions(mockedResponse, paymentConfig.mockedSessionStorageKey);
     setFormStatus(FormStatus.SUCCESS);
     setApiResponse({
       paymentInitiationResponse: mockedResponse.identifiers,
@@ -104,16 +102,16 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
         method: 'POST',
         body: JSON.stringify(globalPaymentApiPayload),
       };
-      await sendRequest(setFormStatus, requestOptions, setApiResponse, apiDetails[0]);
+      await sendRequest(setFormStatus, requestOptions, setApiResponse, paymentConfig.apiDetails[0]);
     } else {
       handleMockedDataResponse(globalPaymentApiPayload.payments.paymentIdentifiers.endToEndId);
     }
   };
 
   return (
-    <div className=" h-4/5 flex flex-col justify-between">
+    <div className=" w-full flex flex-col justify-between h-full">
       {displayingApiData && (
-      <APIDetails details={apiDetails[0]} absolute={false} />
+      <APIDetails details={paymentConfig.apiDetails[0]} absolute={false} />
       )}
       {!displayingApiData && (formStatus === FormStatus.ERROR || apiResponse?.errors) && (
         <>

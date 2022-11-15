@@ -20,6 +20,8 @@ interface StatusConfigInterface {
 
 export interface PaymentConfigInterface {
   paymentConfig: {
+    mockedSessionStorageKey: string,
+    sessionStorageKey: string,
     apiDetails: ApiDetailsInterface[];
   }
 }
@@ -82,12 +84,24 @@ export const config: ConfigDataInterface = {
     ],
   },
   paymentConfig: {
+    mockedSessionStorageKey: 'mockedPreviousTransactions',
+    sessionStorageKey: 'previousTransactions',
     apiDetails: [
       {
         name: 'Global Payments',
         backendPath: '/api/digitalSignature/tsapi/v1/payments',
         cacheKey: 'globalPayments',
         path: 'https://apigatewaycat.jpmorgan.com/tsapi/v1/payments',
+        refreshInterval: 1800000,
+        description:
+          'The Global Payments API offers our clients a unified experience for which multiple payment types can be initiated through a single API.'
+          + 'Clients are able to access the complete payments life cycle where functions include transaction initiation, status tracking, and payment status callback.',
+      },
+      {
+        name: 'Global Payments Status',
+        backendPath: '/api/digitalSignature/tsapi/v1/payments',
+        cacheKey: 'globalPaymentsStatus',
+        path: 'https://apigatewaycat.jpmorgan.com/tsapi/v1/payments/status',
         refreshInterval: 1800000,
         description:
           'The Global Payments API offers our clients a unified experience for which multiple payment types can be initiated through a single API.'
