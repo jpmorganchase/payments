@@ -13,6 +13,7 @@ const headers: string[] = [
 function PreviousPaymentsGrid() {
   const {
     displayingMockedData,
+    setJsonDialogData,
   } = React.useContext(AppContext);
   let sessionStorageKey = 'previousMockedTransactions';
   if (!displayingMockedData) {
@@ -32,11 +33,11 @@ function PreviousPaymentsGrid() {
 
         <tbody>
           {previousPayments && previousPayments.map((payment) => (
-            <tr>
+            <tr onClick={() => setJsonDialogData({ state: true, data: JSON.stringify(payment, undefined, 2) })}>
               <td className="border-b border-slate-100  p-4 pl-8 ">{payment.identifiers.endToEndId}</td>
               <td className="border-b border-slate-100  p-4 pl-8 ">{payment.identifiers.firmRootId}</td>
-              <td className="border-b border-slate-100  p-4 pl-8 ">{payment.status ? payment.status : ''}</td>
-              <td className="border-b border-slate-100  p-4 pl-8 ">{payment.createDateTime ? payment.createDateTime : ''}</td>
+              <td className="border-b border-slate-100  p-4 pl-8 ">{payment.paymentStatus?.status ? payment.paymentStatus.status : ''}</td>
+              <td className="border-b border-slate-100  p-4 pl-8 ">{payment.paymentStatus?.createDateTime ? payment.paymentStatus?.createDateTime : ''}</td>
               <td className="border-b border-slate-100  p-4 pl-8 ">{payment.exception ? `${payment.exception[0].errorCode} - ${payment.exception[0].errorDescription}` : ''}</td>
             </tr>
           ))}

@@ -60,9 +60,10 @@ export type Error = {
 };
 
 export type PaymentStatusResponseType = {
-
-  createDateTime?: string,
-  status?: 'PENDING' | 'REJECTED' | 'COMPLETED' | 'RETURNED',
+  paymentStatus?: {
+    createDateTime: string,
+    status: 'PENDING' | 'REJECTED' | 'COMPLETED' | 'RETURNED',
+  },
   exception?: Error[],
   identifiers: APISuccessMessage
 };

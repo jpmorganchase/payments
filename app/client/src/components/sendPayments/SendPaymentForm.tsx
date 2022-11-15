@@ -3,6 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import { date } from 'yup/lib/locale';
 import { AccountType } from '../../types/accountTypes';
 import { AppContext } from '../../context/AppContext';
 import {
@@ -72,6 +73,24 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
     </div>
   );
 
+  const handleMockedDataResponse = (endToEndId: string) => {
+    const mockedResponse: PaymentStatusResponseType = {
+      identifiers: {
+        endToEndId,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        firmRootId: uuidv4(),
+      },
+      paymentStatus: {
+        createDateTime: today.toUTCString(),
+        status: 'PENDING',
+      },
+    };
+    updateSessionStorageTransactions(mockedResponse, 'previousMockedTransactions');
+    setFormStatus(FormStatus.SUCCESS);
+    setApiResponse({
+      paymentInitiationResponse: mockedResponse.identifiers,
+    });
+  };
   const onSubmit = async (data:FormValuesType) => {
     setFormStatus(FormStatus.LOADING);
     const globalPaymentApiPayload = generateApiBody(data);
@@ -85,22 +104,9 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
         body: JSON.stringify(globalPaymentApiPayload),
       };
       await sendRequest(setFormStatus, requestOptions, setApiResponse, apiDetails[0]);
+    } else {
+      handleMockedDataResponse(globalPaymentApiPayload.payments.paymentIdentifiers.endToEndId);
     }
-
-    const mockedResponse: PaymentStatusResponseType = {
-      identifiers: {
-        endToEndId: globalPaymentApiPayload.payments.paymentIdentifiers.endToEndId,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-        firmRootId: uuidv4(),
-      },
-      status: 'PENDING',
-    };
-    updateSessionStorageTransactions(mockedResponse, 'previousMockedTransactions');
-
-    setFormStatus(FormStatus.SUCCESS);
-    setApiResponse({
-      paymentInitiationResponse: mockedResponse.identifiers,
-    });
   };
 
   return (
