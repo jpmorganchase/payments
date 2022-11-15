@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppContext } from '../../context/AppContext';
 import { PaymentStatusResponseType } from '../../types/globalPaymentApiTypes';
+import previousMockedTransactionsUntyped from '../../mockedJson/uf-mocked-previous-payments.json';
 
 const headers: string[] = [
   'EndToEndId',
@@ -10,17 +11,27 @@ const headers: string[] = [
   'Exception',
 ];
 
+type MockedTransactions = {
+  payments: PaymentStatusResponseType[]
+};
+const previousMockedTransactions: MockedTransactions = previousMockedTransactionsUntyped as MockedTransactions;
+
 function PreviousPaymentsGrid() {
   const {
     displayingMockedData,
     setJsonDialogData,
   } = React.useContext(AppContext);
+  let previousPayments: PaymentStatusResponseType[] = [];
   let sessionStorageKey = 'previousMockedTransactions';
+
   if (!displayingMockedData) {
     sessionStorageKey = 'mockedTransactions';
   }
-  const previousPayments: PaymentStatusResponseType[] = JSON.parse(sessionStorage.getItem(sessionStorageKey) || '[]') as PaymentStatusResponseType[];
+  const previousPaymentsSessionStorage: PaymentStatusResponseType[] = JSON.parse(sessionStorage.getItem(sessionStorageKey) || '[]') as PaymentStatusResponseType[];
 
+  if (displayingMockedData) {
+    previousPayments = [...previousPaymentsSessionStorage, ...previousMockedTransactions.payments];
+  }
   return (
     <>
       {(!previousPayments || previousPayments.length === 0) && <p>Make a payment to see previous payments</p>}
