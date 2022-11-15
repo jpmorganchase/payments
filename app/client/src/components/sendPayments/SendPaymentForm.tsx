@@ -16,6 +16,7 @@ import FormButton from './FormButton';
 import generateApiBody, {
   sendRequest, today, updateSessionStorageTransactions, validationSchema,
 } from './SendPaymentsUtils';
+import { paymentsConfig } from './config';
 
 type MakePaymentFormProps = {
   accountDetails: AccountType[],
@@ -85,7 +86,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
         status: 'PENDING',
       },
     };
-    updateSessionStorageTransactions(mockedResponse, 'previousMockedTransactions');
+    updateSessionStorageTransactions(mockedResponse, paymentsConfig.mockedSessionStorageKey);
     setFormStatus(FormStatus.SUCCESS);
     setApiResponse({
       paymentInitiationResponse: mockedResponse.identifiers,
@@ -130,7 +131,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       {!displayingApiData && formStatus === FormStatus.LOADING && <Spinner text="" />}
       {!displayingApiData && (formStatus === FormStatus.SUCCESS || apiResponse?.paymentInitiationResponse) && (
         <>
-          <p>API response details: </p>
+          <p>Success! API response details: </p>
           <pre
             id="json"
             className="h-full border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto"

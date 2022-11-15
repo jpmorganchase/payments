@@ -2,6 +2,7 @@ import React from 'react';
 import { AppContext } from '../../context/AppContext';
 import { PaymentStatusResponseType } from '../../types/globalPaymentApiTypes';
 import previousMockedTransactionsUntyped from '../../mockedJson/uf-mocked-previous-payments.json';
+import { paymentsConfig } from './config';
 
 const headers: string[] = [
   'EndToEndId',
@@ -21,16 +22,13 @@ function PreviousPaymentsGrid() {
     displayingMockedData,
     setJsonDialogData,
   } = React.useContext(AppContext);
-  let previousPayments: PaymentStatusResponseType[] = [];
-  let sessionStorageKey = 'previousMockedTransactions';
 
-  if (!displayingMockedData) {
-    sessionStorageKey = 'mockedTransactions';
-  }
-  const previousPaymentsSessionStorage: PaymentStatusResponseType[] = JSON.parse(sessionStorage.getItem(sessionStorageKey) || '[]') as PaymentStatusResponseType[];
+  let previousPayments: PaymentStatusResponseType[] = JSON.parse(
+    sessionStorage.getItem(displayingMockedData ? paymentsConfig.mockedSessionStorageKey : paymentsConfig.sessionStorageKey) || '[]',
+  ) as PaymentStatusResponseType[];
 
   if (displayingMockedData) {
-    previousPayments = [...previousPaymentsSessionStorage, ...previousMockedTransactions.payments];
+    previousPayments = [...previousPayments, ...previousMockedTransactions.payments];
   }
   return (
     <>
@@ -39,12 +37,12 @@ function PreviousPaymentsGrid() {
     && (
       <table className="border-collapse table-auto w-full text-sm">
         <thead>
-          <tr>{headers.map((header) => <th className="border-b font-medium p-4 pl-8 pt-0 pb-3  text-left">{header}</th>)}</tr>
+          <tr>{headers.map((header) => <th className="border-b font-medium p-4 pl-8 pt-0 pb-3  text-left" key={header}>{header}</th>)}</tr>
         </thead>
 
         <tbody>
           {previousPayments && previousPayments.map((payment) => (
-            <tr onClick={() => setJsonDialogData({ state: true, data: JSON.stringify(payment, undefined, 2) })}>
+            <tr onClick={() => setJsonDialogData({ state: true, data: JSON.stringify(payment, undefined, 2) })} key={`paymentKey-${payment.identifiers.endToEndId}-${payment.identifiers.firmRootId}`}>
               <td className="border-b border-slate-100  p-4 pl-8 ">{payment.identifiers.endToEndId}</td>
               <td className="border-b border-slate-100  p-4 pl-8 ">{payment.identifiers.firmRootId}</td>
               <td className="border-b border-slate-100  p-4 pl-8 ">{payment.paymentStatus?.status ? payment.paymentStatus.status : ''}</td>
