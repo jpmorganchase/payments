@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { ApiDetailsInterface } from '../../config';
 import { AccountType } from '../../types/accountTypes';
 import {
-  APISuccessMessage, FormStatus, FormValuesType, PaymentsResponse, PaymentStatusResponseType, RTPMessage,
+  FormStatus, FormValuesType, PaymentsResponse, PaymentStatusResponseType, RTPMessage,
 } from '../../types/globalPaymentApiTypes';
 
 export const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
@@ -34,6 +34,12 @@ export const validationSchema = yup.object().shape({
     ),
 });
 
+export const updateSessionStorageTransactions = (transaction: PaymentStatusResponseType, storageId: string) => {
+  const previousTransactions: PaymentStatusResponseType[] = JSON.parse(sessionStorage.getItem(storageId) || '[]') as PaymentStatusResponseType[];
+  previousTransactions.push(transaction);
+  sessionStorage.setItem(storageId, JSON.stringify(previousTransactions));
+};
+
 export const sendRequest = async (
   setFormStatus : (status:FormStatus) => void,
   requestOptions: RequestInit,
@@ -63,11 +69,12 @@ export default function generateApiBody(data: FormValuesType) : RTPMessage {
       paymentAmount: amount,
       paymentType: 'RTP',
       paymentIdentifiers: {
-        endToEndId: `uf-rtp-${Date.now()}`,
+        endToEndId: `uf${Date.now()}`,
       },
       paymentCurrency: 'USD',
       transferType: 'CREDIT',
       debtor: {
+        debtorName: 'RAPID AUDIO LLC',
         debtorAccount: {
           accountId: debtorAccountApi.accountId,
           currency: debtorAccountApi.currency.code,
@@ -76,11 +83,13 @@ export default function generateApiBody(data: FormValuesType) : RTPMessage {
       debtorAgent: {
         financialInstitutionId: {
           clearingSystemId: {
-            id: debtorAccountApi.bankId,
+            id: debtorAccountApi.bankId ? `${debtorAccountApi.bankId}1` : '',
+            idType: 'USABA',
           },
         },
       },
       creditor: {
+        creditorName: 'OFFICE 123 INC',
         creditorAccount: {
           accountId: creditorAccountApi.accountId,
           currency: creditorAccountApi.currency.code,
@@ -89,7 +98,9 @@ export default function generateApiBody(data: FormValuesType) : RTPMessage {
       creditorAgent: {
         financialInstitutionId: {
           clearingSystemId: {
-            id: creditorAccountApi.bankId,
+            id: creditorAccountApi.bankId ? `${creditorAccountApi.bankId}1` : '',
+            idType: 'USABA',
+
           },
         },
       },

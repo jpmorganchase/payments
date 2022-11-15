@@ -8,11 +8,13 @@ export type RTPMessage = {
     paymentCurrency: string,
     paymentAmount: number,
     debtor: {
+      debtorName: string,
       debtorAccount: PaymentAccount,
     }
     debtorAgent: AgentType,
     creditorAgent: AgentType,
     creditor: {
+      creditorName: string,
       creditorAccount: PaymentAccount
     },
     transferType : string,
@@ -28,7 +30,8 @@ export type PaymentsResponse = {
 type AgentType = {
   financialInstitutionId: {
     clearingSystemId: {
-      id?: string
+      id?: string,
+      idType?: string
     }
   }
 };
@@ -57,9 +60,11 @@ export type Error = {
 };
 
 export type PaymentStatusResponseType = {
+
   createDateTime?: string,
   status?: 'PENDING' | 'REJECTED' | 'COMPLETED' | 'RETURNED',
-  exception?: Error[]
+  exception?: Error[],
+  identifiers: APISuccessMessage
 };
 export type FormValuesType = {
   debtorAccount: string,

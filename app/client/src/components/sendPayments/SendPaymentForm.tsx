@@ -2,19 +2,19 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { v4 as uuidv4 } from 'uuid';
 import { AccountType } from '../../types/accountTypes';
 import { AppContext } from '../../context/AppContext';
 import {
-  FormStatus, FormValuesType, PaymentsResponse,
+  FormStatus, FormValuesType, PaymentsResponse, PaymentStatusResponseType,
 } from '../../types/globalPaymentApiTypes';
 import { config } from '../../config';
 import Spinner from '../spinner';
-import paymentInitiationSucessUntyped from '../../mockedJson/payment-initiation-success.json';
 import APIDetails from '../APIDetails';
 import FormButton from './FormButton';
-import generateApiBody, { sendRequest, today, validationSchema } from './SendPaymentsUtils';
-
-const paymentInitiationSucessMocked: PaymentsResponse = paymentInitiationSucessUntyped as PaymentsResponse;
+import generateApiBody, {
+  sendRequest, today, updateSessionStorageTransactions, validationSchema,
+} from './SendPaymentsUtils';
 
 type MakePaymentFormProps = {
   accountDetails: AccountType[],
@@ -74,8 +74,9 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
 
   const onSubmit = async (data:FormValuesType) => {
     setFormStatus(FormStatus.LOADING);
+    const globalPaymentApiPayload = generateApiBody(data);
+
     if (!displayingMockedData) {
-      const globalPaymentApiPayload = generateApiBody(data);
       const requestOptions: RequestInit = {
         headers: {
           'Content-Type': 'application/json',
@@ -86,8 +87,20 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       await sendRequest(setFormStatus, requestOptions, setApiResponse, apiDetails[0]);
     }
 
+    const mockedResponse: PaymentStatusResponseType = {
+      identifiers: {
+        endToEndId: globalPaymentApiPayload.payments.paymentIdentifiers.endToEndId,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        firmRootId: uuidv4(),
+      },
+      status: 'PENDING',
+    };
+    updateSessionStorageTransactions(mockedResponse, 'previousMockedTransactions');
+
     setFormStatus(FormStatus.SUCCESS);
-    setApiResponse(paymentInitiationSucessMocked);
+    setApiResponse({
+      paymentInitiationResponse: mockedResponse.identifiers,
+    });
   };
 
   return (
