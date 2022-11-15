@@ -42,35 +42,46 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
 
   const renderSelectField = (
     label: string,
-    id: 'debtorAccount' | 'creditorAccount' | 'amount' | 'date',
+    id: 'debtorAccount' | 'creditorAccount',
     options: AccountType[],
     account: AccountType | Record<string, never>,
-  ) => (
-    <div className="col-span-6 sm:col-span-3">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-        {label}
-        :
-      </label>
-      <select
-        {...register(id)}
-        id={id}
-        className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      >
-        {options.map((option) => (
-          <option
-            key={`option-${option.accountId}`}
-            value={JSON.stringify(option)}
-            selected={id === 'debtorAccount' && option.accountId === account?.accountId}
-          >
-            {option.accountName}
-            {option.accountName ? ' - ' : ' '}
-            {option.accountId}
-          </option>
-        ))}
-      </select>
-      {renderErrorValue(errors[id]?.message)}
-    </div>
-  );
+  ) => {
+    let defaultValue;
+    if (id === 'debtorAccount' && account.accountId) {
+      defaultValue = JSON.stringify(options.find((e) => e.accountId === account.accountId));
+    }
+    if (id === 'creditorAccount') {
+      defaultValue = JSON.stringify(options[1]);
+    }
+
+    return (
+      <div className="col-span-6 sm:col-span-3">
+        <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+          {label}
+          :
+        </label>
+        <select
+          {...register(id)}
+          id={id}
+          defaultValue={defaultValue}
+          className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        >
+          {options.map((option) => (
+            <option
+              key={`option-${option.accountId}`}
+              value={JSON.stringify(option)}
+              selected={id === 'debtorAccount' && option.accountId === account?.accountId}
+            >
+              {option.accountName}
+              {option.accountName ? ' - ' : ' '}
+              {option.accountId}
+            </option>
+          ))}
+        </select>
+        {renderErrorValue(errors[id]?.message)}
+      </div>
+    );
+  };
 
   const handleMockedDataResponse = (endToEndId: string) => {
     const mockedResponse: PaymentStatusResponseType = {
@@ -102,7 +113,10 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
         method: 'POST',
         body: JSON.stringify(globalPaymentApiPayload),
       };
-      await sendRequest(setFormStatus, requestOptions, setApiResponse, paymentConfig.apiDetails[0]);
+      const result = await sendRequest(setFormStatus, requestOptions, setApiResponse, paymentConfig.apiDetails[0]);
+      if (result !== undefined) {
+        updateSessionStorageTransactions(result, paymentConfig.sessionStorageKey);
+      }
     } else {
       handleMockedDataResponse(globalPaymentApiPayload.payments.paymentIdentifiers.endToEndId);
     }
@@ -115,7 +129,12 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       )}
       {!displayingApiData && (formStatus === FormStatus.ERROR || apiResponse?.errors) && (
         <>
-          <p>{apiResponse?.errors?.errorDetails?.map((e) => `${e.errorCode} = ${e.errorDescription}`).join('\n') ?? 'unknown'}</p>
+          <pre
+            id="json"
+            className="h-full border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto"
+          >
+            {JSON.stringify(apiResponse?.errors, undefined, 2)}
+          </pre>
           <FormButton
             buttonText="Return"
             buttonType="button"

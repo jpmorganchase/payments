@@ -23,6 +23,7 @@ export type RTPMessage = {
 export type PaymentsResponse = {
   paymentInitiationResponse? : APISuccessMessage,
   errors? : {
+    endToEndId: string,
     errorDetails: Error[]
   }
 };
@@ -30,7 +31,7 @@ export type PaymentsResponse = {
 type AgentType = {
   financialInstitutionId: {
     clearingSystemId: {
-      id?: string,
+      id: string,
       idType?: string
     }
   }
@@ -43,7 +44,7 @@ export type PaymentAccount = {
 
 export type APISuccessMessage = {
   endToEndId: string,
-  firmRootId: string
+  firmRootId?: string
 };
 
 export type APIErrorMessage = {
@@ -61,7 +62,7 @@ export type Error = {
 
 export type PaymentStatusResponseType = {
   paymentStatus?: {
-    createDateTime: string,
+    createDateTime?: string,
     status: 'PENDING' | 'REJECTED' | 'COMPLETED' | 'RETURNED',
   },
   exception?: Error[],

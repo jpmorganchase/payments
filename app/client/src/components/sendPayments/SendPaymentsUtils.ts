@@ -51,10 +51,20 @@ export const sendRequest = async (
   setApiResponse(responseJson);
 
   if (response.ok && responseJson.paymentInitiationResponse) {
-    setFormStatus(FormStatus.LOADING);
-  } else {
-    setFormStatus(FormStatus.ERROR);
+    setFormStatus(FormStatus.SUCCESS);
+    const paymentResponse: PaymentStatusResponseType = {
+      identifiers: {
+        endToEndId: responseJson.paymentInitiationResponse.endToEndId,
+        firmRootId: responseJson.paymentInitiationResponse.firmRootId,
+      },
+      paymentStatus: {
+        status: 'PENDING',
+      },
+    };
+    return paymentResponse;
   }
+  setFormStatus(FormStatus.ERROR);
+  return undefined;
 };
 
 export default function generateApiBody(data: FormValuesType) : RTPMessage {
@@ -74,7 +84,7 @@ export default function generateApiBody(data: FormValuesType) : RTPMessage {
       paymentCurrency: 'USD',
       transferType: 'CREDIT',
       debtor: {
-        debtorName: 'RAPID AUDIO LLC',
+        debtorName: debtorAccountApi.accountName ? debtorAccountApi.accountName : '',
         debtorAccount: {
           accountId: debtorAccountApi.accountId,
           currency: debtorAccountApi.currency.code,
@@ -83,13 +93,13 @@ export default function generateApiBody(data: FormValuesType) : RTPMessage {
       debtorAgent: {
         financialInstitutionId: {
           clearingSystemId: {
-            id: debtorAccountApi.bankId ? `${debtorAccountApi.bankId}1` : '',
+            id: debtorAccountApi.aba ? debtorAccountApi.aba : '',
             idType: 'USABA',
           },
         },
       },
       creditor: {
-        creditorName: 'OFFICE 123 INC',
+        creditorName: creditorAccountApi.accountName ? creditorAccountApi.accountName : '',
         creditorAccount: {
           accountId: creditorAccountApi.accountId,
           currency: creditorAccountApi.currency.code,
@@ -98,7 +108,7 @@ export default function generateApiBody(data: FormValuesType) : RTPMessage {
       creditorAgent: {
         financialInstitutionId: {
           clearingSystemId: {
-            id: creditorAccountApi.bankId ? `${creditorAccountApi.bankId}1` : '',
+            id: creditorAccountApi.aba ? creditorAccountApi.aba : '',
             idType: 'USABA',
 
           },

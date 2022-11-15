@@ -54,11 +54,22 @@ function PreviousPaymentsGrid() {
       </tbody>
     </table>
   );
+
+  const renderEmptyPrevious = () => (
+    <p className="text-center">Make a payment to see previous</p>
+  );
   return (
     <div className="h-full">
+      <div className="flex justify-between mb-6">
+        <h2 className="text-2xl font-medium">Previous payments</h2>
+        <button type="button" onClick={() => console.log('here')} className="float-right">
+          <span className="material-icons text-md ">refresh</span>
+        </button>
+      </div>
+
       {displayingApiData
         ? <APIDetails details={paymentConfig.apiDetails[1]} absolute={false} />
-        : (!previousPayments || previousPayments.length === 0) ? <p>Make a payment to see previous payments</p> : renderTable()}
+        : (!previousPayments || previousPayments.length === 0) ? renderEmptyPrevious() : renderTable()}
     </div>
   );
 }

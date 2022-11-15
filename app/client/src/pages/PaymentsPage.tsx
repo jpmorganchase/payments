@@ -6,67 +6,44 @@ import PreviousPaymentsGrid from '../components/sendPayments/PreviousPaymentsGri
 
 const paymentsAccounts: AccountType[] = [{
   accountId: '000000010900009',
-  accountName: 'TEST ACCOUNT NAME',
-  branchId: '',
+  accountName: 'RAPID AUDIO LLC',
   bankId: '02100002',
-  bankName: 'JPMORGAN CHASE',
+  branchId: '',
+  bankName: 'JPMORGAN CHASE BANK, N.A. - NEW YOR',
   currency: {
     code: 'USD',
-    currencySequence: 0,
-    decimalLocation: 2,
     description: 'US DOLLAR',
+    decimalLocation: 2,
+    currencySequence: 0,
   },
+  aba: '021000021',
 },
 {
   accountId: '000000010962009',
-  accountName: 'TEST ACCOUNT NAME',
-  branchId: '',
+  accountName: 'MORRIS ELECTRIC CONTRACTING LLC',
   bankId: '02100002',
-  bankName: 'JPMORGAN CHASE',
+  branchId: '',
+  bankName: 'JPMORGAN CHASE BANK, N.A. - NEW YOR',
   currency: {
     code: 'USD',
-    currencySequence: 0,
-    decimalLocation: 2,
     description: 'US DOLLAR',
-  },
-},
-{
-  accountId: '000000011153244',
-  accountName: 'TEST ACCOUNT NAME',
-  branchId: '',
-  bankId: '02100002',
-  bankName: 'JPMORGAN CHASE',
-  currency: {
-    code: 'USD',
-    currencySequence: 0,
     decimalLocation: 2,
-    description: 'US DOLLAR',
+    currencySequence: 0,
   },
+  aba: '021000021',
 }, {
   accountId: '000000010975001',
-  accountName: 'TEST ACCOUNT NAME',
-  branchId: '',
+  accountName: 'OFFICE 123 INC',
   bankId: '02100002',
-  bankName: 'JPMORGAN CHASE',
+  branchId: '',
+  bankName: 'JPMORGAN CHASE BANK, N.A. - NEW YOR',
   currency: {
     code: 'USD',
-    currencySequence: 0,
-    decimalLocation: 2,
     description: 'US DOLLAR',
-  },
-},
-{
-  accountId: '000000011315421',
-  accountName: '',
-  branchId: '',
-  bankId: '02100002',
-  bankName: 'JPMORGAN CHASE',
-  currency: {
-    code: 'USD',
-    currencySequence: 0,
     decimalLocation: 2,
-    description: 'US DOLLAR',
+    currencySequence: 0,
   },
+  aba: '02100002',
 },
 ];
 function PaymentsPage() {
@@ -78,7 +55,6 @@ function PaymentsPage() {
         <SendPaymentForm accountDetails={paymentsAccounts} formStatus={formStatus} setFormStatus={setFormStatus} />
       </div>
       <div className="flex-grow gap-4">
-        <h2 className="text-2xl font-medium mb-4">Previous payments</h2>
         <PreviousPaymentsGrid />
       </div>
     </div>
