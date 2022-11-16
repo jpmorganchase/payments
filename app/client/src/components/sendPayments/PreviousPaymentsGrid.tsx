@@ -37,7 +37,7 @@ function PreviousPaymentsGrid() {
   }
 
   const renderTable = () => (
-    <table className="border-collapse table-auto text-sm overflow-scroll block">
+    <table className="border-collapse table-auto text-sm overflow-scroll block" data-cy="previousPaymentsGrid">
       <thead>
         <tr>{headers.map((header) => <th className="border-b font-medium p-4 pl-8 pt-0 pb-3  text-left" key={header}>{header}</th>)}</tr>
       </thead>
