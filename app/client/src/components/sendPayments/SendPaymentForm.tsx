@@ -120,7 +120,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
   };
 
   return (
-    <div className=" w-full flex flex-col justify-between h-full">
+    <div className=" w-full flex flex-col justify-between h-full pb-20">
       {displayingApiData && (
       <APIDetails details={paymentConfig.apiDetails[0]} absolute={false} />
       )}
@@ -142,7 +142,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
           />
         </>
       )}
-      {!displayingApiData && formStatus === FormStatus.LOADING && <Spinner text="" />}
+      {!displayingApiData && formStatus === FormStatus.LOADING && <div className="text-center pt-24"><Spinner text="Loading API Response..." /></div>}
       {!displayingApiData && (formStatus === FormStatus.SUCCESS || apiResponse?.paymentInitiationResponse) && (
         <>
           <p>Success! API response details: </p>
