@@ -12,10 +12,10 @@ function JsonDialog() {
     <Dialog
       open={jsonDialogData.state}
       onClose={() => setJsonDialogData({ state: false, data: null })}
-      className="fixed overflow-hidden"
+      className="fixed"
     >
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-      <div className="fixed  p-4 max-w-2xl inset-y-0 right-0 bg-white overflow-y-auto">
+      <div className="fixed  p-4 sm:max-w-2xl inset-y-0 right-0 bg-white overflow-y-auto w-screen">
         <Dialog.Panel>
           <div className="px-4 sm:px-6 flex-row flex justify-between">
             <Dialog.Title className="text-xl font-medium text-gray-900 mt-4">
@@ -31,7 +31,7 @@ function JsonDialog() {
           </div>
           <pre
             id="json"
-            className="h-full border-2 border-dashed border-gray-200 w-fit m-2 p-2"
+            className="h-full border-2 border-dashed border-gray-200 w-screen  m-2 p-2 overflow-scroll"
           >
             {jsonDialogData.data}
           </pre>
