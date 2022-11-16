@@ -73,6 +73,7 @@ export type FormValuesType = {
   creditorAccount: string,
   amount: number,
   date: Date,
+  paymentType: string
 };
 
 export enum FormStatus {

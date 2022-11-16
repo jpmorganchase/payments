@@ -73,7 +73,7 @@ function Sidebar() {
             </Popover.Panel>
           </Popover>
 
-          <ul className="hidden lg:block -ml-8 text-gray-500 text-xs mb-4">
+          <ul className="hidden lg:block -ml-4 text-gray-500 text-xs mb-4">
             <NavLink
               data-cy="serviceStatusDesktopLink"
               className={({ isActive }) => (isActive

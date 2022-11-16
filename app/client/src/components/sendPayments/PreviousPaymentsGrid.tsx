@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import { AppContext } from '../../context/AppContext';
@@ -43,7 +44,7 @@ function PreviousPaymentsGrid() {
 
       <tbody>
         {previousPayments && previousPayments.map((payment) => (
-          <tr onClick={() => setJsonDialogData({ state: true, data: JSON.stringify(payment, undefined, 2) })} key={`paymentKey-${payment.identifiers.endToEndId}-${payment.identifiers.firmRootId}`}>
+          <tr onClick={() => setJsonDialogData({ state: true, data: JSON.stringify(payment, undefined, 2) })} key={`paymentKey-${payment.identifiers.endToEndId}`}>
             <td className="border-b border-slate-100  p-4 pl-8 ">{payment.identifiers.endToEndId}</td>
             <td className="border-b border-slate-100  p-4 pl-8 ">{payment.identifiers.firmRootId}</td>
             <td className="border-b border-slate-100  p-4 pl-8 ">{payment.paymentStatus?.status ? payment.paymentStatus.status : ''}</td>
@@ -56,13 +57,14 @@ function PreviousPaymentsGrid() {
   );
 
   const renderEmptyPrevious = () => (
-    <p className="text-center">Make a payment to see previous</p>
+    <p className="text-center">Send a payment to see previous</p>
   );
+
   return (
     <div className="h-full">
       <div className="flex justify-between mb-6">
         <h2 className="text-2xl font-medium">Previous payments</h2>
-        <button type="button" onClick={() => console.log('here')} className="float-right">
+        <button type="button" onClick={() => console.log('refresh has been clicked')} className="float-right">
           <span className="material-icons text-md ">refresh</span>
         </button>
       </div>

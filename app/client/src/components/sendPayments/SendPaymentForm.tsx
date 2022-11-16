@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -21,6 +22,8 @@ type MakePaymentFormProps = {
   formStatus: FormStatus,
   setFormStatus: (status: FormStatus) => void
 };
+
+const paymentTypes = ['US-RTP'];
 function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaymentFormProps) {
   const {
     register,
@@ -165,6 +168,26 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       {!displayingApiData && formStatus === FormStatus.NEW && (
         <>
           <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
+            <div className="col-span-6 sm:col-span-3">
+              <label htmlFor="paymentType" className="block text-sm font-medium text-gray-700">
+                Payment Type
+              </label>
+              <select
+                {...register('paymentType')}
+                id="paymentType"
+                className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              >
+                {paymentTypes.map((type) => (
+                  <option
+                    key={`option-${type}`}
+                    value={type}
+                  >
+                    {type}
+                  </option>
+                ))}
+              </select>
+              {renderErrorValue(errors.paymentType?.message)}
+            </div>
             {renderSelectField('From', 'debtorAccount', accountDetails)}
             {renderSelectField('To', 'creditorAccount', accountDetails)}
             <div className="">
