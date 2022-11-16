@@ -32,7 +32,7 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
     resolver: yupResolver(validationSchema),
   });
   const {
-    selectedAccount, displayingMockedData, displayingApiData, setJsonDialogData,
+    displayingMockedData, displayingApiData, setJsonDialogData,
   } = React.useContext(AppContext);
 
   const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
@@ -44,12 +44,8 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
     label: string,
     id: 'debtorAccount' | 'creditorAccount',
     options: AccountType[],
-    account: AccountType | Record<string, never>,
   ) => {
     let defaultValue;
-    if (id === 'debtorAccount' && account.accountId) {
-      defaultValue = JSON.stringify(options.find((e) => e.accountId === account.accountId));
-    }
     if (id === 'creditorAccount') {
       defaultValue = JSON.stringify(options[1]);
     }
@@ -70,7 +66,6 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
             <option
               key={`option-${option.accountId}`}
               value={JSON.stringify(option)}
-              selected={id === 'debtorAccount' && option.accountId === account?.accountId}
             >
               {option.accountName}
               {option.accountName ? ' - ' : ' '}
@@ -104,7 +99,6 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
   const onSubmit = async (data:FormValuesType) => {
     setFormStatus(FormStatus.LOADING);
     const globalPaymentApiPayload = generateApiBody(data);
-
     if (!displayingMockedData) {
       const requestOptions: RequestInit = {
         headers: {
@@ -113,9 +107,12 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
         method: 'POST',
         body: JSON.stringify(globalPaymentApiPayload),
       };
-      const result = await sendRequest(setFormStatus, requestOptions, setApiResponse, paymentConfig.apiDetails[0]);
+      const result = await sendRequest(requestOptions, setApiResponse, paymentConfig.apiDetails[0].backendPath);
       if (result !== undefined) {
         updateSessionStorageTransactions(result, paymentConfig.sessionStorageKey);
+        setFormStatus(FormStatus.SUCCESS);
+      } else {
+        setFormStatus(FormStatus.ERROR);
       }
     } else {
       handleMockedDataResponse(globalPaymentApiPayload.payments.paymentIdentifiers.endToEndId);
@@ -168,8 +165,8 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       {!displayingApiData && formStatus === FormStatus.NEW && (
         <>
           <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
-            {renderSelectField('From', 'debtorAccount', accountDetails, selectedAccount)}
-            {renderSelectField('To', 'creditorAccount', accountDetails, {})}
+            {renderSelectField('From', 'debtorAccount', accountDetails)}
+            {renderSelectField('To', 'creditorAccount', accountDetails)}
             <div className="">
               <label
                 htmlFor="amount"

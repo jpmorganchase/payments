@@ -1,10 +1,13 @@
 import React from 'react';
-import { AppContext } from '../../../context/AppContext';
 import { AccountType } from '../../../types/accountTypes';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
 
-function AccountCard({ account }: { account:AccountType }) {
-  const { selectedAccount, setSelectedAccount } = React.useContext(AppContext);
+type AccountCardProps = {
+  account:AccountType,
+  selectedAccount: AccountType | Record<string, never>,
+  setSelectedAccount: (account: AccountType | Record<string, never>) => void
+};
+function AccountCard({ account, selectedAccount, setSelectedAccount }: AccountCardProps) {
   const {
     accountId, accountName, currency, errorCode, balanceList,
   } = account;

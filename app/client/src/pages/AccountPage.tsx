@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AccountInfo from '../components/accountInformationPanel/index';
 import TransactionInfo from '../components/transactionInformationPanel/index';
 import usePost from '../hooks/usePost';
@@ -16,10 +16,9 @@ const transactionMockData: TransactionDataType = transactionMockDataUntyped as T
 
 function AccountPage() {
   const { accountsConfig } = config;
-
+  const [selectedAccount, setSelectedAccount] = useState({});
   const {
     displayingMockedData,
-    setSelectedAccount,
   } = React.useContext(AppContext);
 
   const balanceResults = usePost(
@@ -44,12 +43,15 @@ function AccountPage() {
   const displayAccountPanel = (data: BalanceDataType) => (
     <AccountInfo
       data={data}
+      selectedAccount={selectedAccount}
+      setSelectedAccount={setSelectedAccount}
     />
   );
 
   const displayTransactionPanel = (data : TransactionDataType) => (
     <TransactionInfo
       transactions={data}
+      selectedAccount={selectedAccount}
     />
   );
 

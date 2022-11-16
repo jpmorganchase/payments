@@ -1,8 +1,7 @@
 import * as yup from 'yup';
-import { ApiDetailsInterface } from '../../config';
 import { AccountType } from '../../types/accountTypes';
 import {
-  FormStatus, FormValuesType, PaymentsResponse, PaymentStatusResponseType, RTPMessage,
+  FormValuesType, PaymentsResponse, PaymentStatusResponseType, RTPMessage,
 } from '../../types/globalPaymentApiTypes';
 
 export const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
@@ -41,17 +40,15 @@ export const updateSessionStorageTransactions = (transaction: PaymentStatusRespo
 };
 
 export const sendRequest = async (
-  setFormStatus : (status:FormStatus) => void,
   requestOptions: RequestInit,
   setApiResponse: (response: PaymentsResponse) => void,
-  apiDetails: ApiDetailsInterface,
+  path: string,
 ) => {
-  const response = await fetch(apiDetails.backendPath, requestOptions);
+  const response = await fetch(path, requestOptions);
   const responseJson: PaymentsResponse = await response.json() as PaymentsResponse;
   setApiResponse(responseJson);
 
   if (response.ok && responseJson.paymentInitiationResponse) {
-    setFormStatus(FormStatus.SUCCESS);
     const paymentResponse: PaymentStatusResponseType = {
       identifiers: {
         endToEndId: responseJson.paymentInitiationResponse.endToEndId,
@@ -63,7 +60,6 @@ export const sendRequest = async (
     };
     return paymentResponse;
   }
-  setFormStatus(FormStatus.ERROR);
   return undefined;
 };
 

@@ -1,19 +1,23 @@
 import React from 'react';
 import { AppContext } from '../../../context/AppContext';
 import { config } from '../../../config';
-import { CurrencyType } from '../../../types/accountTypes';
+import { AccountType, CurrencyType } from '../../../types/accountTypes';
 import APIDetails from '../../APIDetails';
 import { gatherCurrencySymbol, isEmptyObject } from '../../utils';
 
 type AccountTotalType = {
   total: number | 'Error',
-  currency: CurrencyType['code']
+  currency: CurrencyType['code'],
+  selectedAccount: AccountType | Record<string, never>,
+  setSelectedAccount: (account: AccountType | Record<string, never>) => void
 };
 function AccountTotal({
   total,
   currency,
+  selectedAccount,
+  setSelectedAccount,
 }: AccountTotalType) {
-  const { displayingApiData, selectedAccount, setSelectedAccount } = React.useContext(AppContext);
+  const { displayingApiData } = React.useContext(AppContext);
   const { accountsConfig: { apiDetails } } = config;
 
   const selectedClassName = isEmptyObject(selectedAccount)

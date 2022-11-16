@@ -5,7 +5,11 @@ import Search from '../search';
 import { AccountType, BalanceDataType } from '../../types/accountTypes';
 import { round } from '../utils';
 
-function AccountInfo({ data }: { data: BalanceDataType }) {
+function AccountInfo({ data, selectedAccount, setSelectedAccount }: {
+  data: BalanceDataType,
+  selectedAccount: AccountType | Record<string, never>,
+  setSelectedAccount: (account: AccountType | Record<string, never>) => void
+}) {
   const [searchInput, setSearchInput] = useState('');
 
   let accounts = data.accountList;
@@ -38,6 +42,8 @@ function AccountInfo({ data }: { data: BalanceDataType }) {
       <AccountTotal
         total={totalAccount}
         currency="USD"
+        selectedAccount={selectedAccount}
+        setSelectedAccount={setSelectedAccount}
       />
 
       <div className="flex justify-between items-center mt-4 mb-3">
@@ -50,7 +56,7 @@ function AccountInfo({ data }: { data: BalanceDataType }) {
         />
       </div>
       {accounts && (
-        <AccountList data={accounts} />
+        <AccountList data={accounts} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
       )}
       {!accounts || (accounts.length < 1 && <div> No Accounts found </div>)}
     </div>
