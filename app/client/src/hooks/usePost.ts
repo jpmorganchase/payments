@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 const sendPost = async (path:string, body:string) => {
   const response = await fetch(path, {
@@ -18,7 +18,7 @@ export default function usePost(
   body: string,
   displayingMockedData: boolean,
 ) {
-  return useQuery(id, () => sendPost(path, body), {
+  return useQuery([id], () => sendPost(path, body), {
     refetchInterval: intervalMs,
     retry: 0,
     staleTime: intervalMs,

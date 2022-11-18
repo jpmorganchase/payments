@@ -99,7 +99,7 @@ export const config: ConfigDataInterface = {
       },
       {
         name: 'Global Payments Status',
-        backendPath: '/api/digitalSignature/tsapi/v1/payments',
+        backendPath: '/api/cat/tsapi/v1/payments/status?endToEndId=<endToEndId>',
         cacheKey: 'globalPaymentsStatus',
         path: 'https://apigatewaycat.jpmorgan.com/tsapi/v1/payments/status',
         refreshInterval: 1800000,

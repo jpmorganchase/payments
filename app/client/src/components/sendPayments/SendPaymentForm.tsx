@@ -4,27 +4,26 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AccountType } from '../../types/accountTypes';
 import { AppContext } from '../../context/AppContext';
 import {
-  FormStatus, FormValuesType, PaymentsResponse, PaymentStatusResponseType,
+  FormValuesType, PaymentsResponse, PaymentStatusResponseType, RTPMessage,
 } from '../../types/globalPaymentApiTypes';
 import { config } from '../../config';
 import Spinner from '../spinner';
 import APIDetails from '../APIDetails';
 import FormButton from './FormButton';
 import generateApiBody, {
-  sendRequest, today, updateSessionStorageTransactions, validationSchema,
+  today, updateSessionStorageTransactions, validationSchema,
 } from './SendPaymentsUtils';
 
 type MakePaymentFormProps = {
   accountDetails: AccountType[],
-  formStatus: FormStatus,
-  setFormStatus: (status: FormStatus) => void
 };
 
 const paymentTypes = ['US-RTP'];
-function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaymentFormProps) {
+function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
   const {
     register,
     handleSubmit,
@@ -37,9 +36,39 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
   const {
     displayingMockedData, displayingApiData, setJsonDialogData,
   } = React.useContext(AppContext);
-
-  const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
+  const queryClient = useQueryClient();
   const { paymentConfig } = config;
+
+  const createPaymentMutation = useMutation({
+    mutationFn: async (data: RTPMessage) => {
+      const requestOptions: RequestInit = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify(data),
+      };
+      const response = await fetch(paymentConfig.apiDetails[0].backendPath, requestOptions);
+      return response.json();
+    },
+  });
+
+  const paymentStatusMutation = useMutation({
+    mutationFn: async (endToEndId: string) => {
+      const requestPath = paymentConfig.apiDetails[1].backendPath.replace('<endToEndId>', endToEndId);
+
+      const requestOptions: RequestInit = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'GET',
+      };
+      const paymentStatus = await fetch(requestPath, requestOptions);
+      return paymentStatus.json();
+    },
+  });
+  const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
+  const [apiError, setApiError] = React.useState<Error>();
 
   const renderErrorValue = (errorMessage?: string) => <p>{errorMessage}</p>;
 
@@ -94,32 +123,53 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       },
     };
     updateSessionStorageTransactions(mockedResponse, paymentConfig.mockedSessionStorageKey);
-    setFormStatus(FormStatus.SUCCESS);
     setApiResponse({
       paymentInitiationResponse: mockedResponse.identifiers,
     });
   };
-  const onSubmit = async (data:FormValuesType) => {
-    setFormStatus(FormStatus.LOADING);
-    const globalPaymentApiPayload = generateApiBody(data);
+  // TODO: CLEAR THIS
+  const onSubmit = (formData:FormValuesType) => {
+    const globalPaymentApiPayload = generateApiBody(formData);
     if (!displayingMockedData) {
-      const requestOptions: RequestInit = {
-        headers: {
-          'Content-Type': 'application/json',
+      createPaymentMutation.mutate(globalPaymentApiPayload, {
+        onSuccess(data) {
+          const responseJson: PaymentsResponse = data as PaymentsResponse;
+          setApiResponse(responseJson);
+          if (responseJson.paymentInitiationResponse) {
+            const { endToEndId, firmRootId } = responseJson.paymentInitiationResponse;
+            setApiResponse(responseJson);
+            paymentStatusMutation.mutate(endToEndId, {
+              onSuccess(result) {
+                const paymentStatusJson: PaymentStatusResponseType = result as PaymentStatusResponseType;
+                paymentStatusJson.identifiers = { endToEndId, firmRootId };
+                queryClient.setQueryData([paymentConfig.apiDetails[1].cacheKey, endToEndId], paymentStatusJson);
+              },
+              onError(error) {
+                if (error instanceof Error) {
+                  setApiError(error);
+                }
+              },
+            });
+          } else {
+            throw new Error();
+          }
         },
-        method: 'POST',
-        body: JSON.stringify(globalPaymentApiPayload),
-      };
-      const result = await sendRequest(requestOptions, setApiResponse, paymentConfig.apiDetails[0].backendPath);
-      if (result !== undefined) {
-        updateSessionStorageTransactions(result, paymentConfig.sessionStorageKey);
-        setFormStatus(FormStatus.SUCCESS);
-      } else {
-        setFormStatus(FormStatus.ERROR);
-      }
+        onError(error) {
+          if (error instanceof Error) {
+            setApiError(error);
+          }
+        },
+      });
     } else {
       handleMockedDataResponse(globalPaymentApiPayload.payments.paymentIdentifiers.endToEndId);
     }
+  };
+
+  const formReset = () => {
+    paymentStatusMutation.reset();
+    createPaymentMutation.reset();
+    setApiResponse(undefined);
+    setApiError(undefined);
   };
 
   return (
@@ -127,26 +177,31 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
       {displayingApiData && (
       <APIDetails details={paymentConfig.apiDetails[0]} absolute={false} />
       )}
-      {!displayingApiData && (formStatus === FormStatus.ERROR || apiResponse?.errors) && (
+      {!displayingApiData && (apiError || apiResponse?.errors) && (
         <>
+          {apiError && (
+          <p>
+            Error processing your request:
+            {apiError.message}
+          </p>
+          )}
+          {apiResponse?.errors && (
           <pre
             id="json"
             className="h-full border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto"
           >
             {JSON.stringify(apiResponse?.errors, undefined, 2)}
           </pre>
+          )}
           <FormButton
             buttonText="Return"
             buttonType="button"
-            onClickFunction={() => {
-              setFormStatus(FormStatus.NEW);
-              setApiResponse(undefined);
-            }}
+            onClickFunction={formReset}
           />
         </>
       )}
-      {!displayingApiData && formStatus === FormStatus.LOADING && <div className="text-center pt-24"><Spinner text="Loading API Response..." /></div>}
-      {!displayingApiData && (formStatus === FormStatus.SUCCESS || apiResponse?.paymentInitiationResponse) && (
+      {!displayingApiData && (createPaymentMutation.isLoading || paymentStatusMutation.isLoading) && <div className="text-center pt-24"><Spinner text="Loading API Response..." /></div>}
+      {!displayingApiData && createPaymentMutation.isSuccess && paymentStatusMutation.isSuccess && (
         <>
           <p>Success! API response details: </p>
           <pre
@@ -158,14 +213,11 @@ function MakePaymentForm({ accountDetails, formStatus, setFormStatus }: MakePaym
           <FormButton
             buttonText="Ok"
             buttonType="button"
-            onClickFunction={() => {
-              setFormStatus(FormStatus.NEW);
-              setApiResponse(undefined);
-            }}
+            onClickFunction={formReset}
           />
         </>
       )}
-      {!displayingApiData && formStatus === FormStatus.NEW && (
+      {!displayingApiData && createPaymentMutation.isIdle && paymentStatusMutation.isIdle && (
         <>
           <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
             <div className="col-span-6 sm:col-span-3">

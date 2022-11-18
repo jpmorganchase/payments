@@ -75,7 +75,3 @@ export type FormValuesType = {
   date: Date,
   paymentType: string
 };
-
-export enum FormStatus {
-  'ERROR', 'LOADING', 'SUCCESS', 'NEW',
-}

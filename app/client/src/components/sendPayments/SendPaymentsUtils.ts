@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { AccountType } from '../../types/accountTypes';
 import {
-  FormValuesType, PaymentsResponse, PaymentStatusResponseType, RTPMessage,
+  FormValuesType, PaymentStatusResponseType, RTPMessage,
 } from '../../types/globalPaymentApiTypes';
 
 export const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
@@ -37,30 +37,6 @@ export const updateSessionStorageTransactions = (transaction: PaymentStatusRespo
   const previousTransactions: PaymentStatusResponseType[] = JSON.parse(sessionStorage.getItem(storageId) || '[]') as PaymentStatusResponseType[];
   previousTransactions.push(transaction);
   sessionStorage.setItem(storageId, JSON.stringify(previousTransactions));
-};
-
-export const sendRequest = async (
-  requestOptions: RequestInit,
-  setApiResponse: (response: PaymentsResponse) => void,
-  path: string,
-) => {
-  const response = await fetch(path, requestOptions);
-  const responseJson: PaymentsResponse = await response.json() as PaymentsResponse;
-  setApiResponse(responseJson);
-
-  if (response.ok && responseJson.paymentInitiationResponse) {
-    const paymentResponse: PaymentStatusResponseType = {
-      identifiers: {
-        endToEndId: responseJson.paymentInitiationResponse.endToEndId,
-        firmRootId: responseJson.paymentInitiationResponse.firmRootId,
-      },
-      paymentStatus: {
-        status: 'PENDING',
-      },
-    };
-    return paymentResponse;
-  }
-  return undefined;
 };
 
 export default function generateApiBody(data: FormValuesType) : RTPMessage {

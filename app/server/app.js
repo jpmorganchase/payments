@@ -46,15 +46,13 @@ const handleProxyResponse = async (responseBuffer, proxyRes, req) => {
   return responseBuffer;
 };
 
-async function createProxyConfiguration(target, httpsOpts) {
+async function createProxyConfiguration(target, httpsOpts, pathRewrite) {
   const options = {
     target,
     changeOrigin: true,
     selfHandleResponse: true,
     agent: new https.Agent(httpsOpts),
-    pathRewrite: {
-      '^/api': '',
-    },
+    pathRewrite,
     onProxyRes: responseInterceptor(handleProxyResponse),
     onError: (err) => {
       console.log(err);
@@ -94,9 +92,19 @@ app.use('/api/digitalSignature/*', async (req, res, next) => {
   func(req, res, next);
 });
 
+app.use('/api/cat/*', async (req, res, next) => {
+  const httpsOpts = await gatherHttpsOptions();
+  const func = await createProxyConfiguration('https://apigatewaycat.jpmorgan.com', httpsOpts, {
+    '^/api/cat': '',
+  });
+  func(req, res, next);
+});
+
 app.use('/*', async (req, res, next) => {
   const httpsOpts = await gatherHttpsOptions();
-  const func = await createProxyConfiguration('https://apigatewayqaf.jpmorgan.com', httpsOpts);
+  const func = await createProxyConfiguration('https://apigatewayqaf.jpmorgan.com', httpsOpts, {
+    '^/api': '',
+  });
   func(req, res, next);
 });
 
