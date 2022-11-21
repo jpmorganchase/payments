@@ -9,7 +9,8 @@ interface AppContextInterface {
     state:boolean,
     data: string | null
   },
-  setJsonDialogData: ({ state, data }:{ state:boolean, data:string | null }) => void
+  setJsonDialogData: ({ state, data }:{ state:boolean, data:string | null }) => void,
+  endToEndIds: string[], setEndToEndIds: (ids:string[])=> void
 }
 
 interface Props {
@@ -25,6 +26,8 @@ const appCtxDefaultValue: AppContextInterface = {
     state: false,
     data: null,
   },
+  endToEndIds: [],
+  setEndToEndIds: () => {},
   setJsonDialogData: () => {},
 };
 
@@ -34,6 +37,7 @@ function AppContextProvider({ children }: Props) {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(appCtxDefaultValue.displayingMockedData);
   const [displayingApiData, setDisplayingApiData] = React.useState(appCtxDefaultValue.displayingApiData);
   const [jsonDialogData, setJsonDialogData] = React.useState(appCtxDefaultValue.jsonDialogData);
+  const [endToEndIds, setEndToEndIds] = React.useState<string[]>(appCtxDefaultValue.endToEndIds);
 
   return (
     <AppContext.Provider
@@ -45,6 +49,8 @@ function AppContextProvider({ children }: Props) {
         setDisplayingApiData,
         jsonDialogData,
         setJsonDialogData,
+        endToEndIds,
+        setEndToEndIds,
       }}
     >
       {children}

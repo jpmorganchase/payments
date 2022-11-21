@@ -1,7 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
-const sendPost = async (path:string, body:string) => {
+export const sendPost = async (path:string, body:string) => {
   const response = await fetch(path, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'POST',
     body,
   });

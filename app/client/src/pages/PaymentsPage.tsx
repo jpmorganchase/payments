@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SendPaymentForm from '../components/sendPayments/SendPaymentForm';
 import { AccountType } from '../types/accountTypes';
 import PreviousPaymentsGrid from '../components/sendPayments/PreviousPaymentsGrid';

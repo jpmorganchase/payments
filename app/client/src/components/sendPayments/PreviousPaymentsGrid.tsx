@@ -1,15 +1,17 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable no-console */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
+import { useQueries, useQueryClient } from '@tanstack/react-query';
 import { AppContext } from '../../context/AppContext';
 import { PaymentStatusResponseType } from '../../types/globalPaymentApiTypes';
 import previousMockedTransactionsUntyped from '../../mockedJson/uf-mocked-previous-payments.json';
 import { config } from '../../config';
 import APIDetails from '../APIDetails';
+import { sendGet } from '../../hooks/useGet';
 
 const headers: string[] = [
   'End To End Id',
-  'Firm Root Id',
   'Status',
   'Create date/time',
   'Exception',
@@ -25,33 +27,53 @@ function PreviousPaymentsGrid() {
     displayingMockedData,
     displayingApiData,
     setJsonDialogData,
+    endToEndIds,
   } = React.useContext(AppContext);
   const { paymentConfig } = config;
+  const queryClient = useQueryClient();
 
-  let previousPayments: PaymentStatusResponseType[] = JSON.parse(
-    sessionStorage.getItem(displayingMockedData ? paymentConfig.mockedSessionStorageKey : paymentConfig.sessionStorageKey) || '[]',
-  ) as PaymentStatusResponseType[];
+  const data = queryClient.getQueriesData(['globalPaymentStatus']);
 
-  if (displayingMockedData) {
-    previousPayments = [...previousPayments, ...previousMockedTransactions.payments];
-  }
+  const previousPayments = useQueries({
+    queries: endToEndIds.map((id) => ({
+      queryKey: ['globalPaymentStatus', id],
+      queryFn: () => sendGet(paymentConfig.apiDetails[1].backendPath.replace('<endToEndId>', id || '')),
+    })),
+  });
+
+  // let previousPayments: PaymentStatusResponseType[] = JSON.parse(
+  //   sessionStorage.getItem(displayingMockedData ? paymentConfig.mockedSessionStorageKey : paymentConfig.sessionStorageKey) || '[]',
+  // ) as PaymentStatusResponseType[];
+
+  // if (displayingMockedData) {
+  //   previousPayments = [...previousPayments, ...previousMockedTransactions.payments];
+  // }
 
   const renderTable = () => (
-    <table className="border-collapse table-auto text-sm overflow-scroll block" data-cy="previousPaymentsGrid">
+    <table className="border-collapse table-auto text-sm overflow-scroll block w-full" data-cy="previousPaymentsGrid">
       <thead>
         <tr>{headers.map((header) => <th className="border-b font-medium p-4 pl-8 pt-0 pb-3  text-left" key={header}>{header}</th>)}</tr>
       </thead>
 
       <tbody>
-        {previousPayments && previousPayments.map((payment) => (
-          <tr onClick={() => setJsonDialogData({ state: true, data: JSON.stringify(payment, undefined, 2) })} key={`paymentKey-${payment.identifiers.endToEndId}`}>
-            <td className="border-b border-slate-100  p-4 pl-8 ">{payment.identifiers.endToEndId}</td>
-            <td className="border-b border-slate-100  p-4 pl-8 ">{payment.identifiers.firmRootId}</td>
-            <td className="border-b border-slate-100  p-4 pl-8 ">{payment.paymentStatus?.status ? payment.paymentStatus.status : ''}</td>
-            <td className="border-b border-slate-100  p-4 pl-8 ">{payment.paymentStatus?.createDateTime ? payment.paymentStatus?.createDateTime : ''}</td>
-            <td className="border-b border-slate-100  p-4 pl-8 ">{payment.exception ? `${payment.exception[0].errorCode} - ${payment.exception[0].errorDescription}` : ''}</td>
-          </tr>
-        ))}
+        {data && data.map((payment) => {
+          if (payment && payment.length === 2 && payment[1] !== undefined) {
+            const previousPayment = payment[1] as PaymentStatusResponseType;
+            const endToEndId = payment[0][1] as string;
+            return (
+              <tr onClick={() => setJsonDialogData({ state: true, data: JSON.stringify(payment[1], undefined, 2) })} key={`paymentKey-${endToEndId}`}>
+                <td className="border-b border-slate-100  p-4 pl-8 ">{endToEndId}</td>
+                <td className="border-b border-slate-100  p-4 pl-8 ">{previousPayment.paymentStatus?.status ? previousPayment.paymentStatus.status : ''}</td>
+                <td className="border-b border-slate-100  p-4 pl-8 ">{previousPayment.paymentStatus?.createDateTime ? previousPayment.paymentStatus?.createDateTime : ''}</td>
+                <td className="border-b border-slate-100  p-4 pl-8 ">
+                  {previousPayment.exception ? `${previousPayment.exception[0].errorCode} - ${previousPayment.exception[0].errorDescription}` : ''}
+
+                </td>
+              </tr>
+            );
+          }
+          return <div />;
+        })}
       </tbody>
     </table>
   );
@@ -60,11 +82,15 @@ function PreviousPaymentsGrid() {
     <p className="text-center">Send a payment to see previous</p>
   );
 
+  const refreshQueries = async () => {
+    await queryClient.refetchQueries({ queryKey: ['globalPaymentStatus'] });
+  };
+
   return (
     <div className="h-full">
       <div className="flex justify-between mb-6">
         <h2 className="text-2xl font-medium">Previous payments</h2>
-        <button type="button" onClick={() => console.log('refresh has been clicked')} className="float-right">
+        <button type="button" onClick={() => refreshQueries()} className="float-right">
           <span className="material-icons text-md ">refresh</span>
         </button>
       </div>
