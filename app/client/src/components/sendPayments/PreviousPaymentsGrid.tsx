@@ -28,7 +28,7 @@ function PreviousPaymentsGrid() {
     displayingMockedData,
     displayingApiData,
     setJsonDialogData,
-    endToEndIds,
+    paymentIdentifiers,
   } = React.useContext(AppContext);
   const { paymentConfig } = config;
   const queryClient = useQueryClient();
@@ -36,49 +36,55 @@ function PreviousPaymentsGrid() {
   const data = queryClient.getQueriesData(['globalPaymentStatus']);
 
   const previousPayments = useQueries({
-    queries: endToEndIds.map((id) => ({
-      queryKey: ['globalPaymentStatus', id],
-      queryFn: () => sendGet(paymentConfig.apiDetails[1].backendPath.replace('<endToEndId>', id || '')),
+    queries: paymentIdentifiers.filter((payment) => !payment.mocked).map((id) => ({
+      queryKey: ['globalPaymentStatus', id.endToEndId],
+      queryFn: () => sendGet(paymentConfig.apiDetails[1].backendPath.replace('<endToEndId>', id.endToEndId || '')),
       refetchInterval: 0,
+      enabled: !displayingMockedData,
       staleTime: Infinity,
     })),
   });
 
   const previousPaymentsLoading = previousPayments.some((result) => result.isFetching);
+  let mockedData: PaymentStatusResponseType[] = [];
+  const mockedPreviousPaymentsSession: PaymentStatusResponseType[] = JSON.parse(
+    sessionStorage.getItem(paymentConfig.mockedSessionStorageKey) || '[]',
+  ) as PaymentStatusResponseType[];
 
-  // let previousPayments: PaymentStatusResponseType[] = JSON.parse(
-  //   sessionStorage.getItem(displayingMockedData ? paymentConfig.mockedSessionStorageKey : paymentConfig.sessionStorageKey) || '[]',
-  // ) as PaymentStatusResponseType[];
+  if (displayingMockedData) {
+    mockedData = [...mockedPreviousPaymentsSession, ...previousMockedTransactions.payments];
+  }
 
-  // if (displayingMockedData) {
-  //   previousPayments = [...previousPayments, ...previousMockedTransactions.payments];
-  // }
+  const renderCells = (payment: PaymentStatusResponseType, endToEndId:string) => (
+    <tr onClick={() => setJsonDialogData({ state: true, data: JSON.stringify(payment, undefined, 2) })} key={`paymentKey-${endToEndId}`}>
+      <td className="border-b border-slate-100  p-4 pl-8 ">{endToEndId}</td>
+      <td className="border-b border-slate-100  p-4 pl-8 ">{payment.paymentStatus?.status ? payment.paymentStatus.status : ''}</td>
+      <td className="border-b border-slate-100  p-4 pl-8 ">{payment.paymentStatus?.createDateTime ? payment.paymentStatus?.createDateTime : ''}</td>
+      <td className="border-b border-slate-100  p-4 pl-8 ">
+        {payment.exception ? `${payment.exception[0].errorCode} - ${payment.exception[0].errorDescription}` : ''}
+      </td>
+    </tr>
+  );
+
+  const renderMockedCells = () => mockedData.map((mock) => renderCells(mock, mock.identifiers.endToEndId));
+
+  const renderTableCells = () => data.map((payment) => {
+    if (payment && payment.length === 2 && payment[1] !== undefined) {
+      const previousPayment = payment[1] as PaymentStatusResponseType;
+      const endToEndId = payment[0][1] as string;
+      return renderCells(previousPayment, endToEndId);
+    }
+    return <div />;
+  });
 
   const renderTable = () => (
-    <table className="border-collapse table-fixed text-sm overflow-scroll w-full" data-cy="previousPaymentsGrid">
+    <table className="border-collapse table-layout text-sm overflow-scroll w-full block lg:table" data-cy="previousPaymentsGrid">
       <thead>
         <tr>{headers.map((header) => <th className="border-b font-medium p-4 pl-8 pt-0 pb-3  text-left" key={header}>{header}</th>)}</tr>
       </thead>
 
       <tbody>
-        {data && data.map((payment) => {
-          if (payment && payment.length === 2 && payment[1] !== undefined) {
-            const previousPayment = payment[1] as PaymentStatusResponseType;
-            const endToEndId = payment[0][1] as string;
-            return (
-              <tr onClick={() => setJsonDialogData({ state: true, data: JSON.stringify(payment[1], undefined, 2) })} key={`paymentKey-${endToEndId}`}>
-                <td className="border-b border-slate-100  p-4 pl-8 ">{endToEndId}</td>
-                <td className="border-b border-slate-100  p-4 pl-8 ">{previousPayment.paymentStatus?.status ? previousPayment.paymentStatus.status : ''}</td>
-                <td className="border-b border-slate-100  p-4 pl-8 ">{previousPayment.paymentStatus?.createDateTime ? previousPayment.paymentStatus?.createDateTime : ''}</td>
-                <td className="border-b border-slate-100  p-4 pl-8 ">
-                  {previousPayment.exception ? `${previousPayment.exception[0].errorCode} - ${previousPayment.exception[0].errorDescription}` : ''}
-
-                </td>
-              </tr>
-            );
-          }
-          return <div />;
-        })}
+        {displayingMockedData ? renderMockedCells() : renderTableCells()}
       </tbody>
     </table>
   );
@@ -102,8 +108,8 @@ function PreviousPaymentsGrid() {
 
       {displayingApiData
         ? <APIDetails details={paymentConfig.apiDetails[1]} absolute={false} />
-        : previousPaymentsLoading ? <Spinner text="Updating payment status data...." />
-          : (!previousPayments || previousPayments.length === 0) ? renderEmptyPrevious() : renderTable()}
+        : !displayingMockedData && previousPaymentsLoading ? <Spinner text="Updating payment status data...." />
+          : (displayingMockedData && mockedData.length === 0) || (!displayingMockedData && (!previousPayments || previousPayments.length === 0)) ? renderEmptyPrevious() : renderTable()}
     </div>
   );
 }

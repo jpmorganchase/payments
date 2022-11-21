@@ -3,7 +3,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AccountType } from '../../types/accountTypes';
 import { AppContext } from '../../context/AppContext';
@@ -36,7 +35,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
     resolver: yupResolver(validationSchema),
   });
   const {
-    displayingMockedData, displayingApiData, setJsonDialogData, endToEndIds, setEndToEndIds,
+    displayingMockedData, displayingApiData, setJsonDialogData, paymentIdentifiers, setPaymentIdentifiers,
   } = React.useContext(AppContext);
   const { paymentConfig } = config;
   const queryClient = useQueryClient();
@@ -91,18 +90,21 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
     const mockedResponse: PaymentStatusResponseType = {
       identifiers: {
         endToEndId,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-        firmRootId: uuidv4(),
       },
       paymentStatus: {
         createDateTime: today.toUTCString(),
         status: 'PENDING',
       },
     };
+    const newPayment = {
+      endToEndId,
+      mocked: true,
+    };
     updateSessionStorageTransactions(mockedResponse, paymentConfig.mockedSessionStorageKey);
     setApiResponse({
       paymentInitiationResponse: mockedResponse.identifiers,
     });
+    setPaymentIdentifiers([...paymentIdentifiers, newPayment]);
   };
   const onSubmit = (formData:FormValuesType) => {
     const globalPaymentApiPayload = generateApiBody(formData);
@@ -114,11 +116,16 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
           if (!responseJson.paymentInitiationResponse) {
             throw new Error();
           } else {
-            const endToEnd = responseJson.paymentInitiationResponse.endToEndId;
-            setEndToEndIds([...endToEndIds, endToEnd]);
+            const { firmRootId, endToEndId } = responseJson.paymentInitiationResponse;
+            const newPayment = {
+              firmRootId,
+              endToEndId,
+              mocked: false,
+            };
+            setPaymentIdentifiers([...paymentIdentifiers, newPayment]);
             await queryClient.prefetchQuery(
-              ['globalPaymentStatus', endToEnd],
-              () => sendGet(paymentConfig.apiDetails[1].backendPath.replace('<endToEndId>', endToEnd)),
+              ['globalPaymentStatus', endToEndId],
+              () => sendGet(paymentConfig.apiDetails[1].backendPath.replace('<endToEndId>', endToEndId)),
             );
           }
         },
@@ -168,7 +175,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
         </>
       )}
       {!displayingApiData && (createPaymentMutation.isLoading) && <div className="text-center pt-24"><Spinner text="Loading API Response..." /></div>}
-      {!displayingApiData && createPaymentMutation.isSuccess && (
+      {((!displayingApiData && createPaymentMutation.isSuccess) || (displayingMockedData && apiResponse)) && (
         <>
           <p>Success! API response details: </p>
           <pre
@@ -184,7 +191,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
           />
         </>
       )}
-      {!displayingApiData && createPaymentMutation.isIdle && (
+      {((!displayingApiData && createPaymentMutation.isIdle && !displayingMockedData) || (displayingMockedData && !apiResponse)) && (
         <>
           <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
             <div className="col-span-6 sm:col-span-3">

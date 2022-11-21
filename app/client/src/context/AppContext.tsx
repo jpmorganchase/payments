@@ -1,5 +1,10 @@
 import * as React from 'react';
 
+type PaymentIdentifiers = {
+  endToEndId: string,
+  firmRootId?: string,
+  mocked: boolean,
+};
 interface AppContextInterface {
   setDisplayingMockedData: (displayingMockedData: boolean) => void,
   setDisplayingApiData: (displayingApiData:boolean) => void,
@@ -10,7 +15,8 @@ interface AppContextInterface {
     data: string | null
   },
   setJsonDialogData: ({ state, data }:{ state:boolean, data:string | null }) => void,
-  endToEndIds: string[], setEndToEndIds: (ids:string[])=> void
+  paymentIdentifiers: PaymentIdentifiers[],
+  setPaymentIdentifiers: (identifiers :PaymentIdentifiers[]) => void
 }
 
 interface Props {
@@ -26,8 +32,13 @@ const appCtxDefaultValue: AppContextInterface = {
     state: false,
     data: null,
   },
-  endToEndIds: [],
-  setEndToEndIds: () => {},
+  paymentIdentifiers: [{
+    endToEndId: '',
+    firmRootId: '',
+    mocked: true,
+  }],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setPaymentIdentifiers: ([{ endToEndId, firmRootId, mocked }]) => {},
   setJsonDialogData: () => {},
 };
 
@@ -37,7 +48,7 @@ function AppContextProvider({ children }: Props) {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(appCtxDefaultValue.displayingMockedData);
   const [displayingApiData, setDisplayingApiData] = React.useState(appCtxDefaultValue.displayingApiData);
   const [jsonDialogData, setJsonDialogData] = React.useState(appCtxDefaultValue.jsonDialogData);
-  const [endToEndIds, setEndToEndIds] = React.useState<string[]>(appCtxDefaultValue.endToEndIds);
+  const [paymentIdentifiers, setPaymentIdentifiers] = React.useState(appCtxDefaultValue.paymentIdentifiers);
 
   return (
     <AppContext.Provider
@@ -49,8 +60,8 @@ function AppContextProvider({ children }: Props) {
         setDisplayingApiData,
         jsonDialogData,
         setJsonDialogData,
-        endToEndIds,
-        setEndToEndIds,
+        paymentIdentifiers,
+        setPaymentIdentifiers,
       }}
     >
       {children}
