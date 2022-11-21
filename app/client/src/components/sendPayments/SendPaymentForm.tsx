@@ -4,7 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AccountType } from '../../types/accountTypes';
 import { AppContext } from '../../context/AppContext';
 import {
@@ -18,6 +18,7 @@ import generateApiBody, {
   today, updateSessionStorageTransactions, validationSchema,
 } from './SendPaymentsUtils';
 import { sendPost } from '../../hooks/usePost';
+import { sendGet } from '../../hooks/useGet';
 
 type MakePaymentFormProps = {
   accountDetails: AccountType[]
@@ -38,6 +39,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
     displayingMockedData, displayingApiData, setJsonDialogData, endToEndIds, setEndToEndIds,
   } = React.useContext(AppContext);
   const { paymentConfig } = config;
+  const queryClient = useQueryClient();
   const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
   const [apiError, setApiError] = React.useState<Error>();
 
@@ -106,13 +108,18 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
     const globalPaymentApiPayload = generateApiBody(formData);
     if (!displayingMockedData) {
       createPaymentMutation.mutate(globalPaymentApiPayload, {
-        onSuccess(data) {
+        async onSuccess(data) {
           const responseJson: PaymentsResponse = data as PaymentsResponse;
           setApiResponse(responseJson);
           if (!responseJson.paymentInitiationResponse) {
             throw new Error();
           } else {
-            setEndToEndIds([...endToEndIds, responseJson.paymentInitiationResponse.endToEndId]);
+            const endToEnd = responseJson.paymentInitiationResponse.endToEndId;
+            setEndToEndIds([...endToEndIds, endToEnd]);
+            await queryClient.prefetchQuery(
+              ['globalPaymentStatus', endToEnd],
+              () => sendGet(paymentConfig.apiDetails[1].backendPath.replace('<endToEndId>', endToEnd)),
+            );
           }
         },
         onError(error) {

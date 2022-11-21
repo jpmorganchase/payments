@@ -9,6 +9,7 @@ import previousMockedTransactionsUntyped from '../../mockedJson/uf-mocked-previo
 import { config } from '../../config';
 import APIDetails from '../APIDetails';
 import { sendGet } from '../../hooks/useGet';
+import Spinner from '../spinner';
 
 const headers: string[] = [
   'End To End Id',
@@ -38,8 +39,12 @@ function PreviousPaymentsGrid() {
     queries: endToEndIds.map((id) => ({
       queryKey: ['globalPaymentStatus', id],
       queryFn: () => sendGet(paymentConfig.apiDetails[1].backendPath.replace('<endToEndId>', id || '')),
+      refetchInterval: 0,
+      staleTime: Infinity,
     })),
   });
+
+  const previousPaymentsLoading = previousPayments.some((result) => result.isFetching);
 
   // let previousPayments: PaymentStatusResponseType[] = JSON.parse(
   //   sessionStorage.getItem(displayingMockedData ? paymentConfig.mockedSessionStorageKey : paymentConfig.sessionStorageKey) || '[]',
@@ -50,7 +55,7 @@ function PreviousPaymentsGrid() {
   // }
 
   const renderTable = () => (
-    <table className="border-collapse table-auto text-sm overflow-scroll block w-full" data-cy="previousPaymentsGrid">
+    <table className="border-collapse table-fixed text-sm overflow-scroll w-full" data-cy="previousPaymentsGrid">
       <thead>
         <tr>{headers.map((header) => <th className="border-b font-medium p-4 pl-8 pt-0 pb-3  text-left" key={header}>{header}</th>)}</tr>
       </thead>
@@ -97,7 +102,8 @@ function PreviousPaymentsGrid() {
 
       {displayingApiData
         ? <APIDetails details={paymentConfig.apiDetails[1]} absolute={false} />
-        : (!previousPayments || previousPayments.length === 0) ? renderEmptyPrevious() : renderTable()}
+        : previousPaymentsLoading ? <Spinner text="Updating payment status data...." />
+          : (!previousPayments || previousPayments.length === 0) ? renderEmptyPrevious() : renderTable()}
     </div>
   );
 }
