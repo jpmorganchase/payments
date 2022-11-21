@@ -50,8 +50,8 @@ function DailyTransactionTable({
                   {transaction.debitCreditCode}
                 </td>
                 <td className="py-2 whitespace-nowrap">
-                  $
                   <b>
+                    $
                     {transaction.amount}
                     {' '}
                   </b>
