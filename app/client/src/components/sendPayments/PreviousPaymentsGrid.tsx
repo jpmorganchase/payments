@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable no-console */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import { useQueries, useQueryClient } from '@tanstack/react-query';

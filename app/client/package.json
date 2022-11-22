@@ -12,7 +12,6 @@
     "@types/react": "^18.0.23",
     "@types/react-dom": "^18.0.7",
     "@types/react-highcharts": "^16.0.3",
-    "@types/uuid": "^8.3.4",
     "@types/yup": "^0.32.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-google": "^0.14.0",
