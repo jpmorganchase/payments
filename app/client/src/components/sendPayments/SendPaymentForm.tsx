@@ -191,7 +191,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
           />
         </>
       )}
-      {((!displayingApiData && createPaymentMutation.isIdle && !displayingMockedData) || (displayingMockedData && !apiResponse)) && (
+      {(!displayingApiData && ((createPaymentMutation.isIdle && !displayingMockedData) || (displayingMockedData && !apiResponse))) && (
         <>
           <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
             <div className="col-span-6 sm:col-span-3">
