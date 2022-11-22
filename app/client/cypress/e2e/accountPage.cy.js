@@ -51,7 +51,7 @@ describe('Account page', () => {
     viewports.forEach((viewport) => {
       cy.viewport(viewport);
       cy.get('[data-cy="transactionsGrid"]')
-        .contains('TXN-C-779702311-369abcdef')
+        .contains('TXN-C-779702311-369')
         .click();
       cy.contains('Raw JSON');
       cy.get('[data-cy="closeButton"]').click();
