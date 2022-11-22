@@ -17,9 +17,7 @@ const transactionMockData: TransactionDataType = transactionMockDataUntyped as T
 function AccountPage() {
   const { accountsConfig } = config;
   const [selectedAccount, setSelectedAccount] = useState({});
-  const {
-    displayingMockedData,
-  } = React.useContext(AppContext);
+  const { displayingMockedData } = React.useContext(AppContext);
 
   const balanceResults = usePost(
     accountsConfig.apiDetails[0].backendPath,

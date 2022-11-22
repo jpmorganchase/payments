@@ -68,7 +68,7 @@ async function createProxyConfigurationForDigital(target, httpsOpts, digitalSign
     selfHandleResponse: true,
     agent: new https.Agent(httpsOpts),
     pathRewrite: {
-      '^/api/digitalSignature': '',
+      '^/digitalSignature': '',
     },
     onProxyReq: async (proxyReq, req) => {
       if (req.body) {
@@ -85,17 +85,17 @@ async function createProxyConfigurationForDigital(target, httpsOpts, digitalSign
   return createProxyMiddleware(options);
 }
 
-app.use('/api/digitalSignature/*', async (req, res, next) => {
+app.use('/digitalSignature/*', async (req, res, next) => {
   const httpsOpts = await gatherHttpsOptions();
   const digitalSignature = await generateJWTJose(req.body, httpsOpts.digital);
   const func = await createProxyConfigurationForDigital('https://apigatewaycat.jpmorgan.com', httpsOpts, digitalSignature);
   func(req, res, next);
 });
 
-app.use('/api/cat/*', async (req, res, next) => {
+app.use('/cat/*', async (req, res, next) => {
   const httpsOpts = await gatherHttpsOptions();
   const func = await createProxyConfiguration('https://apigatewaycat.jpmorgan.com', httpsOpts, {
-    '^/api/cat': '',
+    '^/cat': '',
   });
   func(req, res, next);
 });
