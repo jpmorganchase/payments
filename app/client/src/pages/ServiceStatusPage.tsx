@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import StatusTable from '../components/statusTable';
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
-import { AppContext } from '../AppContext';
+import { AppContext } from '../context/AppContext';
 import mockedDataUntyped from '../mockedJson/uf-service-status.json';
 
 import { config } from '../config';

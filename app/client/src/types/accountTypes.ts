@@ -10,7 +10,7 @@ export type AccountType = {
   currency: CurrencyType
   errorCode?: string | number,
   balanceList?: BalanceListType[],
-  aba ?: string | number
+  aba?: string
 };
 
 export type CurrencyType = {

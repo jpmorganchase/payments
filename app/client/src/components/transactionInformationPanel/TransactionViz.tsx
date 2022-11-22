@@ -111,14 +111,16 @@ const generateOptionsForDateVisual = (data: GroupByDayType[]) => {
 };
 
 const generateOptionsForTypeVisual = (data: TransactionType[]) => {
-  const chartData : ChartDataType = [];
+  const chartData : ChartDataType = [{
+    name: 'DEBIT', y: 0,
+  }, { name: 'CREDIT', y: 0 }];
   data.forEach((transaction) => {
-    chartData.push({
-      name: transaction.debitCreditCode,
-      y: transaction.amount,
-    });
+    if (transaction.debitCreditCode === 'DEBIT') {
+      chartData[0].y += 1;
+    } else if (transaction.debitCreditCode === 'CREDIT') {
+      chartData[1].y += 1;
+    }
   });
-
   return genOptions(chartData, 'Total debits & credits');
 };
 

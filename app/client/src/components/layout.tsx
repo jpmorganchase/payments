@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { AppContext } from '../AppContext';
+import { AppContext } from '../context/AppContext';
+import JsonDialog from './JsonDialog';
 import Sidebar from './sidebar';
 import WhatAPI from './whatApi';
 
@@ -22,6 +23,7 @@ function Layout() {
       <Sidebar />
       <main className="h-auto lg:h-full lg:min-h-screen lg:w-11/12 w-full">
         <Outlet />
+        <JsonDialog />
         <WhatAPI
           toggleMockedData={toggleMockedData}
           mockedDataEnabled={displayingMockedData}

@@ -1,15 +1,22 @@
 import * as React from 'react';
-import { AccountType } from './types/accountTypes';
 
+type PaymentIdentifiers = {
+  endToEndId: string,
+  firmRootId?: string,
+  mocked: boolean,
+};
 interface AppContextInterface {
   setDisplayingMockedData: (displayingMockedData: boolean) => void,
   setDisplayingApiData: (displayingApiData:boolean) => void,
-  setPaymentFormOpen: (isPaymentFormOpen:boolean) => void,
-  setSelectedAccount: (account: AccountType | Record<string, never>) => void,
-  selectedAccount: AccountType | Record<string, never>,
   displayingApiData: boolean,
   displayingMockedData: boolean,
-  isPaymentFormOpen: boolean,
+  jsonDialogData: {
+    state:boolean,
+    data: string | null
+  },
+  setJsonDialogData: ({ state, data }:{ state:boolean, data:string | null }) => void,
+  paymentIdentifiers: PaymentIdentifiers[],
+  setPaymentIdentifiers: (identifiers :PaymentIdentifiers[]) => void
 }
 
 interface Props {
@@ -19,12 +26,20 @@ interface Props {
 const appCtxDefaultValue: AppContextInterface = {
   displayingApiData: false,
   displayingMockedData: true,
-  isPaymentFormOpen: false,
   setDisplayingApiData: () => {},
   setDisplayingMockedData: () => {},
-  selectedAccount: {},
-  setSelectedAccount: () => {},
-  setPaymentFormOpen: () => {},
+  jsonDialogData: {
+    state: false,
+    data: null,
+  },
+  paymentIdentifiers: [{
+    endToEndId: '',
+    firmRootId: '',
+    mocked: true,
+  }],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setPaymentIdentifiers: ([{ endToEndId, firmRootId, mocked }]) => {},
+  setJsonDialogData: () => {},
 };
 
 const AppContext = React.createContext<AppContextInterface>(appCtxDefaultValue);
@@ -32,8 +47,8 @@ const AppContext = React.createContext<AppContextInterface>(appCtxDefaultValue);
 function AppContextProvider({ children }: Props) {
   const [displayingMockedData, setDisplayingMockedData] = React.useState(appCtxDefaultValue.displayingMockedData);
   const [displayingApiData, setDisplayingApiData] = React.useState(appCtxDefaultValue.displayingApiData);
-  const [selectedAccount, setSelectedAccount] = React.useState(appCtxDefaultValue.selectedAccount);
-  const [isPaymentFormOpen, setPaymentFormOpen] = React.useState(appCtxDefaultValue.isPaymentFormOpen);
+  const [jsonDialogData, setJsonDialogData] = React.useState(appCtxDefaultValue.jsonDialogData);
+  const [paymentIdentifiers, setPaymentIdentifiers] = React.useState(appCtxDefaultValue.paymentIdentifiers);
 
   return (
     <AppContext.Provider
@@ -43,10 +58,10 @@ function AppContextProvider({ children }: Props) {
         setDisplayingMockedData,
         displayingApiData,
         setDisplayingApiData,
-        selectedAccount,
-        setSelectedAccount,
-        isPaymentFormOpen,
-        setPaymentFormOpen,
+        jsonDialogData,
+        setJsonDialogData,
+        paymentIdentifiers,
+        setPaymentIdentifiers,
       }}
     >
       {children}

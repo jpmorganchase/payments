@@ -1,20 +1,25 @@
 import React from 'react';
+import { AppContext } from '../../../context/AppContext';
 import { TransactionType } from '../../../types/transactionTypes';
 import { formatDate } from '../../utils';
+
+const headers = [
+  'Transaction Type',
+  'Amount',
+  'Account',
+  'Reference',
+  'Category',
+  'Date',
+];
 
 function DailyTransactionTable({
   date,
   transactions,
-  openTransactionDialog,
-}: { date: string, transactions: TransactionType[], openTransactionDialog:(state:boolean, transaction: TransactionType) =>void }) {
-  const headers = [
-    'Transaction Type',
-    'Amount',
-    'Account',
-    'Reference',
-    'Category',
-    'Date',
-  ];
+}: { date: string, transactions: TransactionType[] }) {
+  const {
+    setJsonDialogData,
+  } = React.useContext(AppContext);
+
   const renderHeaders = headers.map((header) => (
     <th
       scope="col"
@@ -39,14 +44,14 @@ function DailyTransactionTable({
             && transactions.map((transaction) => (
               <tr
                 key={`transaction-${transaction.transactionId}`}
-                onClick={() => openTransactionDialog(true, transaction)}
+                onClick={() => setJsonDialogData({ state: true, data: JSON.stringify(transaction, undefined, 2) })}
               >
                 <td className="py-2 whitespace-nowrap">
                   {transaction.debitCreditCode}
                 </td>
                 <td className="py-2 whitespace-nowrap">
-                  $
                   <b>
+                    $
                     {transaction.amount}
                     {' '}
                   </b>

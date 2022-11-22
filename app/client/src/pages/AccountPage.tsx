@@ -1,31 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AccountInfo from '../components/accountInformationPanel/index';
 import TransactionInfo from '../components/transactionInformationPanel/index';
 import usePost from '../hooks/usePost';
-import TransactionJsonDialog from '../components/transactionInformationPanel/TransactionJsonDialog';
 import Spinner from '../components/spinner';
 import useGet from '../hooks/useGet';
-import { AppContext } from '../AppContext';
+import { AppContext } from '../context/AppContext';
 import balanceMockDataUntyped from '../mockedJson/uf-balances.json';
 import transactionMockDataUntyped from '../mockedJson/uf-transactions.json';
 import { config } from '../config';
 import { BalanceDataType } from '../types/accountTypes';
-import { TransactionDataType, TransactionType } from '../types/transactionTypes';
-import PaymentDialog from '../components/PaymentDialog';
+import { TransactionDataType } from '../types/transactionTypes';
 
 const balanceMockData: BalanceDataType = balanceMockDataUntyped as BalanceDataType;
 const transactionMockData: TransactionDataType = transactionMockDataUntyped as TransactionDataType;
 
 function AccountPage() {
   const { accountsConfig } = config;
-
-  const {
-    displayingMockedData,
-    setSelectedAccount,
-  } = React.useContext(AppContext);
-
-  const [transactionDialogOpen, setTransactionDialogState] = React.useState<boolean>(false);
-  const [selectedTransaction, setSelectedTransaction] = React.useState<TransactionType | Record<string, never>>({});
+  const [selectedAccount, setSelectedAccount] = useState({});
+  const { displayingMockedData } = React.useContext(AppContext);
 
   const balanceResults = usePost(
     accountsConfig.apiDetails[0].backendPath,
@@ -44,24 +36,20 @@ function AccountPage() {
 
   useEffect(() => {
     setSelectedAccount({});
-    setSelectedTransaction({});
   }, [displayingMockedData, setSelectedAccount]);
-
-  const openTransactionDialog = (state:boolean, transaction: TransactionType | Record<string, never>) => {
-    setTransactionDialogState(state);
-    setSelectedTransaction(transaction);
-  };
 
   const displayAccountPanel = (data: BalanceDataType) => (
     <AccountInfo
       data={data}
+      selectedAccount={selectedAccount}
+      setSelectedAccount={setSelectedAccount}
     />
   );
 
   const displayTransactionPanel = (data : TransactionDataType) => (
     <TransactionInfo
       transactions={data}
-      openTransactionDialog={openTransactionDialog}
+      selectedAccount={selectedAccount}
     />
   );
 
@@ -69,7 +57,6 @@ function AccountPage() {
     if (displayingMockedData) {
       return (
         <div className="flex flex-wrap">
-          <PaymentDialog accountDetails={balanceMockData} />
           {displayAccountPanel(balanceMockData)}
           {displayTransactionPanel(transactionMockData)}
         </div>
@@ -89,7 +76,6 @@ function AccountPage() {
     }
     return (
       <div className="flex flex-wrap">
-        <PaymentDialog accountDetails={balanceResults?.data as BalanceDataType} />
         {displayAccountPanel(balanceResults?.data as BalanceDataType)}
         {displayTransactionPanel(transactionResults?.data as TransactionDataType)}
       </div>
@@ -99,11 +85,6 @@ function AccountPage() {
   return (
     <>
       {displayPanels()}
-      <TransactionJsonDialog
-        open={transactionDialogOpen}
-        setTransactionDialog={openTransactionDialog}
-        transaction={selectedTransaction}
-      />
     </>
   );
 }

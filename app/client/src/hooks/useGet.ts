@@ -1,7 +1,13 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
-const sendGet = async (path:string) => {
-  const response = await fetch(path);
+export const sendGet = async (path:string) => {
+  const requestOptions: RequestInit = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  };
+  const response = await fetch(path, requestOptions);
   if (!response.ok) {
     throw new Error('Error fetching API data. Try the mocked data');
   }
@@ -10,7 +16,7 @@ const sendGet = async (path:string) => {
 
 export default function
 useGet(path: string, id: string, intervalMs: number, displayingMockedData: boolean) {
-  return useQuery(id, () => sendGet(path), {
+  return useQuery([id], () => sendGet(path), {
     refetchInterval: intervalMs,
     retry: 0,
     staleTime: intervalMs,

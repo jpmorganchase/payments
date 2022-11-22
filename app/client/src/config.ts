@@ -1,9 +1,8 @@
 type AccountsType = string[];
-const accounts: AccountsType = [
+export const accounts: AccountsType = [
   '000000010975001',
   '000000011008182',
   '000000010975514',
-  '000000010975001',
   '000000010900009',
 ];
 interface AccountsConfigInterface {
@@ -19,8 +18,10 @@ interface StatusConfigInterface {
   }
 }
 
-interface PaymentConfigInterface {
+export interface PaymentConfigInterface {
   paymentConfig: {
+    mockedSessionStorageKey: string,
+    sessionStorageKey: string,
     apiDetails: ApiDetailsInterface[];
   }
 }
@@ -83,12 +84,24 @@ export const config: ConfigDataInterface = {
     ],
   },
   paymentConfig: {
+    mockedSessionStorageKey: 'mockedPreviousTransactions',
+    sessionStorageKey: 'previousTransactions',
     apiDetails: [
       {
         name: 'Global Payments',
         backendPath: '/api/digitalSignature/tsapi/v1/payments',
         cacheKey: 'globalPayments',
         path: 'https://apigatewaycat.jpmorgan.com/tsapi/v1/payments',
+        refreshInterval: 1800000,
+        description:
+          'The Global Payments API offers our clients a unified experience for which multiple payment types can be initiated through a single API.'
+          + 'Clients are able to access the complete payments life cycle where functions include transaction initiation, status tracking, and payment status callback.',
+      },
+      {
+        name: 'Global Payments Status',
+        backendPath: '/api/cat/tsapi/v1/payments/status?endToEndId=<endToEndId>',
+        cacheKey: 'globalPaymentsStatus',
+        path: 'https://apigatewaycat.jpmorgan.com/tsapi/v1/payments/status',
         refreshInterval: 1800000,
         description:
           'The Global Payments API offers our clients a unified experience for which multiple payment types can be initiated through a single API.'

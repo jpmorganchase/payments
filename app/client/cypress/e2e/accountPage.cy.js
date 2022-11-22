@@ -53,9 +53,9 @@ describe('Account page', () => {
       cy.get('[data-cy="transactionsGrid"]')
         .contains('TXN-C-779702311-369')
         .click();
-      cy.contains('Raw Transaction JSON');
+      cy.contains('Raw JSON');
       cy.get('[data-cy="closeButton"]').click();
-      cy.contains('Raw Transaction JSON').should('not.exist');
+      cy.contains('Raw JSON').should('not.exist');
     });
   });
 
