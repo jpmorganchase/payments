@@ -37,6 +37,7 @@ describe('Payments page', () => {
       viewports.forEach((viewport) => {
         cy.viewport(viewport);
         cy.get('[data-cy="amount"]').type('123456789');
+        cy.get('[data-cy="dateInput"]').type(today.toISOString().split('T')[0]);
 
         cy.contains('Preview JSON')
           .click();
