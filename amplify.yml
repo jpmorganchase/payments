@@ -34,7 +34,7 @@ test:
       commands:
         - npx mochawesome-merge cypress/report/mochawesome-report/mochawesome*.json > cypress/report/mochawesome.json
   artifacts:
-    baseDirectory: cypress
+    baseDirectory: app/client/cypress
     files:
       - "**/*.png"
       - "**/*.mp4"
