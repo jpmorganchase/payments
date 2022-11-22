@@ -91,7 +91,7 @@ function Sidebar() {
               <li>Service status</li>
             </NavLink>
           </ul>
-          <div className="hidden lg:flex text-sm relative">
+          <div className="hidden lg:flex text-sm relative -ml-4">
             <span className="block absolute bg-red-500 p-1 left-10 -top-1 rounded-xl" />
             <img className="rounded-xl w-10 h-10 " src={avatar} alt="Avatar" />
             <div className=" lg:block flex flex-col pl-4">
