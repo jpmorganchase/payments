@@ -3,7 +3,8 @@
 		"_postman_id": "0e3ee822-5ed0-4f52-bf2e-48b71f102c4d",
 		"name": "Unicorn Finance",
 		"description": "We have created Unicorn Finance as a sample application showcasing the\ncapabilities of our JP Morgan core external APIs. We hit a number of JP Morgan\nAPIs in the UAT environment via ssl authentication.\n\nSee our project running on AWS Amplify\n[here](https://www.unicorn-finance-dev.com/)",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18083699"
 	},
 	"item": [
 		{
@@ -17,7 +18,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"startDate\": \"2021-09-01\",\n  \"endDate\": \"2021-09-20\",\n  \"accountList\": [\n    {\n      \"accountId\": \"000000010013324\"\n    }\n  ]\n}",
+					"raw": "{\n    \"accountList\": [\n        {\n            \"accountId\": \"000000010962009\"\n        },\n        {\n            \"accountId\": \"000000011153244\"\n        },\n        {\n            \"accountId\": \"000000010962009\"\n        },\n        {\n            \"accountId\": \"000000010900009\"\n        },\n        {\n            \"accountId\": \"000000011315421\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -49,7 +50,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://apigatewayqaf.jpmorgan.com/tsapi/v1/outages",
+					"raw": "https://apigatewayqaf.jpmorgan.com/tsapi/v1/participants?status=ONLINE",
 					"protocol": "https",
 					"host": [
 						"apigatewayqaf",
@@ -59,7 +60,13 @@
 					"path": [
 						"tsapi",
 						"v1",
-						"outages"
+						"participants"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "ONLINE"
+						}
 					]
 				}
 			},
@@ -71,7 +78,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?endDate=2021-03-01&accountIds=000000011253770,000000011116605",
+					"raw": "https://apigatewayqaf.jpmorgan.com/tsapi/v2/transactions?relativeDateType=CURRENT_DAY&accountIds=000000010975001,000000011008182,000000010975514,000000010975001,000000010900009",
 					"protocol": "https",
 					"host": [
 						"apigatewayqaf",
@@ -91,16 +98,92 @@
 						},
 						{
 							"key": "relativeDateType",
-							"value": "CURRENT_DAY",
+							"value": "PRIOR_DAY",
 							"disabled": true
 						},
 						{
 							"key": "endDate",
-							"value": "2021-03-01"
+							"value": "2021-03-01",
+							"disabled": true
 						},
 						{
 							"key": "accountIds",
-							"value": "000000011253770,000000011116605"
+							"value": "000000010013324",
+							"disabled": true
+						},
+						{
+							"key": "relativeDateType",
+							"value": "CURRENT_DAY"
+						},
+						{
+							"key": "accountIds",
+							"value": "000000010975001,000000011008182,000000010975514,000000010975001,000000010900009"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make payment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "eyJhbGciOiJSUzI1NiJ9.eyJwYXltZW50cyI6eyJyZXF1ZXN0ZWRFeGVjdXRpb25EYXRlIjoiMjAyMi0xMS0xNSIsInBheW1lbnRBbW91bnQiOjIuMDEsInBheW1lbnRUeXBlIjoiUlRQIiwicGF5bWVudElkZW50aWZpZXJzIjp7ImVuZFRvRW5kSWQiOiJ1ZjE2Njg1MDk4NjIzNjEifSwicGF5bWVudEN1cnJlbmN5IjoiVVNEIiwidHJhbnNmZXJUeXBlIjoiQ1JFRElUIiwiZGVidG9yIjp7ImRlYnRvck5hbWUiOiJSQVBJRCBBVURJTyBMTEMiLCJkZWJ0b3JBY2NvdW50Ijp7ImFjY291bnRJZCI6IjAwMDAwMDAxMDkwMDAwOSIsImN1cnJlbmN5IjoiVVNEIn19LCJkZWJ0b3JBZ2VudCI6eyJmaW5hbmNpYWxJbnN0aXR1dGlvbklkIjp7ImNsZWFyaW5nU3lzdGVtSWQiOnsiaWQiOiIwMjEwMDAwMjEiLCJpZFR5cGUiOiJVU0FCQSJ9fX0sImNyZWRpdG9yIjp7ImNyZWRpdG9yTmFtZSI6Ik9GRklDRSAxMjMgSU5DIiwiY3JlZGl0b3JBY2NvdW50Ijp7ImFjY291bnRJZCI6IjAwMDAwMDAxMDk3NTAwMSIsImN1cnJlbmN5IjoiVVNEIn19LCJjcmVkaXRvckFnZW50Ijp7ImZpbmFuY2lhbEluc3RpdHV0aW9uSWQiOnsiY2xlYXJpbmdTeXN0ZW1JZCI6eyJpZCI6IjAyMTAwMDAyMSIsImlkVHlwZSI6IlVTQUJBIn19fX19.ivbPgzqmxUuZk_Zlf-hR988k7N7BCWRE1nsyK-XcYfiocob7F2aLhfv_uPwQ984uDaFp-uhai5OtQi2RwQ0L2b3sUiudhtgqHDE5t2i9zKZ8-2A19VKNMv1KY5QelLtA47WekC8lUV9c8F8LEXKZQrH72ur-cKrI1TTinm4gH3moE5MZtFBGM-o1J6Cx_UxcA8wzFFGYzz7q50QSn9KnU8hWr6y5nT7MzvMzn-NkavLVKktkInIs-_ukAfEbj9rfCymHnERMCvsSGPy6-76eMz4Ha2ZAw4oaqMolRKEVtfQUjr1JAhjrhvKKJzghPCrkFN8rpfNua9JZRS6WslAshw",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://apigatewaycat.jpmorgan.com/tsapi/v1/payments",
+					"protocol": "https",
+					"host": [
+						"apigatewaycat",
+						"jpmorgan",
+						"com"
+					],
+					"path": [
+						"tsapi",
+						"v1",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://apigatewaycat.jpmorgan.com/tsapi/v1/payments/status?endToEndId=uf1668595364725",
+					"protocol": "https",
+					"host": [
+						"apigatewaycat",
+						"jpmorgan",
+						"com"
+					],
+					"path": [
+						"tsapi",
+						"v1",
+						"payments",
+						"status"
+					],
+					"query": [
+						{
+							"key": "endToEndId",
+							"value": "uf1668595364725"
 						}
 					]
 				}
