@@ -22,9 +22,9 @@ test:
     preTest:
       commands:
         - yarn install
-        - yarn install wait-on
-        - yarn install pm2
-        - yarn install mocha@5.2.0 mochawesome mochawesome-merge mochawesome-report-generator
+        - yarn add wait-on
+        - yarn add pm2
+        - yarn add mocha@5.2.0 mochawesome mochawesome-merge mochawesome-report-generator
         - npx pm2 start yarn -- start
         - "npx wait-on --timeout 60 http://localhost:3000"
     test:
