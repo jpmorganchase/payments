@@ -56,7 +56,8 @@ See https://nodejs.org/api/errors.html#errors_common_system_errors for more info
 You can ignore it as this is because our server is not running. (See [Hitting JP Morgan APIs locally section](#hitting-jp-morgan-apis-locally))
 
 When looking at the code we recommend looking at the pages files within the src folder, we have 3 core pages; accounts, payments and service status. 
-Each page refers to a set of APIs (account services, sending a payment and gathering service status updates)
+Each page refers to a set of APIs (account services, sending a payment and gathering service status updates).
+Within client and server folders we have readme with more details on each section.
 
 ### Hitting JP Morgan APIs
 

@@ -22,6 +22,12 @@ We are using 'jose' nodejs package to generate a digital signature.
 
 ![Screenshot of digital signature flow](digitalSignature.png "Screenshot of digital signature flow")
 
+## Code overview
+
+The code is in JS using express js.
+The code is designed to be ran on an AWS Lambda.
+We store our certificates on AWS Secrets manager.
+
 ## Running the server
 
 For the server to hit JP Morgan APIs you will need to create a ssl certificate and upload it to developer.jpmorgan.com
