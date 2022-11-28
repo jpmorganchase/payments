@@ -1,13 +1,14 @@
-# Demo Wholesale Payments App - Unicorn Finance
+# Payments Showcase - Unicorn Finance
 
 We have created Unicorn Finance as a sample application showcasing the
-capabilities of our JP Morgan core external APIs. We hit a number of JP Morgan
-APIs in the UAT environment via ssl authentication.
+capabilities of our JP Morgan core external APIs.
+We hit a number of JP Morgan
+APIs in the UAT and CAT environment via SSL authentication.
 
 See our project running on AWS Amplify
 [here](https://www.unicorn-finance-dev.com/)
 
-![Screenshot of Unicorn Finance](unicorn-finance-account.png "Screenshot of Unicorn Finance")
+![Screenshot of Unicorn Finance Account page](account.png "Screenshot of Unicorn Finance")
 
 ## What APIs are you hitting?
 
@@ -20,6 +21,11 @@ See our project running on AWS Amplify
      it to get the current day balance for a UAT account
    - Transactions: This API returns all the transactions for a specific account
      for a specific time period.
+3. Payments Page: We hit the Global Payments API to create a payment in CAT.
+
+On each page you can use the bar at the bottom of the page to toggle 'What APIs are being used on this page' functionality. This will tell you exactly which API is being hit for each section.
+E.g for the account page:
+![Screenshot of Unicorn Finance showing API details for Accounts page](whatApi.png "Screenshot of Unicorn Finance showing API details for Accounts page")
 
 ## What's included in this repo?
 
