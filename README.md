@@ -29,8 +29,9 @@ E.g for the account page:
 
 ## What's included in this repo?
 
-The code is written with React and Tailwind CSS.
+The frontend code is written with React and Tailwind CSS. The backend is using expressjs. 
 This code takes the data from the server and displays it in a user friendly manner.
+
 
 ## Getting started
 
@@ -54,10 +55,13 @@ See https://nodejs.org/api/errors.html#errors_common_system_errors for more info
 
 You can ignore it as this is because our server is not running. (See [Hitting JP Morgan APIs locally section](#hitting-jp-morgan-apis-locally))
 
+When looking at the code we recommend looking at the pages files within the src folder, we have 3 core pages; accounts, payments and service status. 
+Each page refers to a set of APIs (account services, sending a payment and gathering service status updates)
+
 ### Hitting JP Morgan APIs
 
 This will require you to provide some SSL certificates.
-You will need to onboard to JP Morgan to access this information. Further details are available[here](http://developer.jpmorgan.com/).
+You will need to onboard to JP Morgan to access this information. Further details are available [here](http://developer.jpmorgan.com/).
 
 Once you have the correct files ready you can upload them to your server (DO NOT COMMIT THESE FILES TO YOUR CODEBASE).
 
