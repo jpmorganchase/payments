@@ -18,7 +18,7 @@ import generateApiBody, {
 } from './SendPaymentsUtils';
 import { sendPost } from '../../hooks/usePost';
 import { sendGet } from '../../hooks/useGet';
-import FormInputField from './FormFields/InputField';
+import InputField from './FormFields/InputField';
 import SelectField from './FormFields/SelectField';
 
 type MakePaymentFormProps = {
@@ -160,8 +160,8 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
             <SelectField label="payment type" options={paymentTypes} register={register} id="paymentType" />
             <SelectField label="from" options={accountDetails} register={register} id="debtorAccount" />
             <SelectField label="to" options={accountDetails} register={register} id="creditorAccount" />
-            <FormInputField label="amount" type="number" register={register} required defaultValue="100" />
-            <FormInputField label="date" type="date" register={register} required defaultValue={today.toISOString().split('T')[0]} />
+            <InputField label="amount" type="number" register={register} required defaultValue="100" />
+            <InputField label="date" type="date" register={register} required defaultValue={today.toISOString().split('T')[0]} />
 
           </form>
           <span className="flex flex-row justify-between">

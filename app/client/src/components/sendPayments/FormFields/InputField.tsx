@@ -3,7 +3,7 @@ import { UseFormRegister } from 'react-hook-form';
 import { FormValuesType } from '../../../types/globalPaymentApiTypes';
 import { capitalize } from '../SendPaymentsUtils';
 
-type FormInputFieldProps = {
+type InputFieldProps = {
   label: keyof FormValuesType,
   type: string,
   register: UseFormRegister<FormValuesType>,
@@ -12,9 +12,9 @@ type FormInputFieldProps = {
   defaultValue?:string
 };
 
-export default function FormInputField({
+export default function InputField({
   type, register, label, required, defaultValue,
-}: FormInputFieldProps) {
+}: InputFieldProps) {
   return (
 
     <label
