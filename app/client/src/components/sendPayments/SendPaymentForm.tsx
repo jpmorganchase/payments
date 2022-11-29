@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AccountType } from '../../types/accountTypes';
 import { AppContext } from '../../context/AppContext';
 import {
-  FormValuesType, PaymentsResponse, PaymentStatusResponseType, RTPMessage,
+  FormValuesType as FormValues, PaymentsResponse, PaymentStatusResponseType, GlobalPaymentRequest,
 } from '../../types/globalPaymentApiTypes';
 import { config } from '../../config';
 import Spinner from '../spinner';
@@ -18,6 +18,7 @@ import generateApiBody, {
 } from './SendPaymentsUtils';
 import { sendPost } from '../../hooks/usePost';
 import { sendGet } from '../../hooks/useGet';
+import FormInputField from './FormInputField';
 
 type MakePaymentFormProps = {
   accountDetails: AccountType[]
@@ -30,7 +31,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm<FormValuesType>({
+  } = useForm<FormValues>({
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
   });
@@ -43,7 +44,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
   const [apiError, setApiError] = React.useState<Error>();
 
   const createPaymentMutation = useMutation({
-    mutationFn: (data: RTPMessage) => sendPost(paymentConfig.apiDetails[0].backendPath, JSON.stringify(data)),
+    mutationFn: (data: GlobalPaymentRequest) => sendPost(paymentConfig.apiDetails[0].backendPath, JSON.stringify(data)),
   });
 
   const renderErrorValue = (errorMessage?: string) => <p>{errorMessage}</p>;
@@ -107,7 +108,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
     setPaymentIdentifiers([...paymentIdentifiers, newPayment]);
   };
 
-  const onSubmit = (formData:FormValuesType) => {
+  const onSubmit = (formData:FormValues) => {
     const globalPaymentApiPayload = generateApiBody(formData);
     if (!displayingMockedData) {
       createPaymentMutation.mutate(globalPaymentApiPayload, {
@@ -218,41 +219,9 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
             </div>
             {renderSelectField('From', 'debtorAccount', accountDetails)}
             {renderSelectField('To', 'creditorAccount', accountDetails)}
-            <div className="">
-              <label
-                htmlFor="amount"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Amount:
-                <input
-                  {...register('amount', { min: 0.01 })}
-                  type="number"
-                  name="amount"
-                  step="0.01"
-                  data-cy="amount"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </label>
-              {renderErrorValue(errors.amount?.message)}
-            </div>
-            <div className="">
-              <label
-                htmlFor="date"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Date:
-                <input
-                  {...register('date', { valueAsDate: true })}
-                  type="date"
-                  name="date"
-                  data-cy="dateInput"
-                  defaultValue={today.toISOString().split('T')[0]}
-                  min={today.toISOString().split('T')[0]}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </label>
-              {renderErrorValue(errors.date?.message)}
-            </div>
+            <FormInputField label="amount" type="number" register={register} />
+            <FormInputField label="date" type="date" register={register} />
+
           </form>
           <span className="flex flex-row justify-between">
             <FormButton

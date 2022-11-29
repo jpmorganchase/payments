@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { AccountType } from '../../types/accountTypes';
 import {
-  FormValuesType, PaymentStatusResponseType, RTPMessage,
+  FormValuesType, PaymentStatusResponseType, GlobalPaymentRequest,
 } from '../../types/globalPaymentApiTypes';
 
 export const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
@@ -9,6 +9,7 @@ export const today = new Date();
 export const oneMonth = new Date(new Date(today).setDate(today.getDate() + 31))
   .toISOString()
   .split('T')[0];
+export const capitalize = (str: string) => `${str[0].toUpperCase()}${str.slice(1)}`;
 
 export const validationSchema = yup.object().shape({
   date: yup
@@ -39,15 +40,17 @@ export const updateSessionStorageTransactions = (transaction: PaymentStatusRespo
   sessionStorage.setItem(storageId, JSON.stringify(previousTransactions));
 };
 
-export default function generateApiBody(data: FormValuesType) : RTPMessage {
+export default function generateApiBody(data: FormValuesType) : GlobalPaymentRequest {
   const {
-    date, amount, debtorAccount, creditorAccount,
+    date, amount, debtorAccount, creditorAccount, paymentType,
   } = data;
   const debtorAccountApi : AccountType = JSON.parse(debtorAccount) as AccountType;
   const creditorAccountApi : AccountType = JSON.parse(creditorAccount) as AccountType;
-  const globalPaymentApiPayload : RTPMessage = {
+  console.log(new Date(date));
+  console.log(typeof date);
+  const globalPaymentApiPayload : GlobalPaymentRequest = {
     payments: {
-      requestedExecutionDate: date.toISOString().split('T')[0],
+      requestedExecutionDate: new Date(date).toISOString().split('T')[0],
       paymentAmount: amount,
       paymentType: 'RTP',
       paymentIdentifiers: {
@@ -59,7 +62,7 @@ export default function generateApiBody(data: FormValuesType) : RTPMessage {
         debtorName: debtorAccountApi.accountName ? debtorAccountApi.accountName : '',
         debtorAccount: {
           accountId: debtorAccountApi.accountId,
-          currency: debtorAccountApi.currency.code,
+          accountCurrency: debtorAccountApi.currency.code,
         },
       },
       debtorAgent: {
@@ -74,7 +77,7 @@ export default function generateApiBody(data: FormValuesType) : RTPMessage {
         creditorName: creditorAccountApi.accountName ? creditorAccountApi.accountName : '',
         creditorAccount: {
           accountId: creditorAccountApi.accountId,
-          currency: creditorAccountApi.currency.code,
+          accountCurrency: creditorAccountApi.currency.code,
         },
       },
       creditorAgent: {
