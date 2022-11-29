@@ -18,7 +18,8 @@ import generateApiBody, {
 } from './SendPaymentsUtils';
 import { sendPost } from '../../hooks/usePost';
 import { sendGet } from '../../hooks/useGet';
-import FormInputField from './FormInputField';
+import FormInputField from './FormFields/InputField';
+import SelectField from './FormFields/SelectField';
 
 type MakePaymentFormProps = {
   accountDetails: AccountType[]
@@ -29,7 +30,6 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
     getValues,
   } = useForm<FormValues>({
     mode: 'onChange',
@@ -46,46 +46,6 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
   const createPaymentMutation = useMutation({
     mutationFn: (data: GlobalPaymentRequest) => sendPost(paymentConfig.apiDetails[0].backendPath, JSON.stringify(data)),
   });
-
-  const renderErrorValue = (errorMessage?: string) => <p>{errorMessage}</p>;
-
-  const renderSelectField = (
-    label: string,
-    id: 'debtorAccount' | 'creditorAccount',
-    options: AccountType[],
-  ) => {
-    let defaultValue;
-    if (id === 'creditorAccount') {
-      defaultValue = JSON.stringify(options[1]);
-    }
-
-    return (
-      <div className="col-span-6 sm:col-span-3">
-        <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-          {label}
-          :
-        </label>
-        <select
-          {...register(id)}
-          id={id}
-          defaultValue={defaultValue}
-          className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        >
-          {options.map((option) => (
-            <option
-              key={`option-${option.accountId}`}
-              value={JSON.stringify(option)}
-            >
-              {option.accountName}
-              {option.accountName ? ' - ' : ' '}
-              {option.accountId}
-            </option>
-          ))}
-        </select>
-        {renderErrorValue(errors[id]?.message)}
-      </div>
-    );
-  };
 
   const handleMockedDataResponse = (endToEndId: string) => {
     const mockedResponse: PaymentStatusResponseType = {
@@ -197,30 +157,11 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
       {(!displayingApiData && ((createPaymentMutation.isIdle && !displayingMockedData) || (displayingMockedData && !apiResponse))) && (
         <>
           <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
-            <div className="col-span-6 sm:col-span-3">
-              <label htmlFor="paymentType" className="block text-sm font-medium text-gray-700">
-                Payment Type
-              </label>
-              <select
-                {...register('paymentType')}
-                id="paymentType"
-                className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              >
-                {paymentTypes.map((type) => (
-                  <option
-                    key={`option-${type}`}
-                    value={type}
-                  >
-                    {type}
-                  </option>
-                ))}
-              </select>
-              {renderErrorValue(errors.paymentType?.message)}
-            </div>
-            {renderSelectField('From', 'debtorAccount', accountDetails)}
-            {renderSelectField('To', 'creditorAccount', accountDetails)}
-            <FormInputField label="amount" type="number" register={register} />
-            <FormInputField label="date" type="date" register={register} />
+            <SelectField label="payment type" options={paymentTypes} register={register} id="paymentType" />
+            <SelectField label="from" options={accountDetails} register={register} id="debtorAccount" />
+            <SelectField label="to" options={accountDetails} register={register} id="creditorAccount" />
+            <FormInputField label="amount" type="number" register={register} required defaultValue="100" />
+            <FormInputField label="date" type="date" register={register} required defaultValue={today.toISOString().split('T')[0]} />
 
           </form>
           <span className="flex flex-row justify-between">
