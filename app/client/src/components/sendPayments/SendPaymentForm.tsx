@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AccountType } from '../../types/accountTypes';
 import { AppContext } from '../../context/AppContext';
 import {
   FormValuesType as FormValues, PaymentsResponse, PaymentStatusResponseType, GlobalPaymentRequest,
@@ -20,17 +19,14 @@ import { sendPost } from '../../hooks/usePost';
 import { sendGet } from '../../hooks/useGet';
 import InputField from './FormFields/InputField';
 import SelectField from './FormFields/SelectField';
+import { paymentTypesConfiguration } from './config';
 
-type MakePaymentFormProps = {
-  accountDetails: AccountType[]
-};
-
-const paymentTypes = ['US-RTP'];
-function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
+function MakePaymentForm() {
   const {
     register,
     handleSubmit,
     getValues,
+    watch,
   } = useForm<FormValues>({
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
@@ -43,6 +39,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
   const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
   const [apiError, setApiError] = React.useState<Error>();
 
+  const paymentType = watch('paymentType', 'US RTP');
   const createPaymentMutation = useMutation({
     mutationFn: (data: GlobalPaymentRequest) => sendPost(paymentConfig.apiDetails[0].backendPath, JSON.stringify(data)),
   });
@@ -108,7 +105,12 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
     setApiResponse(undefined);
     setApiError(undefined);
   };
+  console.log(watch('paymentType')); // you can watch individual input by pass the name of the input
 
+  useEffect(() => {
+    console.log('ere');
+    console.log(watch('paymentType'));
+  }, [watch]);
   return (
     <div className=" w-full flex flex-col justify-between h-full pb-20">
       {displayingApiData && (
@@ -157,9 +159,9 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
       {(!displayingApiData && ((createPaymentMutation.isIdle && !displayingMockedData) || (displayingMockedData && !apiResponse))) && (
         <>
           <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
-            <SelectField label="payment type" options={paymentTypes} register={register} id="paymentType" />
-            <SelectField label="from" options={accountDetails} register={register} id="debtorAccount" />
-            <SelectField label="to" options={accountDetails} register={register} id="creditorAccount" />
+            <SelectField label="payment type" options={Object.keys(paymentTypesConfiguration)} register={register} id="paymentType" />
+            <SelectField label="from" options={paymentTypesConfiguration[paymentType].accounts} register={register} id="debtorAccount" />
+            <SelectField label="to" options={paymentTypesConfiguration[paymentType].accounts} register={register} id="creditorAccount" />
             <InputField label="amount" type="number" register={register} required defaultValue="100" />
             <InputField label="date" type="date" register={register} required defaultValue={today.toISOString().split('T')[0]} />
 

@@ -46,8 +46,6 @@ export default function generateApiBody(data: FormValuesType) : GlobalPaymentReq
   } = data;
   const debtorAccountApi : AccountType = JSON.parse(debtorAccount) as AccountType;
   const creditorAccountApi : AccountType = JSON.parse(creditorAccount) as AccountType;
-  console.log(new Date(date));
-  console.log(typeof date);
   const globalPaymentApiPayload : GlobalPaymentRequest = {
     payments: {
       requestedExecutionDate: new Date(date).toISOString().split('T')[0],
