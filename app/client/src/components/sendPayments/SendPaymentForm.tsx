@@ -106,6 +106,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
     });
     setPaymentIdentifiers([...paymentIdentifiers, newPayment]);
   };
+
   const onSubmit = (formData:FormValuesType) => {
     const globalPaymentApiPayload = generateApiBody(formData);
     if (!displayingMockedData) {
@@ -113,6 +114,7 @@ function MakePaymentForm({ accountDetails }: MakePaymentFormProps) {
         async onSuccess(data) {
           const responseJson: PaymentsResponse = data as PaymentsResponse;
           setApiResponse(responseJson);
+          // We can have a successful response from API but errors within the response
           if (!responseJson.paymentInitiationResponse) {
             throw new Error();
           } else {

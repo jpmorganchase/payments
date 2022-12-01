@@ -25,7 +25,7 @@ function AccountTotal({
     : 'border-gray-200';
 
   return (
-    <div className="relative">
+    <div className="relative pb-4">
       {displayingApiData && <APIDetails details={apiDetails[0]} absolute />}
       <div
         data-cy="allAccountsCard"

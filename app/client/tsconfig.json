@@ -13,7 +13,7 @@
         "strict": true,
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
     },
     "include": [
         "src/**/*", "custom.d.ts"
