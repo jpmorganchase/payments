@@ -5,6 +5,7 @@ export const sendPost = async (path:string, body:string) => {
     method: 'POST',
     body,
   };
+  // Something unusual going on with api. Added until we move over
   if (!path.includes('accessapi/balance')) {
     requestOptions.headers = {
       'Content-Type': 'application/json',
