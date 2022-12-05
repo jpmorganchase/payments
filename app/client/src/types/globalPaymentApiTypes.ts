@@ -1,4 +1,4 @@
-export type RTPMessage = {
+export type GlobalPaymentRequest = {
   payments: {
     paymentType: string,
     requestedExecutionDate: string,
@@ -9,6 +9,7 @@ export type RTPMessage = {
     paymentAmount: number,
     debtor: {
       debtorName: string,
+      debtorType?: string,
       debtorAccount: PaymentAccount,
     }
     debtorAgent: AgentType,
@@ -29,17 +30,25 @@ export type PaymentsResponse = {
 };
 
 type AgentType = {
-  financialInstitutionId: {
-    clearingSystemId: {
-      id: string,
-      idType?: string
+  financialInstitutionId:
+  (
+    { bic : 'CHASGB2L' | 'CHASINBX' | 'CHASAU2X' | 'CHASSGSG' | 'CHASUS33' | 'CHASMYKX' | 'CHASHKHH' | 'CHASBRSP' | 'CHASDEFX' |
+    'CHASLULX' | 'CHASNL2X' | 'CHASIE4L' | 'CHASMXMX' | 'CHASCATT' | 'CHASIDJX' | 'CHASUS33MCY' | 'CHASDEFXONX' | '' }
+    |
+    {
+      clearingSystemId: {
+        id: string,
+        idType: string
+      }
     }
-  }
+  )
+
 };
 
 export type PaymentAccount = {
-  accountId: string,
-  currency: string
+  accountId?: string,
+  accountCurrency?: string
+  accountType?: 'DDA' | 'VAM' | 'IBAN' | 'BDA',
 };
 
 export type APISuccessMessage = {
@@ -73,5 +82,5 @@ export type FormValuesType = {
   creditorAccount: string,
   amount: number,
   date: Date,
-  paymentType: string
+  paymentType: string,
 };

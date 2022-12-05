@@ -1,13 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 
 export const sendPost = async (path:string, body:string) => {
-  const response = await fetch(path, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  const requestOptions: RequestInit = {
     method: 'POST',
     body,
-  });
+  };
+  // Something unusual going on with api. Added until we move over
+  if (!path.includes('accessapi/balance')) {
+    requestOptions.headers = {
+      'Content-Type': 'application/json',
+    };
+  }
+  const response = await fetch(path, requestOptions);
   if (!response.ok) {
     throw new Error('Error fetching API data. Try the mocked data');
   }
