@@ -35,7 +35,7 @@ describe('Payments page', () => {
       cy.contains('Submit')
       .click();
       cy.contains('Success!');
-      cy.contains('Ok')
+      cy.contains('Make another payment')
       .click();
       cy.get('[data-cy="amount"]').clear();
     });
