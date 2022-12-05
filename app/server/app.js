@@ -53,10 +53,6 @@ async function createProxyConfiguration(target, httpsOpts, pathRewrite) {
     selfHandleResponse: true,
     agent: new https.Agent(httpsOpts),
     pathRewrite,
-    onProxyReq: function onProxyReq(proxyReq, req) {
-      // Log outbound request to remote target
-      console.log('-->  ', req.method, req.path, '->', target + proxyReq.path);
-    },
     onProxyRes: responseInterceptor(handleProxyResponse),
     onError: (err) => {
       console.log(err);
