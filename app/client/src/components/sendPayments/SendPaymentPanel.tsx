@@ -37,15 +37,16 @@ function MakePaymentForm() {
       {!displayingApiData && (apiError || apiResponse?.errors) && (
         <>
           {apiError && (
-          <p>
+          <p className="text-xl my-6">
             Error processing your request:
+            {' '}
             {apiError.message}
           </p>
           )}
           {apiResponse?.errors && (
           <pre
             id="json"
-            className="h-full border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto"
+            className="border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto mb-10"
           >
             {JSON.stringify(apiResponse?.errors, undefined, 2)}
           </pre>
@@ -60,15 +61,15 @@ function MakePaymentForm() {
       {!displayingApiData && (createPaymentMutation.isLoading) && <div className="text-center pt-24"><Spinner text="Loading API Response..." /></div>}
       {((!displayingApiData && createPaymentMutation.isSuccess) || (displayingMockedData && apiResponse)) && (
         <>
-          <p>Success! API response details: </p>
+          <p className="text-xl my-6">Success! API response details: </p>
           <pre
             id="json"
-            className="h-full border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto"
+            className="border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto mb-10"
           >
             {JSON.stringify(apiResponse?.paymentInitiationResponse, undefined, 2)}
           </pre>
           <FormButton
-            buttonText="Ok"
+            buttonText="Make another payment"
             buttonType="button"
             onClickFunction={formReset}
           />

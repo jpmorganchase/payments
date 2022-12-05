@@ -89,7 +89,7 @@ function PreviousPaymentsGrid() {
   );
 
   const renderEmptyPrevious = () => (
-    <p className="text-center">Send a payment to see previous</p>
+    <p className="text-center text-xl mt-20">Send a payment to be able to track them here</p>
   );
 
   const refreshQueries = async () => {
@@ -99,7 +99,7 @@ function PreviousPaymentsGrid() {
   return (
     <div className="h-full">
       <div className="flex justify-between mb-6">
-        <h2 className="text-2xl font-medium">Previous payments</h2>
+        <h2 className="text-2xl font-medium">Track your payments</h2>
         <button type="button" onClick={() => refreshQueries()} className="float-right">
           <span className="material-icons text-md ">refresh</span>
         </button>
