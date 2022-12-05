@@ -1,48 +1,44 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AppContext } from '../../context/AppContext';
+import { UseMutationResult, useQueryClient } from '@tanstack/react-query';
 import {
-  FormValuesType as FormValues, PaymentsResponse, PaymentStatusResponseType, GlobalPaymentRequest,
+  FormValuesType, GlobalPaymentRequest, PaymentsResponse, PaymentStatusResponseType,
 } from '../../types/globalPaymentApiTypes';
-import { config } from '../../config';
-import Spinner from '../spinner';
-import APIDetails from '../APIDetails';
 import FormButton from './FormButton';
-import generateApiBody, {
-  today, updateSessionStorageTransactions, validationSchema,
-} from './SendPaymentsUtils';
-import { sendPost } from '../../hooks/usePost';
-import { sendGet } from '../../hooks/useGet';
 import InputField from './FormFields/InputField';
 import SelectField from './FormFields/SelectField';
+import generateApiBody, { today, updateSessionStorageTransactions, validationSchema } from './SendPaymentsUtils';
 import { paymentTypesConfiguration } from './config';
+import { AppContext } from '../../context/AppContext';
+import { config } from '../../config';
+import { sendGet } from '../../hooks/useGet';
 
-function MakePaymentForm() {
+type SendPaymentFormProps = {
+  setApiResponse: (apiResponse: PaymentsResponse) => void
+  setApiError: (apiError:Error) => void,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  createPaymentMutation:UseMutationResult<any, unknown, GlobalPaymentRequest, unknown>
+
+};
+function SendPaymentForm({ setApiResponse, setApiError, createPaymentMutation }: SendPaymentFormProps) {
+  const {
+    displayingMockedData, setJsonDialogData, paymentIdentifiers, setPaymentIdentifiers,
+  } = React.useContext(AppContext);
   const {
     register,
     handleSubmit,
-    getValues,
     watch,
-  } = useForm<FormValues>({
+    getValues,
+  } = useForm<FormValuesType>({
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
   });
-  const {
-    displayingMockedData, displayingApiData, setJsonDialogData, paymentIdentifiers, setPaymentIdentifiers,
-  } = React.useContext(AppContext);
-  const { paymentConfig } = config;
   const queryClient = useQueryClient();
-  const [apiResponse, setApiResponse] = React.useState<PaymentsResponse>();
-  const [apiError, setApiError] = React.useState<Error>();
 
+  const { paymentConfig } = config;
   const paymentType = watch('paymentType', 'US RTP');
-  const createPaymentMutation = useMutation({
-    mutationFn: (data: GlobalPaymentRequest) => sendPost(paymentConfig.apiDetails[0].backendPath, JSON.stringify(data)),
-  });
 
   const handleMockedDataResponse = (endToEndId: string) => {
     const mockedResponse: PaymentStatusResponseType = {
@@ -65,7 +61,7 @@ function MakePaymentForm() {
     setPaymentIdentifiers([...paymentIdentifiers, newPayment]);
   };
 
-  const onSubmit = (formData:FormValues) => {
+  const onSubmit = (formData:FormValuesType) => {
     const globalPaymentApiPayload = generateApiBody(formData);
     if (!displayingMockedData) {
       createPaymentMutation.mutate(globalPaymentApiPayload, {
@@ -100,85 +96,30 @@ function MakePaymentForm() {
     }
   };
 
-  const formReset = () => {
-    createPaymentMutation.reset();
-    setApiResponse(undefined);
-    setApiError(undefined);
-  };
-
   return (
-    <div className=" w-full flex flex-col justify-between h-full pb-20">
-      {displayingApiData && (
-      <APIDetails details={paymentConfig.apiDetails[0]} absolute={false} />
-      )}
-      {!displayingApiData && (apiError || apiResponse?.errors) && (
-        <>
-          {apiError && (
-          <p>
-            Error processing your request:
-            {apiError.message}
-          </p>
-          )}
-          {apiResponse?.errors && (
-          <pre
-            id="json"
-            className="h-full border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto"
-          >
-            {JSON.stringify(apiResponse?.errors, undefined, 2)}
-          </pre>
-          )}
-          <FormButton
-            buttonText="Return"
-            buttonType="button"
-            onClickFunction={formReset}
-          />
-        </>
-      )}
-      {!displayingApiData && (createPaymentMutation.isLoading) && <div className="text-center pt-24"><Spinner text="Loading API Response..." /></div>}
-      {((!displayingApiData && createPaymentMutation.isSuccess) || (displayingMockedData && apiResponse)) && (
-        <>
-          <p>Success! API response details: </p>
-          <pre
-            id="json"
-            className="h-full border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto"
-          >
-            {JSON.stringify(apiResponse?.paymentInitiationResponse, undefined, 2)}
-          </pre>
-          <FormButton
-            buttonText="Ok"
-            buttonType="button"
-            onClickFunction={formReset}
-          />
-        </>
-      )}
-      {(!displayingApiData && ((createPaymentMutation.isIdle && !displayingMockedData) || (displayingMockedData && !apiResponse))) && (
-        <>
-          <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
-            <SelectField label="payment type" options={Object.keys(paymentTypesConfiguration)} register={register} id="paymentType" />
-            <SelectField label="from" options={paymentTypesConfiguration[paymentType].accounts} register={register} id="debtorAccount" />
-            <SelectField label="to" options={paymentTypesConfiguration[paymentType].accounts} register={register} id="creditorAccount" />
-            <InputField label="amount" type="number" register={register} required defaultValue="100" />
-            <InputField label="date" type="date" register={register} required defaultValue={today.toISOString().split('T')[0]} />
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} id="hook-form">
+        <SelectField label="payment type" options={Object.keys(paymentTypesConfiguration)} register={register} id="paymentType" />
+        <SelectField label="from" options={paymentTypesConfiguration[paymentType].accounts} register={register} id="debtorAccount" />
+        <SelectField label="to" options={paymentTypesConfiguration[paymentType].accounts} register={register} id="creditorAccount" />
+        <InputField label="amount" type="number" register={register} required defaultValue="100" />
+        <InputField label="date" type="date" register={register} required defaultValue={today.toISOString().split('T')[0]} />
 
-          </form>
-          <span className="flex flex-row justify-between">
-            <FormButton
-              buttonText="Preview JSON"
-              buttonType="button"
-              onClickFunction={() => setJsonDialogData({ state: true, data: JSON.stringify(generateApiBody(getValues()), undefined, 2) })}
-            />
-            <FormButton
-              buttonText="Submit"
-              buttonType="submit"
-              form="hook-form"
-            />
+      </form>
+      <span className="flex flex-row justify-between">
+        <FormButton
+          buttonText="Preview JSON"
+          buttonType="button"
+          onClickFunction={() => setJsonDialogData({ state: true, data: JSON.stringify(generateApiBody(getValues()), undefined, 2) })}
+        />
+        <FormButton
+          buttonText="Submit"
+          buttonType="submit"
+          form="hook-form"
+        />
 
-          </span>
-        </>
-
-      )}
-
-    </div>
+      </span>
+    </>
   );
 }
-export default MakePaymentForm;
+export default SendPaymentForm;
