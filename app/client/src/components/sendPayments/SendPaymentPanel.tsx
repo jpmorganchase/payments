@@ -30,7 +30,7 @@ function MakePaymentForm() {
   };
 
   return (
-    <div className=" w-full flex flex-col justify-between h-full pb-20">
+    <div className=" w-full flex flex-col h-full pb-20">
       {displayingApiData && (
       <APIDetails details={paymentConfig.apiDetails[0]} absolute={false} />
       )}

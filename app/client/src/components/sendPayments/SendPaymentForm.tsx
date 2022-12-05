@@ -106,7 +106,7 @@ function SendPaymentForm({ setApiResponse, setApiError, createPaymentMutation }:
         <InputField label="date" type="date" register={register} required defaultValue={today.toISOString().split('T')[0]} />
 
       </form>
-      <span className="flex flex-row justify-between">
+      <span className="flex flex-row justify-between mt-5">
         <FormButton
           buttonText="Preview JSON"
           buttonType="button"

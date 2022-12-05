@@ -19,7 +19,7 @@ export default function InputField({
 
     <label
       htmlFor={label}
-      className="block text-sm font-medium text-gray-700"
+      className="block text-md font-medium text-gray-700 my-4"
     >
       {capitalize(label)}
       :

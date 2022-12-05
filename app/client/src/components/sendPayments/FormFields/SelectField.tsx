@@ -41,8 +41,8 @@ export default function SelectField({
     );
   };
   return (
-    <div className="col-span-6 sm:col-span-3">
-      <label htmlFor={label} className="block text-sm font-medium text-gray-700">
+    <div className="col-span-6 sm:col-span-3 my-4">
+      <label htmlFor={label} className="block text-md font-medium text-gray-700 ">
         {capitalize(label)}
         :
       </label>
