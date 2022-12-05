@@ -1,8 +1,9 @@
 import * as yup from 'yup';
-import { AccountType } from '../../types/accountTypes';
+import { EUAccountType, USAccountType } from '../../types/accountTypes';
 import {
   FormValuesType, PaymentStatusResponseType, GlobalPaymentRequest,
 } from '../../types/globalPaymentApiTypes';
+import { paymentTypesConfiguration } from './config';
 
 export const patternTwoDigisAfterDot = /^\d+(\.\d{0,2})?$/;
 export const today = new Date();
@@ -40,13 +41,13 @@ export const updateSessionStorageTransactions = (transaction: PaymentStatusRespo
   sessionStorage.setItem(storageId, JSON.stringify(previousTransactions));
 };
 
-export default function generateApiBody(data: FormValuesType) : GlobalPaymentRequest {
+function generateSepaBody(data: FormValuesType): GlobalPaymentRequest {
   const {
     date, amount, debtorAccount, creditorAccount, paymentType,
   } = data;
-  const debtorAccountApi : AccountType = JSON.parse(debtorAccount) as AccountType;
-  const creditorAccountApi : AccountType = JSON.parse(creditorAccount) as AccountType;
-  const globalPaymentApiPayload : GlobalPaymentRequest = {
+  const debtorAccountApi : EUAccountType = JSON.parse(debtorAccount) as EUAccountType;
+  const creditorAccountApi : EUAccountType = JSON.parse(creditorAccount) as EUAccountType;
+  return {
     payments: {
       requestedExecutionDate: new Date(date).toISOString().split('T')[0],
       paymentAmount: amount,
@@ -54,7 +55,53 @@ export default function generateApiBody(data: FormValuesType) : GlobalPaymentReq
       paymentIdentifiers: {
         endToEndId: `uf${Date.now()}`,
       },
-      paymentCurrency: 'USD',
+      paymentCurrency: paymentTypesConfiguration[paymentType].currency,
+      transferType: 'CREDIT',
+      debtor: {
+        debtorName: debtorAccountApi.accountName ? debtorAccountApi.accountName : '',
+        debtorAccount: {
+          accountType: 'IBAN',
+          accountId: debtorAccountApi.accountId,
+          accountCurrency: debtorAccountApi.currency.code,
+        },
+      },
+      debtorAgent: {
+        financialInstitutionId: {
+          bic: debtorAccountApi.bic,
+        },
+      },
+      creditor: {
+        creditorName: creditorAccountApi.accountName ? creditorAccountApi.accountName : '',
+        creditorAccount: {
+          accountId: creditorAccountApi.accountId,
+          accountCurrency: creditorAccountApi.currency.code,
+        },
+      },
+      creditorAgent: {
+        financialInstitutionId: {
+          bic: creditorAccountApi.bic,
+        },
+      },
+
+    },
+  };
+}
+
+function generateUSRTPBody(data: FormValuesType): GlobalPaymentRequest {
+  const {
+    date, amount, debtorAccount, creditorAccount, paymentType,
+  } = data;
+  const debtorAccountApi : USAccountType = JSON.parse(debtorAccount) as USAccountType;
+  const creditorAccountApi : USAccountType = JSON.parse(creditorAccount) as USAccountType;
+  return {
+    payments: {
+      requestedExecutionDate: new Date(date).toISOString().split('T')[0],
+      paymentAmount: amount,
+      paymentType: 'RTP',
+      paymentIdentifiers: {
+        endToEndId: `uf${Date.now()}`,
+      },
+      paymentCurrency: paymentTypesConfiguration[paymentType].currency,
       transferType: 'CREDIT',
       debtor: {
         debtorName: debtorAccountApi.accountName ? debtorAccountApi.accountName : '',
@@ -66,7 +113,7 @@ export default function generateApiBody(data: FormValuesType) : GlobalPaymentReq
       debtorAgent: {
         financialInstitutionId: {
           clearingSystemId: {
-            id: debtorAccountApi.aba ? debtorAccountApi.aba : '',
+            id: creditorAccountApi.aba,
             idType: 'USABA',
           },
         },
@@ -81,14 +128,24 @@ export default function generateApiBody(data: FormValuesType) : GlobalPaymentReq
       creditorAgent: {
         financialInstitutionId: {
           clearingSystemId: {
-            id: creditorAccountApi.aba ? creditorAccountApi.aba : '',
+            id: creditorAccountApi.aba,
             idType: 'USABA',
-
           },
         },
       },
 
     },
   };
-  return globalPaymentApiPayload;
+}
+
+export default function generateApiBody(data: FormValuesType) : GlobalPaymentRequest {
+  const {
+    paymentType,
+  } = data;
+  switch (paymentType) {
+    case 'EU RTP (SEPA)':
+      return generateSepaBody(data);
+    default:
+      return generateUSRTPBody(data);
+  }
 }

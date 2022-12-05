@@ -10,8 +10,15 @@ export type AccountType = {
   currency: CurrencyType
   errorCode?: string | number,
   balanceList?: BalanceListType[],
-  aba?: string
 };
+
+export interface USAccountType extends AccountType {
+  aba: string,
+}
+export interface EUAccountType extends AccountType {
+  bic:'CHASGB2L' | 'CHASINBX' | 'CHASAU2X' | 'CHASSGSG' | 'CHASUS33' | 'CHASMYKX' | 'CHASHKHH' | 'CHASBRSP' | 'CHASDEFX' |
+  'CHASLULX' | 'CHASNL2X' | 'CHASIE4L' | 'CHASMXMX' | 'CHASCATT' | 'CHASIDJX' | 'CHASUS33MCY' | 'CHASDEFXONX'
+}
 
 export type CurrencyType = {
   code: string,

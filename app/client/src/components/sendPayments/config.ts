@@ -1,12 +1,13 @@
-import { AccountType } from '../../types/accountTypes';
+import { EUAccountType, USAccountType } from '../../types/accountTypes';
 
 /* eslint-disable import/prefer-default-export */
 type PaymentTypeObject = {
-  accounts: AccountType[]
+  accounts: USAccountType[] | EUAccountType[],
+  currency: 'USD' | 'EUR'
 };
 type MapLike = Record<string, PaymentTypeObject>;
 
-const USRTPAccounts: AccountType[] = [{
+const USRTPAccounts: USAccountType[] = [{
   accountId: '000000010900009',
   accountName: 'RAPID AUDIO LLC',
   bankId: '02100002',
@@ -48,7 +49,7 @@ const USRTPAccounts: AccountType[] = [{
   aba: '02100002',
 },
 ];
-const SEPARTPAccounts: AccountType[] = [{
+const SEPARTPAccounts: EUAccountType[] = [{
   accountId: '000000010900009',
   accountName: 'RAPID AUDIO LLC HELLO',
   bankId: '02100002',
@@ -60,7 +61,7 @@ const SEPARTPAccounts: AccountType[] = [{
     decimalLocation: 2,
     currencySequence: 0,
   },
-  aba: '021000021',
+  bic: 'CHASIE4L',
 },
 {
   accountId: '000000010962009',
@@ -74,15 +75,17 @@ const SEPARTPAccounts: AccountType[] = [{
     decimalLocation: 2,
     currencySequence: 0,
   },
-  aba: '021000021',
+  bic: 'CHASIE4L',
 },
 ];
 
 export const paymentTypesConfiguration: MapLike = {
   'US RTP': {
     accounts: USRTPAccounts,
+    currency: 'USD',
   },
   'EU RTP (SEPA)': {
     accounts: SEPARTPAccounts,
+    currency: 'EUR',
   },
 };

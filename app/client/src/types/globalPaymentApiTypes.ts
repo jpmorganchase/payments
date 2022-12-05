@@ -9,6 +9,7 @@ export type GlobalPaymentRequest = {
     paymentAmount: number,
     debtor: {
       debtorName: string,
+      debtorType?: string,
       debtorAccount: PaymentAccount,
     }
     debtorAgent: AgentType,
@@ -29,20 +30,25 @@ export type PaymentsResponse = {
 };
 
 type AgentType = {
-  financialInstitutionId: {
-    bic ?: 'CHASGB2L' | 'CHASINBX' | 'CHASAU2X' | 'CHASSGSG' | 'CHASUS33' | 'CHASMYKX' | 'CHASHKHH' | 'CHASBRSP' | 'CHASDEFX' |
-    'CHASLULX' | 'CHASNL2X' | 'CHASIE4L' | 'CHASMXMX' | 'CHASCATT' | 'CHASIDJX' | 'CHASUS33MCY' | 'CHASDEFXONX',
-    clearingSystemId: {
-      id?: string,
-      idType?: string
+  financialInstitutionId:
+  (
+    { bic : 'CHASGB2L' | 'CHASINBX' | 'CHASAU2X' | 'CHASSGSG' | 'CHASUS33' | 'CHASMYKX' | 'CHASHKHH' | 'CHASBRSP' | 'CHASDEFX' |
+    'CHASLULX' | 'CHASNL2X' | 'CHASIE4L' | 'CHASMXMX' | 'CHASCATT' | 'CHASIDJX' | 'CHASUS33MCY' | 'CHASDEFXONX' | '' }
+    |
+    {
+      clearingSystemId: {
+        id: string,
+        idType: string
+      }
     }
-  }
+  )
+
 };
 
 export type PaymentAccount = {
   accountId?: string,
   accountCurrency?: string
-  accountType?: 'DDA' | 'VAM' | 'IBAN' | 'BDA'
+  accountType?: 'DDA' | 'VAM' | 'IBAN' | 'BDA',
 };
 
 export type APISuccessMessage = {
