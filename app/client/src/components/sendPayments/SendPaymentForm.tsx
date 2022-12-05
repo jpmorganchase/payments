@@ -105,12 +105,7 @@ function MakePaymentForm() {
     setApiResponse(undefined);
     setApiError(undefined);
   };
-  console.log(watch('paymentType')); // you can watch individual input by pass the name of the input
 
-  useEffect(() => {
-    console.log('ere');
-    console.log(watch('paymentType'));
-  }, [watch]);
   return (
     <div className=" w-full flex flex-col justify-between h-full pb-20">
       {displayingApiData && (
