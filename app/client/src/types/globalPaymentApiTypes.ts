@@ -80,7 +80,7 @@ export type PaymentStatusResponseType = {
 export type FormValuesType = {
   debtorAccount: string,
   creditorAccount: string,
-  amount: number,
+  amount: string,
   date: Date,
   paymentType: string,
 };

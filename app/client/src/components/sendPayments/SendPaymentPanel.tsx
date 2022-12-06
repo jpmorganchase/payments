@@ -36,9 +36,12 @@ function MakePaymentForm() {
       )}
       {!displayingApiData && (apiError || apiResponse?.errors) && (
         <>
-          {apiError && (
           <p className="text-xl my-6">
             Error processing your request:
+
+          </p>
+          {apiError && (
+          <p className="text-xl my-6">
             {' '}
             {apiError.message}
           </p>
@@ -59,7 +62,7 @@ function MakePaymentForm() {
         </>
       )}
       {!displayingApiData && (createPaymentMutation.isLoading) && <div className="text-center pt-24"><Spinner text="Loading API Response..." /></div>}
-      {((!displayingApiData && createPaymentMutation.isSuccess) || (displayingMockedData && apiResponse)) && (
+      {((!displayingApiData && createPaymentMutation.isSuccess) || (displayingMockedData && apiResponse)) && (!apiError && !apiResponse?.errors) && (
         <>
           <p className="text-xl my-6">Success! API response details: </p>
           <pre

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { UseMutationResult, useQueryClient } from '@tanstack/react-query';
 import {
   FormValuesType, GlobalPaymentRequest, PaymentsResponse, PaymentStatusResponseType,
@@ -9,7 +8,7 @@ import {
 import FormButton from './FormButton';
 import InputField from './FormFields/InputField';
 import SelectField from './FormFields/SelectField';
-import generateApiBody, { today, updateSessionStorageTransactions, validationSchema } from './SendPaymentsUtils';
+import generateApiBody, { today, updateSessionStorageTransactions } from './SendPaymentsUtils';
 import { paymentTypesConfiguration } from './config';
 import { AppContext } from '../../context/AppContext';
 import { config } from '../../config';
@@ -31,10 +30,7 @@ function SendPaymentForm({ setApiResponse, setApiError, createPaymentMutation }:
     handleSubmit,
     watch,
     getValues,
-  } = useForm<FormValuesType>({
-    mode: 'onChange',
-    resolver: yupResolver(validationSchema),
-  });
+  } = useForm<FormValuesType>();
   const queryClient = useQueryClient();
 
   const { paymentConfig } = config;
@@ -102,7 +98,7 @@ function SendPaymentForm({ setApiResponse, setApiError, createPaymentMutation }:
         <SelectField label="payment type" options={Object.keys(paymentTypesConfiguration)} register={register} id="paymentType" />
         <SelectField label="from" options={paymentTypesConfiguration[paymentType].accounts} register={register} id="debtorAccount" />
         <SelectField label="to" options={paymentTypesConfiguration[paymentType].accounts} register={register} id="creditorAccount" />
-        <InputField label="amount" type="number" register={register} required defaultValue="100" />
+        <InputField label="amount" type="number" register={register} required defaultValue={25.99} />
         <InputField label="date" type="date" register={register} required defaultValue={today.toISOString().split('T')[0]} />
 
       </form>
