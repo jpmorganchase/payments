@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { UseMutationResult, useQueryClient } from '@tanstack/react-query';
 import {
@@ -29,7 +29,7 @@ function SendPaymentForm({ setApiResponse, setApiError, createPaymentMutation }:
     register,
     handleSubmit,
     watch,
-    getValues,
+    setValue, getValues,
   } = useForm<FormValuesType>();
   const queryClient = useQueryClient();
 
@@ -56,6 +56,10 @@ function SendPaymentForm({ setApiResponse, setApiError, createPaymentMutation }:
     });
     setPaymentIdentifiers([...paymentIdentifiers, newPayment]);
   };
+  useEffect(() => {
+    setValue('debtorAccount', JSON.stringify(paymentTypesConfiguration[paymentType].accounts[0]));
+    setValue('creditorAccount', JSON.stringify(paymentTypesConfiguration[paymentType].accounts[1]));
+  }, [paymentType, setValue]);
 
   const onSubmit = (formData:FormValuesType) => {
     const globalPaymentApiPayload = generateApiBody(formData);

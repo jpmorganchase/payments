@@ -1,3 +1,5 @@
+import { BIC } from './accountTypes';
+
 export type GlobalPaymentRequest = {
   payments: {
     paymentType: string,
@@ -8,7 +10,7 @@ export type GlobalPaymentRequest = {
     paymentCurrency: string,
     paymentAmount: number,
     debtor: {
-      debtorName: string,
+      debtorName?: string,
       debtorType?: string,
       debtorAccount: PaymentAccount,
     }
@@ -32,8 +34,7 @@ export type PaymentsResponse = {
 type AgentType = {
   financialInstitutionId:
   (
-    { bic : 'CHASGB2L' | 'CHASINBX' | 'CHASAU2X' | 'CHASSGSG' | 'CHASUS33' | 'CHASMYKX' | 'CHASHKHH' | 'CHASBRSP' | 'CHASDEFX' |
-    'CHASLULX' | 'CHASNL2X' | 'CHASIE4L' | 'CHASMXMX' | 'CHASCATT' | 'CHASIDJX' | 'CHASUS33MCY' | 'CHASDEFXONX' | '' }
+    { bic : BIC }
     |
     {
       clearingSystemId: {

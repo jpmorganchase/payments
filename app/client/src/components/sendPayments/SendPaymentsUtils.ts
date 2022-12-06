@@ -23,6 +23,8 @@ function generateSepaBody(data: FormValuesType): GlobalPaymentRequest {
   } = data;
   const debtorAccountApi : EUAccountType = JSON.parse(debtorAccount) as EUAccountType;
   const creditorAccountApi : EUAccountType = JSON.parse(creditorAccount) as EUAccountType;
+  console.log(debtorAccountApi);
+  console.log(debtorAccount);
   return {
     payments: {
       requestedExecutionDate: new Date(date).toISOString().split('T')[0],
