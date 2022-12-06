@@ -102,7 +102,7 @@ function SendPaymentForm({ setApiResponse, setApiError, createPaymentMutation }:
         <SelectField label="payment type" options={Object.keys(paymentTypesConfiguration)} register={register} id="paymentType" />
         <SelectField label="from" options={paymentTypesConfiguration[paymentType].accounts} register={register} id="debtorAccount" />
         <SelectField label="to" options={paymentTypesConfiguration[paymentType].accounts} register={register} id="creditorAccount" />
-        <InputField label="amount" type="number" register={register} required defaultValue={25.99} />
+        <InputField label="amount" type="number" register={register} required defaultValue={25} />
         <InputField label="date" type="date" register={register} required defaultValue={today.toISOString().split('T')[0]} />
 
       </form>
