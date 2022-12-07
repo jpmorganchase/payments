@@ -10,6 +10,7 @@ import APIDetails from '../APIDetails';
 import FormButton from './FormButton';
 import { sendPost } from '../../hooks/usePost';
 import SendPaymentForm from './SendPaymentForm';
+import Banner from './Banner';
 
 function MakePaymentForm() {
   const {
@@ -36,16 +37,10 @@ function MakePaymentForm() {
       )}
       {!displayingApiData && (apiError || apiResponse?.errors) && (
         <>
-          <p className="text-xl my-6">
-            Error processing your request:
-
-          </p>
-          {apiError && (
-          <p className="text-xl my-6">
-            {' '}
-            {apiError.message}
-          </p>
-          )}
+          <Banner
+            bannerText={`Error processing your request: ${apiError && apiError.message ? apiError.message : ''}`}
+            isSuccess={false}
+          />
           {apiResponse?.errors && (
           <pre
             id="json"
@@ -64,7 +59,7 @@ function MakePaymentForm() {
       {!displayingApiData && (createPaymentMutation.isLoading) && <div className="text-center pt-24"><Spinner text="Loading API Response..." /></div>}
       {((!displayingApiData && createPaymentMutation.isSuccess) || (displayingMockedData && apiResponse)) && (!apiError && !apiResponse?.errors) && (
         <>
-          <p className="text-xl my-6">Success! API response details: </p>
+          <Banner bannerText="Success! API response details:" isSuccess />
           <pre
             id="json"
             className="border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto mb-10"
