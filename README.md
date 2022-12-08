@@ -44,7 +44,7 @@ yarn install
 yarn start
 ```
 
-Then open [http://localhost:3000/](http://localhost:3000/) to see your app.<br>
+Then open [http://localhost:3000/](http://localhost:3000/) to see your app.
 
 If you see an error like this:
 
