@@ -10,6 +10,7 @@ import APIDetails from '../APIDetails';
 import FormButton from './FormButton';
 import { sendPost } from '../../hooks/usePost';
 import SendPaymentForm from './SendPaymentForm';
+import Banner from './Banner';
 
 function MakePaymentForm() {
   const {
@@ -30,22 +31,20 @@ function MakePaymentForm() {
   };
 
   return (
-    <div className=" w-full flex flex-col justify-between h-full pb-20">
+    <div className=" w-full flex flex-col h-full pb-20">
       {displayingApiData && (
       <APIDetails details={paymentConfig.apiDetails[0]} absolute={false} />
       )}
       {!displayingApiData && (apiError || apiResponse?.errors) && (
         <>
-          {apiError && (
-          <p>
-            Error processing your request:
-            {apiError.message}
-          </p>
-          )}
+          <Banner
+            bannerText={`Error processing your request: ${apiError && apiError.message ? apiError.message : ''}`}
+            isSuccess={false}
+          />
           {apiResponse?.errors && (
           <pre
             id="json"
-            className="h-full border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto"
+            className="border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto mb-10"
           >
             {JSON.stringify(apiResponse?.errors, undefined, 2)}
           </pre>
@@ -58,17 +57,17 @@ function MakePaymentForm() {
         </>
       )}
       {!displayingApiData && (createPaymentMutation.isLoading) && <div className="text-center pt-24"><Spinner text="Loading API Response..." /></div>}
-      {((!displayingApiData && createPaymentMutation.isSuccess) || (displayingMockedData && apiResponse)) && (
+      {((!displayingApiData && createPaymentMutation.isSuccess) || (displayingMockedData && apiResponse)) && (!apiError && !apiResponse?.errors) && (
         <>
-          <p>Success! API response details: </p>
+          <Banner bannerText="Success! API response details:" isSuccess />
           <pre
             id="json"
-            className="h-full border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto"
+            className="border-2 border-dashed border-gray-200 w-full m-2 p-2 overflow-x-auto mb-10"
           >
             {JSON.stringify(apiResponse?.paymentInitiationResponse, undefined, 2)}
           </pre>
           <FormButton
-            buttonText="Ok"
+            buttonText="Make another payment"
             buttonType="button"
             onClickFunction={formReset}
           />

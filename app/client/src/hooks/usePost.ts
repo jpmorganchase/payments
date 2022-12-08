@@ -12,9 +12,6 @@ export const sendPost = async (path:string, body:string) => {
     };
   }
   const response = await fetch(path, requestOptions);
-  if (!response.ok) {
-    throw new Error('Error fetching API data. Try the mocked data');
-  }
   return response.json();
 };
 

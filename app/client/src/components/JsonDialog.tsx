@@ -30,6 +30,7 @@ function JsonDialog() {
             </button>
           </div>
           <pre
+            data-cy="jsonDialogContent"
             id="json"
             className="h-full border-2 border-dashed border-gray-200 w-screen  m-2 p-2 overflow-scroll"
           >

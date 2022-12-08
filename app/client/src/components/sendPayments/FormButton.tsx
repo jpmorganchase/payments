@@ -17,7 +17,7 @@ export default function FormButton({
       type={buttonType}
       form={form}
       onClick={onClickFunction}
-      className="p-1 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
+      className="p-2 bg-gradient-to-r from-pink-500 to-red-500  font-medium rounded-lg text-white text-center flex items-center justify-center"
     >
       {buttonText}
     </button>

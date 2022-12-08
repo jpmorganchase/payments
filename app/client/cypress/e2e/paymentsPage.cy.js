@@ -35,7 +35,7 @@ describe('Payments page', () => {
       cy.contains('Submit')
       .click();
       cy.contains('Success!');
-      cy.contains('Ok')
+      cy.contains('Make another payment')
       .click();
       cy.get('[data-cy="amount"]').clear();
     });
@@ -46,6 +46,48 @@ describe('Payments page', () => {
       .click();
       cy.contains("8a254fcc-fca9-4136-80f4-b48802c759a0")
       cy.get('[data-cy="closeButton"]').click();
+    });
+
+    it('Changing payment type changes changes accounts', () => {
+      //Check US RTP setup correctly
+      cy.get('[data-cy="paymentType"]').should('have.value', 'US RTP')
+      cy.get('[data-cy="debtorAccount"]').find(':selected').contains('RAPID AUDIO LLC - 000000010900009')
+      cy.get('[data-cy="creditorAccount"]').find(':selected').contains('MORRIS ELECTRIC CONTRACTING LLC - 000000010962009')
+
+      // Check US RTP json output correct
+      cy.contains('Preview JSON')
+      .click();
+      cy.get('[data-cy="jsonDialogContent"]').contains('000000010900009')
+      cy.get('[data-cy="jsonDialogContent"]').contains('000000010962009')
+      cy.get('[data-cy="closeButton"]').click();
+
+      // Swap to EU SEPA
+      cy.get('[data-cy="paymentType"]')
+      .select('EU RTP (SEPA)');
+      cy.get('[data-cy="debtorAccount"]').find(':selected').contains('6231400596')
+      cy.get('[data-cy="creditorAccount"]').find(':selected').contains('0041287103')
+
+      //Check JSON updated with payment type swap
+      cy.contains('Preview JSON')
+      .click();
+      cy.get('[data-cy="jsonDialogContent"]').contains('6231400596')
+      cy.get('[data-cy="jsonDialogContent"]').contains('0041287103')
+      cy.get('[data-cy="closeButton"]').click();
+
+      //Reset
+      cy.get('[data-cy="paymentType"]')
+      .select('US RTP');
+    });
+
+    it.only('Check amount is sent as number in JSON', () => {
+      cy.get('[data-cy="amount"]').clear().type(26.99)
+      cy.contains('Preview JSON')
+      .click();
+      cy.get('[data-cy="jsonDialogContent"]').contains(26.99)
+      cy.get('[data-cy="jsonDialogContent"]').contains("\"26.99\"").should('not.exist')
+
+      cy.get('[data-cy="closeButton"]').click();
+
     });
   });
   

@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import { EUAccountType, USAccountType } from '../../types/accountTypes';
 import {
   FormValuesType, PaymentStatusResponseType, GlobalPaymentRequest,
@@ -11,29 +10,6 @@ export const oneMonth = new Date(new Date(today).setDate(today.getDate() + 31))
   .toISOString()
   .split('T')[0];
 export const capitalize = (str: string) => `${str[0].toUpperCase()}${str.slice(1)}`;
-
-export const validationSchema = yup.object().shape({
-  date: yup
-    .date()
-    .typeError('Please enter a valid date')
-    .min(today.toISOString().split('T')[0], 'Date cannot be in the past')
-    .max(oneMonth, 'Date cannot be more than 30days in advance')
-    .required(),
-  amount: yup
-    .number()
-    .typeError('Amount is required')
-    .positive()
-    .test(
-      'is-decimal',
-      'The amount should be a decimal with maximum two digits',
-      (val: number | undefined) => {
-        if (val !== undefined) {
-          return patternTwoDigisAfterDot.test(val.toString());
-        }
-        return true;
-      },
-    ),
-});
 
 export const updateSessionStorageTransactions = (transaction: PaymentStatusResponseType, storageId: string) => {
   const previousTransactions: PaymentStatusResponseType[] = JSON.parse(sessionStorage.getItem(storageId) || '[]') as PaymentStatusResponseType[];
@@ -50,7 +26,7 @@ function generateSepaBody(data: FormValuesType): GlobalPaymentRequest {
   return {
     payments: {
       requestedExecutionDate: new Date(date).toISOString().split('T')[0],
-      paymentAmount: amount,
+      paymentAmount: parseFloat(amount),
       paymentType: 'RTP',
       paymentIdentifiers: {
         endToEndId: `uf${Date.now()}`,
@@ -96,7 +72,7 @@ function generateUSRTPBody(data: FormValuesType): GlobalPaymentRequest {
   return {
     payments: {
       requestedExecutionDate: new Date(date).toISOString().split('T')[0],
-      paymentAmount: amount,
+      paymentAmount: parseFloat(amount),
       paymentType: 'RTP',
       paymentIdentifiers: {
         endToEndId: `uf${Date.now()}`,
@@ -113,7 +89,7 @@ function generateUSRTPBody(data: FormValuesType): GlobalPaymentRequest {
       debtorAgent: {
         financialInstitutionId: {
           clearingSystemId: {
-            id: creditorAccountApi.aba,
+            id: debtorAccountApi.aba,
             idType: 'USABA',
           },
         },
