@@ -1,0 +1,42 @@
+version: 1
+applications:
+  - appRoot: treasury-services/app
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - cd client
+            - yarn install
+        build:
+          commands:
+            - yarn run build
+      artifacts:
+        # IMPORTANT - Please verify your build output directory
+        baseDirectory: /client/build
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - node_modules/**/*
+    test:
+      phases:
+        preTest:
+          commands:
+            - cd client
+            - yarn install
+            - yarn add wait-on
+            - yarn add mocha@5.2.0 mochawesome mochawesome-merge mochawesome-report-generator
+            - "yarn start & npx wait-on http://localhost:3000"
+        test:
+          commands:
+            - 'npx cypress run --reporter mochawesome --reporter-options "reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss"'
+        postTest:
+          commands:
+            - npx mochawesome-merge cypress/report/mochawesome-report/mochawesome*.json > cypress/report/mochawesome.json
+      artifacts:
+        baseDirectory: client/cypress
+        configFilePath: "**/mochawesome.json"
+        files:
+          - "**/*.png"
+          - "**/*.mp4"
+          - "**/*.html"
