@@ -1,10 +1,11 @@
 version: 1
 applications:
-  - appRoot: treasury-services/app
+  - appRoot: treasury-services
     frontend:
       phases:
         preBuild:
           commands:
+            - cd app
             - cd client
             - yarn install
         build:
@@ -12,7 +13,7 @@ applications:
             - yarn run build
       artifacts:
         # IMPORTANT - Please verify your build output directory
-        baseDirectory: /client/build
+        baseDirectory: /app/client/build
         files:
           - "**/*"
       cache:
@@ -22,6 +23,7 @@ applications:
       phases:
         preTest:
           commands:
+            - cd app
             - cd client
             - yarn install
             - yarn add wait-on
@@ -34,7 +36,7 @@ applications:
           commands:
             - npx mochawesome-merge cypress/report/mochawesome-report/mochawesome*.json > cypress/report/mochawesome.json
       artifacts:
-        baseDirectory: client/cypress
+        baseDirectory: app/client/cypress
         configFilePath: "**/mochawesome.json"
         files:
           - "**/*.png"
