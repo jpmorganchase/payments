@@ -1,0 +1,68 @@
+{
+  "name": "unicornfinance-client",
+  "version": "0.1.0",
+  "dependencies": {
+    "@craco/craco": "^6.4.5",
+    "@headlessui/react": "^1.7.3",
+    "@hookform/resolvers": "^2.9.10",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tanstack/react-query": "^4.16.1",
+    "@tanstack/react-query-devtools": "^4.16.1",
+    "@types/node": "^18.11.6",
+    "@types/react": "^18.0.23",
+    "@types/react-dom": "^18.0.7",
+    "@types/react-highcharts": "^16.0.3",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-google": "^0.14.0",
+    "highcharts": "^10.2.1",
+    "highcharts-react-official": "^3.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.39.1",
+    "react-router-dom": "^6.4.2",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.8.4"
+  },
+  "scripts": {
+    "start": "set HTTPS=true && craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "prettier": "prettier --write ."
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@babel/core": "^7.13.0",
+    "@typescript-eslint/eslint-plugin": "^5.41.0",
+    "@typescript-eslint/parser": "^5.41.0",
+    "autoprefixer": "^10.4.12",
+    "cypress": "^10.5.0",
+    "eslint": "^8.26.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.17",
+    "prettier": "^2.2.1",
+    "tailwindcss": "^3.1.8"
+  },
+  "resolutions": {
+    "//": "See https://github.com/facebook/create-react-app/issues/11773",
+    "react-error-overlay": "6.0.9"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

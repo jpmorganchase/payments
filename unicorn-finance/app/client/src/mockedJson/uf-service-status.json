@@ -1,0 +1,22 @@
+{
+  "bankStatus": [
+    {
+      "clearingSystem": "TCH",
+      "participantId": "071000288T1",
+      "participantName": "BMO Harris Bank",
+      "status": "COMPLETE"
+    },
+    {
+      "clearingSystem": "TCH",
+      "participantId": "200000041T1",
+      "participantName": "Bankers Bank Test3",
+      "status": "INTERMITTENT"
+    },
+    {
+      "clearingSystem": "TCH",
+      "participantId": "200000036T1",
+      "participantName": "COCC Test Bank",
+      "status": "OFFLINE"
+    }
+  ]
+}

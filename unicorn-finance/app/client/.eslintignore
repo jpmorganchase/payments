@@ -1,0 +1,6 @@
+tailwind.config.js
+craco.config.js
+node_modules
+cypress
+cypress.config.js
+build

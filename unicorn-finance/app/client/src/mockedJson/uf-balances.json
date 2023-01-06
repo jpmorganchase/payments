@@ -1,0 +1,124 @@
+{
+    "accountList": [
+        {
+            "accountId": "000000010900009",
+            "accountName": "TEST ACCOUNT NAME",
+            "branchId": "",
+            "bankId": "02100002",
+            "bankName": "JPMORGAN CHASE",
+            "currency": {
+                "code": "USD",
+                "currencySequence": 0,
+                "decimalLocation": 2,
+                "description": "US DOLLAR"
+            },
+            "balanceList": [
+                {
+                    "asOfDate": "2022-08-02",
+                    "recordTimestamp": "2022-10-04T14:01:30Z",
+                    "currentDay": true,
+                    "openingAvailableAmount": 22907042.39,
+                    "openingLedgerAmount": 22907042.39,
+                    "endingAvailableAmount": 27906217.96,
+                    "endingLedgerAmount": 27906217.96
+                }
+            ]
+        },
+        {
+            "accountId": "000000010962009",
+            "accountName": "TEST ACCOUNT NAME",
+            "branchId": "",
+            "bankId": "02100002",
+            "bankName": "JPMORGAN CHASE",
+            "currency": {
+                "code": "USD",
+                "currencySequence": 0,
+                "decimalLocation": 2,
+                "description": "US DOLLAR"
+            },
+            "balanceList": [
+                {
+                    "asOfDate": "2022-08-02",
+                    "recordTimestamp": "2022-10-04T14:03:29Z",
+                    "currentDay": true,
+                    "openingAvailableAmount": 6810131367.77,
+                    "openingLedgerAmount": 6810502489.47,
+                    "endingAvailableAmount": 7103246225.09,
+                    "endingLedgerAmount": 7103617346.79
+                }
+            ]
+        },
+        {
+            "accountId": "000000010975001",
+            "accountName": "TEST ACCOUNT NAME",
+            "branchId": "",
+            "bankId": "02100002",
+            "bankName": "JPMORGAN CHASE",
+            "currency": {
+                "code": "USD",
+                "currencySequence": 0,
+                "decimalLocation": 2,
+                "description": "US DOLLAR"
+            },
+            "balanceList": [
+                {
+                    "asOfDate": "2022-08-02",
+                    "recordTimestamp": "2022-10-04T14:01:30Z",
+                    "currentDay": true,
+                    "openingAvailableAmount": 2090008705.83,
+                    "openingLedgerAmount": 2090008705.83,
+                    "endingAvailableAmount": 2052519656.36,
+                    "endingLedgerAmount": 2052519656.36
+                }
+            ]
+        },
+        {
+            "accountId": "000000011153244",
+            "accountName": "TEST ACCOUNT NAME",
+            "branchId": "",
+            "bankId": "02100002",
+            "bankName": "JPMORGAN CHASE",
+            "currency": {
+                "code": "USD",
+                "currencySequence": 0,
+                "decimalLocation": 2,
+                "description": "US DOLLAR"
+            },
+            "balanceList": [
+                {
+                    "asOfDate": "2022-08-02",
+                    "recordTimestamp": "2022-10-04T14:03:29Z",
+                    "currentDay": true,
+                    "openingAvailableAmount": 0.00,
+                    "openingLedgerAmount": 71702.44,
+                    "endingAvailableAmount": 32163647.96,
+                    "endingLedgerAmount": 32235350.40
+                }
+            ]
+        },
+        {
+            "accountId": "000000011315421",
+            "accountName": "",
+            "branchId": "",
+            "bankId": "02100002",
+            "bankName": "JPMORGAN CHASE",
+            "currency": {
+                "code": "USD",
+                "currencySequence": 0,
+                "decimalLocation": 2,
+                "description": "US DOLLAR"
+            },
+            "balanceList": [
+                {
+                    "asOfDate": "2022-08-02",
+                    "recordTimestamp": "2022-10-04T14:03:29Z",
+                    "currentDay": true,
+                    "openingAvailableAmount": 154354076.85,
+                    "openingLedgerAmount": 154390644.65,
+                    "endingAvailableAmount": 155354076.85,
+                    "endingLedgerAmount": 155390644.65
+                }
+            ]
+        }
+    ]
+}
