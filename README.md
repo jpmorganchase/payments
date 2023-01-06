@@ -1,4 +1,4 @@
-# Payments Showcase - Unicorn Finance
+# Payments - Unicorn Finance
 
 We have created Unicorn Finance as a sample application showcasing the
 capabilities of our JP Morgan core external APIs.
