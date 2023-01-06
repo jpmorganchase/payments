@@ -1,6 +1,6 @@
 version: 1
 applications:
-  - appRoot: treasury-services
+  - appRoot: unicorn-finance
     frontend:
       phases:
         preBuild:
