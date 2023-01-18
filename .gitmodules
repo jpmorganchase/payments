@@ -1,0 +1,3 @@
+[submodule "unicorn-finance"]
+	path = unicorn-finance
+	url = https://github.com/jpmorganchase/unicorn-finance.git
