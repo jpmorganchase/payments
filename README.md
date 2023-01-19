@@ -9,3 +9,7 @@ Here you will find JPMC Payments open source projects that our developers have i
 ### [Unicorn Finance](https://github.com/jpmorganchase/unicorn-finance)
 
 - We have created Unicorn Finance as a sample application showcasing the capabilities of our JP Morgan core external APIs.
+
+## How to contribute to our projects
+
+Refer to our [CONTRIBUTING.md](/CONTRIBUTING.md) for how to contribute
