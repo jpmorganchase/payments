@@ -1,10 +1,14 @@
 # How to contribute to JPMC Payments projects
 
-We welcome your patches and enhancements to our projects. 
+We welcome your patches and enhancements to our projects.
 
-This project uses git submodules to link our projects together. To make a change to a project we recommend doing this in the original project repository.
+## Contributing to JPMC Projects
+
+If this is your first time contributing to JPMC codebases you will need to fill out our Contribution Licence Agreement (CLA). More information can be found at: https://github.com/jpmorganchase/.github/blob/main/CONTRIBUTING.md
 
 ## Updating submodules to latest commit
+
+This project uses git submodules to link our projects together. To make a change to a project we recommend doing this in the original project repository.
 
 Once you have updated your code in the original project repository and had it merged to the main branch, you can update the submodule to the latest commit with the below commands:
 
