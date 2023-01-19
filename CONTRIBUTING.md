@@ -1,0 +1,23 @@
+# How to contribute to JPMC Payments projects
+
+We welcome your patches and enhancements to our projects. 
+
+This project uses git submodules to link our projects together. To make a change to a project we recommend doing this in the original project repository.
+
+## Updating submodules to latest commit
+
+Once you have updated your code in the original project repository and had it merged to the main branch, you can update the submodule to the latest commit with the below commands:
+
+```console
+git clone https://github.com/jpmorganchase/payments.git
+cd payments
+git checkout -b <your_branch_name>
+cd <submodule_name>
+git checkout main && git pull
+cd ../
+git add <submodule_name>
+git commit -m "<your_commit_message>"
+git push
+```
+
+Once this is complete, raise a PR on the payments repo and our team will review.
