@@ -10,6 +10,14 @@ Here you will find JPMC Payments open source projects that our developers have i
 
 - We have created Unicorn Finance as a sample application showcasing the capabilities of our JP Morgan core external APIs.
 
+### [SAP](https://github.com/jpmorganchase/sap)
+
+- Host Adapters for SAP
+
+### [Salesforce](https://github.com/jpmorganchase/salesforce-b2c)
+
+- Host Adapters for Salesforce
+
 ## How to contribute to our projects
 
 Refer to our [CONTRIBUTING.md](/CONTRIBUTING.md) for how to contribute
