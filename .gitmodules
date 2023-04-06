@@ -1,6 +1,4 @@
-[submodule "unicorn-finance"]
-	path = unicorn-finance
-	url = https://github.com/jpmorganchase/unicorn-finance.git
+
 [submodule "salesforce-b2c"]
 	path = salesforce-b2c
 	url = https://github.com/jpmorganchase/salesforce-b2c.git

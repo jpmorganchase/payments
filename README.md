@@ -6,9 +6,6 @@ Here you will find JPMC Payments open source projects that our developers have i
 
 ## Our Projects
 
-### [Unicorn Finance](https://github.com/jpmorganchase/unicorn-finance)
-
-- We have created Unicorn Finance as a sample application showcasing the capabilities of our JP Morgan core external APIs.
 
 ### [SAP Digital Payments Add-On](https://github.com/jpmorganchase/sap)
 
